@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import DatasetCard from '@/components/data/DatasetCard.vue'
+import DatasetCard from '@/components/datasets/DatasetCard.vue'
 import { mapState } from 'vuex'
 
 export default {

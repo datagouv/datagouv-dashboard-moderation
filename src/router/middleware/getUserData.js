@@ -12,7 +12,7 @@ export default function getUserData ({ next, store, from, to, router }) {
     return next()
   } else {
     console.log('>>> MW > getUserData > B => access token in store > get user data from cli ')
-    // return router.push({ path: `/get-user-data?redirect=${to.fullPath}` })
-    return next()
+    return router.push({ path: `/get-user-data?redirect=${to.fullPath}` })
+    // return next()
   }
 }

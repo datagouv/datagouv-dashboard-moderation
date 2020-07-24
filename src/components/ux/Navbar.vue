@@ -68,10 +68,19 @@
           <template v-slot:button-content>
             <em>
               <span v-if="!isLoading">
-                <b-icon v-if="isAuthenticated" icon="box-arrow-right" aria-hidden="true"></b-icon>
+                <b-icon v-if="isAuthenticated" icon="person-circle" aria-hidden="true"></b-icon>
                 <b-icon v-else icon="box-arrow-in-right" aria-hidden="true"></b-icon>
                 &nbsp;
-                <span>User</span>
+                <span
+                  v-if="isAuthenticated"
+                  >
+                  {{userData.first_name}}
+                </span>
+                <span
+                  v-if="!isAuthenticated"
+                  >
+                  Log in
+                </span>
               </span>
               <span v-else>
                 <b-spinner label="loading"></b-spinner>
@@ -100,12 +109,17 @@
           </b-dropdown-item> -->
           <b-dropdown-item
             v-if="isAuthenticated"
-            @click="submitLogout()">
-            Log Out
+            to="/settings/profile">
+            My profile
           </b-dropdown-item>
           <b-dropdown-item
             to="/set-api-key">
             Set API key
+          </b-dropdown-item>
+          <b-dropdown-item
+            v-if="isAuthenticated"
+            @click="submitLogout()">
+            Log Out
           </b-dropdown-item>
         </b-nav-item-dropdown>
 
@@ -137,7 +151,8 @@ export default {
     ...mapState({
       log: (state) => state.global.log,
       clientId: (state) => state.oauth.clientId,
-      tokens: (state) => state.oauth.tokens
+      tokens: (state) => state.oauth.tokens,
+      userData: (state) => state.user.user
     }),
     ...mapGetters({
       isAuthenticated: 'oauth/isAuthenticated'

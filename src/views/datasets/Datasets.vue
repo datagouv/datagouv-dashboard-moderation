@@ -26,7 +26,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import DatasetsList from '@/components/data/DatasetsList.vue'
+import DatasetsList from '@/components/datasets/DatasetsList.vue'
 
 export default {
   name: 'Datasets',
@@ -49,18 +49,6 @@ export default {
         }
       ]
     }
-  },
-  created () {
-    // const API = this.$APIcli
-    // console.log('-V- Datasets > created > API :', API)
-    // API._request(this.operationId).then(
-    //   results => {
-    //     console.log('-V- Datasets > created > results.body :', results.body)
-    //     this.datasetsRequest = results.url
-    //     this.datasets = results.body
-    //   },
-    //   reason => console.error(`-V- Datasets > failed on api call: ${reason}`)
-    // )
   },
   computed: {
     ...mapState({

@@ -63,7 +63,8 @@ export default {
       console.log('-V- ResetAuthApiCli > created > authOptions :', authOptions)
       this.$APIcli.resetCli(authOptions)
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
-      this.$router.push(this.redirection)
+      // this.$router.push(this.redirection)
+      this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
       console.log('error', ex)
       this.loginResponse = `${ex} ... please try to authenticate again`

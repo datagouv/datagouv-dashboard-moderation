@@ -5,6 +5,7 @@ import store from '../store'
 // import middlewares
 import middlewarePipeline from './middlewarePipeline'
 import checkAuth from './middleware/checkAuth.js'
+// import getUserData from './middleware/getUserData.js'
 
 // import views components
 import Home from '../views/Home.vue'
@@ -37,9 +38,6 @@ const routes = [
   {
     path: '/reset-auth-api-client',
     name: 'ResetAuthApiCli',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/auth/ResetAuthApiCli.vue')
   },
   {
@@ -57,13 +55,41 @@ const routes = [
       ]
     }
   },
+  {
+    path: '/get-user-data',
+    name: 'GetUserData',
+    component: () => import(/* webpackChunkName: "about" */ '../views/auth/GetUserData.vue')
+  },
+  /***************************
+   * SETTINGS
+   */
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import(/* webpackChunkName: "about" */ '../views/settings/Settings.vue'),
+    meta: {
+      middleware: [
+        checkAuth
+      ]
+    }
+  },
+  {
+    path: '/settings/profile',
+    name: 'Profile',
+    component: () => import(/* webpackChunkName: "about" */ '../views/settings/Profile.vue'),
+    meta: {
+      middleware: [
+        checkAuth
+      ]
+    }
+  },
   /***************************
    * DATA
    */
   {
     path: '/datasets',
     name: 'Datasets',
-    component: () => import(/* webpackChunkName: "about" */ '../views/data/Datasets.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/datasets/Datasets.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -73,7 +99,7 @@ const routes = [
   {
     path: '/dataset/:id',
     name: 'DatasetUpdate',
-    component: () => import(/* webpackChunkName: "about" */ '../views/data/DatasetUpdate.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/datasets/DatasetUpdate.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -96,7 +122,6 @@ const routes = [
   {
     path: '/user/:id',
     name: 'UserUpdate',
-    // route level code-splitting
     component: () => import(/* webpackChunkName: "about" */ '../views/users/UserUpdate.vue'),
     meta: {
       middleware: [
@@ -120,7 +145,6 @@ const routes = [
   {
     path: '/issue/:id',
     name: 'IssueUpdate',
-    // route level code-splitting
     component: () => import(/* webpackChunkName: "about" */ '../views/issues/IssueUpdate.vue'),
     meta: {
       middleware: [
@@ -144,7 +168,6 @@ const routes = [
   {
     path: '/discussions/:id',
     name: 'DiscussionUpdate',
-    // route level code-splitting
     component: () => import(/* webpackChunkName: "about" */ '../views/discussions/DiscussionUpdate.vue'),
     meta: {
       middleware: [

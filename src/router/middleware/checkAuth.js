@@ -25,13 +25,12 @@ export default function checkAuth ({ next, store, from, to, router }) {
 
   if (!oauthAccessTokenFromLocalStorage) {
     // is token absent from localStorage ?
+
     console.log('>>> MW > checkAuth > A => no access token in local storage => defaultRedirect :', defaultRedirect)
-    // if (to.path !== defaultRedirect || router.currentRoute.path !== defaultRedirect) {
-    //   return router.push({ path: `${defaultRedirect}?redirect=none` })
-    // } else { return next() }
     return next()
   } else if (oauthAccessTokenFromLocalStorage && !oauthStoreAccessToken) {
     // is there a token in localStorage but not in store ?
+
     console.log('>>> MW > checkAuth > B => access token in local storage but not in store yet ... ')
 
     const accessToken = localStorage[oauthAccessTokenName]
@@ -51,9 +50,7 @@ export default function checkAuth ({ next, store, from, to, router }) {
       bearerAuth: accessToken
     }
     console.log('>>> MW > checkAuth > B > authOptions :', authOptions)
-    // app.$APIcli.resetCli(authOptions)
     return router.push({ path: `${defaultRedirect}?redirect=${to.fullPath}` })
-    // return next()
   } else {
     console.log('>>> MW > checkAuth > C => access token in local storage AND in oauth store ')
     const tokens = store.state.oauth.tokens

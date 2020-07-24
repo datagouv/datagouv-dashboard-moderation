@@ -61,7 +61,7 @@ export default {
   data () {
     return {
       isLoading: false,
-      redirection: '/datasets',
+      redirection: '/',
       // localStorageContainer: {
       //   codeVerifier: '',
       //   state: '',
@@ -115,7 +115,8 @@ export default {
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
 
       console.log('-V- LOGIN > created > this.$APIcli.specAndAuth.authorizationHeader :', this.$APIcli.specAndAuth.authorizationHeader)
-      this.$router.push(this.redirection)
+      // this.$router.push(this.redirection)
+      this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
       console.log('error', ex)
       this.loginResponse = `${ex} ... please try to authenticate again`

@@ -91,7 +91,7 @@
 // @ is an alias to /src
 import Homepage from '@/components/Homepage.vue'
 
-import DatasetsList from '@/components/data/DatasetsList.vue'
+import DatasetsList from '@/components/datasets/DatasetsList.vue'
 import DiscussionsList from '@/components/discussions/DiscussionsList.vue'
 import IssuesList from '@/components/issues/IssuesList.vue'
 import UsersList from '@/components/users/UsersList.vue'
