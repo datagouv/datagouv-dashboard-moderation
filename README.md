@@ -1,5 +1,7 @@
 # datagouv-dashboard-moderation
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8fd5e0aa-46e3-448a-8112-c11c422df840/deploy-status)](https://app.netlify.com/sites/datagouv-tdb-moderation-demo/deploys)
+
 This VueJS project is a boilerplate for a generic independant SPA, in front of an API server serving its specs via swagger json, and authenticating on this API server via an OAuth2 server.
 
 The underneath goal is to simplify the development of client interactions with an API server (here uData/datagouv), and focus on the features and UX instead of constant back-and-forth between frontend/API backend/oauth backend...
@@ -21,7 +23,6 @@ The list of needs this project aims to answer to is detailled in the [following 
 ## Project setup
 
 ```bash
-cd frontend
 # install dependencies
 npm install
 
@@ -39,7 +40,6 @@ _Note_ : you need to have registred your app on the OAuth server **beforehand**,
 ### Compiles and hot-reloads for development
 
 ```bash
-cd frontend
 npm run serve
 ```
 
@@ -48,14 +48,12 @@ npm run serve
 ### Compiles and minifies for production
 
 ```bash
-cd frontend
 npm run build
 ```
 
 ### Lints and fixes files
 
 ```bash
-cd frontend
 npm run lint
 ```
 
