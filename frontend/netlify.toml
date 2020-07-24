@@ -1,6 +1,3 @@
-[build]
-base = "frontend/"
-
 [[redirects]]
   from = "/*"
   to = "/index.html"
