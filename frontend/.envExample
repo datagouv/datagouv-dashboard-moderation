@@ -1,0 +1,22 @@
+### APP GLOBAL VARS
+NODE_ENV=dev_no_linting
+VUE_APP_LOG_MODE=True
+VUE_APP_DEV_MODE=True
+
+### API MAPPING
+VUE_APP_SWAGGER_URL=https://demo.data.gouv.fr/api/1/swagger.json
+# VUE_APP_API_KEY=my.api.key-here-there # optional
+
+### OAUTH VARS
+VUE_APP_DEFAULT_CLIENT_ID=my-oauth-client-id
+VUE_APP_DEFAULT_CLIENT_SECRET=my-oauth-secret-string
+VUE_APP_OAUTH_SERVER=https://my-oauth-server.com/fr/oauth
+VUE_APP_OAUTH_SCOPE=default
+VUE_APP_OAUTH_REDIRECT=/login
+VUE_APP_OAUTH_FLOW=pkce
+
+### settings for localStorage
+VUE_APP_OAUTH_STATE_NAME=dgfState
+VUE_APP_OAUTH_CODE_VERIFIER_NAME=dgfCodeVerif
+VUE_APP_OAUTH_ACCESS_TOKEN_NAME=dgfAccessToken
+VUE_APP_OAUTH_REFRESH_TOKEN_NAME=dgfRefreshToken
