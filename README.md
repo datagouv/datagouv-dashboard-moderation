@@ -1,62 +1,116 @@
-# datagouv-dashboard-moderation
+# DASHBORAD DE MODERATION DE LA PLATEFORME DATAGOUV
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/8fd5e0aa-46e3-448a-8112-c11c422df840/deploy-status)](https://app.netlify.com/sites/datagouv-tdb-moderation-demo/deploys)
 
-This VueJS project is a boilerplate for a generic independant SPA, in front of an API server serving its specs via swagger json, and authenticating on this API server via an OAuth2 server.
+---
+## Backend : Python
 
-The underneath goal is to simplify the development of client interactions with an API server (here uData/datagouv), and focus on the features and UX instead of constant back-and-forth between frontend/API backend/oauth backend...
+---
+## Frontend : VueJS
 
-This boilerplate is mainly a POC of how to implement two generic packages developped towards that goal : `swag-wrap` and `oauth2-connect`, both compatible as VueJS plugins. Datagouv/uData is used here as an example...
+- plus d'info sur le README du dossier [`/frontend`](./frontend/README.md)
 
-- [`swag-wrap`](https://github.com/co-demos/swag-wrap) allows you to request a whole API server given its swagger documentation (aka tthe swagger JSON url).
-
-- [`oauth2-connect`](https://github.com/co-demos/oauth2-connect) allows you to retrieve an user oauth credentials / token given the specs of an Oauth server.
 
 ---
 
-## Needs and constraints 
 
-The list of needs this project aims to answer to is detailled in the [following pad](https://pad.incubateur.net/NFTUu7o-SO-162K7OHthWw#).
+### Development
 
----
+Launch backend:
 
-## Project setup
-
-```bash
-# install dependencies
-npm install
-
-# copy the dummy env file
-cp .envExample .env
-
-# edit your .env file to add your own keys
-nano .env
+```
+python3 -mvenv pyenv
+. pyenv/bin/activate
+cd backend
+python cli.py init-db
+FLASK_DEBUG=1 FLASK_APP=app flask run
 ```
 
-_Note_ : you need to have registred your app on the OAuth server **beforehand**, so you could provide your `datagouv-dashboard-moderation` app's `clientId` and other specs to `oauth2-connect` from your `.env` file
+Launch frontend:
 
----
-
-### Compiles and hot-reloads for development
-
-```bash
-npm run serve
+```
+cd frontend
+yarn
+yarn serve
 ```
 
----
+The frontend is available on http://localhost:8080 and uses the API available at http://localhost:5000.
 
-### Compiles and minifies for production
+### Production (dokku)
 
-```bash
-npm run build
+This project uses two buildpacks, `node` and `python`, to build and install both frontend and backend.
+
+On the dokku server, prepare the postgres database and create the app:
+
+```
+dokku apps:create simple-spa
+dokku postgres:create simple-spa
+dokku postgres:link simple-spa simple-spa
 ```
 
-### Lints and fixes files
+On local copy:
 
-```bash
-npm run lint
+```
+git remote add dokku dokku@{host}:simple-spa
+git push dokku master
 ```
 
-### Customize configuration
+The deployment process will run `init-db` thanks to the Procfile.
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Get a SSL certificate and redirect to https:
+
+```
+dokku letsencrypt simple-spa
+```
+
+:rocket: https://simple-spa.{host}/api
+
+### Tweaks
+
+- Use multiple buildpacks, cf `.buildpacks` file.
+- Double `package.json`: node buildpack only works with a `package.json` at the root of the project. The root `package.json` "proxies" installation to the `frontend` dir through the `post-install` script. The first `yarn install` install dev dependencies w/ `production=false`, then runs the build in `frontend`, then installs again w/ `production=true` to prune dev dependencies (similar to what the buildpack should be doing on its own but doesn't because our frontend is in a subdirectory).
+- `requirements.txt` is kept at the root of the project for the same reasons.
+- `Procfile` uses `--chdir` for `gunicorn` and `package.json` uses `--cwd` for `yarn`.
+
+## Initial setup
+
+How this repo has been built (result is commited).
+
+### frontend
+
+```
+yarn global add @vue/cli @vue/cli-service-global
+vue create frontend
+# vue features: vuex, router w/ history mode
+```
+
+```
+rm -rf frontend/.git
+git init
+```
+
+In `frontend/vue.config.js`:
+
+```javascript
+module.exports = {
+  outputDir: '../dist',
+  assetsDir: 'static'
+}
+```
+
+```
+cd frontend && yarn build
+```
+
+### backend
+
+```
+python3 -mvenv pyenv
+. pyenv/bin/activate
+mkdir backend && cd backend
+# write code :-)
+```
+
+### Credits
+
+Inspiration: https://github.com/oleg-agapov/flask-vue-spa
+
