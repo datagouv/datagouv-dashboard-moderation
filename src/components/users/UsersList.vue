@@ -41,6 +41,7 @@
     <b-table
       v-if="users && !isLoading"
       striped hover responsive
+      :small="small"
       :sticky-header="height"
       :fields="fields"
       :items="users.data"
@@ -121,7 +122,9 @@ export default {
   name: 'UsersList',
   props: [
     'height',
-    'width'
+    'width',
+    'small',
+    'customFields'
   ],
   data () {
     return {
@@ -151,6 +154,7 @@ export default {
   },
   created () {
     console.log('-C- UsersList > created ... ')
+    if (this.customFields) { this.fields = this.customFields }
     this.getUsers()
   },
   computed: {

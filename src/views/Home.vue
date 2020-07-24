@@ -29,6 +29,8 @@
         <DatasetsList
           height="400px"
           width="100%"
+          :small="true"
+          :customFields="customeFields.datasets"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/datasets">
@@ -41,6 +43,8 @@
         <ReusesList
           height="400px"
           width="100%"
+          :small="true"
+          :customFields="customeFields.reuses"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/reuses">
@@ -51,9 +55,10 @@
       </b-col>
       <b-col cols="6">
         <DiscussionsList
-          :discussions="discussions"
           height="400px"
           width="100%"
+          :small="true"
+          :customFields="customeFields.discussions"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/discussions">
@@ -64,9 +69,10 @@
       </b-col>
       <b-col cols="6">
         <IssuesList
-          :issues="issues"
           height="400px"
           width="100%"
+          :small="true"
+          :customFields="customeFields.issues"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/issues">
@@ -77,9 +83,10 @@
       </b-col>
       <b-col cols="6">
         <UsersList
-          :users="users"
           height="400px"
           width="100%"
+          :small="true"
+          :customFields="customeFields.users"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/users">
@@ -90,9 +97,10 @@
       </b-col>
       <b-col cols="6">
         <OrganizationsList
-          :users="users"
           height="400px"
           width="100%"
+          :small="true"
+          :customFields="customeFields.organizations"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/organizations">
@@ -132,40 +140,57 @@ export default {
   },
   data () {
     return {
-      operations: [
-        // { dataKey: 'datasets', operationId: 'list_datasets' },
-        { dataKey: 'users', operationId: 'list_users' },
-        { dataKey: 'issues', operationId: 'list_issues' },
-        { dataKey: 'discussions', operationId: 'list_discussions' }
-      ],
-      datasets: undefined,
-      discussions: undefined,
-      issues: undefined,
-      users: undefined,
+      customeFields: {
+        datasets: [
+          { key: 'title', stickyColumn: true, isRowHeader: true },
+          { key: 'nameowner', label: 'Owner name' },
+          { key: 'page', label: 'Page on datagouv' },
+          { key: 'created', label: 'Created at' },
+          { key: 'discussions', label: 'Discussions' },
+          { key: 'followers', label: 'Followers' },
+          { key: 'issues', label: 'Issues' },
+          { key: 'reuses', label: 'Reuses' },
+          { key: 'views', label: 'Views' }
+        ],
+        reuses: [
+          { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
+          { key: 'created_at', label: 'created at' }
+        ],
+        discussions: [
+          { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
+          { key: 'discussion', label: 'number of discussions' },
+          { key: 'subject', label: 'related to' },
+          { key: 'created', label: 'created at' }
+        ],
+        issues: [
+          { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
+          { key: 'discussion', label: 'number of discussions' },
+          { key: 'subject', label: 'related to' },
+          { key: 'created', label: 'created at' }
+        ],
+        users: [
+          { key: 'name', label: 'Full Name', stickyColumn: true, isRowHeader: true },
+          { key: 'since', label: 'exists since' },
+          { key: 'datasets', label: 'datasets' },
+          { key: 'followers', label: 'followers' },
+          { key: 'following', label: 'following' },
+          { key: 'reuses', label: 'reuses' }
+        ],
+        organizations: [
+          { key: 'name', label: 'name', stickyColumn: true, isRowHeader: true },
+          { key: 'created_at', label: 'created at' }
+        ]
+      },
       crumbs: [
         {
           text: 'Home',
           active: true
         }
       ]
-      // localStorageContainer: {
-      //   codeVerifier: '...',
-      //   state: '...',
-      //   accessToken: '...',
-      //   refreshToken: '...'
-      // }
     }
   },
   created () {
     console.log('-V- HOME > created ...')
-    // this.localStorageContainer.state = localStorage.dgfState
-    // this.localStorageContainer.codeVerifier = localStorage.dgfCodeVerif
-    // this.localStorageContainer.accessToken = localStorage.dgfAccessToken
-    // this.localStorageContainer.refreshToken = localStorage.dgfRefreshToken
-    for (const op of this.operations) {
-      console.log('-V- HOME > created > op : ', op)
-      this.getDataFromOperationId(op)
-    }
   },
   computed: {
     localStorageContainer () {
@@ -177,17 +202,6 @@ export default {
         expiresIn: localStorage.dgfAccessTokenExpires,
         tokenType: localStorage.dgfTokenType
       }
-    }
-  },
-  methods: {
-    getDataFromOperationId (operation) {
-      this.$APIcli._request(operation.operationId).then(
-        results => {
-          console.log('-V- Datasets > getDataFromOperationId > results.body :', results.body)
-          this[operation.dataKey] = results.body
-        },
-        reason => console.error(`-V- Datasets > getDataFromOperationId > failed on api call: ${reason}`)
-      )
     }
   }
 }

@@ -42,6 +42,7 @@
     <b-table
       v-if="datasets && !isLoading"
       striped hover responsive scrollable
+      :small="small"
       :sticky-header="height"
       :fields="fields"
       :items="datasets.data"
@@ -135,7 +136,9 @@ export default {
   name: 'DatasetsList',
   props: [
     'height',
-    'width'
+    'width',
+    'small',
+    'customFields'
   ],
   data () {
     return {
@@ -167,6 +170,7 @@ export default {
   },
   created () {
     console.log('-C- DatasetsList > created ... ')
+    if (this.customFields) { this.fields = this.customFields }
     this.getDatasets()
   },
   computed: {

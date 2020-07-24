@@ -42,6 +42,7 @@
     <b-table
       v-if="reuses && !isLoading"
       striped hover responsive
+      :small="small"
       :sticky-header="height"
       :fields="fields"
       :items="reuses.data"
@@ -85,7 +86,9 @@ export default {
   name: 'ReusesList',
   props: [
     'height',
-    'width'
+    'width',
+    'small',
+    'customFields'
   ],
   data () {
     return {
@@ -110,6 +113,7 @@ export default {
   },
   created () {
     console.log('-C- ReusesList > created ... ')
+    if (this.customFields) { this.fields = this.customFields }
     this.getReuses()
   },
   computed: {

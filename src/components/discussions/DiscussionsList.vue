@@ -42,6 +42,7 @@
     <b-table
       v-if="discussions && !isLoading"
       striped hover responsive
+      :small="small"
       :sticky-header="height"
       :fields="fields"
       :items="discussions.data"
@@ -104,7 +105,9 @@ export default {
   name: 'DiscussionsList',
   props: [
     'height',
-    'width'
+    'width',
+    'small',
+    'customFields'
   ],
   data () {
     return {
@@ -130,6 +133,7 @@ export default {
   },
   created () {
     console.log('-C- DiscussionsList > created ... ')
+    if (this.customFields) { this.fields = this.customFields }
     this.getDiscussions()
   },
   computed: {

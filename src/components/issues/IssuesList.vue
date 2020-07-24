@@ -42,6 +42,7 @@
     <b-table
       v-if="issues && !isLoading"
       striped hover responsive
+      :small="small"
       :sticky-header="height"
       :fields="fields"
       :items="issues.data"
@@ -103,7 +104,9 @@ export default {
   name: 'IssuesList',
   props: [
     'height',
-    'width'
+    'width',
+    'small',
+    'customFields'
   ],
   data () {
     return {
@@ -128,6 +131,7 @@ export default {
   },
   created () {
     console.log('-C- IssuesList > created ... ')
+    if (this.customFields) { this.fields = this.customFields }
     this.getIssues()
   },
   computed: {
