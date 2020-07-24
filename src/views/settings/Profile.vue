@@ -46,12 +46,13 @@ export default {
         },
         {
           text: 'Profile',
-          to: '/profile'
-        },
-        {
-          text: this.userData && `${this.userData.first_name} ${this.userData.last_name} `,
+          // to: '/settings/profile'
           active: true
         }
+        // {
+        //   text: 'Me',
+        //   active: true
+        // }
       ]
     }
   },
