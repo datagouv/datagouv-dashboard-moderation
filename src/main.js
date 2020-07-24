@@ -16,9 +16,6 @@ import APIcli from './plugins/apiClient.js'
 // import OAUTHcli from '@julpy/oauth2-connect'
 import OAUTHcli from './plugins/apiAuth.js'
 
-const dotenv = require('dotenv')
-dotenv.config()
-
 const isDevMode = Boolean(process.env.VUE_APP_DEV_MODE)
 
 const swagWrapOptions = {
@@ -32,8 +29,8 @@ const swagWrapOptions = {
 const oauthOptions = {
   storeModuleName: 'oauth',
 
-  clientId: isDevMode && process.env.VUE_APP_DEFAULT_CLIENT_ID,
-  clientSecret: isDevMode && process.env.VUE_APP_DEFAULT_CLIENT_SECRET,
+  clientId: process.env.VUE_APP_DEFAULT_CLIENT_ID,
+  clientSecret: process.env.VUE_APP_DEFAULT_CLIENT_SECRET,
 
   oauthServer: process.env.VUE_APP_OAUTH_SERVER,
   oauthFlow: process.env.VUE_APP_OAUTH_FLOW,
