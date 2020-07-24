@@ -32,8 +32,14 @@
         <b-nav-item to="/datasets">
           Datasets
         </b-nav-item>
+        <b-nav-item to="/reuses">
+          Reuses
+        </b-nav-item>
         <b-nav-item to="/users">
           Users
+        </b-nav-item>
+        <b-nav-item to="/organizations">
+          Organizations
         </b-nav-item>
         <b-nav-item to="/issues">
           Issues
@@ -74,7 +80,7 @@
                 <span
                   v-if="isAuthenticated"
                   >
-                  {{userData.first_name}}
+                  {{userData && userData.first_name}}
                 </span>
                 <span
                   v-if="!isAuthenticated"

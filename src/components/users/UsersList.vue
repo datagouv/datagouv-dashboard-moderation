@@ -144,6 +144,7 @@ export default {
         { key: 'following', label: 'following' },
         { key: 'reuses', label: 'reuses' },
         { key: 'page', label: 'page' },
+        { key: 'since', label: 'exists since' },
         'id'
       ]
     }

@@ -1,0 +1,59 @@
+<template>
+
+  <div class="organizations">
+
+    <b-breadcrumb
+      class="mb-5"
+      :items="crumbs">
+    </b-breadcrumb>
+
+    <h2>
+      Organizations list
+    </h2>
+
+    <br>
+
+    <!-- DISPLAY DISCUSSIONS IN TABLE -->
+    <OrganizationsList
+      height="800px"
+      width="900px"
+      >
+    </OrganizationsList>
+
+  </div>
+</template>
+
+<script>
+import { mapState } from 'vuex'
+
+import OrganizationsList from '@/components/organizations/OrganizationsList.vue'
+
+export default {
+  name: 'Organizations',
+  components: {
+    OrganizationsList
+  },
+  data () {
+    return {
+      crumbs: [
+        {
+          text: 'Home',
+          to: '/'
+        },
+        {
+          text: 'Organizations',
+          active: true
+        }
+      ]
+    }
+  },
+  created () {
+  },
+  computed: {
+    ...mapState({
+      log: (state) => state.global.log
+    })
+  }
+}
+
+</script>

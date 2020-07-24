@@ -84,7 +84,7 @@ const routes = [
     }
   },
   /***************************
-   * DATA
+   * DATASETS
    */
   {
     path: '/datasets',
@@ -100,6 +100,29 @@ const routes = [
     path: '/dataset/:id',
     name: 'DatasetUpdate',
     component: () => import(/* webpackChunkName: "about" */ '../views/datasets/DatasetUpdate.vue'),
+    meta: {
+      middleware: [
+        checkAuth
+      ]
+    }
+  },
+  /***************************
+   * REUSES
+   */
+  {
+    path: '/reuses',
+    name: 'Reuses',
+    component: () => import(/* webpackChunkName: "about" */ '../views/reuses/Reuses.vue'),
+    meta: {
+      middleware: [
+        checkAuth
+      ]
+    }
+  },
+  {
+    path: '/reuses/:id',
+    name: 'ReuseUpdate',
+    component: () => import(/* webpackChunkName: "about" */ '../views/reuses/ReuseUpdate.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -123,6 +146,29 @@ const routes = [
     path: '/user/:id',
     name: 'UserUpdate',
     component: () => import(/* webpackChunkName: "about" */ '../views/users/UserUpdate.vue'),
+    meta: {
+      middleware: [
+        checkAuth
+      ]
+    }
+  },
+  /***************************
+   * ORGANIZATIONS
+   */
+  {
+    path: '/organizations',
+    name: 'Organizations',
+    component: () => import(/* webpackChunkName: "about" */ '../views/organizations/Organizations.vue'),
+    meta: {
+      middleware: [
+        checkAuth
+      ]
+    }
+  },
+  {
+    path: '/organizations/:id',
+    name: 'OrganizationUpdate',
+    component: () => import(/* webpackChunkName: "about" */ '../views/organizations/OrganizationUpdate.vue'),
     meta: {
       middleware: [
         checkAuth

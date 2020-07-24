@@ -25,61 +25,82 @@
       align-h="center"
       cols="3"
       >
-      <!-- <b-card-group
-        columns
-        > -->
-        <b-col cols="6">
-          <DatasetsList
-            height="400px"
-            width="100%"
-            >
-            <template v-slot:blockTitle>
-              <b-button variant="outline-primary" to="/datasets">
-                DATASETS LIST
-              </b-button>
-            </template>
-          </DatasetsList>
-        </b-col>
-        <b-col>
-          <DiscussionsList
-            :discussions="discussions"
-            height="400px"
-            width="100%"
-            >
-            <template v-slot:blockTitle>
-              <b-button variant="outline-primary" to="/discussions">
-                DISCUSSIONS LIST
-              </b-button>
-            </template>
-          </DiscussionsList>
-        </b-col>
-        <b-col>
-          <IssuesList
-            :issues="issues"
-            height="400px"
-            width="100%"
-            >
-            <template v-slot:blockTitle>
-              <b-button variant="outline-primary" to="/issues">
-                ISSUES LIST
-              </b-button>
-            </template>
-          </IssuesList>
-        </b-col>
-        <b-col cols="6">
-          <UsersList
-            :users="users"
-            height="400px"
-            width="100%"
-            >
-            <template v-slot:blockTitle>
-              <b-button variant="outline-primary" to="/users">
-                USERS LIST
-              </b-button>
-            </template>
-          </UsersList>
-        </b-col>
-      <!-- </b-card-group> -->
+      <b-col cols="6">
+        <DatasetsList
+          height="400px"
+          width="100%"
+          >
+          <template v-slot:blockTitle>
+            <b-button variant="outline-primary" to="/datasets">
+              DATASETS LIST
+            </b-button>
+          </template>
+        </DatasetsList>
+      </b-col>
+      <b-col cols="6">
+        <ReusesList
+          height="400px"
+          width="100%"
+          >
+          <template v-slot:blockTitle>
+            <b-button variant="outline-primary" to="/reuses">
+              REUSES LIST
+            </b-button>
+          </template>
+        </ReusesList>
+      </b-col>
+      <b-col cols="6">
+        <DiscussionsList
+          :discussions="discussions"
+          height="400px"
+          width="100%"
+          >
+          <template v-slot:blockTitle>
+            <b-button variant="outline-primary" to="/discussions">
+              DISCUSSIONS LIST
+            </b-button>
+          </template>
+        </DiscussionsList>
+      </b-col>
+      <b-col cols="6">
+        <IssuesList
+          :issues="issues"
+          height="400px"
+          width="100%"
+          >
+          <template v-slot:blockTitle>
+            <b-button variant="outline-primary" to="/issues">
+              ISSUES LIST
+            </b-button>
+          </template>
+        </IssuesList>
+      </b-col>
+      <b-col cols="6">
+        <UsersList
+          :users="users"
+          height="400px"
+          width="100%"
+          >
+          <template v-slot:blockTitle>
+            <b-button variant="outline-primary" to="/users">
+              USERS LIST
+            </b-button>
+          </template>
+        </UsersList>
+      </b-col>
+      <b-col cols="6">
+        <OrganizationsList
+          :users="users"
+          height="400px"
+          width="100%"
+          >
+          <template v-slot:blockTitle>
+            <b-button variant="outline-primary" to="/organizations">
+              ORGANIZATIONS LIST
+            </b-button>
+          </template>
+        </OrganizationsList>
+      </b-col>
     </b-row>
     </b-container>
 
@@ -92,18 +113,22 @@
 import Homepage from '@/components/Homepage.vue'
 
 import DatasetsList from '@/components/datasets/DatasetsList.vue'
+import ReusesList from '@/components/reuses/ReusesList.vue'
 import DiscussionsList from '@/components/discussions/DiscussionsList.vue'
 import IssuesList from '@/components/issues/IssuesList.vue'
 import UsersList from '@/components/users/UsersList.vue'
+import OrganizationsList from '@/components/organizations/OrganizationsList.vue'
 
 export default {
   name: 'Home',
   components: {
     Homepage,
     DatasetsList,
+    ReusesList,
     DiscussionsList,
     IssuesList,
-    UsersList
+    UsersList,
+    OrganizationsList
   },
   data () {
     return {

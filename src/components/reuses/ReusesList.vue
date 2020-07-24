@@ -5,19 +5,19 @@
     :style="`width: ${width};`"
     >
     <p><slot name="blockTitle"></slot></p>
-    <p v-if="issues">
+    <p v-if="reuses">
       <b-badge pill variant="primary">
         {{ pagination.totalItems }}
-        issues
+        reuses
       </b-badge>
     </p>
 
     <p><slot name="link" class="mb-3"></slot></p>
     <div class="mb-2">
       from :
-      <span v-if="issuesRequest">
-        <a :href="issuesRequest" target="blank">
-          {{ issuesRequest }}
+      <span v-if="reusesRequest">
+        <a :href="reusesRequest" target="blank">
+          {{ reusesRequest }}
         </a>
       </span>
       <span v-else>
@@ -26,7 +26,7 @@
     </div>
 
     <div
-      v-if="issues && pagination.totalItems > pagination.pageSize"
+      v-if="reuses && pagination.totalItems > pagination.pageSize"
       class="my-2"
       >
       <b-pagination
@@ -40,27 +40,18 @@
     </div>
 
     <b-table
-      v-if="issues && !isLoading"
+      v-if="reuses && !isLoading"
       striped hover responsive
       :sticky-header="height"
       :fields="fields"
-      :items="issues.data"
+      :items="reuses.data"
       >
-
-      <!-- A virtual column -->
-      <!-- <template v-slot:cell(index)="data">
-        {{ data.index + 1 }}
-      </template> -->
-
-      <template v-slot:cell(discussion)="data">
-        {{ data.item.discussion.length }}
-      </template>
 
       <!-- A custom formatted column -->
       <template v-slot:cell(id)="data">
         <router-link
           class="text-info"
-          :to="`/issue/${data.value}`"
+          :to="`/reuses/${data.value}`"
           >
           {{ data.value }}
         </router-link>
@@ -70,21 +61,12 @@
       <template v-slot:cell(title)="data">
         <router-link
           class="text-info"
-          :to="`/issue/${data.item.id}`"
+          :to="`/reuses/${data.item.id}`"
           >
           <span>
             {{ data.item.title }}
           </span>
         </router-link>
-      </template>
-
-      <template v-slot:cell(subject)="data">
-        <b-button
-          variant="outline-primary"
-          :to="`/${data.item.subject.class.toLowerCase()}/${data.item.subject.id}`"
-          >
-          {{ data.item.subject.class.toLowerCase() }}
-        </b-button>
       </template>
 
     </b-table>
@@ -100,7 +82,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'IssuesList',
+  name: 'ReusesList',
   props: [
     'height',
     'width'
@@ -108,27 +90,27 @@ export default {
   data () {
     return {
       isLoading: false,
-      operationId: 'list_issues',
-      issues: undefined,
-      issuesRequest: undefined,
+      operationId: 'list_reuses',
+      reuses: undefined,
+      reusesRequest: undefined,
       pagination: {
         page: 1,
         pageSize: 20,
-        sort: '-created'
+        totalItems: undefined,
+        sort: 'created'
       },
       fields: [
         // 'index',
         { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
-        { key: 'discussion', label: 'number of discussions' },
-        { key: 'subject', label: 'related to' },
-        { key: 'created', label: 'created at' },
+        'description',
+        { key: 'created_at', label: 'created at' },
         'id'
       ]
     }
   },
   created () {
-    console.log('-C- IssuesList > created ... ')
-    this.getIssues()
+    console.log('-C- ReusesList > created ... ')
+    this.getReuses()
   },
   computed: {
     ...mapState({
@@ -136,29 +118,28 @@ export default {
     })
   },
   methods: {
-    getIssues () {
+    getReuses () {
       this.isLoading = true
       const params = {
         page: this.pagination.page,
         page_size: this.pagination.pageSize,
-        totalItems: undefined,
         sort: this.pagination.sort
       }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          console.log('-C- IssuesList > created > results.body :', results.body)
-          this.issuesRequest = results.url
-          this.issues = results.body
+          console.log('-C- ReusesList > created > results.body :', results.body)
+          this.reusesRequest = results.url
+          this.reuses = results.body
           this.pagination.totalItems = results.body.total
           this.isLoading = false
         },
-        reason => console.error(`-C- IssuesList > failed on api call: ${reason}`)
+        reason => console.error(`-C- ReusesList > failed on api call: ${reason}`)
       )
     },
     changePagination (pageNumber) {
-      console.log('-C- IssuesList > changePagination > pageNumber ', pageNumber)
+      console.log('-C- ReusesList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
-      this.getIssues()
+      this.getReuses()
     }
   }
 }
