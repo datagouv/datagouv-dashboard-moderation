@@ -29,22 +29,40 @@
 
       <!-- Center aligned nav items -->
       <b-navbar-nav class="ml-auto" align="center">
-        <b-nav-item to="/datasets">
+        <b-nav-item
+          active-class="active-link"
+          to="/datasets"
+          >
           Datasets
         </b-nav-item>
-        <b-nav-item to="/reuses">
+        <b-nav-item
+          active-class="active-link"
+          to="/reuses"
+          >
           Reuses
         </b-nav-item>
-        <b-nav-item to="/users">
+        <b-nav-item
+          active-class="active-link"
+          to="/users"
+          >
           Users
         </b-nav-item>
-        <b-nav-item to="/organizations">
+        <b-nav-item
+          active-class="active-link"
+          to="/organizations"
+          >
           Organizations
         </b-nav-item>
-        <b-nav-item to="/issues">
+        <b-nav-item
+          active-class="active-link"
+          to="/issues"
+          >
           Issues
         </b-nav-item>
-        <b-nav-item to="/discussions">
+        <b-nav-item
+          active-class="active-link"
+          to="/discussions"
+          >
           Discussions
         </b-nav-item>
       </b-navbar-nav>
@@ -187,3 +205,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.active-link {
+  color: rgba(255, 255, 255, 1) !important;
+  font-weight: bold;
+  border-bottom: 4px solid white;
+}
+</style>

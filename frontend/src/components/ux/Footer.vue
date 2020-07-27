@@ -17,7 +17,9 @@ export default {
   name: 'Footer',
   components: {},
   data () {
-    return {}
+    return {
+      // isFixed: false
+    }
   },
   created () {
     console.log('-C- Footer > created ...')
