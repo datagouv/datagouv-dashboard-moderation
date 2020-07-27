@@ -66,14 +66,13 @@
           <hr>
 
           <div v-if="!isLoading">
-            <b-button type="submit" variant="primary">
-              <b-icon icon="check2" aria-hidden="true"></b-icon>
-              comment
-            </b-button>
-            &nbsp;
-            <b-button @click="edit=false" variant="light">
+            <b-button @click="edit=false" class="mx-2" variant="danger">
               <b-icon icon="x" aria-hidden="true"></b-icon>
               cancel
+            </b-button>
+            <b-button type="submit" class="mx-2" variant="success">
+              <b-icon icon="check2" aria-hidden="true"></b-icon>
+              comment
             </b-button>
           </div>
           <div v-else>

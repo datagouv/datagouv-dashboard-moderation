@@ -1,0 +1,23 @@
+// cf : https://bootstrap-vue.org/docs/reference/theming
+
+$dgf-blue: #0883f2;
+$dgf-light-blue: #eef9ff;
+$dgf-medium-blue: #b8e2ff;
+$dgf-medium-alt-blue: #7db0ef;
+$dgf-deep-blue: #1f70ff;
+$dgf-dark-blue: #070d54;
+$dgf-red: #ff5900;
+$dgf-green: #00be7b;
+$dgf-green-deep: #008452;
+
+$primary: $dgf-blue;
+// $secondary: $dgf-blue;
+$success: $dgf-green;
+$danger: $dgf-red;
+// $warning: $dgf-blue;
+$info: $dgf-deep-blue;
+// $dark: $dgf-blue;
+
+// Include Bootstrap and BootstrapVue SCSS files
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
