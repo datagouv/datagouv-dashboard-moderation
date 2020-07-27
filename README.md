@@ -1,17 +1,62 @@
-# DASHBOARD DE MODERATION DE LA PLATEFORME DATAGOUV.FR
+# MODERATION DASHBOARD FOR [DATAGOUV.FR](https://data.gouv.fr)
 
+This project aims to provide an independant moderation tool for the data.gouv.fr platform. 
+
+It should allow a datagouv's admin user to log in and do any of the actions it could previously do on the datagouv backoffice (CRUD), but also flag contents/resources/users/orga/... as potentially problematic. Doing so the datagouv moderators/admins team would be able to know which contents were already read, checked, approved by other moderators, and would be able to share the moderation tasks more efficiently amongst the team.
 
 ---
-## Backend : Python
+
+## Specs
+
+The specs and other docs we used at pre-project phases are the following :
+
+- pad specs & iterations : https://pad.incubateur.net/-_ELVbxhR2GHZ2-vNDwNgg?both
+- pad needs & goals : https://pad.incubateur.net/NFTUu7o-SO-162K7OHthWw
+- complementary pad : https://pad.incubateur.net/1mOA5ArPRReAdhkdnoJJlg#
+
+The main goals for this tool are : 
+
+- oauth authentication ;
+- CRUD operations on udata collections ;
+- detect & neutralize chained spams ;
+- flag spammy contents ;
+- watch trolling contents ;
+- watch external links ;
+
+The development of this dashboard will be iterative, starting with a minimalistic version... We will keep a changelog file on both backend and frontend to keep a trace of the main evolutions.
 
 ---
 ## Frontend : VueJS
 
-- plus d'info sur le README du dossier [`/frontend`](./frontend/README.md)
+### documentation - [in folder](./frontend/README.md)
 
+### urls
+
+- https://moderation.app.etalab.studio/
+- https://datagouv-tdb-moderation-demo.netlify.app/
+
+### changelog - [in folder](./frontend/CHANGELOG.md)
+
+### notes
+
+- ...
 
 ---
+## Backend : Python
 
+### documentation - [in folder](./bbackend/README.md)
+
+### urls
+
+- https://moderation.app.etalab.studio/api
+
+### changelog - [in folder](./backend/CHANGELOG.md)
+
+### notes
+
+- ...
+
+---
 
 ### Development
 
@@ -34,6 +79,8 @@ yarn serve
 ```
 
 The frontend is available on http://localhost:8080 and uses the API available at http://localhost:5000.
+
+---
 
 ### Production (dokku)
 
