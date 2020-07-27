@@ -25,6 +25,21 @@
       align-h="center"
       cols="3"
       >
+      <b-col cols="12" class="mt-4 mb-5">
+        <h3 v-if="!isLoading && site">
+          <b-badge
+            class="mr-2 mb-2"
+            v-for="(metric, key, index) in site.metrics"
+            :key="index"
+            pill
+            medium
+            variant="secondary"
+            >
+            {{metric}}
+            {{key}}
+          </b-badge>
+        </h3>
+      </b-col>
       <b-col cols="6">
         <DatasetsList
           height="400px"
@@ -140,6 +155,10 @@ export default {
   },
   data () {
     return {
+      isLoading: false,
+      operationId: 'get_site',
+      site: undefined,
+      siteRequest: undefined,
       customeFields: {
         datasets: [
           { key: 'title', stickyColumn: true, isRowHeader: true },
@@ -191,6 +210,7 @@ export default {
   },
   created () {
     console.log('-V- HOME > created ...')
+    this.getSite()
   },
   computed: {
     localStorageContainer () {
@@ -202,6 +222,22 @@ export default {
         expiresIn: localStorage.dgfAccessTokenExpires,
         tokenType: localStorage.dgfTokenType
       }
+    }
+  },
+  methods: {
+    getSite () {
+      this.isLoading = true
+      const params = {}
+      this.$APIcli._request(this.operationId, { params }).then(
+        results => {
+          console.log('-V- HOME > created > results :', results)
+          console.log('-V- HOME > created > results.body :', results.body)
+          this.siteRequest = results.url
+          this.site = results.body
+          this.isLoading = false
+        },
+        reason => console.error(`-V- HOME > failed on api call: ${reason}`)
+      )
     }
   }
 }
