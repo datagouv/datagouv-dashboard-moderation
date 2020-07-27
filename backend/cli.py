@@ -4,7 +4,7 @@ import click
 import dataset
 
 db = dataset.connect(os.getenv('DATABASE_URL', 'sqlite:///data.db'))
-table = db["dummy_data"]
+table = db["mod_db"]
 
 
 @click.group()
