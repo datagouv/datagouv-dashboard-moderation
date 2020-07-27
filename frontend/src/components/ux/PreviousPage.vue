@@ -20,14 +20,7 @@ export default {
   components: {
   },
   data () {
-    return {
-      skippableRoutes: [
-        '/login',
-        '/reset-auth-api-client',
-        '/auth-client-id',
-        '/get-user-data'
-      ]
-    }
+    return {}
   },
   created () {
     console.log('-C- PreviousPage > created ...')
