@@ -6,9 +6,12 @@
       :items="crumbs">
     </b-breadcrumb>
 
+    <PreviousPage/>
+
     <h2>
       Issue update
     </h2>
+
     <div>
       from :
       <span v-if="issueRequest">
@@ -42,12 +45,15 @@
 </template>
 
 <script>
-import IssueCard from '@/components/issues/IssueCard.vue'
 import { mapState } from 'vuex'
+
+import PreviousPage from '@/components/ux/PreviousPage.vue'
+import IssueCard from '@/components/issues/IssueCard.vue'
 
 export default {
   name: 'IssueUpdate',
   components: {
+    PreviousPage,
     IssueCard
   },
   data () {

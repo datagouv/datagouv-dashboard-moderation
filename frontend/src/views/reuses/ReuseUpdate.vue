@@ -6,6 +6,8 @@
       :items="crumbs">
     </b-breadcrumb>
 
+    <PreviousPage/>
+
     <h2>
       Reuse update
     </h2>
@@ -42,12 +44,15 @@
 </template>
 
 <script>
-import ReuseCard from '@/components/reuses/ReuseCard.vue'
 import { mapState } from 'vuex'
+
+import PreviousPage from '@/components/ux/PreviousPage.vue'
+import ReuseCard from '@/components/reuses/ReuseCard.vue'
 
 export default {
   name: 'ReuseUpdate',
   components: {
+    PreviousPage,
     ReuseCard
   },
   data () {

@@ -128,7 +128,7 @@ export default {
       fields: [
         // 'index',
         { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
-        { key: 'discussion', label: 'number of discussions' },
+        { key: 'discussion', label: 'number of discussions', sortable: true },
         { key: 'subject', label: 'related to' },
         { key: 'created', label: 'created at', sortable: true },
         'id'

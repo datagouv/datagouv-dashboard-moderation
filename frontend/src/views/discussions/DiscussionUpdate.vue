@@ -6,6 +6,8 @@
       :items="crumbs">
     </b-breadcrumb>
 
+    <PreviousPage/>
+
     <h2>
       Discussion update
     </h2>
@@ -42,12 +44,15 @@
 </template>
 
 <script>
-import DiscussionCard from '@/components/discussions/DiscussionCard.vue'
 import { mapState } from 'vuex'
+
+import PreviousPage from '@/components/ux/PreviousPage.vue'
+import DiscussionCard from '@/components/discussions/DiscussionCard.vue'
 
 export default {
   name: 'DiscussionUpdate',
   components: {
+    PreviousPage,
     DiscussionCard
   },
   data () {

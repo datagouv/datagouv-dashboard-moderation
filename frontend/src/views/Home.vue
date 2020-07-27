@@ -161,43 +161,43 @@ export default {
       siteRequest: undefined,
       customeFields: {
         datasets: [
+          { key: 'created', label: 'Created at', sortable: true },
           { key: 'title', stickyColumn: true, isRowHeader: true },
           { key: 'nameowner', label: 'Owner name' },
           { key: 'page', label: 'Page on datagouv' },
-          { key: 'created', label: 'Created at', sortable: true },
+          { key: 'followers', label: 'Followers', sortable: true },
+          { key: 'reuses', label: 'Reuses', sortable: true },
+          { key: 'views', label: 'Views', sortable: true },
           { key: 'discussions', label: 'Discussions' },
-          { key: 'followers', label: 'Followers' },
-          { key: 'issues', label: 'Issues' },
-          { key: 'reuses', label: 'Reuses' },
-          { key: 'views', label: 'Views' }
+          { key: 'issues', label: 'Issues' }
         ],
         reuses: [
-          { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
-          { key: 'created_at', label: 'created at', sortable: true }
+          { key: 'created_at', label: 'created at', sortable: true },
+          { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true }
         ],
         discussions: [
+          { key: 'created', label: 'created at', sortable: true },
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
           { key: 'discussion', label: 'number of discussions', sortable: true },
-          { key: 'subject', label: 'related to' },
-          { key: 'created', label: 'created at', sortable: true }
+          { key: 'subject', label: 'related to' }
         ],
         issues: [
+          { key: 'created', label: 'created at', sortable: true },
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
           { key: 'discussion', label: 'number of discussions', sortable: true },
-          { key: 'subject', label: 'related to' },
-          { key: 'created', label: 'created at', sortable: true }
+          { key: 'subject', label: 'related to' }
         ],
         users: [
+          { key: 'since', label: 'exists since', sortable: true },
           { key: 'name', label: 'Full Name', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'datasets', label: 'datasets', sortable: true },
           { key: 'followers', label: 'followers', sortable: true },
-          { key: 'following', label: 'following' },
-          { key: 'reuses', label: 'reuses', sortable: true },
-          { key: 'since', label: 'exists since', sortable: true }
+          // { key: 'following', label: 'following' },
+          { key: 'reuses', label: 'reuses', sortable: true }
         ],
         organizations: [
-          { key: 'name', label: 'name', stickyColumn: true, isRowHeader: true },
-          { key: 'created_at', label: 'created at', sortable: true }
+          { key: 'created_at', label: 'created at', sortable: true },
+          { key: 'name', label: 'name', stickyColumn: true, isRowHeader: true }
         ]
       },
       crumbs: [

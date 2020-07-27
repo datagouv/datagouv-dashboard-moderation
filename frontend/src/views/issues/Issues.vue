@@ -7,6 +7,8 @@
       :items="crumbs">
     </b-breadcrumb>
 
+    <PreviousPage/>
+
     <h2>
       Issues list
     </h2>
@@ -26,11 +28,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import PreviousPage from '@/components/ux/PreviousPage.vue'
 import IssuesList from '@/components/issues/IssuesList.vue'
 
 export default {
   name: 'Issues',
   components: {
+    PreviousPage,
     IssuesList
   },
   data () {

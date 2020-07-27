@@ -230,6 +230,20 @@ const router = new VueRouter({
   routes: routes
 })
 
+// custom history
+router.beforeEach((to, from, next) => {
+  const skippableRoutes = [
+    '/login',
+    '/reset-auth-api-client',
+    '/auth-client-id',
+    '/get-user-data'
+  ]
+  if (!skippableRoutes.includes(from.path)) {
+    store.commit('global/appendPathToHistory', from.path)
+  }
+  next()
+})
+
 // adding middleware ability
 // cf : https://blog.logrocket.com/vue-middleware-pipelines/
 // inspired from : https://github.com/Dotunj/vue-middleware-pipelines/blob/master/src/router/router.js

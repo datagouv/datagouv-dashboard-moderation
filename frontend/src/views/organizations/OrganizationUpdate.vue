@@ -6,6 +6,8 @@
       :items="crumbs">
     </b-breadcrumb>
 
+    <PreviousPage/>
+
     <h2>
       Organization update
     </h2>
@@ -42,12 +44,15 @@
 </template>
 
 <script>
-import OrganizationCard from '@/components/organizations/OrganizationCard.vue'
 import { mapState } from 'vuex'
+
+import PreviousPage from '@/components/ux/PreviousPage.vue'
+import OrganizationCard from '@/components/organizations/OrganizationCard.vue'
 
 export default {
   name: 'OrganizationUpdate',
   components: {
+    PreviousPage,
     OrganizationCard
   },
   data () {

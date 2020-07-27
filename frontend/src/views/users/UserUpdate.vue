@@ -6,6 +6,8 @@
       :items="crumbs">
     </b-breadcrumb>
 
+    <PreviousPage/>
+
     <h2>
       User update
     </h2>
@@ -42,12 +44,15 @@
 </template>
 
 <script>
-import UserCard from '@/components/users/UserCard.vue'
 import { mapState } from 'vuex'
+
+import PreviousPage from '@/components/ux/PreviousPage.vue'
+import UserCard from '@/components/users/UserCard.vue'
 
 export default {
   name: 'UserUpdate',
   components: {
+    PreviousPage,
     UserCard
   },
   data () {

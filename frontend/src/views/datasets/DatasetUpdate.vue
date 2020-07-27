@@ -6,6 +6,8 @@
       :items="crumbs">
     </b-breadcrumb>
 
+    <PreviousPage/>
+
     <h2>
       Dataset update
     </h2>
@@ -43,12 +45,15 @@
 </template>
 
 <script>
-import DatasetCard from '@/components/datasets/DatasetCard.vue'
 import { mapState } from 'vuex'
+
+import DatasetCard from '@/components/datasets/DatasetCard.vue'
+import PreviousPage from '@/components/ux/PreviousPage.vue'
 
 export default {
   name: 'DatasetUpdate',
   components: {
+    PreviousPage,
     DatasetCard
   },
   data () {
@@ -56,8 +61,6 @@ export default {
       isLoading: false,
       getOperationId: 'get_dataset',
       putOperationId: 'update_dataset',
-      // datasetId: '5efca5f8be419da8fac3c8a4', // DEMO
-      // datasetId: '5ee8c506f9b7bda18cd1fb20', // LOCAL
       datasetId: this.$route.params.id,
       datasetsRequest: undefined,
       dataset: undefined,
