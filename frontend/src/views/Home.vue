@@ -7,7 +7,6 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <Homepage msg="Welcome to a naked datagouv SPA (oulala)"/>
     <br>
     <!-- <b-card

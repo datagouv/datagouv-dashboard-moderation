@@ -10,7 +10,12 @@
     <b-navbar-brand
       to="/"
       >
-      Tableau de bord modération datagouv
+      <img
+        alt="DGF logo"
+        class="mr-3"
+        src="@/assets/dgf-logo.png"
+        >
+      Tableau de bord modération
     </b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
