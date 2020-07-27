@@ -100,7 +100,8 @@ export default {
           console.log('-V- DatasetUpdate > methods > getDataset > results.body :', results.body)
           this.datasetsRequest = results.url
           this.dataset = results.body
-          this.crumbs[2].text = `${this.dataset.title}`
+          const title = this.dataset.title.length > 25 ? this.dataset.title.slice(0, 25) + '...' : this.dataset.title
+          this.crumbs[2].text = title
           this.isLoading = false
         },
         reason => {

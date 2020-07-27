@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar/>
-    <div class="pb-5">
+    <div class="footer-space">
       <router-view/>
     </div>
     <Footer/>
@@ -48,5 +48,9 @@ export default {
       color: #42b983;
     }
   }
+}
+
+.footer-space {
+  margin-bottom: 100px;
 }
 </style>

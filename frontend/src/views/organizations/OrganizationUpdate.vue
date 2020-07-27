@@ -99,7 +99,8 @@ export default {
           console.log('-V- OrganizationUpdate > methods > getOrganization > results.body :', results.body)
           this.organizationRequest = results.url
           this.organization = results.body
-          this.crumbs[2].text = `${this.organization.name}`
+          const name = this.organization.name.length > 25 ? this.organization.name.slice(0, 25) + '...' : this.organization.name
+          this.crumbs[2].text = name
           this.isLoading = false
         },
         reason => {

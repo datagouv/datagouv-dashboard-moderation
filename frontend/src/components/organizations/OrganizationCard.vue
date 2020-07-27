@@ -14,8 +14,8 @@
       <div v-if="organization">
         <hr>
         <b-card-text>
-          Organization title :<br>
-          {{ organization.title }}
+          Organization name :<br>
+          {{ organization.name }}
         </b-card-text>
         <hr>
         <b-card-text>

@@ -101,7 +101,8 @@ export default {
           console.log('-V- IssueUpdate > methods > getIssue > results.body :', results.body)
           this.issueRequest = results.url
           this.issue = results.body
-          this.crumbs[2].text = `${this.issue.title}`
+          const title = this.issue.title.length > 25 ? this.issue.title.slice(0, 25) + '...' : this.issue.title
+          this.crumbs[2].text = title
           this.isLoading = false
         },
         reason => {

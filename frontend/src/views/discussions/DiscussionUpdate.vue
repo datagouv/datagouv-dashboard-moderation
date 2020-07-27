@@ -99,7 +99,8 @@ export default {
           console.log('-V- DiscussionUpdate > methods > getDiscussion > results.body :', results.body)
           this.discussionRequest = results.url
           this.discussion = results.body
-          this.crumbs[2].text = `${this.discussion.title}`
+          const title = this.discussion.title.length > 25 ? this.discussion.title.slice(0, 25) + '...' : this.discussion.title
+          this.crumbs[2].text = title
           this.isLoading = false
         },
         reason => {

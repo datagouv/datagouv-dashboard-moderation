@@ -25,12 +25,12 @@
             {{ user.roles.join(" | ") }}
           </code>
         </b-card-text>
-        <!-- <hr>
+        <hr>
         <b-card-text>
           <code>
             {{ user }}
           </code>
-        </b-card-text> -->
+        </b-card-text>
 
         <!-- EDIT -->
         <b-button

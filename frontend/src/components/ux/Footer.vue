@@ -1,7 +1,7 @@
 <template>
   <b-navbar
-    sticky
-    class="bg-secondary mt-5 py-5"
+    fixed="bottom"
+    class="bg-secondary py-3"
     >
     <div class="container">
       <span class="text-white">

@@ -99,7 +99,8 @@ export default {
           console.log('-V- ReuseUpdate > methods > getReuse > results.body :', results.body)
           this.reuseRequest = results.url
           this.reuse = results.body
-          this.crumbs[2].text = `${this.reuse.title}`
+          const title = this.reuse.title.length > 25 ? this.reuse.title.slice(0, 25) + '...' : this.reuse.title
+          this.crumbs[2].text = title
           this.isLoading = false
         },
         reason => {
