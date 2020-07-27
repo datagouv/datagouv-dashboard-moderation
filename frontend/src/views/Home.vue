@@ -145,7 +145,7 @@ export default {
           { key: 'title', stickyColumn: true, isRowHeader: true },
           { key: 'nameowner', label: 'Owner name' },
           { key: 'page', label: 'Page on datagouv' },
-          { key: 'created', label: 'Created at' },
+          { key: 'created', label: 'Created at', sortable: true },
           { key: 'discussions', label: 'Discussions' },
           { key: 'followers', label: 'Followers' },
           { key: 'issues', label: 'Issues' },
@@ -154,31 +154,31 @@ export default {
         ],
         reuses: [
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
-          { key: 'created_at', label: 'created at' }
+          { key: 'created_at', label: 'created at', sortable: true }
         ],
         discussions: [
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
-          { key: 'discussion', label: 'number of discussions' },
+          { key: 'discussion', label: 'number of discussions', sortable: true },
           { key: 'subject', label: 'related to' },
-          { key: 'created', label: 'created at' }
+          { key: 'created', label: 'created at', sortable: true }
         ],
         issues: [
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
-          { key: 'discussion', label: 'number of discussions' },
+          { key: 'discussion', label: 'number of discussions', sortable: true },
           { key: 'subject', label: 'related to' },
-          { key: 'created', label: 'created at' }
+          { key: 'created', label: 'created at', sortable: true }
         ],
         users: [
-          { key: 'name', label: 'Full Name', stickyColumn: true, isRowHeader: true },
-          { key: 'since', label: 'exists since' },
-          { key: 'datasets', label: 'datasets' },
-          { key: 'followers', label: 'followers' },
+          { key: 'name', label: 'Full Name', stickyColumn: true, isRowHeader: true, sortable: true },
+          { key: 'datasets', label: 'datasets', sortable: true },
+          { key: 'followers', label: 'followers', sortable: true },
           { key: 'following', label: 'following' },
-          { key: 'reuses', label: 'reuses' }
+          { key: 'reuses', label: 'reuses', sortable: true },
+          { key: 'since', label: 'exists since', sortable: true }
         ],
         organizations: [
           { key: 'name', label: 'name', stickyColumn: true, isRowHeader: true },
-          { key: 'created_at', label: 'created at' }
+          { key: 'created_at', label: 'created at', sortable: true }
         ]
       },
       crumbs: [

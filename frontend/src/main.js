@@ -10,6 +10,8 @@ import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import Formats from './plugins/formats.js'
+
 // import APIcli from '@julpy/swag-wrap'
 import APIcli from './plugins/apiClient.js'
 
@@ -46,6 +48,9 @@ Vue.use(VueAxios, axios)
 // use Bootstrap as CSS framework
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
+
+// use Formats custom plugin
+Vue.use(Formats, {})
 
 // use APIcli plugin
 Vue.use(APIcli, swagWrapOptions, store)

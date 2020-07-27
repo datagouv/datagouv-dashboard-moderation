@@ -41,10 +41,13 @@
     <b-table
       v-if="users && !isLoading"
       striped hover responsive
+      @sort-changed="changeSorting"
       :small="small"
       :sticky-header="height"
-      :fields="fields"
       :items="users.data"
+      :fields="fields"
+      :sort-by.sync="pagination.sortBy"
+      :sort-desc.sync="pagination.sortDesc"
       >
 
       <!-- A virtual column -->
@@ -62,7 +65,10 @@
         </router-link>
       </template>
 
-      <!-- A virtual composite column -->
+      <template v-slot:cell(since)="data">
+        <i>{{ formatDate(data.value, addTime = false) }}</i>
+      </template>
+
       <template v-slot:cell(name)="data">
         <router-link
           class="text-info"
@@ -136,18 +142,35 @@ export default {
         page: 1,
         pageSize: 20,
         totalItems: undefined,
-        sort: '-created'
+        sortBy: 'created',
+        sortDesc: false
       },
+      // "enum": [
+      //   "last_name",
+      //   "first_name",
+      //   "datasets",
+      //   "reuses",
+      //   "followers",
+      //   "views",
+      //   "created",
+      //   "-last_name",
+      //   "-first_name",
+      //   "-datasets",
+      //   "-reuses",
+      //   "-followers",
+      //   "-views",
+      //   "-created"
+      // ],
       fields: [
         // 'index',
-        { key: 'name', label: 'Full Name', stickyColumn: true, isRowHeader: true },
+        { key: 'name', label: 'Full Name', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'roles', label: 'roles' },
-        { key: 'datasets', label: 'datasets' },
-        { key: 'followers', label: 'followers' },
-        { key: 'following', label: 'following' },
-        { key: 'reuses', label: 'reuses' },
+        { key: 'datasets', label: 'datasets', sortable: true },
+        { key: 'followers', label: 'followers', sortable: true },
+        { key: 'following', label: 'following', sortable: true },
+        { key: 'reuses', label: 'reuses', sortable: true },
         { key: 'page', label: 'page' },
-        { key: 'since', label: 'exists since' },
+        { key: 'since', label: 'exists since', sortable: true },
         'id'
       ]
     }
@@ -168,7 +191,7 @@ export default {
       const params = {
         page: this.pagination.page,
         page_size: this.pagination.pageSize,
-        sort: this.pagination.sort
+        sort: `${this.pagination.sortDesc ? '' : '-'}${this.pagination.sortBy}`
       }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
@@ -185,6 +208,24 @@ export default {
       console.log('-C- UsersList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
       this.getUsers()
+    },
+    changeSorting (sort) {
+      console.log('-C- UsersList > changeSorting > sort ', sort)
+      switch (sort.sortBy) {
+        case 'since':
+          this.pagination.sortBy = 'created'
+          break
+        case 'name':
+          this.pagination.sortBy = 'last_name'
+          break
+        default:
+          this.pagination.sortBy = sort.sortBy
+      }
+      this.pagination.sortDesc = sort.sortDesc
+      this.getUsers()
+    },
+    formatDate (dateString, addTime) {
+      return this.$formatDate(dateString, addTime)
     }
   }
 }
@@ -194,5 +235,8 @@ export default {
 <style>
   .table > tbody > tr > td {
     vertical-align: middle;
+  }
+  .table > thead > tr > th {
+    vertical-align: middle !important;
   }
 </style>

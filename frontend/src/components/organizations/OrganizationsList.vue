@@ -42,13 +42,19 @@
     <b-table
       v-if="organizations && !isLoading"
       striped hover responsive
+      @sort-changed="changeSorting"
       :small="small"
       :sticky-header="height"
-      :fields="fields"
       :items="organizations.data"
+      :fields="fields"
+      :sort-by.sync="pagination.sortBy"
+      :sort-desc.sync="pagination.sortDesc"
       >
 
-      <!-- A custom formatted column -->
+      <template v-slot:cell(created_at)="data">
+        <i>{{ formatDate(data.value, addTime = false) }}</i>
+      </template>
+
       <template v-slot:cell(id)="data">
         <router-link
           class="text-info"
@@ -58,7 +64,6 @@
         </router-link>
       </template>
 
-      <!-- A virtual composite column -->
       <template v-slot:cell(name)="data">
         <router-link
           class="text-info"
@@ -100,13 +105,30 @@ export default {
         page: 1,
         pageSize: 20,
         totalItems: undefined,
-        sort: '-created'
+        sortBy: 'created',
+        sortDesc: false
       },
+      // "enum": [
+      //   "name",
+      //   "reuses",
+      //   "datasets",
+      //   "followers",
+      //   "views",
+      //   "created",
+      //   "last_modified",
+      //   "-name",
+      //   "-reuses",
+      //   "-datasets",
+      //   "-followers",
+      //   "-views",
+      //   "-created",
+      //   "-last_modified"
+      // ],
       fields: [
         // 'index',
         { key: 'name', label: 'name', stickyColumn: true, isRowHeader: true },
-        'description',
-        { key: 'created_at', label: 'created at' },
+        { key: 'description' },
+        { key: 'created_at', label: 'created at', sortable: true },
         'id'
       ]
     }
@@ -127,7 +149,7 @@ export default {
       const params = {
         page: this.pagination.page,
         page_size: this.pagination.pageSize,
-        sort: this.pagination.sort
+        sort: `${this.pagination.sortDesc ? '' : '-'}${this.pagination.sortBy}`
       }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
@@ -144,6 +166,16 @@ export default {
       console.log('-C- OrganizationsList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
       this.getOrganizations()
+    },
+    changeSorting (sort) {
+      console.log('-C- OrganizationsList > changeSorting > sort ', sort)
+      this.pagination.sortBy = (sort.sortBy === 'created_at') ? 'created' : sort.sortBy
+      this.pagination.sortDesc = sort.sortDesc
+      console.log('-C- OrganizationsList > changeSorting > this.pagination ', this.pagination)
+      this.getOrganizations()
+    },
+    formatDate (dateString, addTime) {
+      return this.$formatDate(dateString, addTime)
     }
   }
 }
@@ -153,5 +185,8 @@ export default {
 <style>
   .table > tbody > tr > td {
     vertical-align: middle;
+  }
+  .table > thead > tr > th {
+    vertical-align: middle !important;
   }
 </style>

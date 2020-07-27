@@ -94,7 +94,7 @@ export default {
           console.log('-V- OrganizationUpdate > methods > getOrganization > results.body :', results.body)
           this.organizationRequest = results.url
           this.organization = results.body
-          this.crumbs[2].text = `${this.organization.title}`
+          this.crumbs[2].text = `${this.organization.name}`
           this.isLoading = false
         },
         reason => {

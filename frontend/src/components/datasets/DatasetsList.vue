@@ -42,10 +42,13 @@
     <b-table
       v-if="datasets && !isLoading"
       striped hover responsive scrollable
+      @sort-changed="changeSorting"
       :small="small"
       :sticky-header="height"
-      :fields="fields"
       :items="datasets.data"
+      :fields="fields"
+      :sort-by.sync="pagination.sortBy"
+      :sort-desc.sync="pagination.sortDesc"
       >
 
       <!-- A virtual column -->
@@ -72,9 +75,11 @@
         </router-link>
       </template>
 
-      <!-- Optional default data cell scoped slot -->
       <template v-slot:cell(created)="data">
-        <i>{{ data.item.created_at }}</i>
+        <i>{{ formatDate(data.item.created_at, addTime = false) }}</i>
+      </template>
+      <template v-slot:cell(last_modified)="data">
+        <i>{{ formatDate(data.value) }}</i>
       </template>
 
       <!-- Optional default data cell scoped slot -->
@@ -150,20 +155,36 @@ export default {
         page: 1,
         pageSize: 10,
         totalItems: undefined,
-        sort: '-created'
+        sortBy: 'created',
+        sortDesc: false
       },
+      // sortOptions: [
+      //   'title',
+      //   'created',
+      //   'last_modified',
+      //   'reuses',
+      //   'followers',
+      //   'views',
+      //   '-title',
+      //   '-created',
+      //   '-last_modified',
+      //   '-reuses',
+      //   '-followers',
+      //   '-views'
+      // ],
       fields: [
         // 'index',
-        { key: 'title', stickyColumn: true, isRowHeader: true },
+        { key: 'title', stickyColumn: true, isRowHeader: true, sortable: true },
         'acronym',
         { key: 'nameowner', label: 'Owner name' },
         { key: 'page', label: 'Page on datagouv' },
-        { key: 'created', label: 'Created at' },
+        { key: 'created', label: 'Created at', sortable: true },
+        { key: 'last_modified', label: 'Last modified', sortable: true },
+        { key: 'reuses', label: 'Reuses', sortable: true },
+        { key: 'views', label: 'Views', sortable: true },
         { key: 'discussions', label: 'Discussions' },
         { key: 'followers', label: 'Followers' },
         { key: 'issues', label: 'Issues' },
-        { key: 'reuses', label: 'Reuses' },
-        { key: 'views', label: 'Views' },
         'id'
       ]
     }
@@ -184,7 +205,7 @@ export default {
       const params = {
         page: this.pagination.page,
         page_size: this.pagination.pageSize,
-        sort: this.pagination.sort
+        sort: `${this.pagination.sortDesc ? '' : '-'}${this.pagination.sortBy}`
       }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
@@ -202,6 +223,15 @@ export default {
       console.log('-C- DatasetsList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
       this.getDatasets()
+    },
+    changeSorting (sort) {
+      console.log('-C- DatasetsList > changeSorting > sort ', sort)
+      this.pagination.sortBy = sort.sortBy
+      this.pagination.sortDesc = sort.sortDesc
+      this.getDatasets()
+    },
+    formatDate (dateString, addTime) {
+      return this.$formatDate(dateString, addTime)
     }
   }
 }
@@ -211,5 +241,8 @@ export default {
 <style>
   .table > tbody > tr > td {
     vertical-align: middle;
+  }
+  .table > thead > tr > th {
+    vertical-align: middle !important;
   }
 </style>
