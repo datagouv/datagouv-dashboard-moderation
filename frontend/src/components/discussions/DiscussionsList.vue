@@ -144,6 +144,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      seeRaw: false,
       operationId: 'list_discussions',
       discussions: undefined,
       discussionsRequest: undefined,

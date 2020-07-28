@@ -108,6 +108,16 @@
         </router-link>
       </template>
 
+      <template v-slot:cell(avatarthumbnail)="data">
+        <b-img
+          v-if="data.item.avatar_thumbnail"
+          thumbnail
+          fluid
+          :src="data.item.avatar_thumbnail"
+          :alt="data.item.last_name">
+        </b-img>
+      </template>
+
       <template v-slot:cell(page)="data">
         <b-button variant="outline-primary" :href="data.item.page" target="_blank">
           <b-icon icon="link" aria-hidden="true"></b-icon>
@@ -163,6 +173,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      seeRaw: false,
       operationId: 'list_users',
       users: undefined,
       usersRequest: undefined,
@@ -192,6 +203,7 @@ export default {
       // ],
       fields: [
         // 'index',
+        { key: 'avatarthumbnail', label: 'avatar' },
         { key: 'name', label: 'Full Name', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'roles', label: 'roles' },
         { key: 'datasets', label: 'datasets', sortable: true },

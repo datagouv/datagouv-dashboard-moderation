@@ -88,6 +88,16 @@
         </router-link>
       </template>
 
+      <template v-slot:cell(imagethumbnail)="data">
+        <b-img-lazy
+          v-if="data.item.image"
+          thumbnail
+          fluid
+          :src="data.item.image"
+          :alt="data.item.title">
+        </b-img-lazy>
+      </template>
+
       <template v-slot:cell(created_at)="data">
         <i>{{ formatDate(data.value, addTime = false) }}</i>
       </template>
@@ -126,6 +136,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      seeRaw: false,
       operationId: 'list_reuses',
       reuses: undefined,
       reusesRequest: undefined,
@@ -139,6 +150,7 @@ export default {
       },
       fields: [
         // 'index',
+        { key: 'imagethumbnail', label: 'image' },
         { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
         'description',
         { key: 'created_at', label: 'created at', sortable: true },

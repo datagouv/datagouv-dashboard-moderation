@@ -102,6 +102,20 @@
         </router-link>
       </template>
 
+      <template v-slot:cell(organizationlogo)="data">
+        <router-link
+          v-if="data.item.organization"
+          :to="`/organizations/${data.item.organization.id}`"
+          >
+          <b-img
+            thumbnail
+            fluid
+            :src="data.item.organization.logo_thumbnail"
+            :alt="data.item.organization.name">
+          </b-img>
+        </router-link>
+      </template>
+
       <template v-slot:cell(created)="data">
         <i>{{ formatDate(data.item.created_at, addTime = false) }}</i>
       </template>
@@ -109,7 +123,6 @@
         <i>{{ formatDate(data.value) }}</i>
       </template>
 
-      <!-- Optional default data cell scoped slot -->
       <template v-slot:cell(page)="data">
         <b-button variant="outline-primary" :href="data.item.page" target="_blank">
           <b-icon icon="link" aria-hidden="true"></b-icon>
@@ -175,6 +188,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      seeRaw: false,
       operationId: 'list_datasets',
       datasets: undefined,
       datasetsRequest: undefined,
@@ -204,6 +218,7 @@ export default {
         // 'index',
         { key: 'title', stickyColumn: true, isRowHeader: true, sortable: true },
         'acronym',
+        { key: 'organizationlogo', label: 'Organization logo' },
         { key: 'nameowner', label: 'Owner name' },
         { key: 'page', label: 'Page on datagouv' },
         { key: 'created', label: 'Created at', sortable: true },
@@ -239,7 +254,7 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          console.log('-C- DatasetsList > created > results :', results)
+          // console.log('-C- DatasetsList > created > results :', results)
           console.log('-C- DatasetsList > created > results.body :', results.body)
           this.datasetsRequest = results.url
           this.datasets = results.body

@@ -174,6 +174,7 @@ export default {
         datasets: [
           { key: 'created', label: 'Created at', sortable: true },
           { key: 'title', stickyColumn: true, isRowHeader: true },
+          { key: 'organizationlogo', label: 'Organization logo' },
           { key: 'nameowner', label: 'Owner name' },
           { key: 'page', label: 'Page on datagouv' },
           { key: 'followers', label: 'Followers', sortable: true },
@@ -183,6 +184,7 @@ export default {
           { key: 'issues', label: 'Issues' }
         ],
         reuses: [
+          { key: 'imagethumbnail', label: 'image' },
           { key: 'created_at', label: 'created at', sortable: true },
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true }
         ],
@@ -208,6 +210,7 @@ export default {
         ],
         organizations: [
           { key: 'created_at', label: 'created at', sortable: true },
+          { key: 'organizationlogo', label: 'logo' },
           { key: 'name', label: 'name', stickyColumn: true, isRowHeader: true }
         ]
       },

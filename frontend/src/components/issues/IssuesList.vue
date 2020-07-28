@@ -143,6 +143,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      seeRaw: false,
       operationId: 'list_issues',
       issues: undefined,
       issuesRequest: undefined,

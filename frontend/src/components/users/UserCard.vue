@@ -11,6 +11,12 @@
       :style="`width: ${width};`"
       >
 
+      <RawData
+        :customClass="`mb-3`"
+        :see="true"
+        :dataRaw="user"
+      ></RawData>
+
       <!-- VIEW -->
       <div v-if="user && !edit">
         <hr>
@@ -23,12 +29,6 @@
           Roles :<br>
           <code>
             {{ user.roles.join(" | ") }}
-          </code>
-        </b-card-text>
-        <hr>
-        <b-card-text>
-          <code>
-            {{ user }}
           </code>
         </b-card-text>
 
@@ -127,8 +127,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import RawData from '@/components/ux/RawData.vue'
+
 export default {
   name: 'UserCard',
+  components: {
+    RawData
+  },
   props: [
     'cardTitle',
     'cardFooter',

@@ -32,13 +32,10 @@
       :options="suggestions">
     </b-form-datalist>
 
-    <p
-      v-if="datasets"
-      >
-      <code>
-        {{ datasets }}
-      </code>
-    </p>
+    <RawData
+      :customClass="`mt-2`"
+      :dataRaw="datasets"
+    ></RawData>
 
     <!-- <div
       v-if="datasets && pagination.totalItems > pagination.pageSize"
@@ -55,12 +52,40 @@
     </div> -->
 
     <b-table
-      v-if="datasets && !isLoading"
+      v-if="datasets"
       striped hover responsive scrollable
-      :small="small"
+      small
       :sticky-header="height"
-      :items="datasets.data"
+      :items="datasets"
+      :fields="fields"
       >
+
+      <template v-slot:cell(image_url)="data">
+        <router-link
+          :to="`/dataset/${data.item.id}`"
+          >
+          <b-img
+            thumbnail
+            fluid
+            :src="data.item.image_url"
+            :alt="data.item.title">
+          </b-img>
+        </router-link>
+      </template>
+
+      <template v-slot:cell(title)="data">
+        <router-link
+          :to="`/dataset/${data.item.id}`"
+          >
+          <b>{{ data.item.title }}</b>
+        </router-link>
+      </template>
+
+      <template v-slot:cell(page)="data">
+        <b-button variant="outline-primary" :href="data.item.page" target="_blank">
+          <b-icon icon="link" aria-hidden="true"></b-icon>
+        </b-button>
+      </template>
 
     </b-table>
 
@@ -74,44 +99,34 @@
 <script>
 import { mapState } from 'vuex'
 
+import RawData from '@/components/ux/RawData.vue'
+
 export default {
   name: 'DatasetsSuggest',
+  components: {
+    RawData
+  },
   props: [
     'height',
     'width',
-    'small',
     'customFields'
   ],
   data () {
     return {
       isLoading: false,
-      operationId: 'suggest_territory',
+      seeRaw: false,
+      operationId: 'suggest_datasets',
       datasets: undefined,
       datasetsRequest: undefined,
       query: undefined,
-      size: 3,
+      size: 5,
       suggestions: [],
-      pagination: {
-        // page: 1,
-        // pageSize: 10,
-        // totalItems: undefined,
-        // sortBy: 'created',
-        // sortDesc: false
-      },
       fields: [
-        // 'index',
+        { key: 'image_url', label: 'Image Avatar' },
         { key: 'title', stickyColumn: true, isRowHeader: true, sortable: true },
         'acronym',
-        { key: 'nameowner', label: 'Owner name' },
         { key: 'page', label: 'Page on datagouv' },
-        { key: 'created', label: 'Created at', sortable: true },
-        { key: 'last_modified', label: 'Last modified', sortable: true },
-        { key: 'reuses', label: 'Reuses', sortable: true },
-        { key: 'views', label: 'Views', sortable: true },
-        { key: 'discussions', label: 'Discussions' },
-        { key: 'followers', label: 'Followers' },
-        { key: 'issues', label: 'Issues' },
-        'id'
+        { key: 'score', label: 'Score' }
       ]
     }
   },
@@ -145,20 +160,6 @@ export default {
         reason => console.error(`-C- DatasetsSuggest > failed on api call: ${reason}`)
       )
     }
-    // changePagination (pageNumber) {
-    //   console.log('-C- DatasetsSuggest > changePagination > pageNumber ', pageNumber)
-    //   this.pagination.page = pageNumber
-    //   this.getDatasets()
-    // },
-    // changeSorting (sort) {
-    //   console.log('-C- DatasetsSuggest > changeSorting > sort ', sort)
-    //   this.pagination.sortBy = sort.sortBy
-    //   this.pagination.sortDesc = sort.sortDesc
-    //   this.getDatasets()
-    // },
-    // formatDate (dateString, addTime) {
-    //   return this.$formatDate(dateString, addTime)
-    // }
   }
 }
 

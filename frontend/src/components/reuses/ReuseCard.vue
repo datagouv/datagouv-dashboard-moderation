@@ -10,18 +10,18 @@
       :style="`width: ${width};`"
       >
 
+      <RawData
+        :customClass="`mb-3`"
+        :see="true"
+        :dataRaw="reuse"
+      ></RawData>
+
       <!-- VIEW -->
       <div v-if="reuse">
         <hr>
         <b-card-text>
           Reuse title :<br>
           {{ reuse.title }}
-        </b-card-text>
-        <hr>
-        <b-card-text>
-          <code>
-            {{ reuse }}
-          </code>
         </b-card-text>
 
         <!-- EDIT -->
@@ -97,8 +97,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import RawData from '@/components/ux/RawData.vue'
+
 export default {
   name: 'ReuseCard',
+  components: {
+    RawData
+  },
   props: [
     'cardTitle',
     'cardFooter',

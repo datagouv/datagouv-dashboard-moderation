@@ -11,6 +11,11 @@
       :style="`width: ${width};`"
       >
 
+      <RawData
+        :customClass="`mb-3`"
+        :dataRaw="dataset"
+      ></RawData>
+
       <!-- VIEW -->
       <div v-if="dataset && !edit">
         <b-card-text class="mb-5">
@@ -29,13 +34,6 @@
             {{ dataset.description }}
           </div>
         </b-card-text>
-
-        <!-- <hr>
-        <b-card-text>
-          <code>
-            {{ dataset }}
-          </code>
-        </b-card-text> -->
 
         <!-- RESOURCES -->
         <b-card-text
@@ -151,8 +149,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import RawData from '@/components/ux/RawData.vue'
+
 export default {
   name: 'DatasetCard',
+  components: {
+    RawData
+  },
   props: [
     'cardTitle',
     'cardFooter',
@@ -165,6 +168,7 @@ export default {
     return {
       edit: false,
       isLoading: false,
+      seeRaw: false,
       defaultText: 'dataset is loading',
       defaultOwner: '...',
       putOperationId: 'update_dataset',

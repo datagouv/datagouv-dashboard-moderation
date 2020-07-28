@@ -10,18 +10,18 @@
       :style="`width: ${width};`"
       >
 
+      <RawData
+        :customClass="`mb-3`"
+        :see="true"
+        :dataRaw="organization"
+      ></RawData>
+
       <!-- VIEW -->
       <div v-if="organization">
         <hr>
         <b-card-text>
           Organization name :<br>
           {{ organization.name }}
-        </b-card-text>
-        <hr>
-        <b-card-text>
-          <code>
-            {{ organization }}
-          </code>
         </b-card-text>
 
         <!-- EDIT -->
@@ -97,8 +97,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import RawData from '@/components/ux/RawData.vue'
+
 export default {
   name: 'OrganizationCard',
+  components: {
+    RawData
+  },
   props: [
     'cardTitle',
     'cardFooter',

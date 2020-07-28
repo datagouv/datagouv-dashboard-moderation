@@ -103,6 +103,16 @@
         </router-link>
       </template>
 
+      <template v-slot:cell(organizationlogo)="data">
+        <b-img
+          v-if="data.item.logo_thumbnail"
+          thumbnail
+          fluid
+          :src="data.item.logo_thumbnail"
+          :alt="data.item.name">
+        </b-img>
+      </template>
+
     </b-table>
 
     <p v-if="isLoading">
@@ -126,6 +136,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      seeRaw: false,
       operationId: 'list_organizations',
       organizations: undefined,
       organizationsRequest: undefined,
@@ -155,6 +166,7 @@ export default {
       // ],
       fields: [
         // 'index',
+        { key: 'organizationlogo', label: 'logo' },
         { key: 'name', label: 'name', stickyColumn: true, isRowHeader: true },
         { key: 'description' },
         { key: 'created_at', label: 'created at', sortable: true },

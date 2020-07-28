@@ -10,18 +10,18 @@
       :style="`width: ${width};`"
       >
 
+      <RawData
+        :customClass="`mb-3`"
+        :see="true"
+        :dataRaw="discussion"
+      ></RawData>
+
       <!-- VIEW -->
       <div v-if="discussion">
         <hr>
         <b-card-text>
           Discussion title :<br>
           {{ discussion.title }}
-        </b-card-text>
-        <hr>
-        <b-card-text>
-          <code>
-            {{ discussion }}
-          </code>
         </b-card-text>
 
         <!-- EDIT -->
@@ -97,8 +97,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import RawData from '@/components/ux/RawData.vue'
+
 export default {
   name: 'DiscussionCard',
+  components: {
+    RawData
+  },
   props: [
     'cardTitle',
     'cardFooter',
