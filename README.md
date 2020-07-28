@@ -13,6 +13,7 @@ The specs and other docs we used at pre-project phases are the following :
 - pad specs & iterations : https://pad.incubateur.net/-_ELVbxhR2GHZ2-vNDwNgg?both
 - pad needs & goals : https://pad.incubateur.net/NFTUu7o-SO-162K7OHthWw
 - complementary pad : https://pad.incubateur.net/1mOA5ArPRReAdhkdnoJJlg#
+- issues pad : https://pad.incubateur.net/JZt6WQVyRoGQ55FpBZdTsg
 
 The main goals for this tool are : 
 
