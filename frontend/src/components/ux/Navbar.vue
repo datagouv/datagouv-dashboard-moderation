@@ -4,8 +4,9 @@
     fixed="top"
     sticky
     toggleable="lg"
-    type="dark"
-    variant="primary"
+    type="primary"
+    variant="white"
+    class="light-bottom-border"
     >
     <b-navbar-brand
       to="/"
@@ -211,10 +212,23 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/css/custom.scss';
+
+a {
+  color: $dgf-grey !important;
+}
+
 .active-link {
-  color: rgba(255, 255, 255, 1) !important;
+  color: $dgf-grey !important;
   font-weight: bold;
-  border-bottom: 4px solid white;
+  border-bottom: 4px solid $dgf-blue;
+}
+
+.light-bottom-border {
+  border-bottom: .5px solid $dgf-light-grey;
+  // -moz-box-shadow: 0 10px 5px rgba(255, 255, 255, 0.4);
+  // -webkit-box-shadow: 0 10px 5px rgba(255, 255, 255, 0.4);
+  // box-shadow: 0 10px 5px rgba(255, 255, 255, 0.4);
 }
 </style>
