@@ -11,12 +11,12 @@
       Set your udata API key
     </h2>
 
-    <!-- LOGIN FORM -->
+    <!-- API KEY FORM -->
     <b-card
       class="mx-auto text-center"
       style="width: 700px;"
       header="Set your API key form"
-    >
+      >
 
       <b-form @submit="setApiKeyHeader" inline class="text-center">
 
@@ -75,7 +75,7 @@
       class="mt-3 mx-auto text-center"
       style="width: 600px;"
       header="Form Data"
-    >
+      >
       <pre class="m-0">{{ form }}</pre>
     </b-card>
 

@@ -25,19 +25,37 @@
       </span>
     </div>
 
-    <div
-      v-if="organizations && pagination.totalItems > pagination.pageSize"
-      class="my-2"
+    <b-row
+      align-v="center"
+      class="my-3"
       >
-      <b-pagination
-        @input="changePagination"
-        v-model="pagination.page"
-        :total-rows="pagination.totalItems"
-        :per-page="pagination.pageSize"
-        align="center"
-        size="sm"
-      ></b-pagination>
-    </div>
+
+      <b-col cols="8" md="6">
+        <b-form-input
+          id="inline-form-input-query-organizations"
+          placeholder="search for an organization"
+          v-model="query"
+          @input="getOrganizations"
+          >
+        </b-form-input>
+      </b-col>
+
+      <b-col
+        v-if="organizations && pagination.totalItems > pagination.pageSize"
+        class="my-2"
+        >
+        <b-pagination
+          @input="changePagination"
+          v-model="pagination.page"
+          :total-rows="pagination.totalItems"
+          :per-page="pagination.pageSize"
+          class="my-0"
+          align="center"
+          size="sm"
+        ></b-pagination>
+      </b-col>
+
+    </b-row>
 
     <b-table
       v-if="organizations && !isLoading"
@@ -101,6 +119,7 @@ export default {
       operationId: 'list_organizations',
       organizations: undefined,
       organizationsRequest: undefined,
+      query: undefined,
       pagination: {
         page: 1,
         pageSize: 20,
@@ -147,6 +166,7 @@ export default {
     getOrganizations () {
       this.isLoading = true
       const params = {
+        q: this.query,
         page: this.pagination.page,
         page_size: this.pagination.pageSize,
         sort: `${this.pagination.sortDesc ? '' : '-'}${this.pagination.sortBy}`

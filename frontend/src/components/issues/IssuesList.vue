@@ -25,19 +25,36 @@
       </span>
     </div>
 
-    <div
-      v-if="issues && pagination.totalItems > pagination.pageSize"
-      class="my-2"
+    <b-row
+      align-v="center"
+      class="my-3"
       >
-      <b-pagination
-        @input="changePagination"
-        v-model="pagination.page"
-        :total-rows="pagination.totalItems"
-        :per-page="pagination.pageSize"
-        align="center"
-        size="sm"
-      ></b-pagination>
-    </div>
+
+      <b-col cols="8" md="6">
+        <b-form-input
+          id="inline-form-input-query-issues"
+          placeholder="search for an issue"
+          v-model="query"
+          @input="getIssues"
+          >
+        </b-form-input>
+      </b-col>
+
+      <b-col
+        v-if="issues && pagination.totalItems > pagination.pageSize"
+        class="my-2"
+        >
+        <b-pagination
+          @input="changePagination"
+          v-model="pagination.page"
+          :total-rows="pagination.totalItems"
+          :per-page="pagination.pageSize"
+          class="my-0"
+          align="center"
+          size="sm"
+        ></b-pagination>
+      </b-col>
+    </b-row>
 
     <b-table
       v-if="issues && !isLoading"
@@ -119,6 +136,7 @@ export default {
       operationId: 'list_issues',
       issues: undefined,
       issuesRequest: undefined,
+      query: undefined,
       pagination: {
         page: 1,
         pageSize: 20,
@@ -149,6 +167,7 @@ export default {
     getIssues () {
       this.isLoading = true
       const params = {
+        q: this.query,
         page: this.pagination.page,
         page_size: this.pagination.pageSize,
         totalItems: undefined,

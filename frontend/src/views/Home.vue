@@ -39,6 +39,16 @@
           </b-badge>
         </h3>
       </b-col>
+      <b-col cols="8" class="mt-4 mb-5">
+        <DatasetsSuggest
+          >
+          <template v-slot:blockTitle>
+            <b-button variant="outline-primary" to="/datasets">
+              DATASETS SUGGEST
+            </b-button>
+          </template>
+        </DatasetsSuggest>
+      </b-col>
       <b-col cols="6">
         <DatasetsList
           height="400px"
@@ -135,6 +145,7 @@
 import Homepage from '@/components/Homepage.vue'
 
 import DatasetsList from '@/components/datasets/DatasetsList.vue'
+import DatasetsSuggest from '@/components/datasets/DatasetsSuggest.vue'
 import ReusesList from '@/components/reuses/ReusesList.vue'
 import DiscussionsList from '@/components/discussions/DiscussionsList.vue'
 import IssuesList from '@/components/issues/IssuesList.vue'
@@ -146,6 +157,7 @@ export default {
   components: {
     Homepage,
     DatasetsList,
+    DatasetsSuggest,
     ReusesList,
     DiscussionsList,
     IssuesList,
