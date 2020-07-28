@@ -19,37 +19,28 @@
     </div>
 
     <!-- QUERY -->
-    <b-form-input
-      id="inline-form-input-query"
-      placeholder="your query"
-      v-model="query"
-      @input="suggestDatasets"
-      list="suggestions-list"
-      >
-    </b-form-input>
-    <b-form-datalist
-      id="suggestions-list"
-      :options="suggestions">
-    </b-form-datalist>
-
-    <RawData
-      :customClass="`mt-2`"
-      :dataRaw="datasets"
-    ></RawData>
-
-    <!-- <div
-      v-if="datasets && pagination.totalItems > pagination.pageSize"
-      class="my-2"
-      >
-      <b-pagination
-        @input="changePagination"
-        v-model="pagination.page"
-        :total-rows="pagination.totalItems"
-        :per-page="pagination.pageSize"
-        align="center"
-        size="sm"
-      ></b-pagination>
-    </div> -->
+    <b-input-group>
+      <b-input-group-prepend is-text>
+        <b-icon icon="search"></b-icon>
+      </b-input-group-prepend>
+      <b-form-input
+        id="inline-form-input-query"
+        placeholder="your query"
+        v-model="query"
+        @input="suggestDatasets"
+        list="suggestions-list"
+        >
+      </b-form-input>
+      <b-input-group-append v-if="query">
+        <b-button variant="outline-secondary" @click="resetQuery">
+          <b-icon icon="x" aria-hidden="true"></b-icon>
+        </b-button>
+      </b-input-group-append>
+      <b-form-datalist
+        id="suggestions-list"
+        :options="suggestions">
+      </b-form-datalist>
+    </b-input-group>
 
     <b-table
       v-if="datasets"
@@ -88,6 +79,11 @@
       </template>
 
     </b-table>
+
+    <RawData
+      :customClass="`mt-2`"
+      :dataRaw="datasets"
+    ></RawData>
 
     <p v-if="isLoading">
       <b-spinner label="loading"></b-spinner>
@@ -159,6 +155,11 @@ export default {
         },
         reason => console.error(`-C- DatasetsSuggest > failed on api call: ${reason}`)
       )
+    },
+    resetQuery () {
+      this.query = ''
+      this.datasets = undefined
+      this.datasetsRequest = this.operationId
     }
   }
 }
