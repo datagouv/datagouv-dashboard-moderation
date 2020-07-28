@@ -31,13 +31,20 @@
       >
 
       <b-col cols="8" md="6">
-        <b-form-input
-          id="inline-form-input-query-datasets"
-          placeholder="search for a dataset"
-          v-model="query"
-          @input="getDatasets"
-          >
-        </b-form-input>
+        <b-input-group>
+          <b-form-input
+            id="inline-form-input-query-datasets"
+            placeholder="search for a dataset"
+            v-model="query"
+            @input="getDatasets(true)"
+            >
+          </b-form-input>
+          <b-input-group-append v-if="query">
+            <b-button variant="outline-secondary" @click="resetQuery">
+              <b-icon icon="x" aria-hidden="true"></b-icon>
+            </b-button>
+          </b-input-group-append>
+        </b-input-group>
       </b-col>
 
       <b-col
@@ -218,14 +225,15 @@ export default {
     })
   },
   methods: {
-    getDatasets () {
+    getDatasets (resetPage) {
       this.isLoading = true
       const params = {
         q: this.query,
-        page: this.pagination.page,
+        page: resetPage ? 1 : this.pagination.page,
         page_size: this.pagination.pageSize,
         sort: `${this.pagination.sortDesc ? '' : '-'}${this.pagination.sortBy}`
       }
+      if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
           console.log('-C- DatasetsList > created > results :', results)
@@ -237,6 +245,10 @@ export default {
         },
         reason => console.error(`-C- DatasetsList > failed on api call: ${reason}`)
       )
+    },
+    resetQuery () {
+      this.query = undefined
+      this.getDatasets(true)
     },
     changePagination (pageNumber) {
       console.log('-C- DatasetsList > changePagination > pageNumber ', pageNumber)

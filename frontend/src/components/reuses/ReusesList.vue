@@ -31,13 +31,20 @@
       >
 
       <b-col cols="8" md="6">
-        <b-form-input
-          id="inline-form-input-query-reuses"
-          placeholder="search for a reuse"
-          v-model="query"
-          @input="getReuses"
-          >
-        </b-form-input>
+        <b-input-group>
+          <b-form-input
+            id="inline-form-input-query-reuses"
+            placeholder="search for a reuse"
+            v-model="query"
+            @input="getReuses(true)"
+            >
+          </b-form-input>
+          <b-input-group-append v-if="query">
+            <b-button variant="outline-secondary" @click="resetQuery">
+              <b-icon icon="x" aria-hidden="true"></b-icon>
+            </b-button>
+          </b-input-group-append>
+        </b-input-group>
       </b-col>
 
       <b-col
@@ -147,14 +154,15 @@ export default {
     })
   },
   methods: {
-    getReuses () {
+    getReuses (resetPage) {
       this.isLoading = true
       const params = {
         q: this.query,
-        page: this.pagination.page,
+        page: resetPage ? 1 : this.pagination.page,
         page_size: this.pagination.pageSize,
         sort: `${this.pagination.sortDesc ? '' : '-'}${this.pagination.sortBy}`
       }
+      if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
           console.log('-C- ReusesList > created > results.body :', results.body)
@@ -165,6 +173,10 @@ export default {
         },
         reason => console.error(`-C- ReusesList > failed on api call: ${reason}`)
       )
+    },
+    resetQuery () {
+      this.query = undefined
+      this.getReuses(true)
     },
     changePagination (pageNumber) {
       console.log('-C- ReusesList > changePagination > pageNumber ', pageNumber)

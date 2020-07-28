@@ -31,13 +31,20 @@
       >
 
       <b-col cols="8" md="6">
-        <b-form-input
-          id="inline-form-input-query-dicussions"
-          placeholder="search for a discussion"
-          v-model="query"
-          @input="getDiscussions"
-          >
-        </b-form-input>
+        <b-input-group>
+          <b-form-input
+            id="inline-form-input-query-dicussions"
+            placeholder="search for a discussion"
+            v-model="query"
+            @input="getDiscussions(true)"
+            >
+          </b-form-input>
+          <b-input-group-append v-if="query">
+            <b-button variant="outline-secondary" @click="resetQuery">
+              <b-icon icon="x" aria-hidden="true"></b-icon>
+            </b-button>
+          </b-input-group-append>
+        </b-input-group>
       </b-col>
 
       <b-col
@@ -166,14 +173,15 @@ export default {
     })
   },
   methods: {
-    getDiscussions () {
+    getDiscussions (resetPage) {
       this.isLoading = true
       const params = {
         q: this.query,
-        page: this.pagination.page,
+        page: resetPage ? 1 : this.pagination.page,
         page_size: this.pagination.pageSize,
         sort: `${this.pagination.sortDesc ? '' : '-'}${this.pagination.sortBy}`
       }
+      if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
           console.log('-C- DiscussionsList > created > results.body :', results.body)
@@ -184,6 +192,10 @@ export default {
         },
         reason => console.error(`-C- DiscussionsList > failed on api call: ${reason}`)
       )
+    },
+    resetQuery () {
+      this.query = undefined
+      this.getDiscussions(true)
     },
     changePagination (pageNumber) {
       console.log('-C- DiscussionsList > changePagination > pageNumber ', pageNumber)
