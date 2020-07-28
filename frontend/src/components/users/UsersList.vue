@@ -31,6 +31,9 @@
       >
       <b-col cols="8" md="6">
         <b-input-group>
+          <b-input-group-prepend is-text>
+            <b-icon icon="search"></b-icon>
+          </b-input-group-prepend>
           <b-form-input
             id="inline-form-input-query-users"
             placeholder="search for an user"
