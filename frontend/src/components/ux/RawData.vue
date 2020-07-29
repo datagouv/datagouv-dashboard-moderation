@@ -5,13 +5,21 @@
     :class="customClass"
     v-if="dataRaw"
     >
-    <b-card-header header-tag="header" class="p-1" role="tab">
+    <b-card-header
+      header-tag="header"
+      class="p-1"
+      role="tab"
+      >
       <b-button
         block
         v-b-toggle.accordion-data
         variant="secondary"
         @click="seeRaw = !seeRaw"
         >
+        <span v-if="title" class="font-weight-bold">
+          {{title}} :
+        </span>
+
         <span v-if="!seeRaw">
           see
         </span>
@@ -51,6 +59,7 @@ export default {
   name: 'RawData',
   props: [
     'see',
+    'title',
     'customClass',
     'dataRaw'
   ],

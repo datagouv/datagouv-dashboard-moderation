@@ -13,7 +13,7 @@
     </h2>
 
     <div>
-      from :
+      {{ $t('navigation.from') }} :
       <span v-if="issueRequest">
         <a :href="issueRequest" target="_blank">
           JSON
@@ -66,11 +66,11 @@ export default {
       issue: undefined,
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Issues',
+          text: this.$t('basics.issues', { list: '' }),
           to: '/issues'
         },
         {

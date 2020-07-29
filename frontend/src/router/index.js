@@ -5,6 +5,7 @@ import store from '../store'
 // import middlewares
 import middlewarePipeline from './middlewarePipeline'
 import checkAuth from './middleware/checkAuth.js'
+// import setLocale from './middleware/getLocale.js'
 // import getUserData from './middleware/getUserData.js'
 
 // import views components
@@ -97,9 +98,42 @@ const routes = [
     }
   },
   {
-    path: '/dataset/:id',
+    path: '/datasets/:id',
     name: 'DatasetUpdate',
     component: () => import(/* webpackChunkName: "about" */ '../views/datasets/DatasetUpdate.vue'),
+    meta: {
+      middleware: [
+        checkAuth
+      ]
+    }
+  },
+  /***************************
+   * RESOURCES
+   */
+  // {
+  //   path: '/resources',
+  //   name: 'Resources',
+  //   component: () => import(/* webpackChunkName: "about" */ '../views/resources/Resources.vue'),
+  //   meta: {
+  //     middleware: [
+  //       checkAuth
+  //     ]
+  //   }
+  // },
+  {
+    path: '/resources-community',
+    name: 'ResourcesCommunity',
+    component: () => import(/* webpackChunkName: "about" */ '../views/resources/ResourcesCommunity.vue'),
+    meta: {
+      middleware: [
+        checkAuth
+      ]
+    }
+  },
+  {
+    path: '/resources/:id',
+    name: 'resourceUpdate',
+    component: () => import(/* webpackChunkName: "about" */ '../views/resources/ResourceUpdate.vue'),
     meta: {
       middleware: [
         checkAuth

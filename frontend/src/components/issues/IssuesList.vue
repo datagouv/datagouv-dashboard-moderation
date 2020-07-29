@@ -8,13 +8,13 @@
     <p v-if="issues">
       <b-badge pill variant="primary">
         {{ pagination.totalItems }}
-        issues
+        {{ $t('basics.issues', {list: ''}) }}
       </b-badge>
     </p>
 
     <p><slot name="link" class="mb-3"></slot></p>
     <div class="mb-2">
-      from :
+      {{ $t('navigation.from') }} :
       <span v-if="issuesRequest">
         <a :href="issuesRequest" target="blank">
           {{ issuesRequest }}

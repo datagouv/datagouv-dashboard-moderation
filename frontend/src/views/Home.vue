@@ -7,17 +7,8 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <Homepage msg="Welcome to a naked datagouv SPA (oulala)"/>
+    <Homepage/>
     <br>
-    <!-- <b-card
-      class="mt-3 mx-auto text-center"
-      style="width: 600px;"
-      header="localStorageContainer"
-      >
-      <pre class="m-0">
-        {{ localStorageContainer }}
-      </pre>
-    </b-card> -->
 
     <b-container fluid class="bv-example-row">
     <b-row
@@ -44,7 +35,7 @@
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/datasets">
-              DATASETS SUGGEST
+              {{ $t('basics.datasets', {list: $t('basics.suggestions')}) }}
             </b-button>
           </template>
         </DatasetsSuggest>
@@ -54,25 +45,40 @@
           height="400px"
           width="100%"
           :small="true"
-          :customFields="customeFields.datasets"
+          :customFields="customFields.datasets"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/datasets">
-              DATASETS LIST
+              {{ $t('basics.datasets', {list: $t('basics.list')}) }}
             </b-button>
           </template>
         </DatasetsList>
+      </b-col>
+      <b-col cols="6">
+        <ResourcesList
+          height="400px"
+          width="100%"
+          :small="true"
+          :customFields="customFields.resourcesCommunity"
+          resourcesType="community"
+          >
+          <template v-slot:blockTitle>
+            <b-button variant="outline-primary" to="/resources-community">
+              {{ $t('basics.resources_community', {list: $t('basics.list')}) }}
+            </b-button>
+          </template>
+        </ResourcesList>
       </b-col>
       <b-col cols="6">
         <ReusesList
           height="400px"
           width="100%"
           :small="true"
-          :customFields="customeFields.reuses"
+          :customFields="customFields.reuses"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/reuses">
-              REUSES LIST
+              {{ $t('basics.reuses', {list: $t('basics.list')}) }}
             </b-button>
           </template>
         </ReusesList>
@@ -82,11 +88,11 @@
           height="400px"
           width="100%"
           :small="true"
-          :customFields="customeFields.discussions"
+          :customFields="customFields.discussions"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/discussions">
-              DISCUSSIONS LIST
+              {{ $t('basics.discussions', {list: $t('basics.list')}) }}
             </b-button>
           </template>
         </DiscussionsList>
@@ -96,11 +102,11 @@
           height="400px"
           width="100%"
           :small="true"
-          :customFields="customeFields.issues"
+          :customFields="customFields.issues"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/issues">
-              ISSUES LIST
+              {{ $t('basics.issues', {list: $t('basics.list')}) }}
             </b-button>
           </template>
         </IssuesList>
@@ -110,11 +116,11 @@
           height="400px"
           width="100%"
           :small="true"
-          :customFields="customeFields.users"
+          :customFields="customFields.users"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/users">
-              USERS LIST
+              {{ $t('basics.users', {list: $t('basics.list')}) }}
             </b-button>
           </template>
         </UsersList>
@@ -124,11 +130,11 @@
           height="400px"
           width="100%"
           :small="true"
-          :customFields="customeFields.organizations"
+          :customFields="customFields.organizations"
           >
           <template v-slot:blockTitle>
             <b-button variant="outline-primary" to="/organizations">
-              ORGANIZATIONS LIST
+              {{ $t('basics.organizations', {list: $t('basics.list')}) }}
             </b-button>
           </template>
         </OrganizationsList>
@@ -141,11 +147,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 // @ is an alias to /src
 import Homepage from '@/components/Homepage.vue'
 
-import DatasetsList from '@/components/datasets/DatasetsList.vue'
 import DatasetsSuggest from '@/components/datasets/DatasetsSuggest.vue'
+import DatasetsList from '@/components/datasets/DatasetsList.vue'
+import ResourcesList from '@/components/resources/ResourcesList.vue'
 import ReusesList from '@/components/reuses/ReusesList.vue'
 import DiscussionsList from '@/components/discussions/DiscussionsList.vue'
 import IssuesList from '@/components/issues/IssuesList.vue'
@@ -156,8 +165,9 @@ export default {
   name: 'Home',
   components: {
     Homepage,
-    DatasetsList,
     DatasetsSuggest,
+    DatasetsList,
+    ResourcesList,
     ReusesList,
     DiscussionsList,
     IssuesList,
@@ -170,7 +180,7 @@ export default {
       operationId: 'get_site',
       site: undefined,
       siteRequest: undefined,
-      customeFields: {
+      customFields: {
         datasets: [
           { key: 'created', label: 'Created at', sortable: true },
           { key: 'title', stickyColumn: true, isRowHeader: true },
@@ -182,6 +192,11 @@ export default {
           { key: 'views', label: 'Views', sortable: true },
           { key: 'discussions', label: 'Discussions' },
           { key: 'issues', label: 'Issues' }
+        ],
+        resourcesCommunity: [
+          { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
+          { key: 'created_at', label: 'created at', sortable: true },
+          'id'
         ],
         reuses: [
           { key: 'imagethumbnail', label: 'image' },
@@ -216,7 +231,7 @@ export default {
       },
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           active: true
         }
       ]
@@ -227,6 +242,9 @@ export default {
     this.getSite()
   },
   computed: {
+    ...mapState({
+      userData: (state) => state.user.user
+    }),
     localStorageContainer () {
       return {
         codeVerifier: localStorage.dgfState,

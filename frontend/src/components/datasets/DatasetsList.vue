@@ -8,13 +8,13 @@
     <p v-if="datasets">
       <b-badge pill variant="primary">
         {{ pagination.totalItems }}
-        datasets
+        {{ $t('basics.datasets', {list: ''}) }}
       </b-badge>
     </p>
 
     <p><slot name="link" class="mb-3"></slot></p>
     <div class="mb-2">
-      from :
+      {{ $t('navigation.from') }} :
       <span v-if="datasetsRequest">
         <a :href="datasetsRequest" target="blank">
           {{ datasetsRequest }}
@@ -85,7 +85,7 @@
 
       <template v-slot:cell(title)="data">
         <router-link
-          :to="`/dataset/${data.item.id}`"
+          :to="`/datasets/${data.item.id}`"
           >
           <b>{{ data.item.title }}</b>
         </router-link>
@@ -159,7 +159,7 @@
       <template v-slot:cell(id)="data">
         <router-link
           class="text-info"
-          :to="`/dataset/${data.value}`"
+          :to="`/datasets/${data.value}`"
           >
           {{ data.value }}
         </router-link>

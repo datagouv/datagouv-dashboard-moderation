@@ -15,8 +15,8 @@
         alt="DGF logo"
         class="mr-3"
         src="@/assets/dgf-logo.png"
-        >
-      Tableau de bord modération
+      />
+      {{ $t('navbar.title') }}
     </b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -37,39 +37,52 @@
       <b-navbar-nav class="ml-auto" align="center">
         <b-nav-item
           active-class="active-link"
+          class="text-capitalize"
           to="/datasets"
           >
-          Datasets
+          {{ $t('basics.datasets', {list: ''}) }}
         </b-nav-item>
         <b-nav-item
           active-class="active-link"
+          class="text-capitalize"
+          to="/resources-community"
+          >
+          {{ $t('basics.resources_community', {list: ''}) }}
+        </b-nav-item>
+        <b-nav-item
+          active-class="active-link"
+          class="text-capitalize"
           to="/reuses"
           >
-          Reuses
+          {{ $t('basics.reuses', {list: ''}) }}
         </b-nav-item>
         <b-nav-item
           active-class="active-link"
+          class="text-capitalize"
           to="/users"
           >
-          Users
+          {{ $t('basics.users', {list: ''}) }}
         </b-nav-item>
         <b-nav-item
           active-class="active-link"
+          class="text-capitalize"
           to="/organizations"
           >
-          Organizations
+          {{ $t('basics.organizations', {list: ''}) }}
         </b-nav-item>
         <b-nav-item
           active-class="active-link"
+          class="text-capitalize"
           to="/issues"
           >
-          Issues
+          {{ $t('basics.issues', {list: ''}) }}
         </b-nav-item>
         <b-nav-item
           active-class="active-link"
+          class="text-capitalize"
           to="/discussions"
           >
-          Discussions
+          {{ $t('basics.discussions', {list: ''}) }}
         </b-nav-item>
       </b-navbar-nav>
 
@@ -109,7 +122,7 @@
                 <span
                   v-if="!isAuthenticated"
                   >
-                  Log in
+                  {{$t('settings.logIn')}}
                 </span>
               </span>
               <span v-else>
@@ -130,7 +143,7 @@
           <b-dropdown-item
             v-if="!isAuthenticated"
             @click="submitLogin()">
-            Authenticate
+            {{$t('settings.authenticate')}}
           </b-dropdown-item>
           <!-- <b-dropdown-item
             v-if="isAuthenticated"
@@ -140,7 +153,7 @@
           <b-dropdown-item
             v-if="isAuthenticated"
             to="/settings/profile">
-            My profile
+            {{$t('settings.myProfile')}}
           </b-dropdown-item>
           <b-dropdown-item
             to="/set-api-key">
@@ -149,7 +162,7 @@
           <b-dropdown-item
             v-if="isAuthenticated"
             @click="submitLogout()">
-            Log Out
+            {{$t('settings.logOut')}}
           </b-dropdown-item>
         </b-nav-item-dropdown>
 

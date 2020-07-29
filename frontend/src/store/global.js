@@ -5,6 +5,12 @@ export const moduleGlobal = {
     log: Boolean(process.env.VUE_APP_LOG_MODE),
     swaggerUrl: process.env.VUE_APP_SWAGGER_URL,
 
+    locale: 'fr',
+    locales: {
+      fr: { code: 'fr', text: 'français' },
+      en: { code: 'en', text: 'english' }
+    },
+
     navHistory: [],
     navMaxLength: 50
   }),
@@ -13,12 +19,25 @@ export const moduleGlobal = {
     getLog: (state) => {
       return state.log
     },
+    getLocale: (state) => {
+      return state.locale
+    },
     getLastNavPath: (state) => {
       return state.navHistory.slice(-1)[0]
     }
   },
 
   mutations: {
+    setLocale (state, locCode) {
+      console.log('-S- global > setLocale > locCode : ', locCode)
+      state.locale = locCode
+    },
+    setLocaleInLocalStorage (state, locCode) {
+      console.log('-S- global > setLocaleInLocalStorage > locCode : ', locCode)
+      const prefixLocalStorage = process.env.VUE_APP_OAUTH_LS_PREFIX
+      const prefixLocale = `${prefixLocalStorage}Locale`
+      localStorage[prefixLocale] = locCode
+    },
     appendPathToHistory (state, path) {
       state.navHistory.push(path)
       console.log('-S- global > appendPathToHistory > path : ', path)
@@ -28,7 +47,13 @@ export const moduleGlobal = {
     }
   },
 
-  actions: {},
+  actions: {
+    changeLocale ({ commit }, locCode) {
+      console.log('-S- global > changeLocale > locCode : ', locCode)
+      commit('setLocale', locCode)
+      commit('setLocaleInLocalStorage', locCode)
+    }
+  },
 
   modules: {}
 }

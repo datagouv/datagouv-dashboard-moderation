@@ -12,7 +12,7 @@
       Organization update
     </h2>
     <div>
-      from :
+      {{ $t('navigation.from') }} :
       <span v-if="organizationRequest">
         <a :href="organizationRequest" target="_blank">
           JSON
@@ -65,11 +65,11 @@ export default {
       organization: undefined,
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Organizations',
+          text: this.$t('basics.organizations', { list: '' }),
           to: '/organizations'
         },
         {

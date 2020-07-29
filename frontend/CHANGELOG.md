@@ -7,6 +7,9 @@
 ## beta version
 
 - **0.0.1** : vue boilerplate for DGF moderation dashboard
+  - community resources
+  - user activity
+  - i18n
   - raw data component
   - query form on collections 
   - datasets suggestions component

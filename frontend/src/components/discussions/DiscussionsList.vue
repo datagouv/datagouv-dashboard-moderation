@@ -8,13 +8,13 @@
     <p v-if="discussions">
       <b-badge pill variant="primary">
         {{ pagination.totalItems }}
-        discussions
+        {{ $t('basics.discussions', {list: ''}) }}
       </b-badge>
     </p>
 
     <p><slot name="link" class="mb-3"></slot></p>
     <div class="mb-2">
-      from :
+      {{ $t('navigation.from') }} :
       <span v-if="discussionsRequest">
         <a :href="discussionsRequest" target="blank">
           {{ discussionsRequest }}

@@ -8,13 +8,13 @@
     <p v-if="reuses">
       <b-badge pill variant="primary">
         {{ pagination.totalItems }}
-        reuses
+        {{ $t('basics.reuses', {list: ''}) }}
       </b-badge>
     </p>
 
     <p><slot name="link" class="mb-3"></slot></p>
     <div class="mb-2">
-      from :
+      {{ $t('navigation.from') }} :
       <span v-if="reusesRequest">
         <a :href="reusesRequest" target="blank">
           {{ reusesRequest }}

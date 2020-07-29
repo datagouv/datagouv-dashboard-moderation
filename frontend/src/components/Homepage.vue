@@ -1,15 +1,18 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>{{ $t('home.intro') }}</h1>
+    <p v-if="userData">
+      {{ $t('home.hello', { name: userData.first_name }) }}
+    </p>
+    <p v-else>
+      {{ $t('home.connect') }}
+    </p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  name: 'Homepage'
 }
 </script>
 

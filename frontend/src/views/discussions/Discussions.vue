@@ -10,7 +10,7 @@
     <PreviousPage/>
 
     <h2>
-      Discussions list
+      {{ $t('basics.discussions', {list: $t('basics.list')}) }}
     </h2>
 
     <br>
@@ -41,11 +41,11 @@ export default {
     return {
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Discussions',
+          text: this.$t('basics.discussions', { list: '' }),
           active: true
         }
       ]

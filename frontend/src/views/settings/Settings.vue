@@ -32,11 +32,11 @@ export default {
     return {
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Settings',
+          text: this.$t('basics.settings'),
           active: true
         }
       ]

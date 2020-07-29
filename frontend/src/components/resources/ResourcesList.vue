@@ -5,19 +5,19 @@
     :style="`width: ${width};`"
     >
     <p><slot name="blockTitle"></slot></p>
-    <p v-if="users">
+    <p v-if="resources">
       <b-badge pill variant="primary">
         {{ pagination.totalItems }}
-        {{ $t('basics.users', {list: ''}) }}
+        {{ $t('basics.resources', {list: ''}) }}
       </b-badge>
     </p>
 
     <p><slot name="link" class="mb-3"></slot></p>
     <div class="mb-2">
       {{ $t('navigation.from') }} :
-      <span v-if="usersRequest">
-        <a :href="usersRequest" target="blank">
-          {{ usersRequest }}
+      <span v-if="resourcesRequest">
+        <a :href="resourcesRequest" target="blank">
+          {{ resourcesRequest }}
         </a>
       </span>
       <span v-else>
@@ -29,16 +29,17 @@
       align-v="center"
       class="my-3"
       >
+
       <b-col cols="8" md="6">
         <b-input-group>
           <b-input-group-prepend is-text>
             <b-icon icon="search"></b-icon>
           </b-input-group-prepend>
           <b-form-input
-            id="inline-form-input-query-users"
-            placeholder="search for an user"
+            id="inline-form-input-query-dicussions"
+            placeholder="search for a resource"
             v-model="query"
-            @input="getUsers(true)"
+            @input="getResources(true)"
             >
           </b-form-input>
           <b-input-group-append v-if="query">
@@ -50,7 +51,7 @@
       </b-col>
 
       <b-col
-        v-if="users && pagination.totalItems > pagination.pageSize"
+        v-if="resources && pagination.totalItems > pagination.pageSize"
         class="my-2"
         >
         <b-pagination
@@ -63,16 +64,15 @@
           size="sm"
         ></b-pagination>
       </b-col>
-
     </b-row>
 
     <b-table
-      v-if="users && !isLoading"
+      v-if="resources && !isLoading"
       striped hover responsive
       @sort-changed="changeSorting"
       :small="small"
       :sticky-header="height"
-      :items="users.data"
+      :items="resources.data"
       :fields="fields"
       :sort-by.sync="pagination.sortBy"
       :sort-desc.sync="pagination.sortDesc"
@@ -83,71 +83,28 @@
         {{ data.index + 1 }}
       </template> -->
 
-      <!-- A custom formatted column -->
       <template v-slot:cell(id)="data">
         <router-link
           class="text-info"
-          :to="`/user/${data.value}`"
+          :to="`/resources/${data.value}`"
           >
           {{ data.value }}
         </router-link>
       </template>
 
-      <template v-slot:cell(since)="data">
+      <template v-slot:cell(created_at)="data">
         <i>{{ formatDate(data.value, addTime = false) }}</i>
       </template>
 
-      <template v-slot:cell(name)="data">
+      <template v-slot:cell(title)="data">
         <router-link
           class="text-info"
-          :to="`/user/${data.item.id}`"
+          :to="`/resources/${data.item.id}`"
           >
           <span>
-            {{ data.item.first_name }} <b>{{ data.item.last_name.toUpperCase() }}</b>
+            {{ data.item.title }}
           </span>
         </router-link>
-      </template>
-
-      <template v-slot:cell(avatarthumbnail)="data">
-        <b-img
-          v-if="data.item.avatar_thumbnail"
-          thumbnail
-          fluid
-          :src="data.item.avatar_thumbnail"
-          :alt="data.item.last_name">
-        </b-img>
-      </template>
-
-      <template v-slot:cell(page)="data">
-        <b-button variant="outline-primary" :href="data.item.page" target="_blank">
-          <b-icon icon="link" aria-hidden="true"></b-icon>
-        </b-button>
-      </template>
-
-      <template v-slot:cell(datasets)="data">
-        <span>
-          {{ data.item.metrics.datasets }}
-        </span>
-      </template>
-      <template v-slot:cell(followers)="data">
-        <span>
-          {{ data.item.metrics.followers }}
-        </span>
-      </template>
-      <template v-slot:cell(following)="data">
-        <span>
-          {{ data.item.metrics.following }}
-        </span>
-      </template>
-      <template v-slot:cell(reuses)="data">
-        <span>
-          {{ data.item.metrics.reuses }}
-        </span>
-      </template>
-      <template v-slot:cell(roles)="data">
-        <span>
-          {{ data.item.roles.join(" | ") }}
-        </span>
       </template>
 
     </b-table>
@@ -163,10 +120,11 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'UsersList',
+  name: 'ResourcesList',
   props: [
     'height',
     'width',
+    'resourcesType',
     'small',
     'customFields'
   ],
@@ -174,9 +132,9 @@ export default {
     return {
       isLoading: false,
       seeRaw: false,
-      operationId: 'list_users',
-      users: undefined,
-      usersRequest: undefined,
+      operationId: 'list_resources', // not working yet ...
+      resources: undefined,
+      resourcesRequest: undefined,
       query: undefined,
       pagination: {
         page: 1,
@@ -185,41 +143,20 @@ export default {
         sortBy: 'created',
         sortDesc: false
       },
-      // "enum": [
-      //   "last_name",
-      //   "first_name",
-      //   "datasets",
-      //   "reuses",
-      //   "followers",
-      //   "views",
-      //   "created",
-      //   "-last_name",
-      //   "-first_name",
-      //   "-datasets",
-      //   "-reuses",
-      //   "-followers",
-      //   "-views",
-      //   "-created"
-      // ],
       fields: [
-        // 'index',
-        { key: 'avatarthumbnail', label: 'avatar' },
-        { key: 'name', label: 'Full Name', stickyColumn: true, isRowHeader: true, sortable: true },
-        { key: 'roles', label: 'roles' },
-        { key: 'datasets', label: 'datasets', sortable: true },
-        { key: 'followers', label: 'followers', sortable: true },
-        { key: 'following', label: 'following', sortable: true },
-        { key: 'reuses', label: 'reuses', sortable: true },
-        { key: 'page', label: 'page' },
-        { key: 'since', label: 'exists since', sortable: true },
+        { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
+        { key: 'created_at', label: 'created at', sortable: true },
         'id'
       ]
     }
   },
   created () {
-    console.log('-C- UsersList > created ... ')
+    console.log('-C- ResourcesList > created ... ')
     if (this.customFields) { this.fields = this.customFields }
-    this.getUsers()
+    if (this.resourcesType === 'community') {
+      this.operationId = 'list_community_resources'
+    }
+    this.getResources()
   },
   computed: {
     ...mapState({
@@ -227,7 +164,7 @@ export default {
     })
   },
   methods: {
-    getUsers (resetPage) {
+    getResources (resetPage) {
       this.isLoading = true
       const params = {
         q: this.query,
@@ -238,38 +175,29 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          console.log('-C- UsersList > created > results.body :', results.body)
-          this.usersRequest = results.url
-          this.users = results.body
+          console.log('-C- ResourcesList > created > results.body :', results.body)
+          this.resourcesRequest = results.url
+          this.resources = results.body
           this.pagination.totalItems = results.body.total
           this.isLoading = false
         },
-        reason => console.error(`-C- UsersList > failed on api call: ${reason}`)
+        reason => console.error(`-C- ResourcesList > failed on api call: ${reason}`)
       )
     },
     resetQuery () {
       this.query = undefined
-      this.getUsers(true)
+      this.getResources(true)
     },
     changePagination (pageNumber) {
-      console.log('-C- UsersList > changePagination > pageNumber ', pageNumber)
+      console.log('-C- ResourcesList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
-      this.getUsers()
+      this.getResources()
     },
     changeSorting (sort) {
-      console.log('-C- UsersList > changeSorting > sort ', sort)
-      switch (sort.sortBy) {
-        case 'since':
-          this.pagination.sortBy = 'created'
-          break
-        case 'name':
-          this.pagination.sortBy = 'last_name'
-          break
-        default:
-          this.pagination.sortBy = sort.sortBy
-      }
+      console.log('-C- ResourcesList > changeSorting > sort ', sort)
+      this.pagination.sortBy = (sort.sortBy === 'created_at') ? 'created' : sort.sortBy
       this.pagination.sortDesc = sort.sortDesc
-      this.getUsers()
+      this.getResources()
     },
     formatDate (dateString, addTime) {
       return this.$formatDate(dateString, addTime)

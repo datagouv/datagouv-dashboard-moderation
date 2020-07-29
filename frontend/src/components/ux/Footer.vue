@@ -4,6 +4,7 @@
     class="bg-secondary py-3"
     >
     <div class="container">
+      <Locales/>
       <span class="text-white">
         sticky footer component
       </span>
@@ -13,9 +14,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import Locales from '@/components/ux/Locales.vue'
+
 export default {
   name: 'Footer',
-  components: {},
+  components: {
+    Locales
+  },
   data () {
     return {
       // isFixed: false

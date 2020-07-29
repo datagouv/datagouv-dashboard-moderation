@@ -8,13 +8,13 @@
     <p v-if="organizations">
       <b-badge pill variant="primary">
         {{ pagination.totalItems }}
-        organizations
+        {{ $t('basics.organizations', {list: ''}) }}
       </b-badge>
     </p>
 
     <p><slot name="link" class="mb-3"></slot></p>
     <div class="mb-2">
-      from :
+      {{ $t('navigation.from') }} :
       <span v-if="organizationsRequest">
         <a :href="organizationsRequest" target="blank">
           {{ organizationsRequest }}

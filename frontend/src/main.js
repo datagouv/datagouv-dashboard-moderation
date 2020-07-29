@@ -6,6 +6,10 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+import VueI18n from 'vue-i18n'
+import fr from './locales/fr.js'
+import en from './locales/en.js'
+
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import './css/custom.scss'
 // import 'bootstrap/dist/css/bootstrap.css'
@@ -59,10 +63,22 @@ Vue.use(APIcli, swagWrapOptions, store)
 // use OAUTHcli plugin
 Vue.use(OAUTHcli, oauthOptions, store)
 
+// use i18n
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+  locale: 'fr',
+  fallbackLocale: 'fr',
+  messages: {
+    ...fr,
+    ...en
+  }
+})
+
 Vue.config.productionTip = false
 
 // build up vue instance
 new Vue({
+  i18n,
   router,
   store,
   render: h => h(App)

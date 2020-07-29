@@ -7,7 +7,7 @@
 
     <p><slot name="link" class="mb-3"></slot></p>
     <div class="mb-2">
-      from :
+      {{ $t('navigation.from') }} :
       <span v-if="datasetsRequest">
         <a :href="datasetsRequest" target="blank">
           {{ datasetsRequest }}
@@ -53,7 +53,7 @@
 
       <template v-slot:cell(image_url)="data">
         <router-link
-          :to="`/dataset/${data.item.id}`"
+          :to="`/datasets/${data.item.id}`"
           >
           <b-img
             thumbnail
@@ -66,7 +66,7 @@
 
       <template v-slot:cell(title)="data">
         <router-link
-          :to="`/dataset/${data.item.id}`"
+          :to="`/datasets/${data.item.id}`"
           >
           <b>{{ data.item.title }}</b>
         </router-link>

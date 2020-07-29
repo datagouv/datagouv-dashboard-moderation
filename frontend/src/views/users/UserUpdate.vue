@@ -12,7 +12,7 @@
       User update
     </h2>
     <div>
-      from :
+      {{ $t('navigation.from') }} :
       <span v-if="userRequest">
         <a :href="userRequest" target="_blank">
           JSON
@@ -65,11 +65,11 @@ export default {
       user: undefined,
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Users',
+          text: this.$t('basics.users', { list: '' }),
           to: '/users'
         },
         {
@@ -91,12 +91,12 @@ export default {
   methods: {
     getUser () {
       const API = this.$APIcli
-      console.log('-V- UseRUpdate > methods > getUser > API :', API)
+      console.log('-V- UserUpdate > methods > getUser > API :', API)
       const params = { user: this.userId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          console.log('-V- UseRUpdate > methods > getUser > results.body :', results.body)
+          console.log('-V- UserUpdate > methods > getUser > results.body :', results.body)
           this.userRequest = results.url
           this.user = results.body
           this.crumbs[2].text = `${this.user.first_name} ${this.user.last_name}`

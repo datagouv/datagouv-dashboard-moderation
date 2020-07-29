@@ -14,7 +14,15 @@
       <RawData
         :customClass="`mb-3`"
         :see="true"
+        title="user data"
         :dataRaw="user"
+      ></RawData>
+
+      <RawData
+        :customClass="`mb-3`"
+        :see="true"
+        title="user activity"
+        :dataRaw="userActivity"
       ></RawData>
 
       <!-- VIEW -->
@@ -147,12 +155,15 @@ export default {
       edit: false,
       isLoading: false,
       defaultText: 'user is loading',
+      activityOperationId: 'activity',
       putOperationId: 'update_user',
-      user: undefined
+      user: undefined,
+      userActivity: undefined
     }
   },
   created () {
     console.log('-C- UserCard > created ... ')
+    this.getUserActivity()
   },
   watch: {
     userData (next) {
@@ -173,6 +184,23 @@ export default {
     }
   },
   methods: {
+    getUserActivity () {
+      const API = this.$APIcli
+      console.log('-C- UserCard > methods > getUserActivity > API :', API)
+      const params = { user: this.userId }
+      // this.isLoading = true
+      API._request(this.activityOperationId, { params }).then(
+        results => {
+          console.log('-C- UserCard > methods > getUserActivity > results.body :', results.body)
+          this.userActivity = results.body
+          // this.isLoading = false
+        },
+        reason => {
+          console.error(`failed on api call: ${reason}`)
+          // this.isLoading = false
+        }
+      )
+    },
     updateUser (evt) {
       evt.preventDefault()
       const API = this.$APIcli

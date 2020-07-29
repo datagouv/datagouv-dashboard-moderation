@@ -12,7 +12,7 @@
       Reuse update
     </h2>
     <div>
-      from :
+      {{ $t('navigation.from') }} :
       <span v-if="reuseRequest">
         <a :href="reuseRequest" target="_blank">
           JSON
@@ -65,11 +65,11 @@ export default {
       reuse: undefined,
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Reuses',
+          text: this.$t('basics.reuses', { list: '' }),
           to: '/reuses'
         },
         {

@@ -34,7 +34,8 @@ The development of this dashboard will be iterative, starting with a minimalisti
 ### urls
 
 - https://moderation.app.etalab.studio/
-- https://datagouv-tdb-moderation-demo.netlify.app/
+- [![Netlify Status](https://api.netlify.com/api/v1/badges/8fd5e0aa-46e3-448a-8112-c11c422df840/deploy-status)](https://app.netlify.com/sites/datagouv-tdb-moderation-demo/deploys)
+ https://datagouv-tdb-moderation-demo.netlify.app/
 
 ### changelog - [in folder](./frontend/CHANGELOG.md)
 

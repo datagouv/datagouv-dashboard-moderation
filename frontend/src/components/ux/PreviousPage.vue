@@ -8,7 +8,7 @@
       variant="outline-secondary"
       >
       <b-icon icon="arrow-left" aria-hidden="true"></b-icon>
-      back
+      {{$t('navigation.back')}}
     </b-button>
   </div>
 </template>

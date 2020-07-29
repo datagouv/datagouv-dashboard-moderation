@@ -1,6 +1,6 @@
 <template>
 
-  <div class="datasets">
+  <div class="resources">
 
     <b-breadcrumb
       class="mb-5"
@@ -10,17 +10,18 @@
     <PreviousPage/>
 
     <h2>
-      {{ $t('basics.datasets', {list: $t('basics.list')}) }}
+      {{ $t('basics.resources_community', {list: $t('basics.list')}) }}
     </h2>
 
     <br>
 
-    <!-- DISPLAY DATASETS IN TABLE -->
-    <DatasetsList
+    <!-- DISPLAY RESOURCES IN TABLE -->
+    <ResourcesList
       height="800px"
-      width="100%"
+      width="900px"
+      resourcesType="community"
       >
-    </DatasetsList>
+    </ResourcesList>
 
   </div>
 </template>
@@ -28,31 +29,30 @@
 <script>
 import { mapState } from 'vuex'
 
+import ResourcesList from '@/components/resources/ResourcesList.vue'
 import PreviousPage from '@/components/ux/PreviousPage.vue'
-import DatasetsList from '@/components/datasets/DatasetsList.vue'
 
 export default {
-  name: 'Datasets',
+  name: 'Resources',
   components: {
     PreviousPage,
-    DatasetsList
+    ResourcesList
   },
   data () {
     return {
-      operationId: 'list_datasets',
-      datasets: undefined,
-      datasetsRequest: undefined,
       crumbs: [
         {
           text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: this.$t('basics.datasets', { list: '' }),
+          text: this.$t('basics.resources_community'),
           active: true
         }
       ]
     }
+  },
+  created () {
   },
   computed: {
     ...mapState({

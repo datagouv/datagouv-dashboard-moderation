@@ -1,5 +1,5 @@
 <template>
-  <div class="dataset_update">
+  <div class="resource_update">
 
     <b-breadcrumb
       class="mb-5"
@@ -9,18 +9,17 @@
     <PreviousPage/>
 
     <h2>
-      Dataset update
+      Resource update
     </h2>
-
     <div>
       {{ $t('navigation.from') }} :
-      <span v-if="datasetsRequest">
-        <a :href="datasetsRequest" target="_blank">
+      <span v-if="resourceRequest">
+        <a :href="resourceRequest" target="_blank">
           JSON
         </a>
         |
-        <a :href="dataset.page" target="_blank">
-          datagouv public page
+        <a :href="resource.url" target="_blank">
+          datagouv resource page
         </a>
       </span>
       <span v-else>
@@ -30,16 +29,16 @@
 
     <br>
 
-    <!-- DISPLAY DATASET -->
-    <DatasetCard
-      :cardTitle="`dataset n° ${datasetId}`"
+    <!-- DISPLAY ISSUE -->
+    <ResourceCard
+      :cardTitle="`resource n° ${resourceId}`"
       :cardFooter="undefined"
-      :datasetData="dataset"
-      :datasetId="datasetId"
+      :resourceData="resource"
+      :resourceId="resourceId"
       height="800px"
-      width="700px"
+      width="600px"
     >
-    </DatasetCard>
+    </ResourceCard>
 
   </div>
 </template>
@@ -47,31 +46,31 @@
 <script>
 import { mapState } from 'vuex'
 
-import DatasetCard from '@/components/datasets/DatasetCard.vue'
 import PreviousPage from '@/components/ux/PreviousPage.vue'
+import ResourceCard from '@/components/resources/ResourceCard.vue'
 
 export default {
-  name: 'DatasetUpdate',
+  name: 'ResourceUpdate',
   components: {
     PreviousPage,
-    DatasetCard
+    ResourceCard
   },
   data () {
     return {
       isLoading: false,
-      getOperationId: 'get_dataset',
-      putOperationId: 'update_dataset',
-      datasetId: this.$route.params.id,
-      datasetsRequest: undefined,
-      dataset: undefined,
+      getOperationId: 'get_resource',
+      putOperationId: 'update_resource',
+      resourceId: this.$route.params.id,
+      resourceRequest: undefined,
+      resource: undefined,
       crumbs: [
         {
           text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: this.$t('basics.datasets', { list: '' }),
-          to: '/datasets'
+          text: this.$t('basics.resources', { list: '' }),
+          to: '/resources'
         },
         {
           text: '...', // this.$route.params.id,
@@ -81,7 +80,7 @@ export default {
     }
   },
   created () {
-    this.getDataset()
+    this.getResource()
   },
   watch: {},
   computed: {
@@ -90,17 +89,17 @@ export default {
     })
   },
   methods: {
-    getDataset () {
+    getResource () {
       const API = this.$APIcli
-      console.log('-V- DatasetUpdate > methods > getDataset > API :', API)
-      const params = { dataset: this.datasetId }
+      console.log('-V- ResourceUpdate > methods > getResource > API :', API)
+      const params = { id: this.resourceId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          console.log('-V- DatasetUpdate > methods > getDataset > results.body :', results.body)
-          this.datasetsRequest = results.url
-          this.dataset = results.body
-          const title = this.dataset.title.length > 25 ? this.dataset.title.slice(0, 25) + '...' : this.dataset.title
+          console.log('-V- ResourceUpdate > methods > getResource > results.body :', results.body)
+          this.resourceRequest = results.url
+          this.resource = results.body
+          const title = this.resource.title.length > 25 ? this.resource.title.slice(0, 25) + '...' : this.resource.title
           this.crumbs[2].text = title
           this.isLoading = false
         },

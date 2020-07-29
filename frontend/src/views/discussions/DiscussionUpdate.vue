@@ -12,7 +12,7 @@
       Discussion update
     </h2>
     <div>
-      from :
+      {{ $t('navigation.from') }} :
       <span v-if="discussionRequest">
         <a :href="discussionRequest" target="_blank">
           JSON
@@ -65,11 +65,11 @@ export default {
       discussion: undefined,
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Discussions',
+          text: this.$t('basics.discussions', { list: '' }),
           to: '/discussions'
         },
         {
