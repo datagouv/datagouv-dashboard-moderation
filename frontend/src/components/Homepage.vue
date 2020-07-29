@@ -11,8 +11,19 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+
 export default {
-  name: 'Homepage'
+  name: 'Homepage',
+  computed: {
+    ...mapState({
+      log: (state) => state.global.log,
+      userData: (state) => state.user.user
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
+    })
+  }
 }
 </script>
 
