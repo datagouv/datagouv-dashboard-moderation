@@ -2,12 +2,16 @@ import os
 import tempfile
 
 import pytest
+import dataset
+
+from src import create_app
 
 
 @pytest.fixture
 def app():
     """Creates a new app instance."""
     app = create_app()
+    app.testing = True
 
     return app
 
@@ -24,7 +28,7 @@ def db():
 
     db_fd, db_path = tempfile.mkstemp()
 
-    db = dataset.connect(db_path)
+    db = dataset.connect(f'sqlite:///{db_path}')
     table = db["mod_db"]
 
     yield table
