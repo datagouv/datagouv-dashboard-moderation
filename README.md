@@ -29,7 +29,7 @@ The development of this dashboard will be iterative, starting with a minimalisti
 ---
 ## Functional diagram
 
-![diagram](./docs/diagrams/TDB MODERATION DGF - diagram auth.png)
+![diagram](./docs/diagrams/TD_MODERATION_DGF-diagram_auth.png)
 
 ---
 ## Frontend : VueJS
