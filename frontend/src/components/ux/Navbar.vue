@@ -161,10 +161,10 @@
             to="/settings/profile">
             {{$t('settings.myProfile')}}
           </b-dropdown-item>
-          <b-dropdown-item
+          <!-- <b-dropdown-item
             to="/set-api-key">
             Set API key
-          </b-dropdown-item>
+          </b-dropdown-item> -->
           <b-dropdown-item
             v-if="isAuthenticated"
             @click="submitLogout()">
