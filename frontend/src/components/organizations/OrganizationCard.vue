@@ -31,7 +31,7 @@
           variant="primary"
           >
           <b-icon icon="pencil" aria-hidden="true"></b-icon>
-          edit
+          {{ $t('actions.edit') }}
         </b-button>
       </div>
 
@@ -60,7 +60,7 @@
             v-model="closeOrganization"
             name="checkbox-close-organization"
             >
-            Close organization
+            {{ $t('basics.organizations', {list: $t('actions.close')}) }}
           </b-form-checkbox>
 
           <hr>
@@ -68,11 +68,11 @@
           <div v-if="!isLoading">
             <b-button @click="edit=false" class="mx-2" variant="danger">
               <b-icon icon="x" aria-hidden="true"></b-icon>
-              cancel
+              {{ $t('actions.cancel') }}
             </b-button>
             <b-button type="submit" class="mx-2" variant="success">
               <b-icon icon="check2" aria-hidden="true"></b-icon>
-              comment
+              {{ $t('actions.comment') }}
             </b-button>
           </div>
           <div v-else>

@@ -8,30 +8,27 @@
     </b-breadcrumb>
 
     <h2>
-      Get your user data
+      {{$t('settings.getUserData')}}
     </h2>
 
-    <h3 v-if="isLoading">
+    <h3 v-if="isLoading" class="mt-3">
+      {{$t('actions.wait')}}<br>
       <b-spinner label="loading"></b-spinner>
     </h3>
 
-    redirection :
+    {{$t('basics.redirection')}}
     <code>
       {{redirection}}
     </code>
 
-    <!-- RESPONSE USER -->
     <b-card
       class="mt-3 mx-auto text-center"
       style="width: 600px;"
       v-if="!isLoading"
       >
-      <!-- user (component) :
-      <code>
-        {{user}}
-      </code> -->
       <hr>
-      user (store) :
+      {{$t('basics.user')}}
+      (store) :
       <code>
         {{userData}}
       </code>

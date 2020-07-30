@@ -8,7 +8,7 @@
     </b-breadcrumb>
 
     <h2>
-      Me
+      {{$t('settings.myProfile')}}
     </h2>
 
     <br>
@@ -19,7 +19,8 @@
       style="width: 600px;"
       >
       <hr>
-      user (store) :
+      {{$t('basics.user')}}
+      (store) :
       <code>
         {{userData}}
       </code>
@@ -32,8 +33,8 @@
       ></RawData>
 
       <RawData
-        :customClass="`mb-3`"
-        :see="true"
+        :customClass="`my-3`"
+        :see="false"
         title="user activity"
         :dataRaw="userActivity"
       ></RawData>

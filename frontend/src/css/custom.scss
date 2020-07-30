@@ -29,3 +29,11 @@ $info: $dgf-deep-blue;
 // Include Bootstrap and BootstrapVue SCSS files
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
+
+.pill-override > .btn {
+  border-radius: 50rem !important;
+}
+.white-override .btn {
+  color: white !important;
+  border-color: white !important;
+}

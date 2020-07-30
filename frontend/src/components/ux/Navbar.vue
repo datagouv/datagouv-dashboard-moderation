@@ -3,11 +3,12 @@
   <b-navbar
     fixed="top"
     sticky
-    toggleable="lg"
+    toggleable="xl"
     type="primary"
     variant="white"
     class="light-bottom-border"
     >
+
     <b-navbar-brand
       to="/"
       >
@@ -19,7 +20,12 @@
       {{ $t('navbar.title') }}
     </b-navbar-brand>
 
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <b-navbar-toggle target="nav-collapse" variant="outline-secondary">
+      <template v-slot:default="{ expanded }">
+        <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+        <b-icon v-else icon="chevron-bar-down"></b-icon>
+      </template>
+    </b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
 
@@ -168,6 +174,7 @@
 
       </b-navbar-nav>
     </b-collapse>
+
   </b-navbar>
 
 </template>

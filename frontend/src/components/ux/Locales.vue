@@ -94,13 +94,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .pill-override > .btn {
-    border-radius: 50rem !important;
-  }
-  .white-override .btn {
-    color: white !important;
-    border-color: white !important;
-  }
-</style>

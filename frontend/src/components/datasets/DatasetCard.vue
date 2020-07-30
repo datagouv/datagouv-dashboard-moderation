@@ -43,7 +43,7 @@
           <div class="mb-3">
             <b>
               {{ dataset.resources.length }}
-              resources
+              {{ $t('basics.resources', { list: '' }) }}
             </b>
           </div>
           <b-table
@@ -76,7 +76,7 @@
           variant="primary"
           >
           <b-icon icon="pencil" aria-hidden="true"></b-icon>
-          edit
+          {{ $t('actions.edit') }}
         </b-button>
       </div>
 
@@ -120,11 +120,11 @@
           <div v-if="!isLoading">
             <b-button @click="edit=false" class="mx-2" variant="danger">
               <b-icon icon="x" aria-hidden="true"></b-icon>
-              cancel
+              {{ $t('actions.cancel') }}
             </b-button>
             <b-button type="submit" class="mx-2" variant="success">
               <b-icon icon="check2" aria-hidden="true"></b-icon>
-              save
+              {{ $t('actions.save') }}
             </b-button>
           </div>
           <div v-else>
