@@ -29,6 +29,8 @@ The development of this dashboard will be iterative, starting with a minimalisti
 ---
 ## Functional diagram
 
+cf : [_link to diagram_](https://app.diagrams.net/#G1dCWjgiiqWmsns34L7TdQ6xX-Ml9CtzOn)
+
 ![diagram](./docs/diagrams/TD_MODERATION_DGF-diagram_auth.png)
 
 ---
@@ -39,8 +41,8 @@ The development of this dashboard will be iterative, starting with a minimalisti
 ### urls
 
 - https://moderation.app.etalab.studio/
-- [![Netlify Status](https://api.netlify.com/api/v1/badges/8fd5e0aa-46e3-448a-8112-c11c422df840/deploy-status)](https://app.netlify.com/sites/datagouv-tdb-moderation-demo/deploys)
- https://datagouv-tdb-moderation-demo.netlify.app/
+- https://datagouv-tdb-moderation-demo.netlify.app/ [![Netlify Status](https://api.netlify.com/api/v1/badges/8fd5e0aa-46e3-448a-8112-c11c422df840/deploy-status)](https://app.netlify.com/sites/datagouv-tdb-moderation-demo/deploys)
+
 
 ### changelog - [in folder](./frontend/CHANGELOG.md)
 
@@ -65,7 +67,7 @@ The development of this dashboard will be iterative, starting with a minimalisti
 
 ---
 
-### Development
+## Development
 
 Launch backend:
 
@@ -81,6 +83,7 @@ Launch frontend:
 
 ```
 cd frontend
+cp .envExample .env
 yarn
 yarn serve
 ```
