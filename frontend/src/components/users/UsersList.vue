@@ -87,7 +87,7 @@
       <template v-slot:cell(id)="data">
         <router-link
           class="text-info"
-          :to="`/user/${data.value}`"
+          :to="`/users/${data.value}`"
           >
           {{ data.value }}
         </router-link>
@@ -100,7 +100,7 @@
       <template v-slot:cell(name)="data">
         <router-link
           class="text-info"
-          :to="`/user/${data.item.id}`"
+          :to="`/users/${data.item.id}`"
           >
           <span>
             {{ data.item.first_name }} <b>{{ data.item.last_name.toUpperCase() }}</b>

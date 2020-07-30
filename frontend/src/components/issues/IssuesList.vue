@@ -90,7 +90,7 @@
       <template v-slot:cell(id)="data">
         <router-link
           class="text-info"
-          :to="`/issue/${data.value}`"
+          :to="`/issues/${data.value}`"
           >
           {{ data.value }}
         </router-link>
@@ -103,7 +103,7 @@
       <template v-slot:cell(title)="data">
         <router-link
           class="text-info"
-          :to="`/issue/${data.item.id}`"
+          :to="`/issues/${data.item.id}`"
           >
           <span>
             {{ data.item.title }}

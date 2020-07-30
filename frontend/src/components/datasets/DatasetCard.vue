@@ -23,7 +23,7 @@
         </b-card-text>
         <b-card-text v-if="dataset.owner">
           Owner :
-          <router-link :to="`/user/${dataset.owner.id}`">
+          <router-link :to="`/users/${dataset.owner.id}`">
             {{ datasetOwner }}
           </router-link>
         </b-card-text>

@@ -177,7 +177,7 @@ const routes = [
     }
   },
   {
-    path: '/user/:id',
+    path: '/users/:id',
     name: 'UserUpdate',
     component: () => import(/* webpackChunkName: "about" */ '../views/users/UserUpdate.vue'),
     meta: {
@@ -223,7 +223,7 @@ const routes = [
     }
   },
   {
-    path: '/issue/:id',
+    path: '/issues/:id',
     name: 'IssueUpdate',
     component: () => import(/* webpackChunkName: "about" */ '../views/issues/IssueUpdate.vue'),
     meta: {

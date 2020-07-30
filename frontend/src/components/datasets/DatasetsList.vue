@@ -95,7 +95,7 @@
       <template v-slot:cell(nameowner)="data">
         <router-link
           v-if="data.item.owner"
-          :to="`/user/${data.item.owner.id}`"
+          :to="`/users/${data.item.owner.id}`"
           >
           {{ data.item.owner.first_name }}
           <b>{{ data.item.owner.last_name.toUpperCase() }}</b>
