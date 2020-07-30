@@ -27,6 +27,11 @@ The main goals for this tool are :
 The development of this dashboard will be iterative, starting with a minimalistic version... We will keep a changelog file on both backend and frontend to keep a trace of the main evolutions.
 
 ---
+## Functional diagram
+
+![diagram](./docs/diagrams/TDB MODERATION DGF - diagram auth.png)
+
+---
 ## Frontend : VueJS
 
 ### documentation - [in folder](./frontend/README.md)
