@@ -4,7 +4,7 @@ import requests_mock
 from tests.conftest import RESPONSE_DICT, RESPONSE_DICT_NON_ADMIN
 
 
-def test_submit_token(client, app, db):
+def test_submit_token(client, app):
     with requests_mock.Mocker() as m:
         m.get('https://demo.data.gouv.fr/api/1/me/', json=RESPONSE_DICT)
         response = client.post(
@@ -16,7 +16,7 @@ def test_submit_token(client, app, db):
     assert 'Set-Cookie' in response.headers
 
 
-def test_submit_token_non_admin(client, app, db):
+def test_submit_token_non_admin(client, app):
     with requests_mock.Mocker() as m:
         m.get('https://demo.data.gouv.fr/api/1/me/', json=RESPONSE_DICT_NON_ADMIN)
         response = client.post(
@@ -27,7 +27,7 @@ def test_submit_token_non_admin(client, app, db):
     assert response.status_code == 403
 
 
-def test_submit_dataset_as_read(client, app, db, auth):
+def test_submit_dataset_as_read(client, app, auth):
     auth.login()
     response = client.post(
         '/api/datasets',
@@ -37,7 +37,7 @@ def test_submit_dataset_as_read(client, app, db, auth):
     assert response.status_code == 201
 
 
-def test_get_non_existent_dataset(client, app, db, auth):
+def test_get_non_existent_dataset(client, app, auth):
     auth.login()
     response = client.get(
         '/api/datasets/dumdatasetuid4test',
@@ -46,7 +46,7 @@ def test_get_non_existent_dataset(client, app, db, auth):
     assert response.status_code == 404
 
 
-def test_get_dataset(client, app, db, auth):
+def test_get_dataset(client, app, auth):
     auth.login()
 
     response = client.post(

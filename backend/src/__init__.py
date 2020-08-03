@@ -4,19 +4,23 @@ import dataset
 from flask import Flask
 from flask_cors import CORS
 
+from config import Config
 
+
+db = None
 cors = CORS(resources={r"/api/*": {"origins": "http://localhost:8080"}})
-db = dataset.connect(os.getenv('DATABASE_URL', 'sqlite:///data.db'))
-users_table = db["users"]
-datasets_table = db["datasets"]
 
 
-def create_app():
+def create_app(config_class=Config):
     app = Flask(__name__,
             static_folder="../../dist/static",
-            template_folder="../../dist")
+            template_folder="../../dist"
+            )
 
-    app.secret_key = 'yourwillneverguess'
+    app.config.from_object(config_class)
+
+    global db
+    db = dataset.connect(app.config['DATABASE_URL'])
     
     cors.init_app(app)
 

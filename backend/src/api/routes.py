@@ -2,7 +2,7 @@ import requests
 from marshmallow import Schema, fields, ValidationError
 from flask import jsonify, abort, request, session, make_response
 
-from src import users_table, datasets_table
+from src import db
 from src.api import bp
 from src.api.auth import login_required
 
@@ -36,9 +36,9 @@ def submit_token():
     if not 'admin' in user_data['roles']:
         return make_response(('Not enough priviledges', 403))
 
-    user = users_table.find_one(uid=user_data['id'])
+    user = db["users"].find_one(uid=user_data['id'])
     if user is None:
-        users_table.insert(dict(
+        db["users"].insert(dict(
             first_name=user_data['first_name'],
             last_name=user_data['last_name'],
             email=user_data['email'],
@@ -56,14 +56,14 @@ def mark_as_read(user):
         dataset = DatasetSchema().load(data)
     except ValidationError as err:
         return make_response((err.message, 400))
-    datasets_table.insert(dataset)
+    db["datasets"].insert(dataset)
     return make_response(('success', 201))
 
 
 @bp.route('/datasets/<dataset_id>', methods=['GET'])
 @login_required
 def get_dataset(user, dataset_id):
-    dataset = datasets_table.find_one(uid=dataset_id)
+    dataset = db["datasets"].find_one(uid=dataset_id)
     if dataset is None:
         return make_response(('Dataset not found', 404))
     schema = DatasetSchema()
