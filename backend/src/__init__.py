@@ -7,7 +7,8 @@ from flask_cors import CORS
 
 cors = CORS(resources={r"/api/*": {"origins": "http://localhost:8080"}})
 db = dataset.connect(os.getenv('DATABASE_URL', 'sqlite:///data.db'))
-table = db["mod_db"]
+users_table = db["users"]
+datasets_table = db["datasets"]
 
 
 def create_app():
@@ -19,7 +20,7 @@ def create_app():
     
     cors.init_app(app)
 
-    from app.main import bp as main_bp
+    from src.main import bp as main_bp
     app.register_blueprint(main_bp)
 
     from src.api import bp as api_bp
