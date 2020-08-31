@@ -83,7 +83,7 @@
         {{ data.index + 1 }}
       </template> -->
 
-      <template v-slot:cell(moderation_read)="row">
+      <template v-if="isAuthenticated" v-slot:cell(moderation_read)="row">
         <b-form align="center" inline>
           <b-button size="sm" @click="row.toggleDetails" class="mx-2">
             <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
@@ -94,7 +94,7 @@
         </b-form>
       </template>
 
-      <template v-slot:row-details="row">
+      <template v-if="isAuthenticated" v-slot:row-details="row">
         <b-card>
           <b-row class="mb-2">
             <b-col sm="3" class="text-sm-right"><b>
@@ -295,10 +295,11 @@ export default {
       if (this.isAuthenticated) {
         const newData = await Promise.all(dataset.data.map(async (obj) => {
           const readStatus = await this.$MODERATIONcli.getModeration(obj.id, 'datasets')
-          console.log('-C- DatasetsList > appendModerationData > readStatus :', readStatus)
+          // console.log('-C- DatasetsList > appendModerationData > readStatus :', readStatus)
           return { ...obj, read: readStatus.read }
         }))
         console.log('-C- DatasetsList > appendModerationData > newData :', newData)
+        dataset.data = newData
       }
       this.needsModerationData = false
       return dataset
