@@ -83,12 +83,23 @@
         {{ data.index + 1 }}
       </template> -->
 
-      <template v-if="isAuthenticated" v-slot:cell(moderation_read)="row">
-        <b-form align="center" inline>
-          <b-button size="sm" @click="row.toggleDetails" class="mx-2">
+      <template v-slot:cell(moderation_read)="row">
+        <b-form inline class="justify-content-center">
+          <b-button v-if="isAuthenticated" size="sm" @click="row.toggleDetails" class="mx-2">
             <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
           </b-button>
-          <b-form-checkbox v-model="row.item.read" @change="updateModeration(row.item)">
+          <b-form-checkbox
+            v-model="row.item.read"
+            v-if="isAuthenticated"
+            @change="updateModeration(row.item)"
+            >
+            {{ $t('moderation.read') }}
+          </b-form-checkbox>
+          <b-form-checkbox
+            v-else
+            disabled
+            v-model="row.item.read"
+            >
             {{ $t('moderation.read') }}
           </b-form-checkbox>
         </b-form>
@@ -365,6 +376,9 @@ export default {
 <style>
   .table > tbody > tr > td {
     vertical-align: middle;
+  }
+  .table > tbody > tr > th {
+    vertical-align: middle !important;
   }
   .table > thead > tr > th {
     vertical-align: middle !important;
