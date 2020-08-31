@@ -63,7 +63,10 @@ export default {
       console.log('-V- ResetAuthApiCli > created > authOptions :', authOptions)
       this.$APIcli.resetCli(authOptions)
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
-      // this.$router.push(this.redirection)
+
+      // log into moderation API here
+      await this.$MODERATIONcli.login(this.tokens.access.value)
+
       this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
       console.log('error', ex)

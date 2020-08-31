@@ -83,6 +83,33 @@
         {{ data.index + 1 }}
       </template> -->
 
+      <template v-slot:cell(moderation_read)="row">
+        <b-form align="center" inline>
+          <b-button size="sm" @click="row.toggleDetails" class="mx-2">
+            <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
+          </b-button>
+          <b-form-checkbox v-model="row.item.read" @change="updateModeration(row.item)">
+            {{ $t('moderation.read') }}
+          </b-form-checkbox>
+        </b-form>
+      </template>
+
+      <template v-slot:row-details="row">
+        <b-card>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>
+              {{ $t('moderation.read') }}:</b></b-col>
+            <b-col>{{ row.item.read }}</b-col>
+          </b-row>
+
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>
+              {{ $t('moderation.comments') }}:</b></b-col>
+            <b-col>{{ row.item.comments }}</b-col>
+          </b-row>
+        </b-card>
+      </template>
+
       <template v-slot:cell(title)="data">
         <router-link
           :to="`/datasets/${data.item.id}`"
@@ -119,6 +146,7 @@
       <template v-slot:cell(created)="data">
         <i>{{ formatDate(data.item.created_at, addTime = false) }}</i>
       </template>
+
       <template v-slot:cell(last_modified)="data">
         <i>{{ formatDate(data.value) }}</i>
       </template>
@@ -134,21 +162,25 @@
           {{ data.item.metrics.discussions }}
         </span>
       </template>
+
       <template v-slot:cell(followers)="data">
         <span>
           {{ data.item.metrics.followers }}
         </span>
       </template>
+
       <template v-slot:cell(issues)="data">
         <span>
           {{ data.item.metrics.issues }}
         </span>
       </template>
+
       <template v-slot:cell(reuses)="data">
         <span>
           {{ data.item.metrics.reuses }}
         </span>
       </template>
+
       <template v-slot:cell(views)="data">
         <span>
           {{ data.item.metrics.views }}
@@ -175,7 +207,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'DatasetsList',
@@ -192,6 +224,7 @@ export default {
       operationId: 'list_datasets',
       datasets: undefined,
       datasetsRequest: undefined,
+      needsModerationData: false,
       query: undefined,
       pagination: {
         page: 1,
@@ -216,6 +249,8 @@ export default {
       // ],
       fields: [
         // 'index',
+        { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
+        // { key: 'moderation', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'title', stickyColumn: true, isRowHeader: true, sortable: true },
         'acronym',
         { key: 'organizationlogo', label: 'Organization logo' },
@@ -237,12 +272,37 @@ export default {
     if (this.customFields) { this.fields = this.customFields }
     this.getDatasets()
   },
+  watch: {
+    async datasets (next) {
+      if (next && this.needsModerationData) {
+        console.log('-C- DatasetsList > watch > datasets > next :', next)
+        this.dataset = this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {
+    async appendModerationData (dataset) {
+      // TO DO (only if logged)
+      console.log('-C- DatasetsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
+      if (this.isAuthenticated) {
+        const newData = await Promise.all(dataset.data.map(async (obj) => {
+          const readStatus = await this.$MODERATIONcli.getModeration(obj.id, 'datasets')
+          console.log('-C- DatasetsList > appendModerationData > readStatus :', readStatus)
+          return { ...obj, read: readStatus.read }
+        }))
+        console.log('-C- DatasetsList > appendModerationData > newData :', newData)
+      }
+      this.needsModerationData = false
+      return dataset
+    },
     getDatasets (resetPage) {
       this.isLoading = true
       const params = {
@@ -257,12 +317,26 @@ export default {
           // console.log('-C- DatasetsList > created > results :', results)
           console.log('-C- DatasetsList > created > results.body :', results.body)
           this.datasetsRequest = results.url
+
           this.datasets = results.body
+          this.needsModerationData = true
+
           this.pagination.totalItems = results.body.total
           this.isLoading = false
         },
         reason => console.error(`-C- DatasetsList > failed on api call: ${reason}`)
       )
+    },
+    updateModeration (item) {
+      // TO DO
+      console.log('-C- DatasetsList > updateModeration > item : ', item)
+      const itemModerationData = {
+        uid: item.id,
+        read: item.read
+      }
+      console.log('-C- DatasetsList > updateModeration > itemModerationData : ', itemModerationData)
+      // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'datasets')
+      // console.log('-C- DatasetsList > updateModeration > updatedItem : ', updatedItem)
     },
     resetQuery () {
       this.query = undefined

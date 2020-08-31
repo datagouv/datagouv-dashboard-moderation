@@ -17,6 +17,8 @@ import './css/custom.scss'
 
 import Formats from './plugins/formats.js'
 
+import MODERATIONcli from './plugins/apiModeration.js'
+
 // import APIcli from '@julpy/swag-wrap'
 import APIcli from './plugins/apiClient.js'
 
@@ -24,6 +26,12 @@ import APIcli from './plugins/apiClient.js'
 import OAUTHcli from './plugins/apiAuth.js'
 
 const isDevMode = Boolean(process.env.VUE_APP_DEV_MODE)
+
+const moderationOptions = {
+  storeModuleName: 'moderation',
+  moderationServer: process.env.VUE_APP_MODERATION_API
+}
+console.log('... moderationOptions : ', moderationOptions)
 
 const swagWrapOptions = {
   registerApiStore: true,
@@ -56,6 +64,9 @@ Vue.use(BootstrapVueIcons)
 
 // use Formats custom plugin
 Vue.use(Formats, {})
+
+// use MODERATIONcli plugin
+Vue.use(MODERATIONcli, moderationOptions, store)
 
 // use APIcli plugin
 Vue.use(APIcli, swagWrapOptions, store)

@@ -30,7 +30,7 @@
       class="my-3"
       >
 
-      <b-col cols="8" md="6">
+      <b-col cols="10" md="6">
         <b-input-group>
           <b-input-group-prepend is-text>
             <b-icon icon="search"></b-icon>
@@ -79,6 +79,33 @@
       :sort-desc.sync="pagination.sortDesc"
       >
 
+      <template v-slot:cell(moderation_read)="row">
+        <b-form align="center" inline>
+          <b-button size="sm" @click="row.toggleDetails" class="mx-2">
+            <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
+          </b-button>
+          <b-form-checkbox v-model="row.item.read" @change="updateModeration(row.item)">
+            {{ $t('moderation.read') }}
+          </b-form-checkbox>
+        </b-form>
+      </template>
+
+      <template v-slot:row-details="row">
+        <b-card>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>
+              {{ $t('moderation.read') }}:</b></b-col>
+            <b-col>{{ row.item.read }}</b-col>
+          </b-row>
+
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>
+              {{ $t('moderation.comments') }}:</b></b-col>
+            <b-col>{{ row.item.comments }}</b-col>
+          </b-row>
+        </b-card>
+      </template>
+
       <template v-slot:cell(created_at)="data">
         <i>{{ formatDate(data.value, addTime = false) }}</i>
       </template>
@@ -123,7 +150,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'OrganizationsList',
@@ -140,6 +167,7 @@ export default {
       operationId: 'list_organizations',
       organizations: undefined,
       organizationsRequest: undefined,
+      needsModerationData: false,
       query: undefined,
       pagination: {
         page: 1,
@@ -166,6 +194,7 @@ export default {
       // ],
       fields: [
         // 'index',
+        { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'organizationlogo', label: 'logo' },
         { key: 'name', label: 'name', stickyColumn: true, isRowHeader: true },
         { key: 'description' },
@@ -182,6 +211,9 @@ export default {
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {
@@ -199,11 +231,23 @@ export default {
           console.log('-C- OrganizationsList > created > results.body :', results.body)
           this.organizationsRequest = results.url
           this.organizations = results.body
+          this.needsModerationData = true
           this.pagination.totalItems = results.body.total
           this.isLoading = false
         },
         reason => console.error(`-C- OrganizationsList > failed on api call: ${reason}`)
       )
+    },
+    updateModeration (item) {
+      // TO DO
+      console.log('-C- OrganizationsList > updateModeration > item : ', item)
+      const itemModerationData = {
+        uid: item.id,
+        read: item.read
+      }
+      console.log('-C- OrganizationsList > updateModeration > itemModerationData : ', itemModerationData)
+      // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'organizations')
+      // console.log('-C- OrganizationsList > updateModeration > updatedItem : ', updatedItem)
     },
     resetQuery () {
       this.query = undefined

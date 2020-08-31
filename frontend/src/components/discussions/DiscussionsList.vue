@@ -83,6 +83,33 @@
         {{ data.index + 1 }}
       </template> -->
 
+      <template v-slot:cell(moderation_read)="row">
+        <b-form align="center" inline>
+          <b-button size="sm" @click="row.toggleDetails" class="mx-2">
+            <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
+          </b-button>
+          <b-form-checkbox v-model="row.item.read" @change="updateModeration(row.item)">
+            {{ $t('moderation.read') }}
+          </b-form-checkbox>
+        </b-form>
+      </template>
+
+      <template v-slot:row-details="row">
+        <b-card>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>
+              {{ $t('moderation.read') }}:</b></b-col>
+            <b-col>{{ row.item.read }}</b-col>
+          </b-row>
+
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>
+              {{ $t('moderation.comments') }}:</b></b-col>
+            <b-col>{{ row.item.comments }}</b-col>
+          </b-row>
+        </b-card>
+      </template>
+
       <template v-slot:cell(discussion)="data">
         {{ data.item.discussion.length }}
       </template>
@@ -131,7 +158,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'DiscussionsList',
@@ -148,6 +175,7 @@ export default {
       operationId: 'list_discussions',
       discussions: undefined,
       discussionsRequest: undefined,
+      needsModerationData: false,
       query: undefined,
       pagination: {
         page: 1,
@@ -158,6 +186,7 @@ export default {
       },
       fields: [
         // 'index',
+        { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
         { key: 'discussion', label: 'number of discussions', sortable: true },
         { key: 'subject', label: 'related to' },
@@ -174,6 +203,9 @@ export default {
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {
@@ -191,11 +223,23 @@ export default {
           console.log('-C- DiscussionsList > created > results.body :', results.body)
           this.discussionsRequest = results.url
           this.discussions = results.body
+          this.needsModerationData = true
           this.pagination.totalItems = results.body.total
           this.isLoading = false
         },
         reason => console.error(`-C- DiscussionsList > failed on api call: ${reason}`)
       )
+    },
+    updateModeration (item) {
+      // TO DO
+      console.log('-C- DiscussionsList > updateModeration > item : ', item)
+      const itemModerationData = {
+        uid: item.id,
+        read: item.read
+      }
+      console.log('-C- DiscussionsList > updateModeration > itemModerationData : ', itemModerationData)
+      // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'discussions')
+      // console.log('-C- DiscussionsList > updateModeration > updatedItem : ', updatedItem)
     },
     resetQuery () {
       this.query = undefined

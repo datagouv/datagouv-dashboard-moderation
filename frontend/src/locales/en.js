@@ -32,7 +32,9 @@ const translations = {
       resources_community: 'community ressources{list}',
       settings: 'settings',
       activity: 'activity',
-      profile: 'profile'
+      profile: 'profile',
+      details: 'détails',
+      detailsOf: 'the details de {suffix}'
     },
     settings: {
       getUserData: 'getting your user data ...',
@@ -47,7 +49,14 @@ const translations = {
       comment: 'comment',
       close: 'close',
       cancel: 'cancel',
+      show: 'show',
+      hide: 'hide',
       wait: 'please wait'
+    },
+    moderation: {
+      read: 'read',
+      comments: 'comments',
+      moderation: '{prefix}moderation'
     },
     model: {
       created: 'created',

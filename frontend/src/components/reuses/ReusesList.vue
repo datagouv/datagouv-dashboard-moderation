@@ -79,6 +79,33 @@
       :sort-desc.sync="pagination.sortDesc"
       >
 
+      <template v-slot:cell(moderation_read)="row">
+        <b-form align="center" inline>
+          <b-button size="sm" @click="row.toggleDetails" class="mx-2">
+            <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
+          </b-button>
+          <b-form-checkbox v-model="row.item.read" @change="updateModeration(row.item)">
+            {{ $t('moderation.read') }}
+          </b-form-checkbox>
+        </b-form>
+      </template>
+
+      <template v-slot:row-details="row">
+        <b-card>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>
+              {{ $t('moderation.read') }}:</b></b-col>
+            <b-col>{{ row.item.read }}</b-col>
+          </b-row>
+
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>
+              {{ $t('moderation.comments') }}:</b></b-col>
+            <b-col>{{ row.item.comments }}</b-col>
+          </b-row>
+        </b-card>
+      </template>
+
       <template v-slot:cell(id)="data">
         <router-link
           class="text-info"
@@ -123,7 +150,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'ReusesList',
@@ -140,6 +167,7 @@ export default {
       operationId: 'list_reuses',
       reuses: undefined,
       reusesRequest: undefined,
+      needsModerationData: false,
       query: undefined,
       pagination: {
         page: 1,
@@ -150,6 +178,7 @@ export default {
       },
       fields: [
         // 'index',
+        { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'imagethumbnail', label: 'image' },
         { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
         'description',
@@ -166,6 +195,9 @@ export default {
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {
@@ -183,11 +215,23 @@ export default {
           console.log('-C- ReusesList > created > results.body :', results.body)
           this.reusesRequest = results.url
           this.reuses = results.body
+          this.needsModerationData = true
           this.pagination.totalItems = results.body.total
           this.isLoading = false
         },
         reason => console.error(`-C- ReusesList > failed on api call: ${reason}`)
       )
+    },
+    updateModeration (item) {
+      // TO DO
+      console.log('-C- ReusesList > updateModeration > item : ', item)
+      const itemModerationData = {
+        uid: item.id,
+        read: item.read
+      }
+      console.log('-C- ReusesList > updateModeration > itemModerationData : ', itemModerationData)
+      // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'resources')
+      // console.log('-C- ReusesList > updateModeration > updatedItem : ', updatedItem)
     },
     resetQuery () {
       this.query = undefined

@@ -115,7 +115,10 @@ export default {
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
 
       console.log('-V- LOGIN > created > this.$APIcli.specAndAuth.authorizationHeader :', this.$APIcli.specAndAuth.authorizationHeader)
-      // this.$router.push(this.redirection)
+
+      // log into moderation API
+      await this.$MODERATIONcli.login(this.tokens.access.value)
+
       this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
       console.log('error', ex)

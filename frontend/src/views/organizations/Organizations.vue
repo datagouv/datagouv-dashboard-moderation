@@ -18,7 +18,7 @@
     <!-- DISPLAY DISCUSSIONS IN TABLE -->
     <OrganizationsList
       height="800px"
-      width="900px"
+      width="1200px"
       >
     </OrganizationsList>
 

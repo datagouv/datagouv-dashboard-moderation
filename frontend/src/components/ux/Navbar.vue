@@ -220,6 +220,10 @@ export default {
       console.log('\n-C- NAVBAR > submitLogout ...')
       this.isLoading = true
       await this.$OAUTHcli.logout()
+
+      // TO DO => logout from moderation API
+      // await this.$MODERATIONcli.logout()
+
       this.$store.commit('user/resetUser')
       this.isLoading = false
       console.log('-C- NAVBAR > submitLogout > this.$router : ', this.$router)
