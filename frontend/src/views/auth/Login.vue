@@ -7,9 +7,6 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <h1>Naked vue data.gouv.fr</h1>
-    <p>... so sexy ...</p>
-
     <h2>
       Login
     </h2>

@@ -50,7 +50,7 @@
         </b-input-group>
       </b-col>
 
-      <b-col
+      <b-col cols="3" md="5"
         v-if="discussions && pagination.totalItems > pagination.pageSize"
         class="my-2"
         >
@@ -64,6 +64,15 @@
           size="sm"
         ></b-pagination>
       </b-col>
+
+      <b-col cols="1">
+        <b-button
+          variant="outline-danger"
+          >
+          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+        </b-button>
+      </b-col>
+
     </b-row>
 
     <b-table
@@ -78,17 +87,41 @@
       :sort-desc.sync="pagination.sortDesc"
       >
 
-      <!-- A virtual column -->
-      <!-- <template v-slot:cell(index)="data">
-        {{ data.index + 1 }}
-      </template> -->
+      <template v-slot:cell(delete_batch)="data">
+        <b-form inline class="justify-content-center">
+          <b-form-checkbox
+            v-if="isAuthenticated"
+            @change="addToDeleteSelection(data.item)"
+            button button-variant="outline-danger"
+            >
+            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+          </b-form-checkbox>
+          <b-form-checkbox
+            v-else
+            disabled
+            >
+            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+          </b-form-checkbox>
+        </b-form>
+      </template>
 
       <template v-slot:cell(moderation_read)="row">
-        <b-form align="center" inline>
-          <b-button size="sm" @click="row.toggleDetails" class="mx-2">
+        <b-form inline class="justify-content-center">
+          <b-button v-if="isAuthenticated" size="sm" @click="row.toggleDetails" class="mx-2">
             <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
           </b-button>
-          <b-form-checkbox v-model="row.item.read" @change="updateModeration(row.item)">
+          <b-form-checkbox
+            v-model="row.item.read"
+            v-if="isAuthenticated"
+            @change="updateModeration(row.item)"
+            >
+            {{ $t('moderation.read') }}
+          </b-form-checkbox>
+          <b-form-checkbox
+            v-else
+            disabled
+            v-model="row.item.read"
+            >
             {{ $t('moderation.read') }}
           </b-form-checkbox>
         </b-form>
@@ -175,6 +208,7 @@ export default {
       operationId: 'list_discussions',
       discussions: undefined,
       discussionsRequest: undefined,
+      selectionToDelete: new Map(),
       needsModerationData: false,
       query: undefined,
       pagination: {
@@ -241,6 +275,19 @@ export default {
       // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'discussions')
       // console.log('-C- DiscussionsList > updateModeration > updatedItem : ', updatedItem)
     },
+    addToDeleteSelection (item) {
+      console.log('-C- DiscussionsList > addToDeleteSelection > item : ', item)
+      if (this.selectionToDelete.has(item.id)) {
+        this.selectionToDelete.delete(item.id, item.title)
+      } else {
+        this.selectionToDelete.set(item.id, item.title)
+      }
+      console.log('-C- DiscussionsList > addToDeleteSelection > this.selectionToDelete : ', this.selectionToDelete)
+    },
+    deleteSelection () {
+      // TO DO
+      console.log('-C- DiscussionsList > deleteSelection > this.selectionToDelete : ', this.selectionToDelete)
+    },
     resetQuery () {
       this.query = undefined
       this.getDiscussions(true)
@@ -267,6 +314,9 @@ export default {
 <style>
   .table > tbody > tr > td {
     vertical-align: middle;
+  }
+  .table > tbody > tr > th {
+    vertical-align: middle !important;
   }
   .table > thead > tr > th {
     vertical-align: middle !important;
