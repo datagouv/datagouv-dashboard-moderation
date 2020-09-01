@@ -50,7 +50,7 @@
         </b-input-group>
       </b-col>
 
-      <b-col
+      <b-col cols="3" md="5"
         v-if="organizations && pagination.totalItems > pagination.pageSize"
         class="my-2"
         >
@@ -63,6 +63,14 @@
           align="center"
           size="sm"
         ></b-pagination>
+      </b-col>
+
+      <b-col cols="1">
+        <b-button
+          variant="outline-danger"
+          >
+          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+        </b-button>
       </b-col>
 
     </b-row>
@@ -78,6 +86,42 @@
       :sort-by.sync="pagination.sortBy"
       :sort-desc.sync="pagination.sortDesc"
       >
+
+      <template v-slot:cell(delete_batch)="data">
+        <b-form inline class="justify-content-center">
+          <b-form-checkbox
+            v-if="isAuthenticated"
+            @change="addToDeleteSelection(data.item)"
+            button button-variant="outline-danger"
+            >
+            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+          </b-form-checkbox>
+          <b-form-checkbox
+            v-else
+            disabled
+            >
+            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+          </b-form-checkbox>
+        </b-form>
+      </template>
+
+      <template v-slot:cell(delete_batch)="data">
+        <b-form inline class="justify-content-center">
+          <b-form-checkbox
+            v-if="isAuthenticated"
+            @change="addToDeleteSelection(data.item)"
+            button button-variant="outline-danger"
+            >
+            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+          </b-form-checkbox>
+          <b-form-checkbox
+            v-else
+            disabled
+            >
+            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+          </b-form-checkbox>
+        </b-form>
+      </template>
 
       <template v-slot:cell(moderation_read)="row">
         <b-form inline class="justify-content-center">
@@ -178,6 +222,7 @@ export default {
       operationId: 'list_organizations',
       organizations: undefined,
       organizationsRequest: undefined,
+      selectionToDelete: new Map(),
       needsModerationData: false,
       query: undefined,
       pagination: {
@@ -259,6 +304,19 @@ export default {
       console.log('-C- OrganizationsList > updateModeration > itemModerationData : ', itemModerationData)
       // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'organizations')
       // console.log('-C- OrganizationsList > updateModeration > updatedItem : ', updatedItem)
+    },
+    addToDeleteSelection (item) {
+      console.log('-C- OrganizationsList > addToDeleteSelection > item : ', item)
+      if (this.selectionToDelete.has(item.id)) {
+        this.selectionToDelete.delete(item.id, item.title)
+      } else {
+        this.selectionToDelete.set(item.id, item.title)
+      }
+      console.log('-C- OrganizationsList > addToDeleteSelection > this.selectionToDelete : ', this.selectionToDelete)
+    },
+    deleteSelection () {
+      // TO DO
+      console.log('-C- OrganizationsList > deleteSelection > this.selectionToDelete : ', this.selectionToDelete)
     },
     resetQuery () {
       this.query = undefined

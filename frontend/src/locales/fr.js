@@ -49,6 +49,7 @@ const translations = {
       comment: 'commenter',
       close: 'fermer',
       cancel: 'annuler',
+      delete: 'supprimer',
       show: 'montrer',
       hide: 'cacher',
       wait: 'merci de patienter'

@@ -49,7 +49,7 @@
         </b-input-group>
       </b-col>
 
-      <b-col
+      <b-col cols="3" md="5"
         v-if="users && pagination.totalItems > pagination.pageSize"
         class="my-2"
         >
@@ -62,6 +62,14 @@
           align="center"
           size="sm"
         ></b-pagination>
+      </b-col>
+
+      <b-col cols="1">
+        <b-button
+          variant="outline-danger"
+          >
+          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+        </b-button>
       </b-col>
 
     </b-row>
