@@ -32,6 +32,7 @@ const translations = {
       resources_community: 'community ressources{list}',
       settings: 'settings',
       activity: 'activity',
+      infos: 'infos',
       profile: 'profile',
       details: 'détails',
       detailsOf: 'the details de {suffix}'
@@ -44,6 +45,8 @@ const translations = {
       logOut: 'log out'
     },
     actions: {
+      actions: 'actions',
+      select: 'select',
       edit: 'edit',
       save: 'save',
       comment: 'comment',
@@ -57,7 +60,9 @@ const translations = {
     moderation: {
       read: 'read',
       comments: 'comments',
-      moderation: '{prefix}moderation'
+      moderation: '{prefix}moderation',
+      markAsRead: 'mark as read',
+      markAsSuspect: 'mark as suspect'
     },
     model: {
       created: 'created',

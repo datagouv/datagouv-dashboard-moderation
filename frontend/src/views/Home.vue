@@ -182,7 +182,8 @@ export default {
       siteRequest: undefined,
       customFields: {
         datasets: [
-          { key: 'delete_batch', label: 'Delete', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
           { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'created', label: 'Created at', sortable: true },
           { key: 'title', stickyColumn: true, isRowHeader: true },
@@ -196,21 +197,24 @@ export default {
           { key: 'issues', label: 'Issues' }
         ],
         resourcesCommunity: [
-          { key: 'delete_batch', label: 'Delete', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
           { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
           { key: 'created_at', label: 'created at', sortable: true },
           'id'
         ],
         reuses: [
-          { key: 'delete_batch', label: 'Delete', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
           { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'imagethumbnail', label: 'image' },
           { key: 'created_at', label: 'created at', sortable: true },
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true }
         ],
         discussions: [
-          { key: 'delete_batch', label: 'Delete', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
           { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'created', label: 'created at', sortable: true },
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
@@ -218,7 +222,8 @@ export default {
           { key: 'subject', label: 'related to' }
         ],
         issues: [
-          { key: 'delete_batch', label: 'Delete', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
           { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'created', label: 'created at', sortable: true },
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
@@ -226,7 +231,8 @@ export default {
           { key: 'subject', label: 'related to' }
         ],
         users: [
-          { key: 'delete_batch', label: 'Delete', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
           { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'since', label: 'exists since', sortable: true },
           { key: 'name', label: 'Full Name', stickyColumn: true, isRowHeader: true, sortable: true },
@@ -236,7 +242,8 @@ export default {
           { key: 'reuses', label: 'reuses', sortable: true }
         ],
         organizations: [
-          { key: 'delete_batch', label: 'Delete', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
+          { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
           { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'created_at', label: 'created at', sortable: true },
           { key: 'organizationlogo', label: 'logo' },

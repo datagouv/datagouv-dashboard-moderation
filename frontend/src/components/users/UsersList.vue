@@ -66,7 +66,9 @@
 
       <b-col cols="1">
         <b-button
-          variant="outline-danger"
+          :variant="isAuthenticated ? 'outline-danger' : 'outline-secondary'"
+          :disabled="!isAuthenticated"
+          @click="isAuthenticated && deleteSelection()"
           >
           <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
         </b-button>
@@ -86,16 +88,53 @@
       :sort-desc.sync="pagination.sortDesc"
       >
 
-      <!-- A virtual column -->
-      <!-- <template v-slot:cell(index)="data">
-        {{ data.index + 1 }}
-      </template> -->
+      <template v-slot:cell(selection)="data">
+        <b-form inline class="justify-content-center">
+          <b-form-checkbox
+            v-if="isAuthenticated"
+            @change="addToDeleteSelection(data.item)"
+            button button-variant="outline-danger"
+            >
+            <b-icon
+              :icon="`${itemsSelection.has(data.item.id) ? 'check-' : ''}square`"
+              aria-hidden="true"></b-icon>
+              <!-- <code>{{data.item.id}}</code> -->
+          </b-form-checkbox>
+          <b-form-checkbox
+            v-else
+            disabled
+            >
+            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+          </b-form-checkbox>
+        </b-form>
+      </template>
+
+      <template v-slot:cell(moderation)="row">
+        <b-button
+          v-if="isAuthenticated"
+          size="sm"
+          @click="row.toggleDetails" class="mx-2">
+          <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
+        </b-button>
+      </template>
+
+      <template v-if="isAuthenticated" v-slot:row-details="row">
+        <b-card>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>
+              {{ $t('moderation.read') }}:</b></b-col>
+            <b-col>{{ row.item.read }}</b-col>
+          </b-row>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>
+              {{ $t('moderation.comments') }}:</b></b-col>
+            <b-col>{{ row.item.comments }}</b-col>
+          </b-row>
+        </b-card>
+      </template>
 
       <template v-slot:cell(moderation_read)="row">
         <b-form inline class="justify-content-center">
-          <b-button v-if="isAuthenticated" size="sm" @click="row.toggleDetails" class="mx-2">
-            <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
-          </b-button>
           <b-form-checkbox
             v-model="row.item.read"
             v-if="isAuthenticated"
@@ -111,22 +150,6 @@
             {{ $t('moderation.read') }}
           </b-form-checkbox>
         </b-form>
-      </template>
-
-      <template v-slot:row-details="row">
-        <b-card>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>
-              {{ $t('moderation.read') }}:</b></b-col>
-            <b-col>{{ row.item.read }}</b-col>
-          </b-row>
-
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>
-              {{ $t('moderation.comments') }}:</b></b-col>
-            <b-col>{{ row.item.comments }}</b-col>
-          </b-row>
-        </b-card>
       </template>
 
       <!-- A custom formatted column -->
@@ -206,7 +229,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'UsersList',
@@ -223,6 +246,7 @@ export default {
       operationId: 'list_users',
       users: undefined,
       usersRequest: undefined,
+      itemsSelection: new Map(),
       query: undefined,
       pagination: {
         page: 1,
@@ -249,6 +273,8 @@ export default {
       // ],
       fields: [
         // 'index',
+        { key: 'selection', label: 'Delete', stickyColumn: true, isRowHeader: true, sortable: false },
+        { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
         { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'avatarthumbnail', label: 'avatar' },
         { key: 'name', label: 'Full Name', stickyColumn: true, isRowHeader: true, sortable: true },
@@ -271,6 +297,9 @@ export default {
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {
@@ -304,6 +333,19 @@ export default {
       console.log('-C- UsersList > updateModeration > itemModerationData : ', itemModerationData)
       // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'users')
       // console.log('-C- UsersList > updateModeration > updatedItem : ', updatedItem)
+    },
+    addToDeleteSelection (item) {
+      console.log('-C- UsersList > addToDeleteSelection > item : ', item)
+      if (this.itemsSelection.has(item.id)) {
+        this.itemsSelection.delete(item.id, item.title)
+      } else {
+        this.itemsSelection.set(item.id, item.title)
+      }
+      console.log('-C- UsersList > addToDeleteSelection > this.itemsSelection : ', this.itemsSelection)
+    },
+    deleteSelection () {
+      // TO DO
+      console.log('-C- UsersList > deleteSelection > this.itemsSelection : ', this.itemsSelection)
     },
     resetQuery () {
       this.query = undefined

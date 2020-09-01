@@ -13,6 +13,8 @@
       </b-badge>
     </p>
 
+    <code>{{itemsSelection}}</code>
+
     <p><slot name="link" class="mb-3"></slot></p>
     <div class="mb-2">
       {{ $t('navigation.from') }} :
@@ -31,7 +33,7 @@
       class="my-3"
       >
 
-      <b-col cols="8" md="6">
+      <b-col cols="7" md="5">
         <b-input-group>
           <b-input-group-prepend is-text>
             <b-icon icon="search"></b-icon>
@@ -54,7 +56,6 @@
       <b-col cols="3" md="5"
         v-if="datasets && pagination.totalItems > pagination.pageSize"
         class=""
-        @click="deleteSelection()"
         >
         <b-pagination
           @input="changePagination"
@@ -67,12 +68,39 @@
         ></b-pagination>
       </b-col>
 
-      <b-col cols="1">
-        <b-button
-          variant="outline-danger"
+      <b-col cols="2">
+        <b-dropdown
+          right
+          block
+          size="sm"
+          :variant="isAuthenticated ? 'outline-primary' : 'outline-secondary'"
+          :disabled="!isAuthenticated"
+          :text="$t('actions.actions')"
+          class="m-2"
           >
-          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-        </b-button>
+          <b-dropdown-item-button
+            :disabled="itemsSelection.size === 0"
+            @click="isAuthenticated && markSelection('read')"
+            >
+            <b-icon icon="check2-square" aria-hidden="true"></b-icon>
+            {{$t('moderation.markAsRead')}}
+          </b-dropdown-item-button>
+          <b-dropdown-item-button
+            :disabled="itemsSelection.size === 0"
+            @click="isAuthenticated && markSelection('suspect')"
+            >
+            <b-icon icon="exclamation-triangle-fill" aria-hidden="true"></b-icon>
+            {{$t('moderation.markAsSuspect')}}
+          </b-dropdown-item-button>
+          <b-dropdown-divider></b-dropdown-divider>
+          <b-dropdown-item-button
+            :disabled="itemsSelection.size === 0"
+            @click="isAuthenticated && deleteSelection()"
+            >
+            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+            {{$t('actions.delete')}}
+          </b-dropdown-item-button>
+        </b-dropdown>
       </b-col>
 
     </b-row>
@@ -89,48 +117,31 @@
       :sort-desc.sync="pagination.sortDesc"
       >
 
-      <template v-slot:cell(delete_batch)="data">
+      <template v-slot:cell(selection)="data">
         <b-form inline class="justify-content-center">
-          <b-form-checkbox
-            v-if="isAuthenticated"
-            @change="addToDeleteSelection(data.item)"
-            button button-variant="outline-danger"
+          <b-button
+            :disabled="!isAuthenticated"
+            @click="changeSelection(data.item)"
+            button
+            variant="link"
             >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-            <!-- <code>{{data.item.id}}</code> -->
-          </b-form-checkbox>
-          <b-form-checkbox
-            v-else
-            disabled
-            >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          </b-form-checkbox>
+            <b-icon
+              :icon="`${isSelected(data.item) ? 'check2-' : ''}square`"
+              :variant="`${isSelected(data.item)? 'primary' : ''}`"
+              aria-hidden="true"
+              >
+            </b-icon>
+          </b-button>
         </b-form>
       </template>
 
-      <template v-slot:cell(moderation_read)="row">
-        <b-form inline class="justify-content-center">
-          <b-button
-            v-if="isAuthenticated"
-            size="sm"
-            @click="row.toggleDetails" class="mx-2">
-            <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
-          </b-button>
-          <b-form-checkbox
-            v-model="row.item.read"
-            v-if="isAuthenticated"
-            @change="updateModeration(row.item)"
-            >
-            {{ $t('moderation.read') }}
-          </b-form-checkbox>
-          <b-form-checkbox
-            v-else
-            disabled
-            v-model="row.item.read"
-            >
-            {{ $t('moderation.read') }}
-          </b-form-checkbox>
-        </b-form>
+      <template v-slot:cell(moderation)="row">
+        <b-button
+          v-if="isAuthenticated"
+          size="sm"
+          @click="row.toggleDetails" class="mx-2">
+          <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
+        </b-button>
       </template>
 
       <template v-if="isAuthenticated" v-slot:row-details="row">
@@ -146,6 +157,25 @@
             <b-col>{{ row.item.comments }}</b-col>
           </b-row>
         </b-card>
+      </template>
+
+      <template v-slot:cell(moderation_read)="row">
+        <b-form inline class="justify-content-center">
+          <b-form-checkbox
+            v-model="row.item.read"
+            v-if="isAuthenticated"
+            @change="updateModeration(row.item)"
+            >
+            {{ $t('moderation.read') }}
+          </b-form-checkbox>
+          <b-form-checkbox
+            v-else
+            disabled
+            v-model="row.item.read"
+            >
+            {{ $t('moderation.read') }}
+          </b-form-checkbox>
+        </b-form>
       </template>
 
       <template v-slot:cell(title)="data">
@@ -262,7 +292,8 @@ export default {
       operationId: 'list_datasets',
       datasets: undefined,
       datasetsRequest: undefined,
-      selectionToDelete: new Map(),
+      // itemsSelection: new Map(),
+      itemsSelection: [],
       needsModerationData: false,
       query: undefined,
       pagination: {
@@ -288,8 +319,9 @@ export default {
       // ],
       fields: [
         // 'index',
-        { key: 'delete_batch', label: 'Delete', stickyColumn: true, isRowHeader: true, sortable: false },
-        { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
+        { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true },
+        { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
+        { key: 'moderation_read', label: 'Read', stickyColumn: true, isRowHeader: true, sortable: true },
         // { key: 'moderation', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'title', stickyColumn: true, isRowHeader: true, sortable: true },
         'acronym',
@@ -310,7 +342,6 @@ export default {
   created () {
     console.log('-C- DatasetsList > created ... ')
     if (this.customFields) { this.fields = this.customFields }
-    // this.selectionToDelete = new Map()
     this.getDatasets()
   },
   watch: {
@@ -380,18 +411,17 @@ export default {
       // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'datasets')
       // console.log('-C- DatasetsList > updateModeration > updatedItem : ', updatedItem)
     },
-    addToDeleteSelection (item) {
-      console.log('-C- DatasetsList > addToDeleteSelection > item : ', item)
-      if (this.selectionToDelete.has(item.id)) {
-        this.selectionToDelete.delete(item.id, item.title)
-      } else {
-        this.selectionToDelete.set(item.id, item.title)
+    changeSelection (item) {
+      if (this.isAuthenticated) {
+        this.itemsSelection = this.$changeSelection(this.itemsSelection, item.id)
       }
-      console.log('-C- DatasetsList > addToDeleteSelection > this.selectionToDelete : ', this.selectionToDelete)
+    },
+    isSelected (item) {
+      return this.itemsSelection.includes(item.id)
     },
     deleteSelection () {
       // TO DO
-      console.log('-C- DatasetsList > deleteSelection > this.selectionToDelete : ', this.selectionToDelete)
+      console.log('-C- DatasetsList > deleteSelection > this.itemsSelection : ', this.itemsSelection)
     },
     resetQuery () {
       this.query = undefined
