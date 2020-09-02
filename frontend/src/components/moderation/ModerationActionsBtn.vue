@@ -9,6 +9,7 @@
     class="m-2"
     >
 
+    <!-- MARK READ -->
     <b-dropdown-item-button
       :disabled="itemsSelection.size === 0"
       @click="isAuthenticated && markSelection('read')"
@@ -16,6 +17,8 @@
       <b-icon icon="check2-square" aria-hidden="true"></b-icon>
       {{$t('moderation.markAsRead')}}
     </b-dropdown-item-button>
+
+    <!-- MARK SUSPECT -->
     <b-dropdown-item-button
       :disabled="itemsSelection.size === 0"
       @click="isAuthenticated && markSelection('suspect')"
@@ -24,13 +27,20 @@
       {{$t('moderation.markAsSuspect')}}
     </b-dropdown-item-button>
     <b-dropdown-divider></b-dropdown-divider>
+
+    <!-- DELETE BATCH -->
     <b-dropdown-item-button
+      v-b-modal.modal-1
       :disabled="itemsSelection.size === 0"
       @click="isAuthenticated && deleteSelection()"
       >
       <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
       {{$t('actions.delete')}}
     </b-dropdown-item-button>
+
+    <b-modal id="modal-1" title="BootstrapVue">
+      <p class="my-4">Hello from modal!</p>
+    </b-modal>
 
   </b-dropdown>
 </template>

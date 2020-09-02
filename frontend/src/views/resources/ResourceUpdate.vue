@@ -47,7 +47,7 @@
       <b-col sm="6" md="4">
         <ModerationRowCard
           :hasHeader="true"
-          :item="organization"
+          :item="resource"
         />
       </b-col>
 
@@ -74,7 +74,8 @@ export default {
   data () {
     return {
       isLoading: false,
-      getOperationId: 'get_resource',
+      // getOperationId: 'get_resource',
+      getOperationId: 'retrieve_community_resource',
       putOperationId: 'update_resource',
       resourceId: this.$route.params.id,
       resourceRequest: undefined,
@@ -108,7 +109,9 @@ export default {
     getResource () {
       const API = this.$APIcli
       console.log('-V- ResourceUpdate > methods > getResource > API :', API)
-      const params = { rid: this.resourceId }
+      const params = {
+        community: this.resourceId
+      }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
