@@ -23,7 +23,6 @@ const translations = {
       suggestions: 'suggestions de ',
       datasets: '{list}données',
       reuses: '{list}réutilisations',
-      user: 'utilisateur',
       users: '{list}utilisateurs',
       organizations: '{list}organisations',
       issues: '{list}anomalies',
@@ -35,7 +34,15 @@ const translations = {
       infos: 'infos',
       profile: 'profil',
       details: 'détails',
-      detailsOf: 'les détails de {suffix}'
+      detailsOf: 'les détails de {suffix}',
+      dataset: 'donnée',
+      reuse: 'réutilisation',
+      user: 'utilisateur',
+      organization: 'organisation',
+      issue: 'anomalie',
+      discussion: 'discussion',
+      resource: 'ressource',
+      resource_community: 'ressource communautaire'
     },
     settings: {
       getUserData: 'récupération de vos données utilisateur ...',
@@ -47,6 +54,8 @@ const translations = {
     actions: {
       actions: 'actions',
       select: 'sélectionner',
+      search: 'rechercher',
+      searchFor: 'rechercher un.e {target}',
       edit: 'modifier',
       save: 'sauver',
       comment: 'commenter',
@@ -58,6 +67,7 @@ const translations = {
       wait: 'merci de patienter'
     },
     moderation: {
+      selection: 'sélection',
       read: 'lu',
       suspect: 'suspect',
       comments: 'commentaires',

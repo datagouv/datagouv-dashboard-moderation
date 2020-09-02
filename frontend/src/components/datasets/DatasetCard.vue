@@ -7,8 +7,7 @@
       footer-tag="footer"
       :footer="cardFooter"
       :title="datasetTitle"
-      class="mt-3 mx-auto text-center"
-      :style="`width: ${width};`"
+      class="mx-auto text-center"
       >
 
       <RawData
@@ -161,7 +160,6 @@ export default {
     'cardFooter',
     'datasetData',
     'datasetId',
-    'width',
     'height'
   ],
   data () {

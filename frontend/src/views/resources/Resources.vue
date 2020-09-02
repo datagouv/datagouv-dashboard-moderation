@@ -18,7 +18,6 @@
     <!-- DISPLAY DISCUSSIONS IN TABLE -->
     <ResourcesList
       height="800px"
-      width="900px"
       >
     </ResourcesList>
 

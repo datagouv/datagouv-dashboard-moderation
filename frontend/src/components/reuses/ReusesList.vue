@@ -1,9 +1,9 @@
 <template>
 
   <b-card
-    class="mt-3 mx-auto text-center"
-    :style="`width: ${width};`"
+    class="mt-3 mx-4 text-center"
     >
+
     <p><slot name="blockTitle"></slot></p>
     <p v-if="reuses">
       <b-badge pill variant="primary">
@@ -39,7 +39,7 @@
           </b-input-group-prepend>
           <b-form-input
             id="inline-form-input-query-reuses"
-            placeholder="search for a reuse"
+            :placeholder="$t('actions.searchFor', {target: $t('basics.reuse')})"
             v-model="query"
             @input="getReuses(true)"
             >
@@ -199,7 +199,6 @@ export default {
   },
   props: [
     'height',
-    'width',
     'small',
     'customFields'
   ],
@@ -223,7 +222,7 @@ export default {
       },
       fields: [
         // 'index',
-        { key: 'selection', label: 'Delete', stickyColumn: true, isRowHeader: true, sortable: false },
+        { key: 'selection', label: 'selection', stickyColumn: true, isRowHeader: true, sortable: false },
         { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
         { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'imagethumbnail', label: 'image' },
@@ -248,24 +247,24 @@ export default {
     })
   },
   methods: {
-    // async appendModerationData (itemObject) {
-    //   console.log('-C- ReusesList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
-    //   if (this.isAuthenticated) {
-    //     const newData = await Promise.all(itemObject.data.map(async (obj) => {
-    //       const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, this.endpointModeration)
-    //       return {
-    //         ...obj,
-    //         read: itemStatus.read,
-    //         suspect: itemStatus.suspect,
-    //         deleted: itemStatus.deleted
-    //       }
-    //     }))
-    //     console.log('-C- ReusesList > appendModerationData > newData :', newData)
-    //     itemObject.data = newData
-    //   }
-    //   this.needsModerationData = false
-    //   return itemObject
-    // },
+    async appendModerationData (itemObject) {
+      console.log('-C- ReusesList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
+      if (this.isAuthenticated) {
+        const newData = await Promise.all(itemObject.data.map(async (obj) => {
+          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, this.endpointModeration)
+          return {
+            ...obj,
+            read: itemStatus.read,
+            suspect: itemStatus.suspect,
+            deleted: itemStatus.deleted
+          }
+        }))
+        console.log('-C- ReusesList > appendModerationData > newData :', newData)
+        itemObject.data = newData
+      }
+      this.needsModerationData = false
+      return itemObject
+    },
     getReuses (resetPage) {
       this.isLoading = true
       const params = {

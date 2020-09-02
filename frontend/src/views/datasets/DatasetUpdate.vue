@@ -30,16 +30,29 @@
 
     <br>
 
-    <!-- DISPLAY DATASET -->
-    <DatasetCard
-      :cardTitle="`dataset n° ${datasetId}`"
-      :cardFooter="undefined"
-      :datasetData="dataset"
-      :datasetId="datasetId"
-      height="800px"
-      width="700px"
-    >
-    </DatasetCard>
+    <b-row class="mx-2">
+
+      <!-- DISPLAY DATASET -->
+      <b-col>
+        <DatasetCard
+          :cardTitle="`dataset n° ${datasetId}`"
+          :cardFooter="undefined"
+          :datasetData="dataset"
+          :datasetId="datasetId"
+          height="800px"
+          >
+        </DatasetCard>
+      </b-col>
+
+      <!-- MODERATION BOX -->
+      <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :item="dataset"
+        />
+      </b-col>
+
+    </b-row>
 
   </div>
 </template>
@@ -47,13 +60,16 @@
 <script>
 import { mapState } from 'vuex'
 
-import DatasetCard from '@/components/datasets/DatasetCard.vue'
 import PreviousPage from '@/components/ux/PreviousPage.vue'
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+
+import DatasetCard from '@/components/datasets/DatasetCard.vue'
 
 export default {
   name: 'DatasetUpdate',
   components: {
     PreviousPage,
+    ModerationRowCard,
     DatasetCard
   },
   data () {

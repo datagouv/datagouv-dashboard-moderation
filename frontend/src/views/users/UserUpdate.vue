@@ -29,16 +29,29 @@
 
     <br>
 
-    <!-- DISPLAY USER -->
-    <UserCard
-      :cardTitle="`user n° ${userId}`"
-      :cardFooter="undefined"
-      :userData="user"
-      :userId="userId"
-      height="800px"
-      width="600px"
-    >
-    </UserCard>
+    <b-row class="mx-2">
+
+      <!-- DISPLAY USER -->
+      <b-col>
+        <UserCard
+          :cardTitle="`${$t('basics.user')} n° ${userId}`"
+          :cardFooter="undefined"
+          :userData="user"
+          :userId="userId"
+          height="800px"
+        >
+        </UserCard>
+      </b-col>
+
+      <!-- MODERATION BOX -->
+      <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :item="user"
+        />
+      </b-col>
+
+    </b-row>
 
   </div>
 </template>
@@ -47,12 +60,15 @@
 import { mapState } from 'vuex'
 
 import PreviousPage from '@/components/ux/PreviousPage.vue'
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+
 import UserCard from '@/components/users/UserCard.vue'
 
 export default {
   name: 'UserUpdate',
   components: {
     PreviousPage,
+    ModerationRowCard,
     UserCard
   },
   data () {

@@ -30,16 +30,30 @@
 
     <br>
 
-    <!-- DISPLAY ISSUE -->
-    <IssueCard
-      :cardTitle="`issue n° ${issueId}`"
-      :cardFooter="undefined"
-      :issueData="issue"
-      :issueId="issueId"
-      height="800px"
-      width="600px"
-    >
-    </IssueCard>
+    <b-row class="mx-2">
+
+      <!-- DISPLAY ISSUE -->
+      <b-col>
+
+        <IssueCard
+          :cardTitle="`${$t('basics.issue')} n° ${issueId}`"
+          :cardFooter="undefined"
+          :issueData="issue"
+          :issueId="issueId"
+          height="800px"
+        >
+        </IssueCard>
+      </b-col>
+
+      <!-- MODERATION BOX -->
+      <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :item="issue"
+        />
+      </b-col>
+
+    </b-row>
 
   </div>
 </template>
@@ -48,12 +62,15 @@
 import { mapState } from 'vuex'
 
 import PreviousPage from '@/components/ux/PreviousPage.vue'
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+
 import IssueCard from '@/components/issues/IssueCard.vue'
 
 export default {
   name: 'IssueUpdate',
   components: {
     PreviousPage,
+    ModerationRowCard,
     IssueCard
   },
   data () {

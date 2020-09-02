@@ -29,16 +29,29 @@
 
     <br>
 
-    <!-- DISPLAY ISSUE -->
-    <OrganizationCard
-      :cardTitle="`organization n° ${organizationId}`"
-      :cardFooter="undefined"
-      :organizationData="organization"
-      :organizationId="organizationId"
-      height="800px"
-      width="600px"
-    >
-    </OrganizationCard>
+    <b-row class="mx-2">
+
+      <!-- DISPLAY ORGANIZATION -->
+      <b-col>
+        <OrganizationCard
+          :cardTitle="`${$t('basics.organization')} n° ${organizationId}`"
+          :cardFooter="undefined"
+          :organizationData="organization"
+          :organizationId="organizationId"
+          height="800px"
+        >
+        </OrganizationCard>
+      </b-col>
+
+      <!-- MODERATION BOX -->
+      <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :item="organization"
+        />
+      </b-col>
+
+    </b-row>
 
   </div>
 </template>
@@ -47,12 +60,15 @@
 import { mapState } from 'vuex'
 
 import PreviousPage from '@/components/ux/PreviousPage.vue'
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+
 import OrganizationCard from '@/components/organizations/OrganizationCard.vue'
 
 export default {
   name: 'OrganizationUpdate',
   components: {
     PreviousPage,
+    ModerationRowCard,
     OrganizationCard
   },
   data () {

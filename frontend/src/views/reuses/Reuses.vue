@@ -15,10 +15,9 @@
 
     <br>
 
-    <!-- DISPLAY DISCUSSIONS IN TABLE -->
+    <!-- DISPLAY REUSES IN TABLE -->
     <ReusesList
       height="800px"
-      width="900px"
       >
     </ReusesList>
 

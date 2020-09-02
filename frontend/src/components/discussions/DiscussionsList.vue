@@ -1,9 +1,9 @@
 <template>
 
   <b-card
-    class="mt-3 mx-auto text-center"
-    :style="`width: ${width};`"
+    class="mt-3 mx-4 text-center"
     >
+
     <p><slot name="blockTitle"></slot></p>
     <p v-if="discussions">
       <b-badge pill variant="primary">
@@ -39,7 +39,7 @@
           </b-input-group-prepend>
           <b-form-input
             id="inline-form-input-query-dicussions"
-            placeholder="search for a discussion"
+            :placeholder="$t('actions.searchFor', {target: $t('basics.discussion')})"
             v-model="query"
             @input="getDiscussions(true)"
             >
@@ -227,7 +227,7 @@ export default {
       },
       fields: [
         // 'index',
-        { key: 'selection', label: 'Delete', stickyColumn: true, isRowHeader: true, sortable: false },
+        { key: 'selection', label: 'selection', stickyColumn: true, isRowHeader: true, sortable: false },
         { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
         { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
@@ -264,7 +264,7 @@ export default {
       console.log('-C- DiscussionsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
-          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, 'discussions')
+          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, this.endpointModeration)
           return {
             ...obj,
             read: itemStatus.read,

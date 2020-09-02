@@ -43,7 +43,6 @@
       <b-col cols="6">
         <DatasetsList
           height="400px"
-          width="100%"
           :small="true"
           :customFields="customFields.datasets"
           >
@@ -57,7 +56,6 @@
       <b-col cols="6">
         <ResourcesList
           height="400px"
-          width="100%"
           :small="true"
           :customFields="customFields.resourcesCommunity"
           resourcesType="community"
@@ -72,7 +70,6 @@
       <b-col cols="6">
         <ReusesList
           height="400px"
-          width="100%"
           :small="true"
           :customFields="customFields.reuses"
           >
@@ -86,7 +83,6 @@
       <b-col cols="6">
         <DiscussionsList
           height="400px"
-          width="100%"
           :small="true"
           :customFields="customFields.discussions"
           >
@@ -100,7 +96,6 @@
       <b-col cols="6">
         <IssuesList
           height="400px"
-          width="100%"
           :small="true"
           :customFields="customFields.issues"
           >
@@ -114,7 +109,6 @@
       <b-col cols="6">
         <UsersList
           height="400px"
-          width="100%"
           :small="true"
           :customFields="customFields.users"
           >
@@ -128,7 +122,6 @@
       <b-col cols="6">
         <OrganizationsList
           height="400px"
-          width="100%"
           :small="true"
           :customFields="customFields.organizations"
           >

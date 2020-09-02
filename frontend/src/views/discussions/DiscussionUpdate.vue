@@ -29,16 +29,29 @@
 
     <br>
 
-    <!-- DISPLAY ISSUE -->
-    <DiscussionCard
-      :cardTitle="`discussion n° ${discussionId}`"
-      :cardFooter="undefined"
-      :discussionData="discussion"
-      :discussionId="discussionId"
-      height="800px"
-      width="600px"
-    >
-    </DiscussionCard>
+    <b-row class="mx-2">
+
+      <!-- DISPLAY DISCUSSION -->
+      <b-col>
+        <DiscussionCard
+          :cardTitle="`${$t('basics.discussion')} n° ${discussionId}`"
+          :cardFooter="undefined"
+          :discussionData="discussion"
+          :discussionId="discussionId"
+          height="800px"
+        >
+        </DiscussionCard>
+      </b-col>
+
+      <!-- MODERATION BOX -->
+      <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :item="discussion"
+        />
+      </b-col>
+
+    </b-row>
 
   </div>
 </template>
@@ -47,12 +60,15 @@
 import { mapState } from 'vuex'
 
 import PreviousPage from '@/components/ux/PreviousPage.vue'
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+
 import DiscussionCard from '@/components/discussions/DiscussionCard.vue'
 
 export default {
   name: 'DiscussionUpdate',
   components: {
     PreviousPage,
+    ModerationRowCard,
     DiscussionCard
   },
   data () {

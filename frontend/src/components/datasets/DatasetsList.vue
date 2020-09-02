@@ -1,8 +1,7 @@
 <template>
 
   <b-card
-    class="mt-3 mx-auto text-center"
-    :style="`width: ${width};`"
+    class="mt-3 mx-4 text-center"
     >
 
     <p><slot name="blockTitle"></slot></p>
@@ -40,7 +39,7 @@
           </b-input-group-prepend>
           <b-form-input
             id="inline-form-input-query-datasets"
-            placeholder="search for a dataset"
+            :placeholder="$t('actions.searchFor', {target: $t('basics.dataset')})"
             v-model="query"
             @input="getDatasets(true)"
             >
@@ -101,7 +100,7 @@
             >
             <b-icon
               :icon="`${isSelected(data.item) ? 'check2-' : ''}square`"
-              :variant="`${isSelected(data.item)? 'primary' : ''}`"
+              :variant="`${isSelected(data.item)? 'green' : 'primary'}`"
               aria-hidden="true"
               >
             </b-icon>
@@ -253,7 +252,6 @@ export default {
   },
   props: [
     'height',
-    'width',
     'small',
     'customFields'
   ],
@@ -265,7 +263,6 @@ export default {
       operationId: 'list_datasets',
       datasets: undefined,
       datasetsRequest: undefined,
-      // itemsSelection: new Map(),
       itemsSelection: [],
       needsModerationData: false,
       query: undefined,

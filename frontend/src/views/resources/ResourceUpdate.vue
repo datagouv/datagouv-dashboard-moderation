@@ -29,16 +29,29 @@
 
     <br>
 
-    <!-- DISPLAY ISSUE -->
-    <ResourceCard
-      :cardTitle="`resource n° ${resourceId}`"
-      :cardFooter="undefined"
-      :resourceData="resource"
-      :resourceId="resourceId"
-      height="800px"
-      width="600px"
-    >
-    </ResourceCard>
+    <b-row class="mx-2">
+
+      <!-- DISPLAY RESOURCE -->
+      <b-col>
+        <ResourceCard
+          :cardTitle="`${$t('basics.resource')} n° ${resourceId}`"
+          :cardFooter="undefined"
+          :resourceData="resource"
+          :resourceId="resourceId"
+          height="800px"
+        >
+        </ResourceCard>
+      </b-col>
+
+      <!-- MODERATION BOX -->
+      <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :item="organization"
+        />
+      </b-col>
+
+    </b-row>
 
   </div>
 </template>
@@ -47,12 +60,15 @@
 import { mapState } from 'vuex'
 
 import PreviousPage from '@/components/ux/PreviousPage.vue'
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+
 import ResourceCard from '@/components/resources/ResourceCard.vue'
 
 export default {
   name: 'ResourceUpdate',
   components: {
     PreviousPage,
+    ModerationRowCard,
     ResourceCard
   },
   data () {
@@ -92,7 +108,7 @@ export default {
     getResource () {
       const API = this.$APIcli
       console.log('-V- ResourceUpdate > methods > getResource > API :', API)
-      const params = { id: this.resourceId }
+      const params = { rid: this.resourceId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {

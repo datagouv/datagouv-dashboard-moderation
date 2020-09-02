@@ -29,17 +29,29 @@
 
     <br>
 
-    <!-- DISPLAY ISSUE -->
-    <ReuseCard
-      :cardTitle="`reuse n° ${reuseId}`"
-      :cardFooter="undefined"
-      :reuseData="reuse"
-      :reuseId="reuseId"
-      height="800px"
-      width="600px"
-    >
-    </ReuseCard>
+    <b-row class="mx-2">
 
+      <!-- DISPLAY REUSE -->
+      <b-col>
+        <ReuseCard
+          :cardTitle="`${$t('basics.reuse')} n° ${reuseId}`"
+          :cardFooter="undefined"
+          :reuseData="reuse"
+          :reuseId="reuseId"
+          height="800px"
+        >
+        </ReuseCard>
+      </b-col>
+
+      <!-- MODERATION BOX -->
+      <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :item="reuse"
+        />
+      </b-col>
+
+    </b-row>
   </div>
 </template>
 
@@ -47,12 +59,15 @@
 import { mapState } from 'vuex'
 
 import PreviousPage from '@/components/ux/PreviousPage.vue'
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+
 import ReuseCard from '@/components/reuses/ReuseCard.vue'
 
 export default {
   name: 'ReuseUpdate',
   components: {
     PreviousPage,
+    ModerationRowCard,
     ReuseCard
   },
   data () {

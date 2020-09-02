@@ -7,8 +7,7 @@
       footer-tag="footer"
       :footer="cardFooter"
       :title="userTitle"
-      class="mt-3 mx-auto text-center"
-      :style="`width: ${width};`"
+      class="mx-auto text-center"
       >
 
       <RawData
@@ -147,7 +146,6 @@ export default {
     'cardFooter',
     'userData',
     'userId',
-    'width',
     'height'
   ],
   data () {

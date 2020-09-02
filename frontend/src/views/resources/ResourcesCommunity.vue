@@ -18,7 +18,6 @@
     <!-- DISPLAY RESOURCES IN TABLE -->
     <ResourcesList
       height="800px"
-      width="900px"
       resourcesType="community"
       >
     </ResourcesList>
