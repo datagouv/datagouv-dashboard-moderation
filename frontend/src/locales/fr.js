@@ -59,10 +59,11 @@ const translations = {
     },
     moderation: {
       read: 'lu',
+      suspect: 'suspect',
       comments: 'commentaires',
       moderation: '{prefix}modération',
-      markAsRead: 'marquer comme lu',
-      markAsSuspect: 'marquer comme suspect'
+      markAsRead: 'marquer comme lu(s)',
+      markAsSuspect: 'marquer comme suspect(s)'
     },
     model: {
       created: 'créé',

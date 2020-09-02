@@ -12,6 +12,8 @@
       </b-badge>
     </p>
 
+    <code>{{itemsSelection}}</code>
+
     <p><slot name="link" class="mb-3"></slot></p>
     <div class="mb-2">
       {{ $t('navigation.from') }} :
@@ -29,7 +31,7 @@
       align-v="center"
       class="my-3"
       >
-      <b-col cols="8" md="6">
+      <b-col cols="7" md="5">
         <b-input-group>
           <b-input-group-prepend is-text>
             <b-icon icon="search"></b-icon>
@@ -64,14 +66,13 @@
         ></b-pagination>
       </b-col>
 
-      <b-col cols="1">
-        <b-button
-          :variant="isAuthenticated ? 'outline-danger' : 'outline-secondary'"
-          :disabled="!isAuthenticated"
-          @click="isAuthenticated && deleteSelection()"
+      <b-col cols="2">
+        <ModerationActionsBtn
+          :endpoint="endpointModeration"
+          :itemsSelection="itemsSelection"
+          @responseAction="callbackAction"
           >
-          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-        </b-button>
+        </ModerationActionsBtn>
       </b-col>
 
     </b-row>
@@ -90,22 +91,19 @@
 
       <template v-slot:cell(selection)="data">
         <b-form inline class="justify-content-center">
-          <b-form-checkbox
-            v-if="isAuthenticated"
-            @change="addToDeleteSelection(data.item)"
-            button button-variant="outline-danger"
+          <b-button
+            :disabled="!isAuthenticated"
+            @click="changeSelection(data.item)"
+            button
+            variant="link"
             >
             <b-icon
-              :icon="`${itemsSelection.has(data.item.id) ? 'check-' : ''}square`"
-              aria-hidden="true"></b-icon>
-              <!-- <code>{{data.item.id}}</code> -->
-          </b-form-checkbox>
-          <b-form-checkbox
-            v-else
-            disabled
-            >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          </b-form-checkbox>
+              :icon="`${isSelected(data.item) ? 'check2-' : ''}square`"
+              :variant="`${isSelected(data.item)? 'primary' : ''}`"
+              aria-hidden="true"
+              >
+            </b-icon>
+          </b-button>
         </b-form>
       </template>
 
@@ -119,18 +117,9 @@
       </template>
 
       <template v-if="isAuthenticated" v-slot:row-details="row">
-        <b-card>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>
-              {{ $t('moderation.read') }}:</b></b-col>
-            <b-col>{{ row.item.read }}</b-col>
-          </b-row>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>
-              {{ $t('moderation.comments') }}:</b></b-col>
-            <b-col>{{ row.item.comments }}</b-col>
-          </b-row>
-        </b-card>
+        <ModerationRowCard
+          :item="row.item"
+        />
       </template>
 
       <template v-slot:cell(moderation_read)="row">
@@ -231,8 +220,15 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+import ModerationActionsBtn from '@/components/moderation/ModerationActionsBtn.vue'
+
 export default {
   name: 'UsersList',
+  components: {
+    ModerationActionsBtn,
+    ModerationRowCard
+  },
   props: [
     'height',
     'width',
@@ -243,10 +239,11 @@ export default {
     return {
       isLoading: false,
       seeRaw: false,
+      endpointModeration: 'users',
       operationId: 'list_users',
       users: undefined,
       usersRequest: undefined,
-      itemsSelection: new Map(),
+      itemsSelection: [],
       query: undefined,
       pagination: {
         page: 1,
@@ -317,6 +314,7 @@ export default {
           console.log('-C- UsersList > created > results.body :', results.body)
           this.usersRequest = results.url
           this.users = results.body
+          this.needsModerationData = true
           this.pagination.totalItems = results.body.total
           this.isLoading = false
         },
@@ -328,24 +326,24 @@ export default {
       console.log('-C- UsersList > updateModeration > item : ', item)
       const itemModerationData = {
         uid: item.id,
-        read: item.read
+        read: item.read,
+        suspect: item.suspect,
+        deleted: item.deleted
       }
       console.log('-C- UsersList > updateModeration > itemModerationData : ', itemModerationData)
       // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'users')
       // console.log('-C- UsersList > updateModeration > updatedItem : ', updatedItem)
     },
-    addToDeleteSelection (item) {
-      console.log('-C- UsersList > addToDeleteSelection > item : ', item)
-      if (this.itemsSelection.has(item.id)) {
-        this.itemsSelection.delete(item.id, item.title)
-      } else {
-        this.itemsSelection.set(item.id, item.title)
+    changeSelection (item) {
+      if (this.isAuthenticated) {
+        this.itemsSelection = this.$changeSelection(this.itemsSelection, item.id)
       }
-      console.log('-C- UsersList > addToDeleteSelection > this.itemsSelection : ', this.itemsSelection)
     },
-    deleteSelection () {
-      // TO DO
-      console.log('-C- UsersList > deleteSelection > this.itemsSelection : ', this.itemsSelection)
+    isSelected (item) {
+      return this.itemsSelection.includes(item.id)
+    },
+    callbackAction (evt) {
+      console.log('-C- UsersList > callbackAction > evt : ', evt)
     },
     resetQuery () {
       this.query = undefined

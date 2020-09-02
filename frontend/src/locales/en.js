@@ -59,6 +59,7 @@ const translations = {
     },
     moderation: {
       read: 'read',
+      suspect: 'suspect',
       comments: 'comments',
       moderation: '{prefix}moderation',
       markAsRead: 'mark as read',

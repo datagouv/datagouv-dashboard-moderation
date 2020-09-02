@@ -12,6 +12,8 @@
       </b-badge>
     </p>
 
+    <code>{{itemsSelection}}</code>
+
     <p><slot name="link" class="mb-3"></slot></p>
     <div class="mb-2">
       {{ $t('navigation.from') }} :
@@ -30,7 +32,7 @@
       class="my-3"
       >
 
-      <b-col cols="8" md="6">
+      <b-col cols="7" md="5">
         <b-input-group>
           <b-input-group-prepend is-text>
             <b-icon icon="search"></b-icon>
@@ -65,14 +67,13 @@
         ></b-pagination>
       </b-col>
 
-      <b-col cols="1">
-        <b-button
-          :variant="isAuthenticated ? 'outline-danger' : 'outline-secondary'"
-          :disabled="!isAuthenticated"
-          @click="isAuthenticated && deleteSelection()"
+      <b-col cols="2">
+        <ModerationActionsBtn
+          :endpoint="endpointModeration"
+          :itemsSelection="itemsSelection"
+          @responseAction="callbackAction"
           >
-          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-        </b-button>
+        </ModerationActionsBtn>
       </b-col>
 
     </b-row>
@@ -91,20 +92,19 @@
 
       <template v-slot:cell(selection)="data">
         <b-form inline class="justify-content-center">
-          <b-form-checkbox
-            v-if="isAuthenticated"
-            @change="addToSelection(data.item)"
-            button button-variant="outline-danger"
+          <b-button
+            :disabled="!isAuthenticated"
+            @click="changeSelection(data.item)"
+            button
+            variant="link"
             >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-            <!-- <code>{{data.item.id}}</code> -->
-          </b-form-checkbox>
-          <b-form-checkbox
-            v-else
-            disabled
-            >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          </b-form-checkbox>
+            <b-icon
+              :icon="`${isSelected(data.item) ? 'check2-' : ''}square`"
+              :variant="`${isSelected(data.item)? 'primary' : ''}`"
+              aria-hidden="true"
+              >
+            </b-icon>
+          </b-button>
         </b-form>
       </template>
 
@@ -118,18 +118,9 @@
       </template>
 
       <template v-if="isAuthenticated" v-slot:row-details="row">
-        <b-card>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>
-              {{ $t('moderation.read') }}:</b></b-col>
-            <b-col>{{ row.item.read }}</b-col>
-          </b-row>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>
-              {{ $t('moderation.comments') }}:</b></b-col>
-            <b-col>{{ row.item.comments }}</b-col>
-          </b-row>
-        </b-card>
+        <ModerationRowCard
+          :item="row.item"
+        />
       </template>
 
       <template v-slot:cell(moderation_read)="row">
@@ -197,8 +188,15 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+import ModerationActionsBtn from '@/components/moderation/ModerationActionsBtn.vue'
+
 export default {
   name: 'ReusesList',
+  components: {
+    ModerationActionsBtn,
+    ModerationRowCard
+  },
   props: [
     'height',
     'width',
@@ -209,10 +207,11 @@ export default {
     return {
       isLoading: false,
       seeRaw: false,
+      endpointModeration: 'reuses',
       operationId: 'list_reuses',
       reuses: undefined,
       reusesRequest: undefined,
-      itemsSelection: new Map(),
+      itemsSelection: [],
       needsModerationData: false,
       query: undefined,
       pagination: {
@@ -249,6 +248,24 @@ export default {
     })
   },
   methods: {
+    // async appendModerationData (itemObject) {
+    //   console.log('-C- ReusesList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
+    //   if (this.isAuthenticated) {
+    //     const newData = await Promise.all(itemObject.data.map(async (obj) => {
+    //       const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, this.endpointModeration)
+    //       return {
+    //         ...obj,
+    //         read: itemStatus.read,
+    //         suspect: itemStatus.suspect,
+    //         deleted: itemStatus.deleted
+    //       }
+    //     }))
+    //     console.log('-C- ReusesList > appendModerationData > newData :', newData)
+    //     itemObject.data = newData
+    //   }
+    //   this.needsModerationData = false
+    //   return itemObject
+    // },
     getReuses (resetPage) {
       this.isLoading = true
       const params = {
@@ -281,18 +298,16 @@ export default {
       // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'resources')
       // console.log('-C- ReusesList > updateModeration > updatedItem : ', updatedItem)
     },
-    addToSelection (item) {
-      console.log('-C- ReusesList > addToSelection > item : ', item)
-      if (this.itemsSelection.has(item.id)) {
-        this.itemsSelection.delete(item.id, item.title)
-      } else {
-        this.itemsSelection.set(item.id, item.title)
+    changeSelection (item) {
+      if (this.isAuthenticated) {
+        this.itemsSelection = this.$changeSelection(this.itemsSelection, item.id)
       }
-      console.log('-C- ReusesList > addToSelection > this.itemsSelection : ', this.itemsSelection)
     },
-    deleteSelection () {
-      // TO DO
-      console.log('-C- ReusesList > deleteSelection > this.itemsSelection : ', this.itemsSelection)
+    isSelected (item) {
+      return this.itemsSelection.includes(item.id)
+    },
+    callbackAction (evt) {
+      console.log('-C- ReusesList > callbackAction > evt : ', evt)
     },
     resetQuery () {
       this.query = undefined

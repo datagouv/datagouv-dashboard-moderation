@@ -10,14 +10,10 @@ class ModerationLib {
     this.storeModuleName = options.storeModuleName
 
     this.moderationServer = options.moderationServer
-
     this.moderationSubmitTokenUrl = `${this.moderationServer}/submit-token` // POST
 
-    // this.moderationInsertDatasetsUrl = `${this.moderationServer}/datasets` // POST
-    // this.moderationGetDatasetUrl = `${this.moderationServer}/datasets` // GET + dataset_id
-
     // debugging
-    console.log('>>> ModerationLib > init >  this :', this)
+    // console.log('>>> ModerationLib > init >  this :', this)
   }
 
   /**************************************************************
@@ -31,21 +27,21 @@ class ModerationLib {
     }
     try {
       const response = await fetch(submitUrl, config)
-      console.log('>>> ModerationLib > login >  response :', response)
+      // console.log('>>> ModerationLib > login >  response :', response)
       const auth = response.message === 'success'
       this.store.commit(`${this.storeModuleName}/setLogin`, auth)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       return response
     } catch (error) {
-      console.log('>>> ModerationLib > login > error', error)
+      // console.log('>>> ModerationLib > login > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {
-      console.log('>>> ModerationLib > login >  finally ...')
+      // console.log('>>> ModerationLib > login >  finally ...')
     }
   }
 
   async logout () {
-    console.log('>>> ModerationLib > logout ...')
+    // console.log('>>> ModerationLib > logout ...')
     this.store.commit(`${this.storeModuleName}/resetLogin`)
     this.store.commit(`${this.storeModuleName}/setModerationResponse`, 'you are now logged out from moderation ')
   }
@@ -55,7 +51,7 @@ class ModerationLib {
    */
   async getModeration (jsonDataId, endpoint = 'datasets') {
     const url = `${this.moderationServer}/${endpoint}/${jsonDataId}`
-    console.log('>>> ModerationLib > getModeration >  url :', url)
+    // console.log('>>> ModerationLib > getModeration >  url :', url)
     const config = {
       method: 'GET',
       headers: { 'content-type': 'application/json' }
@@ -69,13 +65,13 @@ class ModerationLib {
       console.log('error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {
-      console.log('>>> ModerationLib > getModeration > finally ...')
+      // console.log('>>> ModerationLib > getModeration > finally ...')
     }
   }
 
   async postModeration (jsonData, endpoint = 'datasets') {
     const url = `${this.moderationServer}/${endpoint}`
-    console.log('>>> ModerationLib > postModeration >  url :', url)
+    // console.log('>>> ModerationLib > postModeration >  url :', url)
     const moderationData = {
       uid: jsonData.uid,
       read: jsonData.read,
@@ -89,14 +85,14 @@ class ModerationLib {
     }
     try {
       const response = await fetch(url, config)
-      console.log('>>> ModerationLib > postModeration >  response :', response)
+      // console.log('>>> ModerationLib > postModeration >  response :', response)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       return response
     } catch (error) {
-      console.log('error', error)
+      // console.log('error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {
-      console.log('>>> ModerationLib > postModeration > finally ...')
+      // console.log('>>> ModerationLib > postModeration > finally ...')
     }
   }
 }

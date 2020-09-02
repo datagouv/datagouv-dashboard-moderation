@@ -184,7 +184,7 @@ export default {
         datasets: [
           { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
           { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
-          { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
+          { key: 'moderation_read', label: 'Read', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'created', label: 'Created at', sortable: true },
           { key: 'title', stickyColumn: true, isRowHeader: true },
           { key: 'organizationlogo', label: 'Organization logo' },
@@ -199,7 +199,7 @@ export default {
         resourcesCommunity: [
           { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
           { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
-          { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
+          { key: 'moderation_read', label: 'Read', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
           { key: 'created_at', label: 'created at', sortable: true },
           'id'
@@ -207,7 +207,7 @@ export default {
         reuses: [
           { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
           { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
-          { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
+          { key: 'moderation_read', label: 'Read', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'imagethumbnail', label: 'image' },
           { key: 'created_at', label: 'created at', sortable: true },
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true }
@@ -215,7 +215,7 @@ export default {
         discussions: [
           { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
           { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
-          { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
+          { key: 'moderation_read', label: 'Read', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'created', label: 'created at', sortable: true },
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
           { key: 'discussion', label: 'number of discussions', sortable: true },
@@ -224,7 +224,7 @@ export default {
         issues: [
           { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
           { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
-          { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
+          { key: 'moderation_read', label: 'Read', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'created', label: 'created at', sortable: true },
           { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
           { key: 'discussion', label: 'number of discussions', sortable: true },
@@ -233,7 +233,7 @@ export default {
         users: [
           { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
           { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
-          { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
+          { key: 'moderation_read', label: 'Read', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'since', label: 'exists since', sortable: true },
           { key: 'name', label: 'Full Name', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'datasets', label: 'datasets', sortable: true },
@@ -244,7 +244,7 @@ export default {
         organizations: [
           { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true, sortable: false },
           { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
-          { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
+          { key: 'moderation_read', label: 'Read', stickyColumn: true, isRowHeader: true, sortable: true },
           { key: 'created_at', label: 'created at', sortable: true },
           { key: 'organizationlogo', label: 'logo' },
           { key: 'name', label: 'name', stickyColumn: true, isRowHeader: true }

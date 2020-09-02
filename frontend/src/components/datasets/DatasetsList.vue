@@ -69,38 +69,12 @@
       </b-col>
 
       <b-col cols="2">
-        <b-dropdown
-          right
-          block
-          size="sm"
-          :variant="isAuthenticated ? 'outline-primary' : 'outline-secondary'"
-          :disabled="!isAuthenticated"
-          :text="$t('actions.actions')"
-          class="m-2"
+        <ModerationActionsBtn
+          :endpoint="endpointModeration"
+          :itemsSelection="itemsSelection"
+          @responseAction="callbackAction"
           >
-          <b-dropdown-item-button
-            :disabled="itemsSelection.size === 0"
-            @click="isAuthenticated && markSelection('read')"
-            >
-            <b-icon icon="check2-square" aria-hidden="true"></b-icon>
-            {{$t('moderation.markAsRead')}}
-          </b-dropdown-item-button>
-          <b-dropdown-item-button
-            :disabled="itemsSelection.size === 0"
-            @click="isAuthenticated && markSelection('suspect')"
-            >
-            <b-icon icon="exclamation-triangle-fill" aria-hidden="true"></b-icon>
-            {{$t('moderation.markAsSuspect')}}
-          </b-dropdown-item-button>
-          <b-dropdown-divider></b-dropdown-divider>
-          <b-dropdown-item-button
-            :disabled="itemsSelection.size === 0"
-            @click="isAuthenticated && deleteSelection()"
-            >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-            {{$t('actions.delete')}}
-          </b-dropdown-item-button>
-        </b-dropdown>
+        </ModerationActionsBtn>
       </b-col>
 
     </b-row>
@@ -145,18 +119,9 @@
       </template>
 
       <template v-if="isAuthenticated" v-slot:row-details="row">
-        <b-card>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>
-              {{ $t('moderation.read') }}:</b></b-col>
-            <b-col>{{ row.item.read }}</b-col>
-          </b-row>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>
-              {{ $t('moderation.comments') }}:</b></b-col>
-            <b-col>{{ row.item.comments }}</b-col>
-          </b-row>
-        </b-card>
+        <ModerationRowCard
+          :item="row.item"
+        />
       </template>
 
       <template v-slot:cell(moderation_read)="row">
@@ -277,8 +242,15 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+import ModerationActionsBtn from '@/components/moderation/ModerationActionsBtn.vue'
+
 export default {
   name: 'DatasetsList',
+  components: {
+    ModerationActionsBtn,
+    ModerationRowCard
+  },
   props: [
     'height',
     'width',
@@ -289,6 +261,7 @@ export default {
     return {
       isLoading: false,
       seeRaw: false,
+      endpointModeration: 'datasets',
       operationId: 'list_datasets',
       datasets: undefined,
       datasetsRequest: undefined,
@@ -361,20 +334,23 @@ export default {
     })
   },
   methods: {
-    async appendModerationData (dataset) {
-      // TO DO (only if logged)
+    async appendModerationData (itemObject) {
       console.log('-C- DatasetsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
       if (this.isAuthenticated) {
-        const newData = await Promise.all(dataset.data.map(async (obj) => {
-          const readStatus = await this.$MODERATIONcli.getModeration(obj.id, 'datasets')
-          // console.log('-C- DatasetsList > appendModerationData > readStatus :', readStatus)
-          return { ...obj, read: readStatus.read }
+        const newData = await Promise.all(itemObject.data.map(async (obj) => {
+          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, this.endpointModeration)
+          return {
+            ...obj,
+            read: itemStatus.read,
+            suspect: itemStatus.suspect,
+            deleted: itemStatus.deleted
+          }
         }))
         console.log('-C- DatasetsList > appendModerationData > newData :', newData)
-        dataset.data = newData
+        itemObject.data = newData
       }
       this.needsModerationData = false
-      return dataset
+      return itemObject
     },
     getDatasets (resetPage) {
       this.isLoading = true
@@ -390,10 +366,8 @@ export default {
           // console.log('-C- DatasetsList > created > results :', results)
           console.log('-C- DatasetsList > created > results.body :', results.body)
           this.datasetsRequest = results.url
-
           this.datasets = results.body
           this.needsModerationData = true
-
           this.pagination.totalItems = results.body.total
           this.isLoading = false
         },
@@ -405,7 +379,9 @@ export default {
       console.log('-C- DatasetsList > updateModeration > item : ', item)
       const itemModerationData = {
         uid: item.id,
-        read: item.read
+        read: item.read,
+        suspect: item.suspect,
+        deleted: item.deleted
       }
       console.log('-C- DatasetsList > updateModeration > itemModerationData : ', itemModerationData)
       // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'datasets')
@@ -419,9 +395,8 @@ export default {
     isSelected (item) {
       return this.itemsSelection.includes(item.id)
     },
-    deleteSelection () {
-      // TO DO
-      console.log('-C- DatasetsList > deleteSelection > this.itemsSelection : ', this.itemsSelection)
+    callbackAction (evt) {
+      console.log('-C- DatasetsList > callbackAction > evt : ', evt)
     },
     resetQuery () {
       this.query = undefined
