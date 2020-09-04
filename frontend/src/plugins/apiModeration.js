@@ -64,7 +64,7 @@ class ModerationLib {
   }
 
   /**************************************************************
-   * moderation related
+   * moderation formatting
    */
   formatModerationItem (dgfType, item, field, value) {
     const itemModerationData = {

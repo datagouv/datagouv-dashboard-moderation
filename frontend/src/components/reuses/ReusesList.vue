@@ -262,6 +262,14 @@ export default {
     if (this.customFields) { this.fields = this.customFields }
     this.getReuses()
   },
+  watch: {
+    async reuses (next) {
+      if (next && this.needsModerationData) {
+        // console.log('-C- ReusesList > watch > reuses > next :', next)
+        this.reuses = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log

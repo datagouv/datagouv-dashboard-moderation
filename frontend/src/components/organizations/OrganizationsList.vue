@@ -296,6 +296,14 @@ export default {
     if (this.customFields) { this.fields = this.customFields }
     this.getOrganizations()
   },
+  watch: {
+    async organizations (next) {
+      if (next && this.needsModerationData) {
+        // console.log('-C- OrganizationsList > watch > organizations > next :', next)
+        this.organizations = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log

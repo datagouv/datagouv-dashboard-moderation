@@ -253,6 +253,14 @@ export default {
     }
     this.getResources()
   },
+  watch: {
+    async resources (next) {
+      if (next && this.needsModerationData) {
+        // console.log('-C- ResourcesList > watch > resources > next :', next)
+        this.resources = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log

@@ -264,6 +264,14 @@ export default {
     if (this.customFields) { this.fields = this.customFields }
     this.getIssues()
   },
+  watch: {
+    async issues (next) {
+      if (next && this.needsModerationData) {
+        // console.log('-C- IssuesList > watch > issues > next :', next)
+        this.issues = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log

@@ -265,6 +265,7 @@ export default {
       users: undefined,
       usersRequest: undefined,
       itemsSelection: [],
+      needsModerationData: false,
       query: undefined,
       pagination: {
         page: 1,
@@ -312,6 +313,14 @@ export default {
     // console.log('-C- UsersList > created ... ')
     if (this.customFields) { this.fields = this.customFields }
     this.getUsers()
+  },
+  watch: {
+    async users (next) {
+      if (next && this.needsModerationData) {
+        // console.log('-C- UsersList > watch > users > next :', next)
+        this.users = await this.appendModerationData(next)
+      }
+    }
   },
   computed: {
     ...mapState({

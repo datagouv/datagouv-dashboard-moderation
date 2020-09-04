@@ -266,14 +266,14 @@ export default {
     if (this.customFields) { this.fields = this.customFields }
     this.getDiscussions()
   },
-  // watch: {
-  //   async discussions (next) {
-  //     if (next && this.needsModerationData) {
-  //       // console.log('-C- DatasetsList > watch > discussions > next :', next)
-  //       this.discussions = this.appendModerationData(next)
-  //     }
-  //   }
-  // },
+  watch: {
+    async discussions (next) {
+      if (next && this.needsModerationData) {
+        // console.log('-C- DiscussionsList > watch > discussions > next :', next)
+        this.discussions = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log

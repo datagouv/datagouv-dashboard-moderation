@@ -341,8 +341,8 @@ export default {
   watch: {
     async datasets (next) {
       if (next && this.needsModerationData) {
-        // console.log('-C- DatasetsList > watch > datasets > next :', next)
-        this.dataset = this.appendModerationData(next)
+        console.log('-C- DatasetsList > watch > datasets > next :', next)
+        this.dataset = await this.appendModerationData(next)
       }
     }
   },
@@ -362,15 +362,8 @@ export default {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
-          // return {
-          //   ...obj,
-          //   read: itemStatus.read,
-          //   suspicious: itemStatus.suspicious,
-          //   comments: itemStatus.comments,
-          //   deleted: itemStatus.deleted
-          // }
         }))
-        console.log('-C- DatasetsList > appendModerationData > newData :', newData)
+        // console.log('-C- DatasetsList > appendModerationData > newData :', newData)
         itemObject.data = newData
       }
       this.needsModerationData = false
