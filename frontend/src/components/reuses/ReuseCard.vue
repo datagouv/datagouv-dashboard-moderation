@@ -137,7 +137,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- ReuseCard > created ... ')
+    // console.log('-C- ReuseCard > created ... ')
   },
   watch: {
     reuseData (next) {
@@ -156,7 +156,7 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      console.log('-C- ReuseCard > callbackAction > evt : ', evt)
+      // console.log('-C- ReuseCard > callbackAction > evt : ', evt)
       switch (evt.category) {
         case 'comment':
           this.edit = true
@@ -167,7 +167,7 @@ export default {
     commentReuse (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      console.log('-C- ReuseCard > methods > commentReuse > API :', API)
+      // console.log('-C- ReuseCard > methods > commentReuse > API :', API)
       this.isLoading = true
       const params = {
         id: this.reuseId,
@@ -180,7 +180,7 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          console.log('-C- ReuseCard > methods > commentReuse > results.body :', results.body)
+          // console.log('-C- ReuseCard > methods > commentReuse > results.body :', results.body)
           this.reuse = results.body
         },
         reason => {

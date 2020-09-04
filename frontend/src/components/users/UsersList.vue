@@ -287,7 +287,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- UsersList > created ... ')
+    // console.log('-C- UsersList > created ... ')
     if (this.customFields) { this.fields = this.customFields }
     this.getUsers()
   },
@@ -301,7 +301,7 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      console.log('-C- OrganizationsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
+      // console.log('-C- OrganizationsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, this.endpointModeration)
@@ -312,7 +312,7 @@ export default {
             deleted: itemStatus.deleted
           }
         }))
-        console.log('-C- OrganizationsList > appendModerationData > newData :', newData)
+        // console.log('-C- OrganizationsList > appendModerationData > newData :', newData)
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -329,7 +329,7 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          console.log('-C- UsersList > created > results.body :', results.body)
+          // console.log('-C- UsersList > created > results.body :', results.body)
           this.usersRequest = results.url
           this.users = results.body
           this.needsModerationData = true
@@ -341,14 +341,14 @@ export default {
     },
     updateModeration (item) {
       // TO DO
-      console.log('-C- UsersList > updateModeration > item : ', item)
+      // console.log('-C- UsersList > updateModeration > item : ', item)
       const itemModerationData = {
         uid: item.id,
         read: item.read,
         suspect: item.suspect,
         deleted: item.deleted
       }
-      console.log('-C- UsersList > updateModeration > itemModerationData : ', itemModerationData)
+      // console.log('-C- UsersList > updateModeration > itemModerationData : ', itemModerationData)
       // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'users')
       // console.log('-C- UsersList > updateModeration > updatedItem : ', updatedItem)
     },
@@ -361,19 +361,19 @@ export default {
       return this.itemsSelection.includes(item.id)
     },
     callbackAction (evt) {
-      console.log('-C- UsersList > callbackAction > evt : ', evt)
+      // console.log('-C- UsersList > callbackAction > evt : ', evt)
     },
     resetQuery () {
       this.query = undefined
       this.getUsers(true)
     },
     changePagination (pageNumber) {
-      console.log('-C- UsersList > changePagination > pageNumber ', pageNumber)
+      // console.log('-C- UsersList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
       this.getUsers()
     },
     changeSorting (sort) {
-      console.log('-C- UsersList > changeSorting > sort ', sort)
+      // console.log('-C- UsersList > changeSorting > sort ', sort)
       switch (sort.sortBy) {
         case 'since':
           this.pagination.sortBy = 'created'

@@ -111,13 +111,13 @@ export default {
   methods: {
     getIssue () {
       const API = this.$APIcli
-      console.log('-V- IssueUpdate > methods > getIssue > API :', API)
+      // console.log('-V- IssueUpdate > methods > getIssue > API :', API)
       const params = { id: this.issueId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          console.log('-V- IssueUpdate > methods > getIssue > results :', results)
-          console.log('-V- IssueUpdate > methods > getIssue > results.body :', results.body)
+          // console.log('-V- IssueUpdate > methods > getIssue > results :', results)
+          // console.log('-V- IssueUpdate > methods > getIssue > results.body :', results.body)
           this.issueRequest = results.url
           this.issue = results.body
           const title = this.issue.title.length > 25 ? this.issue.title.slice(0, 25) + '...' : this.issue.title

@@ -31,7 +31,7 @@ const moderationOptions = {
   storeModuleName: 'moderation',
   moderationServer: isDevMode ? process.env.VUE_APP_MODERATION_API_DEV : process.env.VUE_APP_MODERATION_API
 }
-console.log('... moderationOptions : ', moderationOptions)
+// console.log('... moderationOptions : ', moderationOptions)
 
 const swagWrapOptions = {
   registerApiStore: true,

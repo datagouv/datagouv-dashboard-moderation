@@ -109,12 +109,12 @@ export default {
   methods: {
     getUser () {
       const API = this.$APIcli
-      console.log('-V- UserUpdate > methods > getUser > API :', API)
+      // console.log('-V- UserUpdate > methods > getUser > API :', API)
       const params = { user: this.userId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          console.log('-V- UserUpdate > methods > getUser > results.body :', results.body)
+          // console.log('-V- UserUpdate > methods > getUser > results.body :', results.body)
           this.userRequest = results.url
           this.user = results.body
           this.crumbs[2].text = `${this.user.first_name} ${this.user.last_name}`

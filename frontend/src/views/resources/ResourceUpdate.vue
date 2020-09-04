@@ -110,14 +110,14 @@ export default {
   methods: {
     getResource () {
       const API = this.$APIcli
-      console.log('-V- ResourceUpdate > methods > getResource > API :', API)
+      // console.log('-V- ResourceUpdate > methods > getResource > API :', API)
       const params = {
         community: this.resourceId
       }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          console.log('-V- ResourceUpdate > methods > getResource > results.body :', results.body)
+          // console.log('-V- ResourceUpdate > methods > getResource > results.body :', results.body)
           this.resourceRequest = results.url
           this.resource = results.body
           const title = this.resource.title.length > 25 ? this.resource.title.slice(0, 25) + '...' : this.resource.title

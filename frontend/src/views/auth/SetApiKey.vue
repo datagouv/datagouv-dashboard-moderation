@@ -125,7 +125,7 @@ export default {
     }
   },
   created () {
-    console.log('-V- SET_API_KEY > created ...')
+    // console.log('-V- SET_API_KEY > created ...')
     this.form.apiKey = this.options.apiKey
     this.form.bearerToken = this.tokens.access && this.tokens.access.value
   },
@@ -146,14 +146,14 @@ export default {
   methods: {
     setApiKeyHeader (evt) {
       evt.preventDefault()
-      console.log('\n-V- SET_API_KEY > setApiKeyHeader > this.form :', this.form)
+      // console.log('\n-V- SET_API_KEY > setApiKeyHeader > this.form :', this.form)
       const cliAuthOptions = { apiKey: this.form.apiKey }
       this.$APIcli.resetCli(cliAuthOptions)
       this.setResponse = 'your API key was updated in $APIcli'
     },
     setBearerHeader (evt) {
       evt.preventDefault()
-      console.log('\n-V- SET_API_KEY > onSubmit > this.form :', this.form)
+      // console.log('\n-V- SET_API_KEY > onSubmit > this.form :', this.form)
       const cliAuthOptions = {
         bearerAuth: this.form.bearerToken,
         clientId: process.env.VUE_APP_DEFAULT_CLIENT_ID,

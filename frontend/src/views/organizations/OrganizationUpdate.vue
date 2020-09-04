@@ -109,12 +109,12 @@ export default {
   methods: {
     getOrganization () {
       const API = this.$APIcli
-      console.log('-V- OrganizationUpdate > methods > getOrganization > API :', API)
+      // console.log('-V- OrganizationUpdate > methods > getOrganization > API :', API)
       const params = { org: this.organizationId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          console.log('-V- OrganizationUpdate > methods > getOrganization > results.body :', results.body)
+          // console.log('-V- OrganizationUpdate > methods > getOrganization > results.body :', results.body)
           this.organizationRequest = results.url
           this.organization = results.body
           const name = this.organization.name.length > 25 ? this.organization.name.slice(0, 25) + '...' : this.organization.name

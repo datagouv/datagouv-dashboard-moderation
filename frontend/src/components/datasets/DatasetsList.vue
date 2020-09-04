@@ -153,7 +153,6 @@
         </router-link>
       </template>
 
-      <!-- A virtual composite column -->
       <template v-slot:cell(nameowner)="data">
         <router-link
           v-if="data.item.owner"
@@ -313,14 +312,14 @@ export default {
     }
   },
   created () {
-    console.log('-C- DatasetsList > created ... ')
+    // console.log('-C- DatasetsList > created ... ')
     if (this.customFields) { this.fields = this.customFields }
     this.getDatasets()
   },
   watch: {
     async datasets (next) {
       if (next && this.needsModerationData) {
-        console.log('-C- DatasetsList > watch > datasets > next :', next)
+        // console.log('-C- DatasetsList > watch > datasets > next :', next)
         this.dataset = this.appendModerationData(next)
       }
     }
@@ -335,7 +334,7 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      console.log('-C- DatasetsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
+      // console.log('-C- DatasetsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, this.endpointModeration)
@@ -346,7 +345,7 @@ export default {
             deleted: itemStatus.deleted
           }
         }))
-        console.log('-C- DatasetsList > appendModerationData > newData :', newData)
+        // console.log('-C- DatasetsList > appendModerationData > newData :', newData)
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -364,7 +363,7 @@ export default {
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
           // console.log('-C- DatasetsList > created > results :', results)
-          console.log('-C- DatasetsList > created > results.body :', results.body)
+          // console.log('-C- DatasetsList > created > results.body :', results.body)
           this.datasetsRequest = results.url
           this.datasets = results.body
           this.needsModerationData = true
@@ -376,14 +375,14 @@ export default {
     },
     updateModeration (item) {
       // TO DO
-      console.log('-C- DatasetsList > updateModeration > item : ', item)
+      // console.log('-C- DatasetsList > updateModeration > item : ', item)
       const itemModerationData = {
         uid: item.id,
         read: item.read,
         suspect: item.suspect,
         deleted: item.deleted
       }
-      console.log('-C- DatasetsList > updateModeration > itemModerationData : ', itemModerationData)
+      // console.log('-C- DatasetsList > updateModeration > itemModerationData : ', itemModerationData)
       // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'datasets')
       // console.log('-C- DatasetsList > updateModeration > updatedItem : ', updatedItem)
     },
@@ -396,19 +395,19 @@ export default {
       return this.itemsSelection.includes(item.id)
     },
     callbackAction (evt) {
-      console.log('-C- DatasetsList > callbackAction > evt : ', evt)
+      // console.log('-C- DatasetsList > callbackAction > evt : ', evt)
     },
     resetQuery () {
       this.query = undefined
       this.getDatasets(true)
     },
     changePagination (pageNumber) {
-      console.log('-C- DatasetsList > changePagination > pageNumber ', pageNumber)
+      // console.log('-C- DatasetsList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
       this.getDatasets()
     },
     changeSorting (sort) {
-      console.log('-C- DatasetsList > changeSorting > sort ', sort)
+      // console.log('-C- DatasetsList > changeSorting > sort ', sort)
       this.pagination.sortBy = sort.sortBy
       this.pagination.sortDesc = sort.sortDesc
       this.getDatasets()

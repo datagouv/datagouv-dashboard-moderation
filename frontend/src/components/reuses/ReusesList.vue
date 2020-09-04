@@ -235,7 +235,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- ReusesList > created ... ')
+    // console.log('-C- ReusesList > created ... ')
     if (this.customFields) { this.fields = this.customFields }
     this.getReuses()
   },
@@ -249,7 +249,7 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      console.log('-C- ReusesList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
+      // console.log('-C- ReusesList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, this.endpointModeration)
@@ -260,7 +260,7 @@ export default {
             deleted: itemStatus.deleted
           }
         }))
-        console.log('-C- ReusesList > appendModerationData > newData :', newData)
+        // console.log('-C- ReusesList > appendModerationData > newData :', newData)
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -277,7 +277,7 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          console.log('-C- ReusesList > created > results.body :', results.body)
+          // console.log('-C- ReusesList > created > results.body :', results.body)
           this.reusesRequest = results.url
           this.reuses = results.body
           this.needsModerationData = true
@@ -289,12 +289,12 @@ export default {
     },
     updateModeration (item) {
       // TO DO
-      console.log('-C- ReusesList > updateModeration > item : ', item)
+      // console.log('-C- ReusesList > updateModeration > item : ', item)
       const itemModerationData = {
         uid: item.id,
         read: item.read
       }
-      console.log('-C- ReusesList > updateModeration > itemModerationData : ', itemModerationData)
+      // console.log('-C- ReusesList > updateModeration > itemModerationData : ', itemModerationData)
       // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'resources')
       // console.log('-C- ReusesList > updateModeration > updatedItem : ', updatedItem)
     },
@@ -307,19 +307,19 @@ export default {
       return this.itemsSelection.includes(item.id)
     },
     callbackAction (evt) {
-      console.log('-C- ReusesList > callbackAction > evt : ', evt)
+      // console.log('-C- ReusesList > callbackAction > evt : ', evt)
     },
     resetQuery () {
       this.query = undefined
       this.getReuses(true)
     },
     changePagination (pageNumber) {
-      console.log('-C- ReusesList > changePagination > pageNumber ', pageNumber)
+      // console.log('-C- ReusesList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
       this.getReuses()
     },
     changeSorting (sort) {
-      console.log('-C- ReusesList > changeSorting > sort ', sort)
+      // console.log('-C- ReusesList > changeSorting > sort ', sort)
       this.pagination.sortBy = (sort.sortBy === 'created_at') ? 'created' : sort.sortBy
       this.pagination.sortDesc = sort.sortDesc
       this.getReuses()

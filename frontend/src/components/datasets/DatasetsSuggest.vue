@@ -127,7 +127,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- DatasetsSuggest > created ... ')
+    // console.log('-C- DatasetsSuggest > created ... ')
     if (this.customFields) { this.fields = this.customFields }
     // this.suggestDatasets()
   },
@@ -147,8 +147,8 @@ export default {
       const authNeeded = false
       this.$APIcli._request(this.operationId, { params, body, needAuth: authNeeded }).then(
         results => {
-          console.log('-C- DatasetsSuggest > created > results :', results)
-          console.log('-C- DatasetsSuggest > created > results.body :', results.body)
+          // console.log('-C- DatasetsSuggest > created > results :', results)
+          // console.log('-C- DatasetsSuggest > created > results.body :', results.body)
           this.datasetsRequest = results.url
           this.datasets = results.body
           this.isLoading = false

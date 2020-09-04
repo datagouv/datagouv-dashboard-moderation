@@ -109,12 +109,12 @@ export default {
   methods: {
     getDiscussion () {
       const API = this.$APIcli
-      console.log('-V- DiscussionUpdate > methods > getDiscussion > API :', API)
+      // console.log('-V- DiscussionUpdate > methods > getDiscussion > API :', API)
       const params = { id: this.discussionId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          console.log('-V- DiscussionUpdate > methods > getDiscussion > results.body :', results.body)
+          // console.log('-V- DiscussionUpdate > methods > getDiscussion > results.body :', results.body)
           this.discussionRequest = results.url
           this.discussion = results.body
           const title = this.discussion.title.length > 25 ? this.discussion.title.slice(0, 25) + '...' : this.discussion.title

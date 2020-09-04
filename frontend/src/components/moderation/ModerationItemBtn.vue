@@ -61,14 +61,14 @@ export default {
     },
     markItem (category) {
       // TO DO
-      console.log('-C- ModerationActionsBtn > markSelection > category : ', category)
-      console.log('-C- ModerationActionsBtn > markSelection > this.item : ', this.item)
+      // console.log('-C- ModerationActionsBtn > markSelection > category : ', category)
+      // console.log('-C- ModerationActionsBtn > markSelection > this.item : ', this.item)
       const respData = { msg: `response action : ${this.endpoint}-${category}` }
       this.emitResponse(respData)
     },
     deleteSelection () {
       // TO DO
-      console.log('-C- ModerationActionsBtn > deleteSelection > this.item : ', this.item)
+      // console.log('-C- ModerationActionsBtn > deleteSelection > this.item : ', this.item)
       const respData = { msg: `response action : ${this.endpoint}-delete` }
       this.emitResponse(respData)
     }

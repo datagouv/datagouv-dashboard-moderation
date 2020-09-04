@@ -154,7 +154,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- EditItemBtn > created ... ')
+    // console.log('-C- EditItemBtn > created ... ')
     if (Array.isArray(this.hideFields)) { this.hide = this.hideFields }
   },
   computed: {
@@ -171,8 +171,8 @@ export default {
     },
     editItem (category) {
       // TO DO
-      console.log('-C- EditItemBtn > editItem > category : ', category)
-      console.log('-C- EditItemBtn > editItem > this.item : ', this.item)
+      // console.log('-C- EditItemBtn > editItem > category : ', category)
+      // console.log('-C- EditItemBtn > editItem > this.item : ', this.item)
       const respData = {
         category: category,
         msg: `response action : ${this.endpoint}-${category}`
@@ -181,7 +181,7 @@ export default {
     },
     deleteItem () {
       // TO DO
-      console.log('-C- EditItemBtn > deleteItem > this.item : ', this.item)
+      // console.log('-C- EditItemBtn > deleteItem > this.item : ', this.item)
       const respData = { msg: `response action : ${this.endpoint}-delete` }
       this.emitResponse(respData)
     }

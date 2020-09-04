@@ -195,7 +195,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- NAVBAR > created ...')
+    // console.log('-C- NAVBAR > created ...')
   },
   computed: {
     ...mapState({
@@ -210,14 +210,14 @@ export default {
   },
   methods: {
     async submitLogin () {
-      console.log('\n-C- NAVBAR > submitLogin ...')
+      // console.log('\n-C- NAVBAR > submitLogin ...')
       // login with OAUTH
       this.isLoading = true
       this.$OAUTHcli.login(this.clientId)
     },
     async submitLogout () {
       // evt.preventDefault()
-      console.log('\n-C- NAVBAR > submitLogout ...')
+      // console.log('\n-C- NAVBAR > submitLogout ...')
       this.isLoading = true
       await this.$OAUTHcli.logout()
 
@@ -226,9 +226,9 @@ export default {
 
       this.$store.commit('user/resetUser')
       this.isLoading = false
-      console.log('-C- NAVBAR > submitLogout > this.$router : ', this.$router)
-      console.log('-C- NAVBAR > submitLogout > this.$router.currentRoute : ', this.$router.currentRoute)
-      console.log('-C- NAVBAR > submitLogout > this.$route : ', this.$route)
+      // console.log('-C- NAVBAR > submitLogout > this.$router : ', this.$router)
+      // console.log('-C- NAVBAR > submitLogout > this.$router.currentRoute : ', this.$router.currentRoute)
+      // console.log('-C- NAVBAR > submitLogout > this.$route : ', this.$route)
       if (this.$router.currentRoute.path !== '/') {
         this.$router.push('/')
       }

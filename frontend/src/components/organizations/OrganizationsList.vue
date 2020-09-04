@@ -269,7 +269,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- OrganizationsList > created ... ')
+    // console.log('-C- OrganizationsList > created ... ')
     if (this.customFields) { this.fields = this.customFields }
     this.getOrganizations()
   },
@@ -283,7 +283,7 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      console.log('-C- OrganizationsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
+      // console.log('-C- OrganizationsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, this.endpointModeration)
@@ -294,7 +294,7 @@ export default {
             deleted: itemStatus.deleted
           }
         }))
-        console.log('-C- OrganizationsList > appendModerationData > newData :', newData)
+        // console.log('-C- OrganizationsList > appendModerationData > newData :', newData)
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -311,7 +311,7 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          console.log('-C- OrganizationsList > created > results.body :', results.body)
+          // console.log('-C- OrganizationsList > created > results.body :', results.body)
           this.organizationsRequest = results.url
           this.organizations = results.body
           this.needsModerationData = true
@@ -323,13 +323,13 @@ export default {
     },
     updateModeration (item) {
       // TO DO
-      console.log('-C- OrganizationsList > updateModeration > item : ', item)
+      // console.log('-C- OrganizationsList > updateModeration > item : ', item)
       const itemModerationData = {
         uid: item.id,
         read: item.read,
         suspect: item.suspect
       }
-      console.log('-C- OrganizationsList > updateModeration > itemModerationData : ', itemModerationData)
+      // console.log('-C- OrganizationsList > updateModeration > itemModerationData : ', itemModerationData)
       // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'organizations')
       // console.log('-C- OrganizationsList > updateModeration > updatedItem : ', updatedItem)
     },
@@ -342,22 +342,22 @@ export default {
       return this.itemsSelection.includes(item.id)
     },
     callbackAction (evt) {
-      console.log('-C- OrganizationsList > callbackAction > evt : ', evt)
+      // console.log('-C- OrganizationsList > callbackAction > evt : ', evt)
     },
     resetQuery () {
       this.query = undefined
       this.getOrganizations(true)
     },
     changePagination (pageNumber) {
-      console.log('-C- OrganizationsList > changePagination > pageNumber ', pageNumber)
+      // console.log('-C- OrganizationsList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
       this.getOrganizations()
     },
     changeSorting (sort) {
-      console.log('-C- OrganizationsList > changeSorting > sort ', sort)
+      // console.log('-C- OrganizationsList > changeSorting > sort ', sort)
       this.pagination.sortBy = (sort.sortBy === 'created_at') ? 'created' : sort.sortBy
       this.pagination.sortDesc = sort.sortDesc
-      console.log('-C- OrganizationsList > changeSorting > this.pagination ', this.pagination)
+      // console.log('-C- OrganizationsList > changeSorting > this.pagination ', this.pagination)
       this.getOrganizations()
     },
     formatDate (dateString, addTime) {

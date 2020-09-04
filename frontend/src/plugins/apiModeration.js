@@ -58,11 +58,11 @@ class ModerationLib {
     }
     try {
       const response = await fetch(url, config)
-      console.log('>>> ModerationLib > getModeration >  response :', response)
+      // console.log('>>> ModerationLib > getModeration >  response :', response)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       return response
     } catch (error) {
-      console.log('error', error)
+      // console.log('error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {
       // console.log('>>> ModerationLib > getModeration > finally ...')

@@ -108,12 +108,12 @@ export default {
   methods: {
     getReuse () {
       const API = this.$APIcli
-      console.log('-V- ReuseUpdate > methods > getReuse > API :', API)
+      // console.log('-V- ReuseUpdate > methods > getReuse > API :', API)
       const params = { reuse: this.reuseId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          console.log('-V- ReuseUpdate > methods > getReuse > results.body :', results.body)
+          // console.log('-V- ReuseUpdate > methods > getReuse > results.body :', results.body)
           this.reuseRequest = results.url
           this.reuse = results.body
           const title = this.reuse.title.length > 25 ? this.reuse.title.slice(0, 25) + '...' : this.reuse.title
