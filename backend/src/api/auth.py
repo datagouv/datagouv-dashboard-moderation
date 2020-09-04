@@ -2,7 +2,7 @@ from functools import wraps
 
 from flask import session, make_response
 
-from src import db
+from src.models import User
 
 
 def login_required(func):
@@ -12,7 +12,7 @@ def login_required(func):
             user_id = session['user_id']
         except KeyError:
             return make_response(('Unauthorized', 401))
-        user = db["users"].find_one(uid=user_id)
+        user = User.query.filter_by(dgf_id=user_id).first()
         if user is None:
             return make_response(('Unauthorized', 401))
         return func(user, *args, **kwargs)

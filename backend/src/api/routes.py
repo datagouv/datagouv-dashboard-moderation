@@ -86,19 +86,19 @@ def create_object(user):
     try:
         new_object = ObjectSchema().load(data)
     except ValidationError as err:
-        return make_response((err.message, 400))
+        return make_response((err.messages, 400))
     try:
         db.session.add(new_object)
         db.session.commit()
     except Exception as err:
-        return make_response((err.message, 500))
+        return make_response((err.messages, 500))
     return make_response(('success', 201))
 
 
 @bp.route('/objects/<dgf_object_id>', methods=['GET'])
 @login_required
-def get_object(user, dgf_object):
-    dgf_object = DgfObject.query.filter_by(dgf_id=dgf_object).first()
+def get_object(user, dgf_object_id):
+    dgf_object = DgfObject.query.filter_by(dgf_id=dgf_object_id).first()
     if dgf_object is None:
         return make_response(('Object not found', 404))
     schema = ObjectSchema()
@@ -108,8 +108,8 @@ def get_object(user, dgf_object):
 
 @bp.route('/objects/<dgf_object_id>', methods=['PUT'])
 @login_required
-def update_object(user, dgf_object):
-    dgf_object = DgfObject.query.filter_by(dgf_id=dgf_object).first()
+def update_object(user, dgf_object_id):
+    dgf_object = DgfObject.query.filter_by(dgf_id=dgf_object_id).first()
     if dgf_object is None:
         return make_response(('Object not found', 404))
     schema = ObjectSchema()
