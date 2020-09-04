@@ -4,3 +4,6 @@ flask-sqlalchemy
 flask-migrate
 gunicorn
 marshmallow
+pytest
+requests
+requests-mock
