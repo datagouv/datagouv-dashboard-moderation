@@ -1,6 +1,6 @@
 flask
 flask-cors
-dataset
-psycopg2-binary
+flask-sqlalchemy
+flask-migrate
 gunicorn
 marshmallow
