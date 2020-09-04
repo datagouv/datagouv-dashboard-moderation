@@ -1,8 +1,4 @@
-import os
-import tempfile
-
 import pytest
-import dataset
 import requests_mock
 
 from src import create_app

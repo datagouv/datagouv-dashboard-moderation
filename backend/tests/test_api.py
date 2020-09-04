@@ -1,4 +1,3 @@
-import pytest
 import requests_mock
 
 from tests.conftest import RESPONSE_DICT, RESPONSE_DICT_NON_ADMIN
@@ -27,26 +26,26 @@ def test_submit_token_non_admin(client, app):
     assert response.status_code == 403
 
 
-def test_submit_dataset_as_read(client, app, auth):
+def test_submit_object_as_read(client, app, auth):
     auth.login()
     response = client.post(
-        '/api/datasets',
+        '/api/objects',
         json={'uid': 'datasetfakeuid', 'read': True},
         headers={'content-type': 'application/json'}
         )
     assert response.status_code == 201
 
 
-def test_get_non_existent_dataset(client, app, auth):
+def test_get_non_existent_object(client, app, auth):
     auth.login()
     response = client.get(
-        '/api/datasets/dumdatasetuid4test',
+        '/api/objects/dumdatasetuid4test',
         headers={'content-type': 'application/json'}
         )
     assert response.status_code == 404
 
 
-def test_get_dataset(client, app, auth):
+def test_get_object(client, app, auth):
     auth.login()
 
     response = client.post(
