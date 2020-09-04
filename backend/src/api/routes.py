@@ -16,6 +16,7 @@ class LoginSchema(Schema):
 
 
 class ObjectSchema(Schema):
+    id = fields.Int(dump_only=True)
     suspicious = fields.Boolean(required=True)
     read = fields.Boolean(required=True)
     deleted = fields.Boolean(required=True)
@@ -28,6 +29,7 @@ class ObjectSchema(Schema):
 
 
 class UserSchema(Schema):
+    id = fields.Int(dump_only=True)
     first_name = fields.Str(required=True)
     last_name = fields.Str(required=True)
     email = fields.Email(required=True)
@@ -92,13 +94,13 @@ def create_object(user):
         db.session.commit()
     except Exception as err:
         return make_response((err.messages, 500))
-    return make_response(('success', 201))
+    return make_response(({'object_id': new_object.id}, 201))
 
 
 @bp.route('/objects/<dgf_object_id>', methods=['GET'])
 @login_required
 def get_object(user, dgf_object_id):
-    dgf_object = DgfObject.query.filter_by(dgf_id=dgf_object_id).first()
+    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
     if dgf_object is None:
         return make_response(('Object not found', 404))
     schema = ObjectSchema()
@@ -109,9 +111,15 @@ def get_object(user, dgf_object_id):
 @bp.route('/objects/<dgf_object_id>', methods=['PUT'])
 @login_required
 def update_object(user, dgf_object_id):
-    dgf_object = DgfObject.query.filter_by(dgf_id=dgf_object_id).first()
+    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
     if dgf_object is None:
         return make_response(('Object not found', 404))
-    schema = ObjectSchema()
-    result = schema.dump(dgf_object)
-    return make_response((result, 200))
+    data = request.get_json(force=True) or {}
+    if 'suspicious' in data:
+        dgf_object.suspicious = data['suspicious']
+    if 'read' in data:
+        dgf_object.read = data['read']
+    if 'deleted' in data:
+        dgf_object.deleted = data['deleted']
+    db.session.commit()
+    return make_response(('success', 200))

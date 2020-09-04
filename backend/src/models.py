@@ -35,10 +35,12 @@ class DgfObject(db.Model):
     dgf_id = db.Column(db.String(255), nullable=False)
     comments = db.relationship('Comment', backref='dgf_objects', lazy=True)
 
-    def __init__(self, suspicious, read, deleted):
+    def __init__(self, suspicious, read, deleted, dgf_type, dgf_id):
         self.suspicious = suspicious
         self.read = read
-        self.deleted(deleted)
+        self.deleted = deleted
+        self.dgf_type = dgf_type
+        self.dgf_id = dgf_id
 
     def __repr__(self):
         return f"<Dgf {self.dgf_type} with id {self.dgf_id}>"
