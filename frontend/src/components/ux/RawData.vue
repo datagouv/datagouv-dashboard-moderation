@@ -68,6 +68,11 @@ export default {
       seeRaw: false
     }
   },
+  watch: {
+    see (next) {
+      this.seeRaw = next
+    }
+  },
   created () {
     this.seeRaw = this.see
   }

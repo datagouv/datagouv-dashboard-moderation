@@ -2,17 +2,29 @@
   <div class="dataset-card-component">
 
     <b-card
-      header-tag="header"
-      :header="cardTitle"
       footer-tag="footer"
       :footer="cardFooter"
-      :title="datasetTitle"
-      class="mx-auto text-center"
       >
+
+      <template v-slot:header>
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <div class="flex-fill align-content-center">
+            {{ cardTitle }}
+          </div>
+          <EditItemBtn
+            :endpoint="putOperationId"
+            :item="dataset"
+            :hideFields="['chat']"
+            @responseAction="callbackAction"
+            >
+          </EditItemBtn>
+        </div>
+      </template>
 
       <RawData
         :customClass="`mb-3`"
         :dataRaw="dataset"
+        :see="seeRaw"
       ></RawData>
 
       <!-- VIEW -->
@@ -69,14 +81,15 @@
         </b-card-text>
 
         <!-- EDIT -->
-        <b-button
+        <!-- <b-button
           v-if="isAuthenticated"
           @click="edit=true"
           variant="primary"
           >
           <b-icon icon="pencil" aria-hidden="true"></b-icon>
           {{ $t('actions.edit') }}
-        </b-button>
+        </b-button> -->
+
       </div>
 
       <!-- EDIT -->
@@ -148,11 +161,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'DatasetCard',
   components: {
+    EditItemBtn,
     RawData
   },
   props: [
@@ -165,8 +180,8 @@ export default {
   data () {
     return {
       edit: false,
-      isLoading: false,
       seeRaw: false,
+      isLoading: false,
       defaultText: 'dataset is loading',
       defaultOwner: '...',
       putOperationId: 'update_dataset',
@@ -206,6 +221,14 @@ export default {
     }
   },
   methods: {
+    callbackAction (evt) {
+      console.log('-C- DatasetCard > callbackAction > evt : ', evt)
+      switch (evt.category) {
+        case 'openEdit':
+          this.edit = true
+          break
+      }
+    },
     updateDataset (evt) {
       evt.preventDefault()
       const API = this.$APIcli

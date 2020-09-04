@@ -47,6 +47,7 @@
       <b-col sm="6" md="4">
         <ModerationRowCard
           :hasHeader="true"
+          :endpoint="endpointModeration"
           :item="reuse"
         />
       </b-col>
@@ -75,6 +76,7 @@ export default {
       isLoading: false,
       getOperationId: 'get_reuse',
       putOperationId: 'update_reuse',
+      endpointModeration: 'reuse',
       reuseId: this.$route.params.id,
       reuseRequest: undefined,
       reuse: undefined,

@@ -47,6 +47,7 @@
       <b-col sm="6" md="4">
         <ModerationRowCard
           :hasHeader="true"
+          :endpoint="endpointModeration"
           :item="discussion"
         />
       </b-col>
@@ -76,6 +77,7 @@ export default {
       isLoading: false,
       getOperationId: 'get_discussion',
       putOperationId: 'update_discussion',
+      endpointModeration: 'discussion',
       discussionId: this.$route.params.id,
       discussionRequest: undefined,
       discussion: undefined,

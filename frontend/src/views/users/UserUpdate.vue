@@ -47,6 +47,7 @@
       <b-col sm="6" md="4">
         <ModerationRowCard
           :hasHeader="true"
+          :endpoint="endpointModeration"
           :item="user"
         />
       </b-col>
@@ -76,6 +77,7 @@ export default {
       isLoading: false,
       getOperationId: 'get_user',
       putOperationId: 'update_user',
+      endpointModeration: 'user',
       userId: this.$route.params.id,
       userRequest: undefined,
       user: undefined,

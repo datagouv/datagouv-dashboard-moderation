@@ -48,6 +48,7 @@
       <b-col sm="6" md="4">
         <ModerationRowCard
           :hasHeader="true"
+          :endpoint="endpointModeration"
           :item="dataset"
         />
       </b-col>
@@ -77,6 +78,7 @@ export default {
       isLoading: false,
       getOperationId: 'get_dataset',
       putOperationId: 'update_dataset',
+      endpointModeration: 'dataset',
       datasetId: this.$route.params.id,
       datasetsRequest: undefined,
       dataset: undefined,

@@ -53,18 +53,30 @@ const translations = {
     },
     actions: {
       actions: 'actions',
+      actionsGroupText: 'actions groupées',
       select: 'sélectionner',
       search: 'rechercher',
       searchFor: 'rechercher un.e {target}',
       edit: 'modifier',
+      spotlight: 'mettre en avant',
+      contactProducer: 'contacter le producteur',
+      follow: 'suivre',
+      share: 'partager',
+      reportIssue: 'signaler une anomalie',
       save: 'sauver',
       comment: 'commenter',
+      confirm: 'confirmer',
       close: 'fermer',
       cancel: 'annuler',
       delete: 'supprimer',
       show: 'montrer',
       hide: 'cacher',
       wait: 'merci de patienter'
+    },
+    dialogs: {
+      sure: 'êtes-vous certain.e ?',
+      sureDelete: 'êtes-vous certain.e de vouloir supprimer ces éléments ?',
+      sureDeleteItem: 'êtes-vous certain.e de vouloir supprimer cet élément ?'
     },
     moderation: {
       selection: 'sélection',

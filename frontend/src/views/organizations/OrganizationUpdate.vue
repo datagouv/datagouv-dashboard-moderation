@@ -47,6 +47,7 @@
       <b-col sm="6" md="4">
         <ModerationRowCard
           :hasHeader="true"
+          :endpoint="endpointModeration"
           :item="organization"
         />
       </b-col>
@@ -76,6 +77,7 @@ export default {
       isLoading: false,
       getOperationId: 'get_organization',
       putOperationId: 'update_organization',
+      endpointModeration: 'organization',
       organizationId: this.$route.params.id,
       organizationRequest: undefined,
       organization: undefined,

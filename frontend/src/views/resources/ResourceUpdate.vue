@@ -47,6 +47,7 @@
       <b-col sm="6" md="4">
         <ModerationRowCard
           :hasHeader="true"
+          :endpoint="endpointModeration"
           :item="resource"
         />
       </b-col>
@@ -77,6 +78,7 @@ export default {
       // getOperationId: 'get_resource',
       getOperationId: 'retrieve_community_resource',
       putOperationId: 'update_resource',
+      endpointModeration: 'resource',
       resourceId: this.$route.params.id,
       resourceRequest: undefined,
       resource: undefined,

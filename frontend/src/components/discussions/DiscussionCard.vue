@@ -2,16 +2,28 @@
   <div class="discussion-card-component">
 
     <b-card
-      header-tag="header"
-      :header="cardTitle"
       footer-tag="footer"
       :footer="cardFooter"
-      class="mx-auto text-center"
       >
+
+      <template v-slot:header>
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <div class="flex-fill align-content-center">
+            {{ cardTitle }}
+          </div>
+          <EditItemBtn
+            :endpoint="putOperationId"
+            :item="discussion"
+            :hideFields="['spotlight','follow', 'share', 'contactProducer']"
+            @responseAction="callbackAction"
+            >
+          </EditItemBtn>
+        </div>
+      </template>
 
       <RawData
         :customClass="`mb-3`"
-        :see="true"
+        :see="seeRaw"
         :dataRaw="discussion"
       ></RawData>
 
@@ -24,14 +36,14 @@
         </b-card-text>
 
         <!-- EDIT -->
-        <b-button
+        <!-- <b-button
           v-if="isAuthenticated && !edit"
           @click="edit=true"
           variant="primary"
           >
           <b-icon icon="pencil" aria-hidden="true"></b-icon>
          {{ $t('actions.edit') }}
-        </b-button>
+        </b-button> -->
       </div>
 
       <!-- EDIT -->
@@ -96,11 +108,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'DiscussionCard',
   components: {
+    EditItemBtn,
     RawData
   },
   props: [
@@ -113,6 +127,7 @@ export default {
   data () {
     return {
       edit: false,
+      seeRaw: true,
       isLoading: false,
       defaultText: 'discussion is loading',
       putOperationId: 'comment_discussion',
@@ -140,6 +155,15 @@ export default {
     })
   },
   methods: {
+    callbackAction (evt) {
+      console.log('-C- DiscussionCard > callbackAction > evt : ', evt)
+      switch (evt.category) {
+        case 'openEdit':
+          this.edit = true
+          this.seeRaw = false
+          break
+      }
+    },
     commentDiscussion (evt) {
       evt.preventDefault()
       const API = this.$APIcli

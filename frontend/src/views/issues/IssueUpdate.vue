@@ -49,6 +49,7 @@
       <b-col sm="6" md="4">
         <ModerationRowCard
           :hasHeader="true"
+          :endpoint="endpointModeration"
           :item="issue"
         />
       </b-col>
@@ -78,6 +79,7 @@ export default {
       isLoading: false,
       getOperationId: 'get_issue',
       putOperationId: 'update_issue',
+      endpointModeration: 'issue',
       issueId: this.$route.params.id,
       issueRequest: undefined,
       issue: undefined,

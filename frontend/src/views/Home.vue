@@ -10,11 +10,12 @@
     <Homepage/>
     <br>
 
-    <b-container fluid class="bv-example-row">
+    <b-container fluid >
     <b-row
       align-h="center"
       cols="3"
       >
+
       <b-col cols="12" class="mt-4 mb-5">
         <h3 v-if="!isLoading && site">
           <b-badge
@@ -30,6 +31,7 @@
           </b-badge>
         </h3>
       </b-col>
+
       <b-col cols="8" class="mt-4 mb-5">
         <DatasetsSuggest
           >
@@ -40,7 +42,8 @@
           </template>
         </DatasetsSuggest>
       </b-col>
-      <b-col cols="6">
+
+      <b-col cols="6" class="pr-0">
         <DatasetsList
           height="400px"
           :small="true"
@@ -53,7 +56,8 @@
           </template>
         </DatasetsList>
       </b-col>
-      <b-col cols="6">
+
+      <b-col cols="6" class="pl-0">
         <ResourcesList
           height="400px"
           :small="true"
@@ -67,7 +71,8 @@
           </template>
         </ResourcesList>
       </b-col>
-      <b-col cols="6">
+
+      <b-col cols="6" class="pr-0">
         <ReusesList
           height="400px"
           :small="true"
@@ -80,7 +85,8 @@
           </template>
         </ReusesList>
       </b-col>
-      <b-col cols="6">
+
+      <b-col cols="6" class="pl-0">
         <DiscussionsList
           height="400px"
           :small="true"
@@ -93,7 +99,8 @@
           </template>
         </DiscussionsList>
       </b-col>
-      <b-col cols="6">
+
+      <b-col cols="6" class="pr-0">
         <IssuesList
           height="400px"
           :small="true"
@@ -106,7 +113,8 @@
           </template>
         </IssuesList>
       </b-col>
-      <b-col cols="6">
+
+      <b-col cols="6" class="pl-0">
         <UsersList
           height="400px"
           :small="true"
@@ -119,6 +127,7 @@
           </template>
         </UsersList>
       </b-col>
+
       <b-col cols="6">
         <OrganizationsList
           height="400px"

@@ -53,18 +53,30 @@ const translations = {
     },
     actions: {
       actions: 'actions',
+      actionsGroupText: 'grouped actions',
       select: 'select',
       search: 'search',
       searchFor: 'search for a {target}',
       edit: 'edit',
+      spotlight: 'spotlight',
+      contactProducer: 'contact the producer',
+      follow: 'follow',
+      share: 'share',
+      reportIssue: 'report an issue',
       save: 'save',
       comment: 'comment',
+      confirm: 'confirm',
       close: 'close',
       cancel: 'cancel',
       delete: 'delete',
       show: 'show',
       hide: 'hide',
       wait: 'please wait'
+    },
+    dialogs: {
+      sure: 'are you sure ?',
+      sureDelete: 'are you sure you want to delete those elements ?',
+      sureDeleteItem: 'are you sure you want to delete this element ?'
     },
     moderation: {
       selection: 'selection',

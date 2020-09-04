@@ -1,7 +1,7 @@
 <template>
 
   <b-card
-    class="mt-3 mx-4 text-center"
+    class="mt-3 mx-3 text-center"
     >
 
     <p><slot name="blockTitle"></slot></p>
@@ -32,7 +32,9 @@
       class="my-3"
       >
 
-      <b-col cols="7" md="5">
+      <b-col cols="7" md="5"
+        class="pr-0"
+        >
         <b-input-group>
           <b-input-group-prepend is-text>
             <b-icon icon="search"></b-icon>
@@ -52,25 +54,26 @@
         </b-input-group>
       </b-col>
 
-      <b-col cols="3" md="5"
+      <b-col cols="4" md="6"
         v-if="datasets && pagination.totalItems > pagination.pageSize"
-        class=""
+        class="px-0"
         >
         <b-pagination
           @input="changePagination"
           v-model="pagination.page"
           :total-rows="pagination.totalItems"
           :per-page="pagination.pageSize"
-          class="my-0"
+          class="my-0 px-0"
           align="center"
           size="sm"
         ></b-pagination>
       </b-col>
 
-      <b-col cols="2">
+      <b-col cols="1" class="text-right pl-0">
         <ModerationActionsBtn
           :endpoint="endpointModeration"
           :itemsSelection="itemsSelection"
+          :itemsList="datasets && datasets.data"
           @responseAction="callbackAction"
           >
         </ModerationActionsBtn>
