@@ -37,10 +37,10 @@
           :sm="hasHeader? 5 : 3"
           class="text-sm-right">
           <b>
-          {{ $t('moderation.suspect') }}:</b>
+          {{ $t('moderation.suspiciousous') }}:</b>
         </b-col>
         <b-col>
-          {{ item.suspect }}
+          {{ item.suspicious }}
         </b-col>
       </b-row>
       <b-row class="mb-2">

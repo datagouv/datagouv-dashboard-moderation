@@ -128,17 +128,38 @@
         <b-form inline class="justify-content-center">
           <b-form-checkbox
             v-model="row.item.read"
+            :value="row.item.read"
             v-if="isAuthenticated"
-            @change="updateModeration(row.item)"
+            @change="updateModeration(row.item, 'read', $event)"
             >
             {{ $t('moderation.read') }}
           </b-form-checkbox>
           <b-form-checkbox
             v-else
             disabled
-            v-model="row.item.read"
+            :value="row.item.read"
             >
             {{ $t('moderation.read') }}
+          </b-form-checkbox>
+        </b-form>
+      </template>
+
+      <template v-slot:cell(moderation_suspect)="row">
+        <b-form inline class="justify-content-center">
+          <b-form-checkbox
+            v-model="row.item.suspicious"
+            :value="row.item.suspicious"
+            v-if="isAuthenticated"
+            @change="updateModeration(row.item, 'suspicious', $event)"
+            >
+            {{ $t('moderation.suspicious') }}
+          </b-form-checkbox>
+          <b-form-checkbox
+            v-else
+            disabled
+            :value="row.item.suspicious"
+            >
+            {{ $t('moderation.suspicious') }}
           </b-form-checkbox>
         </b-form>
       </template>
@@ -231,6 +252,7 @@ export default {
         { key: 'selection', label: 'selection', stickyColumn: true, isRowHeader: true, sortable: false },
         { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
         { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
+        { key: 'moderation_suspect', label: 'Suspect', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'title', label: 'title', stickyColumn: true, isRowHeader: true },
         { key: 'discussion', label: 'number of discussions', sortable: true },
         { key: 'subject', label: 'related to' },
@@ -265,13 +287,9 @@ export default {
       // console.log('-C- DiscussionsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
-          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, this.endpointModeration)
-          return {
-            ...obj,
-            read: itemStatus.read,
-            suspect: itemStatus.suspect,
-            deleted: itemStatus.deleted
-          }
+          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
+          const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
+          return consolidated
         }))
         // console.log('-C- DiscussionsList > appendModerationData > newData :', newData)
         itemObject.data = newData
@@ -300,16 +318,9 @@ export default {
         reason => console.error(`-C- DiscussionsList > failed on api call: ${reason}`)
       )
     },
-    updateModeration (item) {
-      // TO DO
-      // console.log('-C- DiscussionsList > updateModeration > item : ', item)
-      const itemModerationData = {
-        uid: item.id,
-        read: item.read
-      }
-      // console.log('-C- DiscussionsList > updateModeration > itemModerationData : ', itemModerationData)
-      // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'discussions')
-      // console.log('-C- DiscussionsList > updateModeration > updatedItem : ', updatedItem)
+    async updateModeration (item, field, evt) {
+      const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
+      console.log('-C- DatasetsList > updateModeration > updatedItem : ', updatedItem)
     },
     changeSelection (item) {
       if (this.isAuthenticated) {

@@ -130,17 +130,38 @@
         <b-form inline class="justify-content-center">
           <b-form-checkbox
             v-model="row.item.read"
+            :value="row.item.read"
             v-if="isAuthenticated"
-            @change="updateModeration(row.item)"
+            @change="updateModeration(row.item, 'read', $event)"
             >
             {{ $t('moderation.read') }}
           </b-form-checkbox>
           <b-form-checkbox
             v-else
             disabled
-            v-model="row.item.read"
+            :value="row.item.read"
             >
             {{ $t('moderation.read') }}
+          </b-form-checkbox>
+        </b-form>
+      </template>
+
+      <template v-slot:cell(moderation_suspect)="row">
+        <b-form inline class="justify-content-center">
+          <b-form-checkbox
+            v-model="row.item.suspicious"
+            :value="row.item.suspicious"
+            v-if="isAuthenticated"
+            @change="updateModeration(row.item, 'suspicious', $event)"
+            >
+            {{ $t('moderation.suspicious') }}
+          </b-form-checkbox>
+          <b-form-checkbox
+            v-else
+            disabled
+            :value="row.item.suspicious"
+            >
+            {{ $t('moderation.suspicious') }}
           </b-form-checkbox>
         </b-form>
       </template>
@@ -221,7 +242,6 @@
         </span>
       </template>
 
-      <!-- A custom formatted column -->
       <template v-slot:cell(id)="data">
         <router-link
           class="text-info"
@@ -261,6 +281,7 @@ export default {
     return {
       isLoading: false,
       seeRaw: false,
+      dgfType: 'dataset',
       endpointModeration: 'datasets',
       operationId: 'list_datasets',
       datasets: undefined,
@@ -294,6 +315,7 @@ export default {
         { key: 'selection', label: 'Selection', stickyColumn: true, isRowHeader: true },
         { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
         { key: 'moderation_read', label: 'Read', stickyColumn: true, isRowHeader: true, sortable: true },
+        { key: 'moderation_suspect', label: 'Suspect', stickyColumn: true, isRowHeader: true, sortable: true },
         // { key: 'moderation', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'title', stickyColumn: true, isRowHeader: true, sortable: true },
         'acronym',
@@ -337,15 +359,18 @@ export default {
       // console.log('-C- DatasetsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
-          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id, this.endpointModeration)
-          return {
-            ...obj,
-            read: itemStatus.read,
-            suspect: itemStatus.suspect,
-            deleted: itemStatus.deleted
-          }
+          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
+          const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
+          return consolidated
+          // return {
+          //   ...obj,
+          //   read: itemStatus.read,
+          //   suspicious: itemStatus.suspicious,
+          //   comments: itemStatus.comments,
+          //   deleted: itemStatus.deleted
+          // }
         }))
-        // console.log('-C- DatasetsList > appendModerationData > newData :', newData)
+        console.log('-C- DatasetsList > appendModerationData > newData :', newData)
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -373,18 +398,9 @@ export default {
         reason => console.error(`-C- DatasetsList > failed on api call: ${reason}`)
       )
     },
-    updateModeration (item) {
-      // TO DO
-      // console.log('-C- DatasetsList > updateModeration > item : ', item)
-      const itemModerationData = {
-        uid: item.id,
-        read: item.read,
-        suspect: item.suspect,
-        deleted: item.deleted
-      }
-      // console.log('-C- DatasetsList > updateModeration > itemModerationData : ', itemModerationData)
-      // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'datasets')
-      // console.log('-C- DatasetsList > updateModeration > updatedItem : ', updatedItem)
+    async updateModeration (item, field, evt) {
+      const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
+      console.log('-C- DatasetsList > updateModeration > updatedItem : ', updatedItem)
     },
     changeSelection (item) {
       if (this.isAuthenticated) {

@@ -81,7 +81,7 @@ const translations = {
     moderation: {
       selection: 'sélection',
       read: 'lu',
-      suspect: 'suspect',
+      suspicious: 'suspect',
       comments: 'commentaires',
       moderation: '{prefix}modération',
       markAsRead: 'marquer comme lu(s)',
