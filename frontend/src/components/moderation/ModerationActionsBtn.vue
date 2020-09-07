@@ -86,7 +86,7 @@
             v-for="item in itemsSelection"
             :key="item"
             >
-            {{itemField(item)}}
+            {{dgfType}} : {{itemField(item)}}
           </b-list-group-item>
         </b-list-group>
       </template>
@@ -142,11 +142,24 @@ export default {
     }),
     isDeleteOperation () {
       return this.deleteEndpoints[this.dgfType]
+    },
+    getItemTitleField () {
+      let field = 'title'
+      switch (this.dgfType) {
+        case 'user':
+          field = 'last_name'
+          break
+        case 'organization':
+          field = 'name'
+          break
+      }
+      return field
     }
   },
   methods: {
-    itemField (itemId, field = 'title') {
+    itemField (itemId) {
       const item = this.itemsList.find(el => el.id === itemId)
+      const field = this.getItemTitleField
       return item[field]
     },
     emitResponse (data) {
