@@ -12,6 +12,7 @@
             {{ cardTitle }}
           </div>
           <EditItemBtn
+            :dgfType="dgfType"
             :endpoint="putOperationId"
             :item="user"
             :hideFields="['chat', 'comment', 'spotlight', 'share']"
@@ -30,7 +31,7 @@
 
       <RawData
         :customClass="`mb-3`"
-        :see="seeRaw"
+        :see="seeRawActivity"
         title="user activity"
         :dataRaw="userActivity"
       ></RawData>
@@ -145,6 +146,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { APIoperations } from '@/config/APIoperations.js'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
@@ -163,8 +166,11 @@ export default {
   ],
   data () {
     return {
+      activityEndpoints: APIoperations.activityEndpoints,
+      dgfType: 'user',
       edit: false,
       seeRaw: true,
+      seeRawActivity: false,
       isLoading: false,
       defaultText: 'user is loading',
       activityOperationId: 'activity',
@@ -208,16 +214,16 @@ export default {
       const API = this.$APIcli
       // console.log('-C- UserCard > methods > getUserActivity > API :', API)
       const params = { user: this.userId }
-      // this.isLoading = true
+      this.isLoading = true
       API._request(this.activityOperationId, { params }).then(
         results => {
           // console.log('-C- UserCard > methods > getUserActivity > results.body :', results.body)
           this.userActivity = results.body
-          // this.isLoading = false
+          this.isLoading = false
         },
         reason => {
           console.error(`failed on api call: ${reason}`)
-          // this.isLoading = false
+          this.isLoading = false
         }
       )
     },

@@ -2,9 +2,9 @@
 
   <b-card
     >
-    <code>
+    <!-- <code>
       {{item}}
-    </code>
+    </code> -->
 
     <!-- ACTION BTN -->
     <template v-slot:header v-if="hasHeader">

@@ -49,6 +49,7 @@
       <b-col sm="6" md="4">
         <ModerationRowCard
           :hasHeader="true"
+          :dgfType="dgfType"
           :endpoint="endpointModeration"
           :item="issue"
         />
@@ -77,6 +78,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      dgfType: 'dataset',
       getOperationId: 'get_issue',
       putOperationId: 'update_issue',
       endpointModeration: 'issue',

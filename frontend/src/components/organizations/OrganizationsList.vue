@@ -69,6 +69,7 @@
 
       <b-col cols="2" class="text-right">
         <ModerationActionsBtn
+          :dgfType="dgfType"
           :endpoint="endpointModeration"
           :itemsSelection="itemsSelection"
           :itemsList="organizations && organizations.data"

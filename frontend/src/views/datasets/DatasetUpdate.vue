@@ -48,6 +48,7 @@
       <b-col sm="6" md="4">
         <ModerationRowCard
           :hasHeader="true"
+          :dgfType="dgfType"
           :endpoint="endpointModeration"
           :item="dataset"
         />

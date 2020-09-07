@@ -47,6 +47,7 @@
       <b-col sm="6" md="4">
         <ModerationRowCard
           :hasHeader="true"
+          :dgfType="dgfType"
           :endpoint="endpointModeration"
           :item="reuse"
         />
@@ -74,6 +75,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      dgfType: 'reuse',
       getOperationId: 'get_reuse',
       putOperationId: 'update_reuse',
       endpointModeration: 'reuse',

@@ -18,7 +18,7 @@
 
     <!-- EDIT -->
     <b-dropdown-item-button
-      v-if="!hide.includes('openEdit')"
+      v-if="!hide.includes('openEdit') && isUpdateOperation"
       @click="isAuthenticated && editItem('openEdit')"
       >
       <b-icon icon="pencil"></b-icon>
@@ -27,7 +27,7 @@
 
     <!-- COMMENT -->
     <b-dropdown-item-button
-      v-if="!hide.includes('comment')"
+      v-if="!hide.includes('comment') && isCommentOperation"
       @click="isAuthenticated && editItem('comment')"
       >
       <b-icon icon="chat"></b-icon>
@@ -37,6 +37,7 @@
     <!-- SPOTLIGHT -->
     <b-dropdown-item-button
       v-if="!hide.includes('spotlight')"
+      disabled
       @click="isAuthenticated && editItem('spotlight')"
       >
       <b-icon icon="star"></b-icon>
@@ -46,6 +47,7 @@
     <!-- CONTACT PRODUCER -->
     <b-dropdown-item-button
       v-if="!hide.includes('contactProducer')"
+      disabled
       @click="isAuthenticated && editItem('contactProducer')"
       >
       <b-icon icon="envelope"></b-icon>
@@ -55,6 +57,7 @@
     <!-- FOLLOW -->
     <b-dropdown-item-button
       v-if="!hide.includes('follow')"
+      disabled
       @click="isAuthenticated && editItem('follow')"
       >
       <b-icon icon="bell"></b-icon>
@@ -64,26 +67,31 @@
     <!-- SHARE -->
     <b-dropdown-item-button
       v-if="!hide.includes('share')"
+      disabled
       @click="isAuthenticated && editItem('share')"
       >
-      <b-icon icon="share"></b-icon>
+      <b-icon icon="box-arrow-up-right"></b-icon>
       {{$t('actions.share')}}
     </b-dropdown-item-button>
 
     <!-- REPORT ISSUE -->
     <b-dropdown-item-button
       v-if="!hide.includes('reportIssue')"
+      disabled
       @click="isAuthenticated && editItem('reportIssue')"
       >
       <b-icon icon="exclamation-triangle"></b-icon>
       {{$t('actions.reportIssue')}}
     </b-dropdown-item-button>
 
-    <b-dropdown-divider></b-dropdown-divider>
+    <b-dropdown-divider
+      v-if="isDeleteOperation"
+      >
+    </b-dropdown-divider>
 
     <!-- DELETE ITEM -->
     <b-dropdown-item-button
-      v-if="!hide.includes('delete')"
+      v-if="!hide.includes('delete') && isDeleteOperation"
       @click="$bvModal.show('modal-delete-item')"
       >
       <b-icon icon="trash-fill"></b-icon>
@@ -112,7 +120,9 @@
         <h4 class="text-center my-4">
           {{ $t('dialogs.sureDeleteItem') }}
         </h4>
-        {{item.title}}
+        <p class="text-center">
+          {{dgfType}} : {{getItemTitle}}
+        </p>
       </template>
 
       <template v-slot:modal-footer="{ ok, cancel }">
@@ -129,6 +139,7 @@
           variant="secondary"
           @click="cancel()"
           >
+          <b-icon icon="x" aria-hidden="true"></b-icon>
           {{ $t('actions.cancel') }}
         </b-button>
       </template>
@@ -141,15 +152,21 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { APIoperations } from '@/config/APIoperations.js'
+
 export default {
   name: 'EditItemBtn',
   props: [
+    'dgfType',
     'endpoint',
     'item',
     'hideFields'
   ],
   data () {
     return {
+      updateEndpoints: APIoperations.updateEndpoints,
+      commentEndpoints: APIoperations.commentEndpoints,
+      deleteEndpoints: APIoperations.deleteEndpoints,
       hide: []
     }
   },
@@ -163,7 +180,28 @@ export default {
     }),
     ...mapGetters({
       isAuthenticated: 'oauth/isAuthenticated'
-    })
+    }),
+    isUpdateOperation () {
+      return this.updateEndpoints[this.dgfType]
+    },
+    isCommentOperation () {
+      return this.commentEndpoints[this.dgfType]
+    },
+    isDeleteOperation () {
+      return this.deleteEndpoints[this.dgfType]
+    },
+    getItemTitle () {
+      let field = 'title'
+      switch (this.dgfType) {
+        case 'user':
+          field = 'last_name'
+          break
+        case 'organization':
+          field = 'name'
+          break
+      }
+      return this.item[field]
+    }
   },
   methods: {
     emitResponse (data) {
@@ -181,7 +219,31 @@ export default {
     },
     deleteItem () {
       // TO DO
-      // console.log('-C- EditItemBtn > deleteItem > this.item : ', this.item)
+      const API = this.$APIcli
+      console.log('-C- EditItemBtn > deleteItem > API :', API)
+      console.log('-C- EditItemBtn > deleteItem > this.dgfType : ', this.dgfType)
+      const operation = this.isDeleteOperation
+      console.log('-C- EditItemBtn > deleteItem > operation : ', operation)
+      if (!operation) return
+      console.log('-C- EditItemBtn > deleteItem > this.item : ', this.item)
+      const params = {}
+      operation.params.forEach(opParam => {
+        params[opParam.paramKey] = this.item[opParam.itemKey]
+        return params
+      })
+      console.log('-C- EditItemBtn > deleteItem > params : ', params)
+      // const body = {}
+      // API._request(this.putOperationId, { params, body, needAuth: true }).then(
+      //   results => {
+      //     this.isLoading = false
+      //     // console.log('-C- EditItemBtn > methods > updateDataset > results.body :', results.body)
+      //   },
+      //   reason => {
+      //     console.error(`-C- EditItemBtn > failed on api call: ${reason}`)
+      //     this.isLoading = false
+      //   }
+      // )
+
       const respData = { msg: `response action : ${this.endpoint}-delete` }
       this.emitResponse(respData)
     }

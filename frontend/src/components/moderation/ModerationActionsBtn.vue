@@ -44,10 +44,14 @@
       {{$t('moderation.markAsSuspect')}}
     </b-dropdown-item-button>
 
-    <b-dropdown-divider></b-dropdown-divider>
+    <b-dropdown-divider
+      v-if="isDeleteOperation"
+      >
+    </b-dropdown-divider>
 
     <!-- DELETE BATCH -->
     <b-dropdown-item-button
+      v-if="isDeleteOperation"
       @click="$bvModal.show('modal-delete')"
       :disabled="itemsSelection.length === 0"
       >
@@ -101,6 +105,7 @@
           variant="secondary"
           @click="cancel()"
           >
+          <b-icon icon="x" aria-hidden="true"></b-icon>
           {{ $t('actions.cancel') }}
         </b-button>
       </template>
@@ -113,15 +118,20 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { APIoperations } from '@/config/APIoperations.js'
+
 export default {
   name: 'ModerationActionsBtn',
   props: [
+    'dgfType',
     'endpoint',
     'itemsSelection',
     'itemsList'
   ],
   data () {
-    return {}
+    return {
+      deleteEndpoints: APIoperations.deleteEndpoints
+    }
   },
   computed: {
     ...mapState({
@@ -129,7 +139,10 @@ export default {
     }),
     ...mapGetters({
       isAuthenticated: 'oauth/isAuthenticated'
-    })
+    }),
+    isDeleteOperation () {
+      return this.deleteEndpoints[this.dgfType]
+    }
   },
   methods: {
     itemField (itemId, field = 'title') {
@@ -148,7 +161,33 @@ export default {
     },
     deleteSelection () {
       // TO DO
-      // console.log('-C- ModerationActionsBtn > deleteSelection > this.itemsSelection : ', this.itemsSelection)
+      const API = this.$APIcli
+      console.log('-C- ModerationActionsBtn > deleteSelection > API :', API)
+      console.log('-C- EditItemBtn > deleteItem > this.dgfType : ', this.dgfType)
+      const operation = this.deleteEndpoints[this.dgfType]
+      if (!operation) return
+      console.log('-C- EditItemBtn > deleteItem > operation : ', operation)
+      console.log('-C- ModerationActionsBtn > deleteSelection > this.itemsSelection : ', this.itemsSelection)
+      const paramsSelection = this.itemsSelection.map(itemId => {
+        const params = {}
+        operation.params.forEach(opParam => {
+          params[opParam.paramKey] = itemId
+        })
+        return params
+      })
+      console.log('-C- ModerationActionsBtn > deleteSelection > paramsSelection : ', paramsSelection)
+      // const body = {}
+      // API._request(this.putOperationId, { params, body, needAuth: true }).then(
+      //   results => {
+      //     this.isLoading = false
+      //     // console.log('-C- EditItemBtn > methods > updateDataset > results.body :', results.body)
+      //   },
+      //   reason => {
+      //     console.error(`-C- EditItemBtn > failed on api call: ${reason}`)
+      //     this.isLoading = false
+      //   }
+      // )
+
       const respData = { msg: `response action : ${this.endpoint}-delete` }
       this.emitResponse(respData)
     }

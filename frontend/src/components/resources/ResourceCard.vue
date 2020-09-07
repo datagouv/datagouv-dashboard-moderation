@@ -12,6 +12,7 @@
             {{ cardTitle }}
           </div>
           <EditItemBtn
+            :dgfType="dgfType"
             :endpoint="putOperationId"
             :item="resource"
             :hideFields="['spotlight','follow', 'share']"
@@ -46,8 +47,8 @@
         </b-button> -->
       </div>
 
-      <!-- EDIT -->
-      <b-container v-if="resource && isAuthenticated && edit">
+      <!-- COMMENT -->
+      <b-container v-if="resource && isAuthenticated && comment">
         <hr>
         <b-form @submit="commentResource">
 
@@ -60,7 +61,7 @@
             >
             <b-form-input
               id="resource-comment"
-              v-model="comment"
+              v-model="commentContent"
               placeholder="comment resource..."
             ></b-form-input>
           </b-form-group>
@@ -108,6 +109,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { APIoperations } from '@/config/APIoperations.js'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
@@ -126,14 +129,17 @@ export default {
   ],
   data () {
     return {
+      updateEndpoints: APIoperations.updateEndpoints,
+      commentEndpoints: APIoperations.commentEndpoints,
       dgfType: 'community_resource',
       edit: false,
+      comment: false,
       seeRaw: true,
       isLoading: false,
       defaultText: 'resource is loading',
       putOperationId: 'comment_resource',
       resource: undefined,
-      comment: '',
+      commentContent: '',
       closeResource: false
     }
   },
@@ -172,7 +178,7 @@ export default {
       const params = {
         id: this.resourceId,
         payload: {
-          comment: this.comment,
+          comment: this.commentContent,
           close: this.closeResource
         }
       }

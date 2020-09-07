@@ -12,6 +12,7 @@
             {{ cardTitle }}
           </div>
           <EditItemBtn
+            :dgfType="dgfType"
             :endpoint="putOperationId"
             :item="dataset"
             :hideFields="['chat']"
@@ -25,6 +26,13 @@
         :customClass="`mb-3`"
         :dataRaw="dataset"
         :see="seeRaw"
+      ></RawData>
+
+      <RawData
+        :customClass="`my-3`"
+        :see="seeRawActivity"
+        title="dataset activity"
+        :dataRaw="datasetActivity"
       ></RawData>
 
       <!-- VIEW -->
@@ -161,6 +169,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { APIoperations } from '@/config/APIoperations.js'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
@@ -179,14 +189,21 @@ export default {
   ],
   data () {
     return {
+      activityEndpoints: APIoperations.activityEndpoints,
+      updateEndpoints: APIoperations.updateEndpoints,
+      commentEndpoints: APIoperations.commentEndpoints,
       dgfType: 'dataset',
       edit: false,
+      comment: false,
       seeRaw: false,
+      seeRawActivity: false,
       isLoading: false,
       defaultText: 'dataset is loading',
       defaultOwner: '...',
       putOperationId: 'update_dataset',
+      activityOperationId: 'activity',
       dataset: undefined,
+      datasetActivity: undefined,
       fields: [
         'title',
         { key: 'title', stickyColumn: true, isRowHeader: true },
@@ -198,7 +215,7 @@ export default {
     }
   },
   created () {
-    // console.log('-C- DatasetCard > created ... ')
+    this.getDatasetActivity()
   },
   watch: {
     datasetData (next) {
@@ -229,6 +246,23 @@ export default {
           this.edit = true
           break
       }
+    },
+    getDatasetActivity () {
+      const API = this.$APIcli
+      // console.log('-C- DatasetCard > methods > getDatasetActivity > API :', API)
+      const params = { dataset: this.datasetId }
+      this.isLoading = true
+      API._request(this.activityOperationId, { params }).then(
+        results => {
+          // console.log('-C- DatasetCard > methods > getDatasetActivity > results.body :', results.body)
+          this.datasetActivity = results.body
+          this.isLoading = false
+        },
+        reason => {
+          console.error(`failed on api call: ${reason}`)
+          this.isLoading = false
+        }
+      )
     },
     updateDataset (evt) {
       evt.preventDefault()

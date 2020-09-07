@@ -71,6 +71,7 @@
 
       <b-col cols="1" class="text-right pl-0">
         <ModerationActionsBtn
+          :dgfType="dgfType"
           :endpoint="endpointModeration"
           :itemsSelection="itemsSelection"
           :itemsList="datasets && datasets.data"

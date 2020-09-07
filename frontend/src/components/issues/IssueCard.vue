@@ -12,6 +12,7 @@
             {{ cardTitle }}
           </div>
           <EditItemBtn
+            :dgfType="dgfType"
             :endpoint="putOperationId"
             :item="issue"
             :hideFields="['chat']"
@@ -108,6 +109,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { APIoperations } from '@/config/APIoperations.js'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
@@ -126,14 +129,17 @@ export default {
   ],
   data () {
     return {
+      updateEndpoints: APIoperations.updateEndpoints,
+      commentEndpoints: APIoperations.commentEndpoints,
       dgfType: 'issue',
       edit: false,
+      comment: false,
       seeRaw: true,
       isLoading: false,
       defaultText: 'issue is loading',
       putOperationId: 'comment_issue',
       issue: undefined,
-      comment: '',
+      commentContent: '',
       closeIssue: false
     }
   },
@@ -176,7 +182,7 @@ export default {
       const params = {
         id: this.issueId,
         payload: {
-          comment: this.comment,
+          comment: this.commentContent,
           close: this.closeIssue
         }
       }

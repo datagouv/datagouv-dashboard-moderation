@@ -1,15 +1,18 @@
 <template>
-  <b-form inline class="justify-content-center">
+  <b-form
+    inline
+    class="justify-content-center">
     <b-form-checkbox
       v-model="item[field]"
       :value="item[field]"
       v-if="isAuthenticated"
       button
-      :button-variant="getColor(field)"
+      button-variant="link"
       @change="updateModeration(item, field, $event)"
       >
       <b-icon
         :icon="getIcon(field)"
+        :variant="getColor(field)"
         >
       </b-icon>
       <!-- {{ $t(`moderation.${field}`) }} -->
@@ -17,11 +20,13 @@
     <b-form-checkbox
       v-else
       disabled
-      :variant="getColor(field)"
+      button
+      variant="link"
       :value="item[field]"
       >
       <b-icon
         :icon="getIcon(field)"
+        :variant="getColor(field)"
         >
       </b-icon>
       <!-- {{ $t(`moderation.${field}`) }} -->
@@ -45,10 +50,10 @@ export default {
       buttons: {
         read: {
           icons: [
-            'square', 'check2-square'
+            'circle', 'check2-circle'
           ],
           colors: [
-            'secondary', 'success'
+            'outline-secondary', 'success'
           ]
         },
         suspicious: {
@@ -56,7 +61,7 @@ export default {
             'triangle', 'exclamation-triangle-fill'
           ],
           colors: [
-            'secondary', 'warning'
+            'outline-secondary', 'warning'
           ]
         },
         comments: {
@@ -64,7 +69,7 @@ export default {
             'chat-left', 'chat-left-text'
           ],
           colors: [
-            'info', 'info'
+            'outline-info', 'info'
           ]
         }
       }

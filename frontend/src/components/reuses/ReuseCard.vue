@@ -12,9 +12,10 @@
             {{ cardTitle }}
           </div>
           <EditItemBtn
+            :dgfType="dgfType"
             :endpoint="putOperationId"
             :item="reuse"
-            :hideFields="['openEdit', 'spotlight', 'follow', 'share', 'contactProducer']"
+            :hideFields="['comment', 'spotlight', 'follow', 'share', 'contactProducer']"
             @responseAction="callbackAction"
             >
           </EditItemBtn>
@@ -48,42 +49,49 @@
 
       <!-- EDIT -->
       <b-container v-if="reuse && isAuthenticated && edit">
-        <hr>
-        <b-form @submit="commentReuse">
 
-          <!-- COMMENT -->
+        <b-form @submit="updateReuse">
+
+          <!-- TITLE -->
           <b-form-group
-            id="input-group-comment"
-            label="Comment"
-            label-for="reuse-comment"
-            description="your comment ..."
-            >
+            id="input-group-title"
+            label="Title"
+            label-for="reuse-title"
+            description="the reuse's title..."
+          >
             <b-form-input
-              id="reuse-comment"
-              v-model="comment"
-              placeholder="comment reuse..."
+              id="reuse-title"
+              v-model="reuse.title"
+              placeholder="Add title something..."
             ></b-form-input>
           </b-form-group>
+          <hr>
 
-          <!-- CLOSE ISSUE -->
-          <b-form-checkbox
-            id="checkbox-close-reuse"
-            v-model="closeReuse"
-            name="checkbox-close-reuse"
-            >
-            {{ $t('basics.reuses', {list: $t('actions.close')}) }}
-          </b-form-checkbox>
-
+          <!-- DESCRIPTION -->
+          <b-form-group
+            id="input-group-description"
+            label="Description"
+            label-for="textarea"
+            description="the reuse's description..."
+          >
+            <b-form-textarea
+              id="textarea"
+              v-model="reuse.description"
+              placeholder="Add a description ..."
+              rows="3"
+              max-rows="6"
+            ></b-form-textarea>
+          </b-form-group>
           <hr>
 
           <div v-if="!isLoading">
-            <b-button @click="edit=false; seeRaw=true" class="mx-2" variant="danger">
+            <b-button @click="edit=false" class="mx-2" variant="danger">
               <b-icon icon="x" aria-hidden="true"></b-icon>
               {{ $t('actions.cancel') }}
             </b-button>
             <b-button type="submit" class="mx-2" variant="success">
               <b-icon icon="check2" aria-hidden="true"></b-icon>
-              {{ $t('actions.comment') }}
+              {{ $t('actions.save') }}
             </b-button>
           </div>
           <div v-else>
@@ -108,6 +116,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { APIoperations } from '@/config/APIoperations.js'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
@@ -126,14 +136,17 @@ export default {
   ],
   data () {
     return {
+      updateEndpoints: APIoperations.updateEndpoints,
+      commentEndpoints: APIoperations.commentEndpoints,
       dgfType: 'reuse',
       edit: false,
+      comment: false,
       seeRaw: true,
       isLoading: false,
       defaultText: 'reuse is loading',
       putOperationId: 'comment_reuse',
       reuse: undefined,
-      comment: '',
+      commentContent: '',
       closeReuse: false
     }
   },
@@ -157,31 +170,32 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      // console.log('-C- ReuseCard > callbackAction > evt : ', evt)
+      console.log('-C- ReuseCard > callbackAction > evt : ', evt)
       switch (evt.category) {
-        case 'comment':
+        case 'openEdit':
           this.edit = true
           this.seeRaw = false
           break
+        // case 'comment':
+        //   this.comment = true
+        //   this.seeRaw = false
+        //   break
       }
     },
-    commentReuse (evt) {
+    updateReuse (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      // console.log('-C- ReuseCard > methods > commentReuse > API :', API)
+      // console.log('-C- ReuseCard > methods > updateDataset > API :', API)
       this.isLoading = true
       const params = {
-        id: this.reuseId,
-        payload: {
-          comment: this.comment,
-          close: this.closeReuse
-        }
+        reuse: this.reuseId,
+        payload: this.reuse
       }
       const body = {}
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          // console.log('-C- ReuseCard > methods > commentReuse > results.body :', results.body)
+          // console.log('-C- ReuseCard > methods > updateDataset > results.body :', results.body)
           this.reuse = results.body
         },
         reason => {

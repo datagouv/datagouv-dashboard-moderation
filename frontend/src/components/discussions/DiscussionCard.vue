@@ -12,6 +12,7 @@
             {{ cardTitle }}
           </div>
           <EditItemBtn
+            :dgfType="dgfType"
             :endpoint="putOperationId"
             :item="discussion"
             :hideFields="['spotlight','follow', 'share', 'contactProducer']"
@@ -46,8 +47,8 @@
         </b-button> -->
       </div>
 
-      <!-- EDIT -->
-      <b-container v-if="discussion && isAuthenticated && edit">
+      <!-- COMMENT -->
+      <b-container v-if="discussion && isAuthenticated && comment">
         <hr>
         <b-form @submit="commentDiscussion">
 
@@ -60,7 +61,7 @@
             >
             <b-form-input
               id="discussion-comment"
-              v-model="comment"
+              v-model="commentContent"
               placeholder="comment discussion..."
             ></b-form-input>
           </b-form-group>
@@ -71,7 +72,7 @@
             v-model="closeDiscussion"
             name="checkbox-close-discussion"
             >
-            {{ $t('basics.discussions', { list: $t('actions.close') }) }}
+            {{ $t('basics.discussion', {list: $t('actions.close')}) }}
           </b-form-checkbox>
 
           <hr>
@@ -108,6 +109,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { APIoperations } from '@/config/APIoperations.js'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
@@ -126,14 +129,17 @@ export default {
   ],
   data () {
     return {
+      updateEndpoints: APIoperations.updateEndpoints,
+      commentEndpoints: APIoperations.commentEndpoints,
       dgfType: 'discussion',
       edit: false,
+      comment: false,
       seeRaw: true,
       isLoading: false,
       defaultText: 'discussion is loading',
       putOperationId: 'comment_discussion',
       discussion: undefined,
-      comment: '',
+      commentContent: '',
       closeDiscussion: false
     }
   },
@@ -173,7 +179,7 @@ export default {
       const params = {
         id: this.discussionId,
         payload: {
-          comment: this.comment,
+          comment: this.commentComment,
           close: this.closeDiscussion
         }
       }

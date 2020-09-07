@@ -20,16 +20,12 @@
       >
       <hr>
       {{$t('basics.user')}}
-      (store) :
-      <code>
-        {{userData}}
-      </code>
 
       <RawData
         :customClass="`mb-3`"
         :see="true"
         title="user data"
-        :dataRaw="user"
+        :dataRaw="userData"
       ></RawData>
 
       <RawData
