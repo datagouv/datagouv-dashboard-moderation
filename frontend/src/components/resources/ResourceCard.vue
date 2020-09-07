@@ -126,6 +126,7 @@ export default {
   ],
   data () {
     return {
+      dgfType: 'community_resource',
       edit: false,
       seeRaw: true,
       isLoading: false,

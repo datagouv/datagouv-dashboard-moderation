@@ -76,6 +76,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      dgfType: 'dataset',
       getOperationId: 'get_dataset',
       putOperationId: 'update_dataset',
       endpointModeration: 'dataset',

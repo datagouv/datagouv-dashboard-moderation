@@ -126,6 +126,7 @@ export default {
   ],
   data () {
     return {
+      dgfType: 'organization',
       edit: false,
       seeRaw: true,
       isLoading: false,

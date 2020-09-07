@@ -179,6 +179,7 @@ export default {
   ],
   data () {
     return {
+      dgfType: 'dataset',
       edit: false,
       seeRaw: false,
       isLoading: false,

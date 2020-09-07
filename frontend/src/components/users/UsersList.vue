@@ -119,48 +119,27 @@
 
       <template v-if="isAuthenticated" v-slot:row-details="row">
         <ModerationRowCard
+          :dgfType="dgfType"
           :item="row.item"
         />
       </template>
 
       <template v-slot:cell(moderation_read)="row">
-        <b-form inline class="justify-content-center">
-          <b-form-checkbox
-            v-model="row.item.read"
-            :value="row.item.read"
-            v-if="isAuthenticated"
-            @change="updateModeration(row.item, 'read', $event)"
-            >
-            {{ $t('moderation.read') }}
-          </b-form-checkbox>
-          <b-form-checkbox
-            v-else
-            disabled
-            :value="row.item.read"
-            >
-            {{ $t('moderation.read') }}
-          </b-form-checkbox>
-        </b-form>
+        <ModerationCheckbox
+          :dgfType="dgfType"
+          :item="row.item"
+          :field="'read'"
+          >
+        </ModerationCheckbox>
       </template>
 
       <template v-slot:cell(moderation_suspect)="row">
-        <b-form inline class="justify-content-center">
-          <b-form-checkbox
-            v-model="row.item.suspicious"
-            :value="row.item.suspicious"
-            v-if="isAuthenticated"
-            @change="updateModeration(row.item, 'suspicious', $event)"
-            >
-            {{ $t('moderation.suspicious') }}
-          </b-form-checkbox>
-          <b-form-checkbox
-            v-else
-            disabled
-            :value="row.item.suspicious"
-            >
-            {{ $t('moderation.suspicious') }}
-          </b-form-checkbox>
-        </b-form>
+        <ModerationCheckbox
+          :dgfType="dgfType"
+          :item="row.item"
+          :field="'suspicious'"
+          >
+        </ModerationCheckbox>
       </template>
 
       <template v-slot:cell(id)="data">
@@ -242,12 +221,14 @@
 import { mapState, mapGetters } from 'vuex'
 
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+import ModerationCheckbox from '@/components/moderation/ModerationCheckbox.vue'
 import ModerationActionsBtn from '@/components/moderation/ModerationActionsBtn.vue'
 
 export default {
   name: 'UsersList',
   components: {
     ModerationActionsBtn,
+    ModerationCheckbox,
     ModerationRowCard
   },
   props: [
