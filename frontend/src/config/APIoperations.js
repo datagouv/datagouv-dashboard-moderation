@@ -29,20 +29,6 @@ export const APIoperations = {
         { paramKey: 'dataset', itemKey: 'id' }
       ]
     },
-    // discussion: {
-    //   note: 'no such endpoint yet',
-    //   operationId: 'comment_discussion',
-    //   params: [
-    //     { paramKey: 'id', itemKey: 'id' }
-    //   ]
-    // },
-    // issue: {
-    //   note: 'no such endpoint yet',
-    //   operationId: 'comment_issue',
-    //   params: [
-    //     { paramKey: 'id', itemKey: 'id' }
-    //   ]
-    // },
     organization: {
       operationId: 'update_organization',
       params: [
@@ -105,13 +91,6 @@ export const APIoperations = {
         { paramKey: 'id', itemKey: 'id' }
       ]
     },
-    // issue: {
-    //   note: 'no such endpoint',
-    //   operationId: 'delete_issue',
-    //   params: [
-    //     { paramKey: 'id', itemKey: 'id' }
-    //   ]
-    // },
     organization: {
       operationId: 'delete_organization',
       params: [

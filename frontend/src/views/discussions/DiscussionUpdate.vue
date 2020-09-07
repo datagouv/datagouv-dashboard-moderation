@@ -83,6 +83,7 @@ export default {
       discussionId: this.$route.params.id,
       discussionRequest: undefined,
       discussion: undefined,
+      needsModerationData: false,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -102,13 +103,25 @@ export default {
   created () {
     this.getDiscussion()
   },
-  watch: {},
+  watch: {
+    async discussion (next) {
+      if (next && this.needsModerationData) {
+        this.discussion = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log
     })
   },
   methods: {
+    async appendModerationData (itemObject) {
+      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
+      this.needsModerationData = false
+      return consolidated
+    },
     getDiscussion () {
       const API = this.$APIcli
       // console.log('-V- DiscussionUpdate > methods > getDiscussion > API :', API)
@@ -119,6 +132,7 @@ export default {
           // console.log('-V- DiscussionUpdate > methods > getDiscussion > results.body :', results.body)
           this.discussionRequest = results.url
           this.discussion = results.body
+          this.needsModerationData = true
           const title = this.discussion.title.length > 25 ? this.discussion.title.slice(0, 25) + '...' : this.discussion.title
           this.crumbs[2].text = title
           this.isLoading = false

@@ -83,6 +83,7 @@ export default {
       organizationId: this.$route.params.id,
       organizationRequest: undefined,
       organization: undefined,
+      needsModerationData: false,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -102,13 +103,25 @@ export default {
   created () {
     this.getOrganization()
   },
-  watch: {},
+  watch: {
+    async organization (next) {
+      if (next && this.needsModerationData) {
+        this.organization = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log
     })
   },
   methods: {
+    async appendModerationData (itemObject) {
+      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
+      this.needsModerationData = false
+      return consolidated
+    },
     getOrganization () {
       const API = this.$APIcli
       // console.log('-V- OrganizationUpdate > methods > getOrganization > API :', API)
@@ -119,6 +132,7 @@ export default {
           // console.log('-V- OrganizationUpdate > methods > getOrganization > results.body :', results.body)
           this.organizationRequest = results.url
           this.organization = results.body
+          this.needsModerationData = true
           const name = this.organization.name.length > 25 ? this.organization.name.slice(0, 25) + '...' : this.organization.name
           this.crumbs[2].text = name
           this.isLoading = false

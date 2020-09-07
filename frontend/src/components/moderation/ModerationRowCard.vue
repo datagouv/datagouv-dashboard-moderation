@@ -71,6 +71,26 @@
           :sm="hasHeader? 6 : 3"
           class="text-sm-right">
           <b>
+          {{ $t('moderation.deleted') }}:</b>
+        </b-col>
+        <b-col
+          :sm="hasHeader? 6 : 9"
+          >
+          <!-- {{ item.deleted }} -->
+          <ModerationCheckbox
+            :dgfType="dgfType"
+            :item="item"
+            :field="'deleted'"
+            >
+          </ModerationCheckbox>
+        </b-col>
+      </b-row>
+
+      <b-row class="mb-2">
+        <b-col
+          :sm="hasHeader? 6 : 3"
+          class="text-sm-right">
+          <b>
             {{ $t('moderation.comments') }}:
           </b>
           </b-col>

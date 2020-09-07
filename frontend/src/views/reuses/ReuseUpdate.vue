@@ -82,6 +82,7 @@ export default {
       reuseId: this.$route.params.id,
       reuseRequest: undefined,
       reuse: undefined,
+      needsModerationData: false,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -101,13 +102,25 @@ export default {
   created () {
     this.getReuse()
   },
-  watch: {},
+  watch: {
+    async reuse (next) {
+      if (next && this.needsModerationData) {
+        this.reuse = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log
     })
   },
   methods: {
+    async appendModerationData (itemObject) {
+      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
+      this.needsModerationData = false
+      return consolidated
+    },
     getReuse () {
       const API = this.$APIcli
       // console.log('-V- ReuseUpdate > methods > getReuse > API :', API)
@@ -118,6 +131,7 @@ export default {
           // console.log('-V- ReuseUpdate > methods > getReuse > results.body :', results.body)
           this.reuseRequest = results.url
           this.reuse = results.body
+          this.needsModerationData = true
           const title = this.reuse.title.length > 25 ? this.reuse.title.slice(0, 25) + '...' : this.reuse.title
           this.crumbs[2].text = title
           this.isLoading = false

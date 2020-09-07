@@ -85,6 +85,7 @@ export default {
       issueId: this.$route.params.id,
       issueRequest: undefined,
       issue: undefined,
+      needsModerationData: false,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -104,13 +105,25 @@ export default {
   created () {
     this.getIssue()
   },
-  watch: {},
+  watch: {
+    async issue (next) {
+      if (next && this.needsModerationData) {
+        this.issue = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log
     })
   },
   methods: {
+    async appendModerationData (itemObject) {
+      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
+      this.needsModerationData = false
+      return consolidated
+    },
     getIssue () {
       const API = this.$APIcli
       // console.log('-V- IssueUpdate > methods > getIssue > API :', API)
@@ -122,6 +135,7 @@ export default {
           // console.log('-V- IssueUpdate > methods > getIssue > results.body :', results.body)
           this.issueRequest = results.url
           this.issue = results.body
+          this.needsModerationData = true
           const title = this.issue.title.length > 25 ? this.issue.title.slice(0, 25) + '...' : this.issue.title
           this.crumbs[2].text = title
           this.isLoading = false

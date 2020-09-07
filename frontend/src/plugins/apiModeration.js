@@ -67,6 +67,7 @@ class ModerationLib {
    * moderation formatting
    */
   formatModerationItem (dgfType, item, field, value) {
+    console.log('>>> ModerationLib > formatModerationItem >  value :', value)
     const itemModerationData = {
       dgf_type: dgfType,
       dgf_id: item.id,
@@ -76,6 +77,7 @@ class ModerationLib {
       deleted: item.deleted || false
     }
     itemModerationData[field] = value
+    console.log('>>> ModerationLib > formatModerationItem >  itemModerationData :', itemModerationData)
     return itemModerationData
   }
 

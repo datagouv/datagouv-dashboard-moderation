@@ -146,6 +146,15 @@
         </ModerationCheckbox>
       </template>
 
+      <template v-slot:cell(moderation_deleted)="row">
+        <ModerationCheckbox
+          :dgfType="dgfType"
+          :item="row.item"
+          :field="'deleted'"
+          >
+        </ModerationCheckbox>
+      </template>
+
       <template v-slot:cell(title)="data">
         <router-link
           :to="`/datasets/${data.item.id}`"
@@ -298,6 +307,7 @@ export default {
         { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
         { key: 'moderation_read', label: 'Read', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'moderation_suspect', label: 'Suspect', stickyColumn: true, isRowHeader: true, sortable: true },
+        { key: 'moderation_deleted', label: 'Deleted', stickyColumn: true, isRowHeader: true, sortable: true },
         // { key: 'moderation', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'title', stickyColumn: true, isRowHeader: true, sortable: true },
         'acronym',

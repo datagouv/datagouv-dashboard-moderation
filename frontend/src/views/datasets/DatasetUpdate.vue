@@ -84,6 +84,7 @@ export default {
       datasetId: this.$route.params.id,
       datasetsRequest: undefined,
       dataset: undefined,
+      needsModerationData: false,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -103,14 +104,27 @@ export default {
   created () {
     this.getDataset()
   },
-  watch: {},
+  watch: {
+    async dataset (next) {
+      if (next && this.needsModerationData) {
+        this.dataset = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log
     })
   },
   methods: {
-    getDataset () {
+    async appendModerationData (itemObject) {
+      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
+      console.log('-V- DatasetUpdate > methods > getDataset > consolidated :', consolidated)
+      this.needsModerationData = false
+      return consolidated
+    },
+    async getDataset () {
       const API = this.$APIcli
       // console.log('-V- DatasetUpdate > methods > getDataset > API :', API)
       const params = { dataset: this.datasetId }
@@ -120,6 +134,7 @@ export default {
           // console.log('-V- DatasetUpdate > methods > getDataset > results.body :', results.body)
           this.datasetsRequest = results.url
           this.dataset = results.body
+          this.needsModerationData = true
           const title = this.dataset.title.length > 25 ? this.dataset.title.slice(0, 25) + '...' : this.dataset.title
           this.crumbs[2].text = title
           this.isLoading = false

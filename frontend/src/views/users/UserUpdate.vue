@@ -83,6 +83,7 @@ export default {
       userId: this.$route.params.id,
       userRequest: undefined,
       user: undefined,
+      needsModerationData: false,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -102,13 +103,25 @@ export default {
   created () {
     this.getUser()
   },
-  watch: {},
+  watch: {
+    async user (next) {
+      if (next && this.needsModerationData) {
+        this.user = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log
     })
   },
   methods: {
+    async appendModerationData (itemObject) {
+      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
+      this.needsModerationData = false
+      return consolidated
+    },
     getUser () {
       const API = this.$APIcli
       // console.log('-V- UserUpdate > methods > getUser > API :', API)
@@ -119,6 +132,7 @@ export default {
           // console.log('-V- UserUpdate > methods > getUser > results.body :', results.body)
           this.userRequest = results.url
           this.user = results.body
+          this.needsModerationData = true
           this.crumbs[2].text = `${this.user.first_name} ${this.user.last_name}`
           this.isLoading = false
         },

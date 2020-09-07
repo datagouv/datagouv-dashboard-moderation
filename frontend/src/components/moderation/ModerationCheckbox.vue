@@ -64,6 +64,14 @@ export default {
             'outline-secondary', 'warning'
           ]
         },
+        deleted: {
+          icons: [
+            'octagon', 'x-octagon-fill'
+          ],
+          colors: [
+            'outline-secondary', 'danger'
+          ]
+        },
         comments: {
           icons: [
             'chat-left', 'chat-left-text'
