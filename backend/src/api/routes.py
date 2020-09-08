@@ -1,3 +1,5 @@
+import datetime
+
 import requests
 from marshmallow import Schema, fields, post_load, ValidationError, validate
 from flask import jsonify, abort, request, session, make_response
@@ -15,19 +17,6 @@ class LoginSchema(Schema):
     token = fields.Str(required=True)
 
 
-class ObjectSchema(Schema):
-    id = fields.Int(dump_only=True)
-    suspicious = fields.Boolean(required=True)
-    read = fields.Boolean(required=True)
-    deleted = fields.Boolean(required=True)
-    dgf_type = fields.String(required=True, validate=validate.OneOf(['user', 'community_resource', 'organization', 'dataset', 'reuse']))
-    dgf_id = fields.String(required=True)
-
-    @post_load
-    def make_object(self, data, **kwargs):
-        return DgfObject(**data)
-
-
 class UserSchema(Schema):
     id = fields.Int(dump_only=True)
     first_name = fields.Str(required=True)
@@ -38,6 +27,27 @@ class UserSchema(Schema):
     @post_load
     def make_user(self, data, **kwargs):
         return User(**data)
+
+
+class CommentSchema(Schema):
+    id = fields.Int(dump_only=True)
+    author = fields.Nested(UserSchema(only=('first_name', 'last_name')))
+    written_at = fields.DateTime(dump_only=True)
+    content = fields.Str(required=True)
+
+
+class ObjectSchema(Schema):
+    id = fields.Int(dump_only=True)
+    suspicious = fields.Boolean(required=True)
+    read = fields.Boolean(required=True)
+    deleted = fields.Boolean(required=True)
+    dgf_type = fields.String(required=True, validate=validate.OneOf(['user', 'community_resource', 'organization', 'dataset', 'reuse']))
+    dgf_id = fields.String(required=True)
+    comments = fields.List(fields.Nested(CommentSchema))
+
+    @post_load
+    def make_object(self, data, **kwargs):
+        return DgfObject(**data)
 
 
 @bp.route('/submit-token', methods=['POST'])
@@ -121,5 +131,53 @@ def update_object(user, dgf_object_id):
         dgf_object.read = data['read']
     if 'deleted' in data:
         dgf_object.deleted = data['deleted']
+    db.session.commit()
+    return make_response(('success', 200))
+
+
+@bp.route('/objects/<dgf_object_id>', methods=['DELETE'])
+@login_required
+def delete_object(user, dgf_object_id):
+    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    if dgf_object is None:
+        return make_response(('Object not found', 404))
+    db.session.delete(dgf_object)
+    db.session.commit()
+    return make_response(('success', 200))
+
+
+@bp.route('/objects/<dgf_object_id>/comments', methods=['POST'])
+@login_required
+def comment_object(user, dgf_object_id):
+    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    if dgf_object is None:
+        return make_response(('Object not found', 404))
+
+    data = request.get_json(force=True) or {}
+    try:
+        valid_data = CommentSchema().load(data)
+    except ValidationError as err:
+        return make_response((err.messages, 400))
+    comment = Comment(
+        content=valid_data["content"],
+        author=user,
+        dgf_object=dgf_object,
+        written_at=datetime.datetime.now()
+        )
+    db.session.add(comment)
+    db.session.commit()
+    return make_response(('success', 201))
+
+
+@bp.route('/objects/<dgf_object_id>/comments/<comment_id>', methods=['DELETE'])
+@login_required
+def delete_object_comment(user, dgf_object_id, comment_id):
+    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    if dgf_object is None:
+        return make_response(('Object not found', 404))
+    comment = Comment.query.filter_by(id=comment_id).first()
+    if comment is None:
+        return make_response(('Comment not found', 404))
+    db.session.delete(comment)
     db.session.commit()
     return make_response(('success', 200))
