@@ -22,29 +22,13 @@
         </div>
       </template>
 
-      <RawData
-        :customClass="`mb-3`"
-        :see="seeRaw"
-        :dataRaw="issue"
-      ></RawData>
-
       <!-- VIEW -->
       <div v-if="issue">
-        <hr>
-        <b-card-text>
-          Issue title :<br>
-          {{ issue.title }}
-        </b-card-text>
 
-        <!-- EDIT -->
-        <!-- <b-button
-          v-if="isAuthenticated && !edit"
-          @click="edit=true"
-          variant="primary"
-          >
-          <b-icon icon="pencil" aria-hidden="true"></b-icon>
-          {{ $t('actions.edit') }}
-        </b-button> -->
+        <CardTitle
+          :title="issue.title"
+        />
+
       </div>
 
       <!-- EDIT -->
@@ -101,6 +85,12 @@
         <b-spinner label="loading"></b-spinner>
       </div>
 
+      <RawData
+        :customClass="`mb-3`"
+        :see="seeRaw"
+        :dataRaw="issue"
+      ></RawData>
+
     </b-card>
   </div>
 
@@ -111,12 +101,15 @@ import { mapState, mapGetters } from 'vuex'
 
 import { APIoperations } from '@/config/APIoperations.js'
 
+import CardTitle from '@/components/blocks/CardTitle.vue'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'IssueCard',
   components: {
+    CardTitle,
     EditItemBtn,
     RawData
   },
@@ -170,7 +163,7 @@ export default {
           this.seeRaw = false
           break
         case 'comment':
-          this.edit = true
+          this.comment = true
           break
       }
     },

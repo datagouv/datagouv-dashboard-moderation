@@ -22,30 +22,17 @@
         </div>
       </template>
 
-      <RawData
-        :customClass="`mb-3`"
-        :see="seeRaw"
-        :dataRaw="organization"
-      ></RawData>
-
-      <RawData
-        :customClass="`my-3`"
-        :see="seeRawActivity"
-        title="organization activity"
-        :dataRaw="organizationActivity"
-      ></RawData>
-
       <!-- VIEW -->
       <div v-if="organization">
-        <hr>
-        <b-card-text>
-          Organization name :<br>
-          {{ organization.name }}
-        </b-card-text>
-        <b-card-text>
-          Organization description :<br>
-          {{ organization.description }}
-        </b-card-text>
+
+        <CardProducer
+          :item="{organization: organization}"
+          :hide="['seeProfile']"
+        />
+
+        <CardDescription
+          :text="organization.description"
+        />
 
       </div>
 
@@ -110,6 +97,19 @@
         <b-spinner label="loading"></b-spinner>
       </div>
 
+      <RawData
+        :customClass="`mb-3`"
+        :see="seeRaw"
+        :dataRaw="organization"
+      ></RawData>
+
+      <RawData
+        :customClass="`my-3`"
+        :see="seeRawActivity"
+        title="organization activity"
+        :dataRaw="organizationActivity"
+      ></RawData>
+
     </b-card>
   </div>
 
@@ -120,12 +120,17 @@ import { mapState, mapGetters } from 'vuex'
 
 import { APIoperations } from '@/config/APIoperations.js'
 
+import CardProducer from '@/components/blocks/CardProducer.vue'
+import CardDescription from '@/components/blocks/CardDescription.vue'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'OrganizationCard',
   components: {
+    CardProducer,
+    CardDescription,
     EditItemBtn,
     RawData
   },

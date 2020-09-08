@@ -9,7 +9,7 @@
       <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="flex-fill align-content-center">
-            {{ cardTitle }}
+            {{`dataset n° ${datasetId}`}}
           </div>
           <EditItemBtn
             :dgfType="dgfType"
@@ -22,81 +22,33 @@
         </div>
       </template>
 
-      <RawData
-        :customClass="`mb-3`"
-        :dataRaw="dataset"
-        :see="seeRaw"
-      ></RawData>
-
-      <RawData
-        :customClass="`my-3`"
-        :see="seeRawActivity"
-        title="dataset activity"
-        :dataRaw="datasetActivity"
-      ></RawData>
-
       <!-- VIEW -->
       <div v-if="dataset && !edit">
-        <b-card-text class="mb-5">
-          <b-table striped hover :items="[{ frequency: dataset.frequency, license: dataset.license, last_update: dataset.last_update }]"></b-table>
-        </b-card-text>
-        <b-card-text v-if="dataset.owner">
-          Owner :
-          <router-link :to="`/users/${dataset.owner.id}`">
-            {{ datasetOwner }}
-          </router-link>
-        </b-card-text>
-        <hr>
-        <b-card-text class="mb-3">
-          Description :<br><br>
-          <div class="text-justify">
-            {{ dataset.description }}
-          </div>
-        </b-card-text>
 
-        <!-- RESOURCES -->
-        <b-card-text
-          v-if="dataset.resources"
-          >
-          <hr>
-          <div class="mb-3">
-            <b>
-              {{ dataset.resources.length }}
-              {{ $t('basics.resources', { list: '' }) }}
-            </b>
-          </div>
+        <CardTitle
+          :title="dataset.title"
+        />
+
+        <CardProducer
+          :item="dataset"
+        />
+
+        <!-- LICENCE -->
+        <b-card-text class="my-0">
           <b-table
-            striped hover
-            :fields="fields"
-            :items="dataset.resources"
-            >
-
-            <template v-slot:cell(title)="data">
-              <router-link
-                :to="`/resource/${data.item.id}`"
-                >
-                <b>{{ data.item.title }}</b>
-              </router-link>
-            </template>
-
-            <template v-slot:cell(url)="data">
-              <b-button variant="outline-primary" :href="data.value" target="_blank">
-                <b-icon icon="link" aria-hidden="true"></b-icon>
-              </b-button>
-            </template>
-
-          </b-table>
+            striped
+            hover
+            :items="[{ frequency: dataset.frequency, license: dataset.license, last_update: dataset.last_update }]"
+          ></b-table>
         </b-card-text>
 
-        <!-- EDIT -->
-        <!-- <b-button
-          v-if="isAuthenticated"
-          @click="edit=true"
-          variant="primary"
-          >
-          <b-icon icon="pencil" aria-hidden="true"></b-icon>
-          {{ $t('actions.edit') }}
-        </b-button> -->
+        <CardDescription
+          :text="dataset.description"
+        />
+
+        <CardResources
+          :resources="dataset.resources"
+        />
 
       </div>
 
@@ -161,6 +113,19 @@
         <b-spinner label="loading"></b-spinner>
       </div>
 
+      <RawData
+        :customClass="`mb-3`"
+        :dataRaw="dataset"
+        :see="seeRaw"
+      ></RawData>
+
+      <RawData
+        :customClass="`my-3`"
+        :see="seeRawActivity"
+        title="dataset activity"
+        :dataRaw="datasetActivity"
+      ></RawData>
+
     </b-card>
   </div>
 
@@ -171,17 +136,25 @@ import { mapState, mapGetters } from 'vuex'
 
 import { APIoperations } from '@/config/APIoperations.js'
 
+import CardTitle from '@/components/blocks/CardTitle.vue'
+import CardProducer from '@/components/blocks/CardProducer.vue'
+import CardDescription from '@/components/blocks/CardDescription.vue'
+import CardResources from '@/components/blocks/CardResources.vue'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'DatasetCard',
   components: {
+    CardTitle,
+    CardProducer,
+    CardDescription,
+    CardResources,
     EditItemBtn,
     RawData
   },
   props: [
-    'cardTitle',
     'cardFooter',
     'datasetData',
     'datasetId',

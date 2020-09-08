@@ -34,7 +34,6 @@
       <!-- DISPLAY RESOURCE -->
       <b-col>
         <ResourceCard
-          :cardTitle="`${$t('basics.resource')} n° ${resourceId}`"
           :cardFooter="undefined"
           :resourceData="resource"
           :resourceId="resourceId"

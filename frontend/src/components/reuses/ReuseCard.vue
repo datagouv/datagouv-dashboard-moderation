@@ -22,29 +22,21 @@
         </div>
       </template>
 
-      <RawData
-        :customClass="`mb-3`"
-        :see="seeRaw"
-        :dataRaw="reuse"
-      ></RawData>
-
       <!-- VIEW -->
       <div v-if="reuse">
-        <hr>
-        <b-card-text>
-          Reuse title :<br>
-          {{ reuse.title }}
-        </b-card-text>
 
-        <!-- EDIT -->
-        <!-- <b-button
-          v-if="isAuthenticated && !edit"
-          @click="edit=true"
-          variant="primary"
-          >
-          <b-icon icon="pencil" aria-hidden="true"></b-icon>
-          {{ $t('actions.edit') }}
-        </b-button> -->
+        <CardTitle
+          :title="reuse.title"
+        />
+
+        <CardProducer
+          :item="reuse"
+        />
+
+        <CardDescription
+          :text="reuse.description"
+        />
+
       </div>
 
       <!-- EDIT -->
@@ -108,6 +100,12 @@
         <b-spinner label="loading"></b-spinner>
       </div>
 
+      <RawData
+        :customClass="`mb-3`"
+        :see="seeRaw"
+        :dataRaw="reuse"
+      ></RawData>
+
     </b-card>
   </div>
 
@@ -118,12 +116,19 @@ import { mapState, mapGetters } from 'vuex'
 
 import { APIoperations } from '@/config/APIoperations.js'
 
+import CardTitle from '@/components/blocks/CardTitle.vue'
+import CardProducer from '@/components/blocks/CardProducer.vue'
+import CardDescription from '@/components/blocks/CardDescription.vue'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'ReuseCard',
   components: {
+    CardTitle,
+    CardProducer,
+    CardDescription,
     EditItemBtn,
     RawData
   },

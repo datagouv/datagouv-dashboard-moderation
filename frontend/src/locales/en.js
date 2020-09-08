@@ -152,6 +152,11 @@ const translations = {
       reuses: 'reuses',
 
       id: 'id'
+    },
+    blocks: {
+      seeProfile: 'See profile',
+      contactProducer: 'Contact the producer',
+      followProducer: 'Follow the producer'
     }
   }
 }

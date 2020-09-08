@@ -2,9 +2,6 @@
 
   <b-card
     >
-    <!-- <code>
-      {{item}}
-    </code> -->
 
     <!-- ACTION BTN -->
     <template v-slot:header v-if="hasHeader">
@@ -12,31 +9,21 @@
         <div class="flex-fill">
           {{ $t('moderation.moderation', {prefix: ''}) }}
         </div>
-
         <ModerationItemBtn
           :endpoint="endpoint"
           :item="item"
           >
         </ModerationItemBtn>
-
       </div>
     </template>
 
     <!-- MODERATION DATA -->
     <div v-if="item">
 
-      <b-row class="mb-2">
-        <b-col
-          :sm="hasHeader? 6 : 3"
-          class="text-sm-right">
-          <b>
-            {{ $t('moderation.read') }}:
-          </b>
-          </b-col>
-        <b-col
-          :sm="hasHeader? 6 : 9"
-          >
-          <!-- {{ item.read }} -->
+      <!-- HORRIZONTAL -->
+      <b-row v-if="!hasHeader" class="mb-2">
+        <b-col :sm="1">
+          {{ $t('moderation.read') }}
           <ModerationCheckbox
             :dgfType="dgfType"
             :item="item"
@@ -44,19 +31,9 @@
             >
           </ModerationCheckbox>
         </b-col>
-      </b-row>
 
-      <b-row class="mb-2">
-        <b-col
-          :sm="hasHeader? 6 : 3"
-          class="text-sm-right">
-          <b>
-          {{ $t('moderation.suspicious') }}:</b>
-        </b-col>
-        <b-col
-          :sm="hasHeader? 6 : 9"
-          >
-          <!-- {{ item.suspicious }} -->
+        <b-col :sm="1">
+          {{ $t('moderation.suspicious') }}
           <ModerationCheckbox
             :dgfType="dgfType"
             :item="item"
@@ -64,19 +41,58 @@
             >
           </ModerationCheckbox>
         </b-col>
-      </b-row>
 
-      <b-row class="mb-2">
+        <b-col :sm="1">
+          {{ $t('moderation.deleted') }}
+          <ModerationCheckbox
+            :dgfType="dgfType"
+            :item="item"
+            :field="'deleted'"
+            >
+          </ModerationCheckbox>
+        </b-col>
+
         <b-col
-          :sm="hasHeader? 6 : 3"
-          class="text-sm-right">
-          <b>
-          {{ $t('moderation.deleted') }}:</b>
+          :sm="2"
+          class="text-sm-center bg-light pt-3"
+          align-self="strech"
+          >
+          <p class="font-weight-bold">
+            {{ $t('moderation.comments') }}
+          </p>
         </b-col>
         <b-col
-          :sm="hasHeader? 6 : 9"
+          :sm="7"
+          class="bg-light"
           >
-          <!-- {{ item.deleted }} -->
+          <code>{{ item.comments }}</code>
+        </b-col>
+      </b-row>
+
+      <!-- VERTICAL -->
+      <b-row v-if="hasHeader" class="mb-2" align-h="center">
+        <b-col :sm="2">
+          {{ $t('moderation.read') }}
+          <ModerationCheckbox
+            :dgfType="dgfType"
+            :item="item"
+            :field="'read'"
+            >
+          </ModerationCheckbox>
+        </b-col>
+
+        <b-col :sm="2">
+          {{ $t('moderation.suspicious') }}
+          <ModerationCheckbox
+            :dgfType="dgfType"
+            :item="item"
+            :field="'suspicious'"
+            >
+          </ModerationCheckbox>
+        </b-col>
+
+        <b-col :sm="2">
+          {{ $t('moderation.deleted') }}
           <ModerationCheckbox
             :dgfType="dgfType"
             :item="item"
@@ -85,18 +101,12 @@
           </ModerationCheckbox>
         </b-col>
       </b-row>
-
-      <b-row class="mb-2">
+      <b-row v-if="hasHeader" class="mb-2" align-h="center">
         <b-col
-          :sm="hasHeader? 6 : 3"
-          class="text-sm-right">
-          <b>
-            {{ $t('moderation.comments') }}:
-          </b>
-          </b-col>
-        <b-col
-          :sm="hasHeader? 6 : 9"
+          :sm="10"
           >
+          <hr>
+          {{ $t('moderation.comments') }}
           <code>{{ item.comments }}</code>
         </b-col>
       </b-row>

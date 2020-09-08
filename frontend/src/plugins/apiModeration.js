@@ -82,6 +82,16 @@ class ModerationLib {
   }
 
   addModerationData (obj, itemStatus) {
+    const commentsDummy = [
+      {
+        id: '1234',
+        autor: 'abcd',
+        written_on: '',
+        content: '',
+        dgf_object_id: ''
+      }
+    ]
+    console.log('>>> ModerationLib > addModerationData >  commentsDummy :', commentsDummy)
     return {
       ...obj,
       read: itemStatus.read,

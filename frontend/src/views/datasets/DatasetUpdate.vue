@@ -35,7 +35,6 @@
       <!-- DISPLAY DATASET -->
       <b-col>
         <DatasetCard
-          :cardTitle="`dataset n° ${datasetId}`"
           :cardFooter="undefined"
           :datasetData="dataset"
           :datasetId="datasetId"

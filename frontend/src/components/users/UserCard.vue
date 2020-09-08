@@ -22,27 +22,19 @@
         </div>
       </template>
 
-      <RawData
-        :customClass="`mb-3`"
-        :see="seeRaw"
-        title="user data"
-        :dataRaw="user"
-      ></RawData>
-
-      <RawData
-        :customClass="`mb-3`"
-        :see="seeRawActivity"
-        title="user activity"
-        :dataRaw="userActivity"
-      ></RawData>
-
       <!-- VIEW -->
       <div v-if="user && !edit">
+
+        <CardProducer
+          :item="{owner: user}"
+          :hide="['seeProfile']"
+        />
+
+        <CardDescription
+          :text="user.about"
+        />
+
         <hr>
-        <b-card-text>
-          About :<br>
-          {{ user.about }}
-        </b-card-text>
         <hr>
         <b-card-text>
           Roles :<br>
@@ -51,15 +43,6 @@
           </code>
         </b-card-text>
 
-        <!-- EDIT -->
-        <!-- <b-button
-          v-if="isAuthenticated"
-          @click="edit=true"
-          variant="primary"
-          >
-          <b-icon icon="pencil" aria-hidden="true"></b-icon>
-          {{ $t('actions.edit') }}
-        </b-button> -->
       </div>
 
       <!-- EDIT -->
@@ -138,6 +121,20 @@
         <b-spinner label="loading"></b-spinner>
       </div>
 
+      <RawData
+        :customClass="`mb-3`"
+        :see="seeRaw"
+        title="user data"
+        :dataRaw="user"
+      ></RawData>
+
+      <RawData
+        :customClass="`mb-3`"
+        :see="seeRawActivity"
+        title="user activity"
+        :dataRaw="userActivity"
+      ></RawData>
+
     </b-card>
   </div>
 
@@ -148,12 +145,17 @@ import { mapState, mapGetters } from 'vuex'
 
 import { APIoperations } from '@/config/APIoperations.js'
 
+import CardProducer from '@/components/blocks/CardProducer.vue'
+import CardDescription from '@/components/blocks/CardDescription.vue'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'UserCard',
   components: {
+    CardProducer,
+    CardDescription,
     EditItemBtn,
     RawData
   },
