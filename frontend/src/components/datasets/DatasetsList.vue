@@ -4,7 +4,10 @@
     class="mt-3 mx-3 text-center"
     >
 
-    <p><slot name="blockTitle"></slot></p>
+    <p>
+      <slot name="blockTitle"></slot>
+    </p>
+
     <p v-if="datasets">
       <b-badge pill variant="primary">
         {{ pagination.totalItems }}

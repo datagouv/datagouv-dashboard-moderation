@@ -43,9 +43,11 @@
       role="tabpanel"
       >
       <b-card-body>
-        <b-card-text>
+        <b-card-text class="text-left">
           <code>
-            {{ dataRaw }}
+            <pre>
+              {{ dataRaw }}
+            </pre>
           </code>
         </b-card-text>
       </b-card-body>

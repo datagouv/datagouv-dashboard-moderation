@@ -15,7 +15,6 @@
         :variant="getColor(field)"
         >
       </b-icon>
-      <!-- {{ $t(`moderation.${field}`) }} -->
     </b-form-checkbox>
     <b-form-checkbox
       v-else
@@ -29,7 +28,6 @@
         :variant="getColor(field)"
         >
       </b-icon>
-      <!-- {{ $t(`moderation.${field}`) }} -->
     </b-form-checkbox>
   </b-form>
 </template>

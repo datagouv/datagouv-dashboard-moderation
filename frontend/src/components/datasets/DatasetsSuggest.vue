@@ -1,12 +1,21 @@
 <template>
 
   <b-card
-    class="mt-3 mx-auto text-center"
+    :class="`text-center ${customClass ? customClass : 'mt-3 mx-auto' }`"
     >
-    <p><slot name="blockTitle"></slot></p>
 
-    <p><slot name="link" class="mb-3"></slot></p>
-    <div class="mb-2">
+    <p v-if="!hideBlocks.includes('title')">
+      <slot name="blockTitle"></slot>
+    </p>
+
+    <p v-if="!hideBlocks.includes('link')">
+      <slot name="link" class="mb-3"></slot>
+    </p>
+
+    <div
+      v-if="!hideBlocks.includes('from')"
+      class="mb-2"
+      >
       {{ $t('navigation.from') }} :
       <span v-if="datasetsRequest">
         <a :href="datasetsRequest" target="blank">
@@ -25,14 +34,18 @@
       </b-input-group-prepend>
       <b-form-input
         id="inline-form-input-query"
-        placeholder="your query"
+        :placeholder="$t('actions.searchFor', {target: $t('basics.dataset')})"
         v-model="query"
         @input="suggestDatasets"
         list="suggestions-list"
         >
       </b-form-input>
       <b-input-group-append v-if="query">
-        <b-button variant="outline-secondary" @click="resetQuery">
+        <b-button
+          variant="outline-secondary"
+          class="bg-light"
+          @click="resetQuery"
+          >
           <b-icon icon="x" aria-hidden="true"></b-icon>
         </b-button>
       </b-input-group-append>
@@ -44,6 +57,7 @@
 
     <b-table
       v-if="datasets"
+      class="bg-light"
       striped hover responsive scrollable
       small
       :sticky-header="height"
@@ -103,6 +117,8 @@ export default {
     RawData
   },
   props: [
+    'customClass',
+    'hideBlocks',
     'height',
     'width',
     'customFields'

@@ -33,17 +33,12 @@
           :item="dataset"
         />
 
-        <!-- LICENCE -->
-        <b-card-text class="my-0">
-          <b-table
-            striped
-            hover
-            :items="[{ frequency: dataset.frequency, license: dataset.license, last_update: dataset.last_update }]"
-          ></b-table>
-        </b-card-text>
-
         <CardDescription
           :text="dataset.description"
+        />
+
+        <CardLicence
+          :dataset="dataset"
         />
 
         <CardResources
@@ -139,6 +134,7 @@ import { APIoperations } from '@/config/APIoperations.js'
 import CardTitle from '@/components/blocks/CardTitle.vue'
 import CardProducer from '@/components/blocks/CardProducer.vue'
 import CardDescription from '@/components/blocks/CardDescription.vue'
+import CardLicence from '@/components/blocks/CardLicence.vue'
 import CardResources from '@/components/blocks/CardResources.vue'
 
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
@@ -150,6 +146,7 @@ export default {
     CardTitle,
     CardProducer,
     CardDescription,
+    CardLicence,
     CardResources,
     EditItemBtn,
     RawData
