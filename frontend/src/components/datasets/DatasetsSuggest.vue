@@ -4,16 +4,16 @@
     :class="`text-center ${customClass ? customClass : 'mt-3 mx-auto' }`"
     >
 
-    <p v-if="!hideBlocks.includes('title')">
+    <p v-if="!hide.includes('title')">
       <slot name="blockTitle"></slot>
     </p>
 
-    <p v-if="!hideBlocks.includes('link')">
+    <p v-if="!hide.includes('link')">
       <slot name="link" class="mb-3"></slot>
     </p>
 
     <div
-      v-if="!hideBlocks.includes('from')"
+      v-if="!hide.includes('from')"
       class="mb-2"
       >
       {{ $t('navigation.from') }} :
@@ -126,6 +126,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      hide: undefined,
       seeRaw: false,
       operationId: 'suggest_datasets',
       datasets: undefined,
@@ -143,9 +144,8 @@ export default {
     }
   },
   created () {
-    // console.log('-C- DatasetsSuggest > created ... ')
+    this.hide = this.hideBlocks ? this.hideBlocks : []
     if (this.customFields) { this.fields = this.customFields }
-    // this.suggestDatasets()
   },
   computed: {
     ...mapState({

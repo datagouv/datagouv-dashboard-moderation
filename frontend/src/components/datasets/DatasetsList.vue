@@ -1,7 +1,7 @@
 <template>
 
   <b-card
-    class="mt-3 mx-3 text-center"
+    class="mt-3 mx-3 text-center border-0"
     >
 
     <p>

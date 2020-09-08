@@ -4,7 +4,6 @@
     class="justify-content-center">
     <b-form-checkbox
       v-model="item[field]"
-      :value="item[field]"
       v-if="isAuthenticated"
       button
       button-variant="link"
@@ -81,6 +80,9 @@ export default {
       }
     }
   },
+  created () {
+    console.log('-C- ModerationCheckbox > created > this.item : ', this.item)
+  },
   computed: {
     ...mapState({
       log: (state) => state.log
@@ -91,6 +93,9 @@ export default {
   },
   methods: {
     async updateModeration (item, field, evt) {
+      console.log('-C- ModerationCheckbox > updateModeration > field : ', field)
+      console.log('-C- ModerationCheckbox > updateModeration > evt : ', evt)
+      console.log('-C- ModerationCheckbox > updateModeration > item : ', item)
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
       console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
     },

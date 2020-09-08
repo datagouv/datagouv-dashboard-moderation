@@ -67,13 +67,15 @@ class ModerationLib {
    * moderation formatting
    */
   formatModerationItem (dgfType, item, field, value) {
+    console.log('>>> ModerationLib > formatModerationItem >  dgfType :', dgfType)
+    console.log('>>> ModerationLib > formatModerationItem >  field :', field)
     console.log('>>> ModerationLib > formatModerationItem >  value :', value)
     const itemModerationData = {
       dgf_type: dgfType,
       dgf_id: item.id,
       read: item.read || false,
       suspicious: item.suspicious || false,
-      comments: item.comments,
+      comments: item.comments || [],
       deleted: item.deleted || false
     }
     itemModerationData[field] = value
@@ -85,19 +87,26 @@ class ModerationLib {
     const commentsDummy = [
       {
         id: '1234',
-        autor: 'abcd',
+        author: 'abc',
         written_on: '',
-        content: '',
+        content: 'gnagnagna',
+        dgf_object_id: ''
+      },
+      {
+        id: '9876',
+        author: 'xyz',
+        written_on: '',
+        content: 'blablabla',
         dgf_object_id: ''
       }
     ]
     console.log('>>> ModerationLib > addModerationData >  commentsDummy :', commentsDummy)
     return {
       ...obj,
-      read: itemStatus.read,
-      suspicious: itemStatus.suspicious,
-      comments: itemStatus.comments,
-      deleted: itemStatus.deleted
+      read: itemStatus.read || false,
+      suspicious: itemStatus.suspicious || false,
+      deleted: itemStatus.deleted || false,
+      comments: itemStatus.comments || commentsDummy
     }
   }
 

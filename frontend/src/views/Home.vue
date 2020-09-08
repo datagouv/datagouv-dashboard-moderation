@@ -8,140 +8,142 @@
     </b-breadcrumb>
 
     <Homepage/>
+
     <br>
 
     <b-container fluid >
-    <b-row
-      align-h="center"
-      cols="3"
-      >
+      <b-row
+        align-h="center"
+        cols="3"
+        class="bg-light"
+        >
 
-      <b-col cols="12" class="mt-4 mb-5">
-        <h3 v-if="!isLoading && site">
-          <b-badge
-            class="mr-2 mb-2"
-            v-for="(metric, key, index) in site.metrics"
-            :key="index"
-            pill
-            medium
-            variant="secondary"
+        <b-col cols="12" class="pt-5">
+          <h3 v-if="!isLoading && site">
+            <b-badge
+              class="mr-2 mb-2"
+              v-for="(metric, key, index) in site.metrics"
+              :key="index"
+              pill
+              medium
+              variant="secondary"
+              >
+              {{metric}}
+              {{key}}
+            </b-badge>
+          </h3>
+        </b-col>
+
+        <b-col cols="8" class="mt-4 mb-5">
+          <DatasetsSuggest
             >
-            {{metric}}
-            {{key}}
-          </b-badge>
-        </h3>
-      </b-col>
+            <template v-slot:blockTitle>
+              <b-button variant="outline-primary" to="/datasets">
+                {{ $t('basics.datasets', {list: $t('basics.suggestions')}) }}
+              </b-button>
+            </template>
+          </DatasetsSuggest>
+        </b-col>
 
-      <b-col cols="8" class="mt-4 mb-5">
-        <DatasetsSuggest
-          >
-          <template v-slot:blockTitle>
-            <b-button variant="outline-primary" to="/datasets">
-              {{ $t('basics.datasets', {list: $t('basics.suggestions')}) }}
-            </b-button>
-          </template>
-        </DatasetsSuggest>
-      </b-col>
+        <b-col cols="6" class="pr-0">
+          <DatasetsList
+            height="400px"
+            :small="true"
+            :customFields="customFields.datasets"
+            >
+            <template v-slot:blockTitle>
+              <b-button variant="outline-primary" to="/datasets">
+                {{ $t('basics.datasets', {list: $t('basics.list')}) }}
+              </b-button>
+            </template>
+          </DatasetsList>
+        </b-col>
 
-      <b-col cols="6" class="pr-0">
-        <DatasetsList
-          height="400px"
-          :small="true"
-          :customFields="customFields.datasets"
-          >
-          <template v-slot:blockTitle>
-            <b-button variant="outline-primary" to="/datasets">
-              {{ $t('basics.datasets', {list: $t('basics.list')}) }}
-            </b-button>
-          </template>
-        </DatasetsList>
-      </b-col>
+        <b-col cols="6" class="pl-0">
+          <ResourcesList
+            height="400px"
+            :small="true"
+            :customFields="customFields.resourcesCommunity"
+            resourcesType="community"
+            >
+            <template v-slot:blockTitle>
+              <b-button variant="outline-primary" to="/resources-community">
+                {{ $t('basics.resources_community', {list: $t('basics.list')}) }}
+              </b-button>
+            </template>
+          </ResourcesList>
+        </b-col>
 
-      <b-col cols="6" class="pl-0">
-        <ResourcesList
-          height="400px"
-          :small="true"
-          :customFields="customFields.resourcesCommunity"
-          resourcesType="community"
-          >
-          <template v-slot:blockTitle>
-            <b-button variant="outline-primary" to="/resources-community">
-              {{ $t('basics.resources_community', {list: $t('basics.list')}) }}
-            </b-button>
-          </template>
-        </ResourcesList>
-      </b-col>
+        <b-col cols="6" class="pr-0">
+          <ReusesList
+            height="400px"
+            :small="true"
+            :customFields="customFields.reuses"
+            >
+            <template v-slot:blockTitle>
+              <b-button variant="outline-primary" to="/reuses">
+                {{ $t('basics.reuses', {list: $t('basics.list')}) }}
+              </b-button>
+            </template>
+          </ReusesList>
+        </b-col>
 
-      <b-col cols="6" class="pr-0">
-        <ReusesList
-          height="400px"
-          :small="true"
-          :customFields="customFields.reuses"
-          >
-          <template v-slot:blockTitle>
-            <b-button variant="outline-primary" to="/reuses">
-              {{ $t('basics.reuses', {list: $t('basics.list')}) }}
-            </b-button>
-          </template>
-        </ReusesList>
-      </b-col>
+        <b-col cols="6" class="pl-0">
+          <DiscussionsList
+            height="400px"
+            :small="true"
+            :customFields="customFields.discussions"
+            >
+            <template v-slot:blockTitle>
+              <b-button variant="outline-primary" to="/discussions">
+                {{ $t('basics.discussions', {list: $t('basics.list')}) }}
+              </b-button>
+            </template>
+          </DiscussionsList>
+        </b-col>
 
-      <b-col cols="6" class="pl-0">
-        <DiscussionsList
-          height="400px"
-          :small="true"
-          :customFields="customFields.discussions"
-          >
-          <template v-slot:blockTitle>
-            <b-button variant="outline-primary" to="/discussions">
-              {{ $t('basics.discussions', {list: $t('basics.list')}) }}
-            </b-button>
-          </template>
-        </DiscussionsList>
-      </b-col>
+        <b-col cols="6" class="pr-0">
+          <IssuesList
+            height="400px"
+            :small="true"
+            :customFields="customFields.issues"
+            >
+            <template v-slot:blockTitle>
+              <b-button variant="outline-primary" to="/issues">
+                {{ $t('basics.issues', {list: $t('basics.list')}) }}
+              </b-button>
+            </template>
+          </IssuesList>
+        </b-col>
 
-      <b-col cols="6" class="pr-0">
-        <IssuesList
-          height="400px"
-          :small="true"
-          :customFields="customFields.issues"
-          >
-          <template v-slot:blockTitle>
-            <b-button variant="outline-primary" to="/issues">
-              {{ $t('basics.issues', {list: $t('basics.list')}) }}
-            </b-button>
-          </template>
-        </IssuesList>
-      </b-col>
+        <b-col cols="6" class="pl-0">
+          <UsersList
+            height="400px"
+            :small="true"
+            :customFields="customFields.users"
+            >
+            <template v-slot:blockTitle>
+              <b-button variant="outline-primary" to="/users">
+                {{ $t('basics.users', {list: $t('basics.list')}) }}
+              </b-button>
+            </template>
+          </UsersList>
+        </b-col>
 
-      <b-col cols="6" class="pl-0">
-        <UsersList
-          height="400px"
-          :small="true"
-          :customFields="customFields.users"
-          >
-          <template v-slot:blockTitle>
-            <b-button variant="outline-primary" to="/users">
-              {{ $t('basics.users', {list: $t('basics.list')}) }}
-            </b-button>
-          </template>
-        </UsersList>
-      </b-col>
-
-      <b-col cols="6">
-        <OrganizationsList
-          height="400px"
-          :small="true"
-          :customFields="customFields.organizations"
-          >
-          <template v-slot:blockTitle>
-            <b-button variant="outline-primary" to="/organizations">
-              {{ $t('basics.organizations', {list: $t('basics.list')}) }}
-            </b-button>
-          </template>
-        </OrganizationsList>
-      </b-col>
-    </b-row>
+        <b-col cols="6">
+          <OrganizationsList
+            height="400px"
+            :small="true"
+            :customFields="customFields.organizations"
+            >
+            <template v-slot:blockTitle>
+              <b-button variant="outline-primary" to="/organizations">
+                {{ $t('basics.organizations', {list: $t('basics.list')}) }}
+              </b-button>
+            </template>
+          </OrganizationsList>
+        </b-col>
+      </b-row>
     </b-container>
 
   </div>

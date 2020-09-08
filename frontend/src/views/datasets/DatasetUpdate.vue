@@ -118,6 +118,7 @@ export default {
   methods: {
     async appendModerationData (itemObject) {
       const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      console.log('-V- DatasetUpdate > methods > getDataset > itemStatus :', itemStatus)
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       console.log('-V- DatasetUpdate > methods > getDataset > consolidated :', consolidated)
       this.needsModerationData = false
@@ -133,10 +134,10 @@ export default {
           // console.log('-V- DatasetUpdate > methods > getDataset > results.body :', results.body)
           this.datasetsRequest = results.url
           this.dataset = results.body
-          this.needsModerationData = true
           const title = this.dataset.title.length > 25 ? this.dataset.title.slice(0, 25) + '...' : this.dataset.title
           this.crumbs[2].text = title
           this.isLoading = false
+          this.needsModerationData = true
         },
         reason => {
           console.error(`failed on api call: ${reason}`)

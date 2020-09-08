@@ -9,11 +9,11 @@
         <div class="flex-fill">
           {{ $t('moderation.moderation', {prefix: ''}) }}
         </div>
-        <ModerationItemBtn
+        <!-- <ModerationItemBtn
           :endpoint="endpoint"
           :item="item"
           >
-        </ModerationItemBtn>
+        </ModerationItemBtn> -->
       </div>
     </template>
 
@@ -65,7 +65,9 @@
           :sm="7"
           class="bg-light"
           >
-          <code>{{ item.comments }}</code>
+          <ModerationComments
+            :comments="item.comments"
+          />
         </b-col>
       </b-row>
 
@@ -101,13 +103,19 @@
           </ModerationCheckbox>
         </b-col>
       </b-row>
+
+      <!-- COMMENTS -->
       <b-row v-if="hasHeader" class="mb-2" align-h="center">
-        <b-col
-          :sm="10"
-          >
+        <b-col :sm="10" class="mb-3">
           <hr>
-          {{ $t('moderation.comments') }}
-          <code>{{ item.comments }}</code>
+          <p>
+            {{ $t('moderation.comments') }}
+          </p>
+        </b-col>
+        <b-col :sm="10">
+          <ModerationComments
+            :comments="item.comments"
+          />
         </b-col>
       </b-row>
 
@@ -118,14 +126,16 @@
 
 <script>
 
-import ModerationItemBtn from '@/components/moderation/ModerationItemBtn.vue'
+// import ModerationItemBtn from '@/components/moderation/ModerationItemBtn.vue'
 import ModerationCheckbox from '@/components/moderation/ModerationCheckbox.vue'
+import ModerationComments from '@/components/moderation/ModerationComments.vue'
 
 export default {
   name: 'ModerationRowCard',
   components: {
-    ModerationItemBtn,
-    ModerationCheckbox
+    // ModerationItemBtn,
+    ModerationCheckbox,
+    ModerationComments
   },
   props: [
     'hasHeader',

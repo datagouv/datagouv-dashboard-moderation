@@ -68,6 +68,7 @@ const translations = {
       confirm: 'confirm',
       close: 'close',
       cancel: 'cancel',
+      reset: 'reset',
       delete: 'delete',
       show: 'show',
       hide: 'hide',
@@ -84,6 +85,7 @@ const translations = {
       suspicious: 'suspicious',
       deleted: 'deleted',
       comments: 'comments',
+      addComment: 'add a comment',
       moderation: '{prefix}moderation',
       markAsRead: 'mark as read',
       markAsSuspect: 'mark as suspect'
