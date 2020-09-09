@@ -31,6 +31,7 @@
 
         <DialogRow
           :item="issue"
+          :customClass="'mb-5'"
         />
 
       </div>

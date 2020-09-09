@@ -31,6 +31,7 @@
 
         <DialogRow
           :item="discussion"
+          :customClass="'mb-5'"
         />
 
       </div>
