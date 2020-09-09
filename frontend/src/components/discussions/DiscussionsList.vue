@@ -1,8 +1,12 @@
 <template>
 
-  <div>
+  <div :customClass="customClass">
 
-    <PageHeader :textCode="'basics.discussionsCap'">
+    <PageHeader
+      :dgfType="'discussions'"
+      :noSubtitle="noOperationLink"
+      :compact="compact"
+      >
       <template v-slot:subtitle>
         <div class="mb-2">
           {{ $t('navigation.from') }} :
@@ -232,7 +236,10 @@ export default {
     'height',
     'width',
     'small',
-    'customFields'
+    'customFields',
+    'noOperationLink',
+    'compact',
+    'customClass'
   ],
   data () {
     return {

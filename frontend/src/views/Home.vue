@@ -15,7 +15,7 @@
       <b-row
         align-h="center"
         cols="3"
-        class="bg-light"
+        class="bg-light px-4"
         >
 
         <b-col cols="12" class="pt-5">
@@ -34,36 +34,30 @@
           </h3>
         </b-col>
 
-        <!-- <b-col cols="8" class="mt-4 mb-5">
-          <DatasetsSuggest
-            >
-            <template v-slot:blockTitle>
-              <b-button variant="outline-primary" to="/datasets">
-                {{ $t('basics.datasets', {list: $t('basics.suggestions')}) }}
-              </b-button>
-            </template>
-          </DatasetsSuggest>
-        </b-col> -->
-
-        <b-col cols="6" class="pr-0">
+        <b-col cols="6" class="px-3">
           <DatasetsList
             height="400px"
             :small="true"
             :customFields="customFields.datasets"
+            :customClass="'mt-5 pt-4 bg-white'"
+            :noOperationLink="true"
+            :compact="true"
             >
-            <template v-slot:blockTitle>
+            <!-- <template v-slot:blockTitle>
               <b-button variant="outline-primary" to="/datasets">
                 {{ $t('basics.datasets', {list: $t('basics.list')}) }}
               </b-button>
-            </template>
+            </template> -->
           </DatasetsList>
         </b-col>
 
-        <!-- <b-col cols="6" class="pl-0">
+        <!-- <b-col cols="6" class="px-3">
           <ResourcesList
             height="400px"
             :small="true"
             :customFields="customFields.resourcesCommunity"
+            :customClass="'mt-5 pt-4 bg-white'"
+            :noOperationLink="true"
             resourcesType="community"
             >
             <template v-slot:blockTitle>
@@ -74,11 +68,14 @@
           </ResourcesList>
         </b-col> -->
 
-        <!-- <b-col cols="6" class="pr-0">
+        <!-- <b-col cols="6" class="px-3">
           <ReusesList
             height="400px"
             :small="true"
             :customFields="customFields.reuses"
+            :customClass="'mt-5 pt-4 bg-white'"
+            :noOperationLink="true"
+            :compact="true"
             >
             <template v-slot:blockTitle>
               <b-button variant="outline-primary" to="/reuses">
@@ -88,11 +85,14 @@
           </ReusesList>
         </b-col> -->
 
-        <!-- <b-col cols="6" class="pl-0">
+        <!-- <b-col cols="6" class="px-3">
           <DiscussionsList
             height="400px"
             :small="true"
             :customFields="customFields.discussions"
+            :customClass="'mt-5 pt-4 bg-white'"
+            :noOperationLink="true"
+            :compact="true"
             >
             <template v-slot:blockTitle>
               <b-button variant="outline-primary" to="/discussions">
@@ -102,11 +102,14 @@
           </DiscussionsList>
         </b-col> -->
 
-        <b-col cols="6" class="pl-0">
+        <b-col cols="6" class="px-3">
           <IssuesList
             height="400px"
             :small="true"
             :customFields="customFields.issues"
+            :customClass="'mt-5 pt-4 bg-white'"
+            :noOperationLink="true"
+            :compact="true"
             >
             <template v-slot:blockTitle>
               <b-button variant="outline-primary" to="/issues">
@@ -116,11 +119,14 @@
           </IssuesList>
         </b-col>
 
-        <b-col cols="6" class="pr-0">
+        <b-col cols="6" class="px-3">
           <UsersList
             height="400px"
             :small="true"
             :customFields="customFields.users"
+            :customClass="'mt-5 pt-4 bg-white'"
+            :noOperationLink="true"
+            :compact="true"
             >
             <template v-slot:blockTitle>
               <b-button variant="outline-primary" to="/users">
@@ -130,11 +136,14 @@
           </UsersList>
         </b-col>
 
-        <b-col cols="6" class="pl-0">
+        <b-col cols="6" class="px-3">
           <OrganizationsList
             height="400px"
             :small="true"
             :customFields="customFields.organizations"
+            :customClass="'mt-5 pt-4 bg-white'"
+            :noOperationLink="true"
+            :compact="true"
             >
             <template v-slot:blockTitle>
               <b-button variant="outline-primary" to="/organizations">

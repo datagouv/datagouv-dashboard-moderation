@@ -1,8 +1,12 @@
 <template>
 
-  <div>
+  <div :class="customClass">
 
-    <PageHeader :textCode="'basics.resourcesCap'">
+    <PageHeader
+      :dgfType="'resources'"
+      :noSubtitle="noOperationLink"
+      :compact="compact"
+      >
       <template v-slot:subtitle>
         <div class="mb-2">
           {{ $t('navigation.from') }} :
@@ -218,7 +222,10 @@ export default {
     'height',
     'resourcesType',
     'small',
-    'customFields'
+    'customFields',
+    'noOperationLink',
+    'compact',
+    'customClass'
   ],
   data () {
     return {

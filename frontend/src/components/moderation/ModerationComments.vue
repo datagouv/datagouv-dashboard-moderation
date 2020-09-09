@@ -2,8 +2,8 @@
   <div>
 
     <!-- ADD COMMENT FORM -->
-    <b-row align-h="center">
-      <b-col cols="8">
+    <b-row align-h="end">
+      <b-col cols="10">
         <b-button block v-b-toggle="'collapse-add-comment'" class="my-3">
           <b-icon icon="plus"></b-icon>
           {{$t('moderation.addComment')}}
@@ -44,7 +44,7 @@
       :key="index"
       :align-h="comment.author === 'abc' ? 'end' : 'start'"
       >
-      <b-col cols="8">
+      <b-col cols="10">
         <b-card
           :class="`mb-3 ${comment.author === 'abc' ? 'bg-info text-white' : 'light'}`"
           >

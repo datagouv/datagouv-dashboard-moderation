@@ -1,8 +1,12 @@
 <template>
 
-  <div>
+  <div :class="customClass">
 
-    <PageHeader :textCode="'basics.usersCap'">
+    <PageHeader
+      :dgfType="'users'"
+      :noSubtitle="noOperationLink"
+      :compact="compact"
+      >
       <template v-slot:subtitle>
         <div class="mb-2">
           {{ $t('navigation.from') }} :
@@ -258,7 +262,10 @@ export default {
   props: [
     'height',
     'small',
-    'customFields'
+    'customFields',
+    'noOperationLink',
+    'compact',
+    'customClass'
   ],
   data () {
     return {

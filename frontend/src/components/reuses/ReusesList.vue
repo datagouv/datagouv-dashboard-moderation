@@ -1,14 +1,18 @@
 <template>
 
-  <div>
+  <div :class="customClass">
 
-    <PageHeader :textCode="'basics.reusesCap'">
+    <PageHeader
+      :dgfType="'reuses'"
+      :noSubtitle="noOperationLink"
+      :compact="compact"
+      >
       <template v-slot:subtitle>
         <div class="mb-2">
           {{ $t('navigation.from') }} :
           <span v-if="reusesRequest">
             <a :href="reusesRequest" target="blank">
-              {{ reusesRequest }}
+              <code>{{ operationId }}</code>
             </a>
           </span>
           <span v-else>
@@ -227,7 +231,10 @@ export default {
   props: [
     'height',
     'small',
-    'customFields'
+    'customFields',
+    'noOperationLink',
+    'compact',
+    'customClass'
   ],
   data () {
     return {

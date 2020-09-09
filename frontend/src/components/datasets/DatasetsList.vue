@@ -1,8 +1,13 @@
 <template>
 
-  <div>
+  <div :class="customClass">
 
-    <PageHeader :textCode="'basics.datasetsCap'">
+    <PageHeader
+      :dgfType="'datasets'"
+      :noSubtitle="noOperationLink"
+      :linkTitle="datasetsRequest"
+      :compact="compact"
+      >
       <template v-slot:subtitle>
         <div class="mb-2">
           {{ $t('navigation.from') }} :
@@ -280,7 +285,10 @@ export default {
   props: [
     'height',
     'small',
-    'customFields'
+    'customFields',
+    'noOperationLink',
+    'compact',
+    'customClass'
   ],
   data () {
     return {

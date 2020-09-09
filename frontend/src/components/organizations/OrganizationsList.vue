@@ -1,8 +1,12 @@
 <template>
 
-  <div>
+  <div :class="customClass">
 
-    <PageHeader :textCode="'basics.organizationsCap'">
+    <PageHeader
+      :dgfType="'organizations'"
+      :noSubtitle="noOperationLink"
+      :compact="compact"
+      >
       <template v-slot:subtitle>
         <div class="mb-2">
           {{ $t('navigation.from') }} :
@@ -245,7 +249,10 @@ export default {
   props: [
     'height',
     'small',
-    'customFields'
+    'customFields',
+    'noOperationLink',
+    'compact',
+    'customClass'
   ],
   data () {
     return {
