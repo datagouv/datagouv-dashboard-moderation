@@ -58,7 +58,7 @@
       >
       <b-col cols="10">
         <b-card
-          :class="`mb-3 ${comment.user_id === userId ? 'bg-info text-white' : 'bg-light'}`"
+          :class="`mb-3 ${comment.user_id === userId ? 'bg-info text-white' : 'bg-dark text-white'}`"
           >
           <b-card-body>
             <b-card-text class="text-left">
@@ -67,7 +67,7 @@
                   <b-icon
                     icon="three-dots"
                     aria-hidden="true"
-                    :class="`h3 ${comment.user_id === userId ? 'text-white' : ''}`"
+                    :class="`h3 ${comment.user_id === userId ? 'text-white' : 'text-white'}`"
                     >
                   </b-icon>
                 </b-col>
@@ -77,7 +77,7 @@
               </b-row>
             </b-card-text>
           </b-card-body>
-          <hr :class="`${comment.user_id === userId ? 'bg-white' : ''}`">
+          <hr :class="`${comment.user_id === userId ? 'bg-white' : 'bg-white'}`">
           <b-card-text class="text-center">
             <b-row no-gutters>
               <b-col>
