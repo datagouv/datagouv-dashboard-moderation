@@ -1,221 +1,234 @@
 <template>
 
-  <b-card
-    class="mt-3 mx-3 text-center border-0"
-    >
+  <div>
 
-    <p><slot name="blockTitle"></slot></p>
-    <p v-if="organizations">
-      <b-badge pill variant="primary">
-        {{ pagination.totalItems }}
-        {{ $t('basics.organizations', {list: ''}) }}
-      </b-badge>
-    </p>
-
-    <code>{{itemsSelection}}</code>
-
-    <p><slot name="link" class="mb-3"></slot></p>
-    <div class="mb-2">
-      {{ $t('navigation.from') }} :
-      <span v-if="organizationsRequest">
-        <a :href="organizationsRequest" target="blank">
-          {{ organizationsRequest }}
-        </a>
-      </span>
-      <span v-else>
-        {{ operationId }}
-      </span>
-    </div>
-
-    <b-row
-      align-v="center"
-      class="my-3"
-      >
-
-      <b-col cols="6" md="5">
-        <b-input-group>
-          <b-input-group-prepend is-text>
-            <b-icon icon="search"></b-icon>
-          </b-input-group-prepend>
-          <b-form-input
-            id="inline-form-input-query-organizations"
-            :placeholder="$t('actions.searchFor', {target: $t('basics.organization')})"
-            v-model="query"
-            @input="getOrganizations(true)"
-            >
-          </b-form-input>
-          <b-input-group-append v-if="query">
-            <b-button variant="outline-secondary" @click="resetQuery">
-              <b-icon icon="x" aria-hidden="true"></b-icon>
-            </b-button>
-          </b-input-group-append>
-        </b-input-group>
-      </b-col>
-
-      <b-col cols="4" md="5"
-        v-if="organizations && pagination.totalItems > pagination.pageSize"
-        class="my-2"
-        >
-        <b-pagination
-          @input="changePagination"
-          v-model="pagination.page"
-          :total-rows="pagination.totalItems"
-          :per-page="pagination.pageSize"
-          class="my-0"
-          align="center"
-          size="sm"
-        ></b-pagination>
-      </b-col>
-
-      <b-col cols="2" class="text-right">
-        <ModerationActionsBtn
-          :dgfType="dgfType"
-          :endpoint="endpointModeration"
-          :itemsSelection="itemsSelection"
-          :itemsList="organizations && organizations.data"
-          @responseAction="callbackAction"
-          >
-        </ModerationActionsBtn>
-      </b-col>
-
-    </b-row>
-
-    <b-table
-      v-if="organizations && !isLoading"
-      striped hover responsive
-      @sort-changed="changeSorting"
-      :small="small"
-      :sticky-header="height"
-      :items="organizations.data"
-      :fields="fields"
-      :sort-by.sync="pagination.sortBy"
-      :sort-desc.sync="pagination.sortDesc"
-      >
-
-      <template v-slot:cell(selection)="data">
-        <b-form inline class="justify-content-center">
-          <b-form-checkbox
-            v-if="isAuthenticated"
-            @change="addToSelection(data.item)"
-            button button-variant="outline-danger"
-            >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          </b-form-checkbox>
-          <b-form-checkbox
-            v-else
-            disabled
-            >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          </b-form-checkbox>
-        </b-form>
-      </template>
-
-      <template v-slot:cell(selection)="data">
-        <b-form inline class="justify-content-center">
-          <b-button
-            :disabled="!isAuthenticated"
-            @click="changeSelection(data.item)"
-            button
-            variant="link"
-            >
-            <b-icon
-              :icon="`${isSelected(data.item) ? 'check2-' : ''}square`"
-              :variant="`${isSelected(data.item)? 'primary' : ''}`"
-              aria-hidden="true"
-              >
-            </b-icon>
-          </b-button>
-        </b-form>
-      </template>
-
-      <template v-slot:cell(moderation)="row">
-        <b-button
-          v-if="isAuthenticated"
-          size="sm"
-          @click="row.toggleDetails" class="mx-2">
-          <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
-        </b-button>
-      </template>
-
-      <template v-if="isAuthenticated" v-slot:row-details="row">
-        <ModerationRowCard
-          :dgfType="dgfType"
-          :item="row.item"
-        />
-      </template>
-
-      <template v-slot:cell(moderation_read)="row">
-        <ModerationCheckbox
-          :dgfType="dgfType"
-          :item="row.item"
-          :field="'read'"
-          >
-        </ModerationCheckbox>
-      </template>
-
-      <template v-slot:cell(moderation_suspect)="row">
-        <ModerationCheckbox
-          :dgfType="dgfType"
-          :item="row.item"
-          :field="'suspicious'"
-          >
-        </ModerationCheckbox>
-      </template>
-
-      <template v-slot:cell(moderation_deleted)="row">
-        <ModerationCheckbox
-          :dgfType="dgfType"
-          :item="row.item"
-          :field="'deleted'"
-          >
-        </ModerationCheckbox>
-      </template>
-
-      <template v-slot:cell(created_at)="data">
-        <i>{{ formatDate(data.value, addTime = false) }}</i>
-      </template>
-
-      <template v-slot:cell(id)="data">
-        <router-link
-          class="text-info"
-          :to="`/organizations/${data.value}`"
-          >
-          {{ data.value }}
-        </router-link>
-      </template>
-
-      <template v-slot:cell(name)="data">
-        <router-link
-          class="text-info"
-          :to="`/organizations/${data.item.id}`"
-          >
-          <span>
-            {{ data.value }}
+    <PageHeader :textCode="'basics.organizationsCap'">
+      <template v-slot:subtitle>
+        <div class="mb-2">
+          {{ $t('navigation.from') }} :
+          <span v-if="organizationsRequest">
+            <a :href="organizationsRequest" target="blank">
+              {{ organizationsRequest }}
+            </a>
           </span>
-        </router-link>
+          <span v-else>
+            <code>{{ operationId }}</code>
+          </span>
+        </div>
       </template>
-
-      <template v-slot:cell(organizationlogo)="data">
-        <b-img
-          v-if="data.item.logo_thumbnail"
-          thumbnail
-          fluid
-          :src="data.item.logo_thumbnail"
-          :alt="data.item.name">
-        </b-img>
+      <template v-slot:badge>
+        <h4 v-if="organizations">
+          <b-badge pill variant="primary">
+            {{ pagination.totalItems }}
+            {{ $t('basics.organizations', {list: ''}) }}
+          </b-badge>
+        </h4>
       </template>
+    </PageHeader>
 
-    </b-table>
+    <b-card
+      class="mx-3 text-center border-0"
+      >
 
-    <p v-if="isLoading">
-      <b-spinner label="loading"></b-spinner>
-    </p>
-  </b-card>
+      <!-- <p><slot name="blockTitle"></slot></p> -->
+
+      <!-- <code>{{itemsSelection}}</code> -->
+
+      <p><slot name="link" class="mb-3"></slot></p>
+
+      <b-row
+        align-v="center"
+        class="my-3"
+        >
+
+        <b-col cols="6" md="5">
+          <b-input-group>
+            <b-input-group-prepend is-text>
+              <b-icon icon="search"></b-icon>
+            </b-input-group-prepend>
+            <b-form-input
+              id="inline-form-input-query-organizations"
+              :placeholder="$t('actions.searchFor', {target: $t('basics.organization')})"
+              v-model="query"
+              @input="getOrganizations(true)"
+              >
+            </b-form-input>
+            <b-input-group-append v-if="query">
+              <b-button variant="outline-secondary" @click="resetQuery">
+                <b-icon icon="x" aria-hidden="true"></b-icon>
+              </b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-col>
+
+        <b-col cols="4" md="5"
+          v-if="organizations && pagination.totalItems > pagination.pageSize"
+          class="my-2"
+          >
+          <b-pagination
+            @input="changePagination"
+            v-model="pagination.page"
+            :total-rows="pagination.totalItems"
+            :per-page="pagination.pageSize"
+            class="my-0"
+            align="center"
+            size="sm"
+          ></b-pagination>
+        </b-col>
+
+        <b-col cols="2" class="text-right">
+          <ModerationActionsBtn
+            :dgfType="dgfType"
+            :endpoint="endpointModeration"
+            :itemsSelection="itemsSelection"
+            :itemsList="organizations && organizations.data"
+            @responseAction="callbackAction"
+            >
+          </ModerationActionsBtn>
+        </b-col>
+
+      </b-row>
+
+      <b-table
+        v-if="organizations && !isLoading"
+        striped hover responsive
+        @sort-changed="changeSorting"
+        :small="small"
+        :sticky-header="height"
+        :items="organizations.data"
+        :fields="fields"
+        :sort-by.sync="pagination.sortBy"
+        :sort-desc.sync="pagination.sortDesc"
+        >
+
+        <template v-slot:cell(selection)="data">
+          <b-form inline class="justify-content-center">
+            <b-form-checkbox
+              v-if="isAuthenticated"
+              @change="addToSelection(data.item)"
+              button button-variant="outline-danger"
+              >
+              <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+            </b-form-checkbox>
+            <b-form-checkbox
+              v-else
+              disabled
+              >
+              <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+            </b-form-checkbox>
+          </b-form>
+        </template>
+
+        <template v-slot:cell(selection)="data">
+          <b-form inline class="justify-content-center">
+            <b-button
+              :disabled="!isAuthenticated"
+              @click="changeSelection(data.item)"
+              button
+              variant="link"
+              >
+              <b-icon
+                :icon="`${isSelected(data.item) ? 'check2-' : ''}square`"
+                :variant="`${isSelected(data.item)? 'primary' : ''}`"
+                aria-hidden="true"
+                >
+              </b-icon>
+            </b-button>
+          </b-form>
+        </template>
+
+        <template v-slot:cell(moderation)="row">
+          <b-button
+            v-if="isAuthenticated"
+            size="sm"
+            @click="row.toggleDetails" class="mx-2">
+            <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
+          </b-button>
+        </template>
+
+        <template v-if="isAuthenticated" v-slot:row-details="row">
+          <ModerationRowCard
+            :dgfType="dgfType"
+            :item="row.item"
+          />
+        </template>
+
+        <template v-slot:cell(moderation_read)="row">
+          <ModerationCheckbox
+            :dgfType="dgfType"
+            :item="row.item"
+            :field="'read'"
+            >
+          </ModerationCheckbox>
+        </template>
+
+        <template v-slot:cell(moderation_suspect)="row">
+          <ModerationCheckbox
+            :dgfType="dgfType"
+            :item="row.item"
+            :field="'suspicious'"
+            >
+          </ModerationCheckbox>
+        </template>
+
+        <template v-slot:cell(moderation_deleted)="row">
+          <ModerationCheckbox
+            :dgfType="dgfType"
+            :item="row.item"
+            :field="'deleted'"
+            >
+          </ModerationCheckbox>
+        </template>
+
+        <template v-slot:cell(created_at)="data">
+          <i>{{ formatDate(data.value, addTime = false) }}</i>
+        </template>
+
+        <template v-slot:cell(id)="data">
+          <router-link
+            class="text-info"
+            :to="`/organizations/${data.value}`"
+            >
+            {{ data.value }}
+          </router-link>
+        </template>
+
+        <template v-slot:cell(name)="data">
+          <router-link
+            class="text-info"
+            :to="`/organizations/${data.item.id}`"
+            >
+            <span>
+              {{ data.value }}
+            </span>
+          </router-link>
+        </template>
+
+        <template v-slot:cell(organizationlogo)="data">
+          <b-img
+            v-if="data.item.logo_thumbnail"
+            thumbnail
+            fluid
+            :src="data.item.logo_thumbnail"
+            :alt="data.item.name">
+          </b-img>
+        </template>
+
+      </b-table>
+
+      <p v-if="isLoading">
+        <b-spinner label="loading"></b-spinner>
+      </p>
+    </b-card>
+
+  </div>
 
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+
+import PageHeader from '@/components/ux/PageHeader.vue'
 
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 import ModerationCheckbox from '@/components/moderation/ModerationCheckbox.vue'
@@ -224,6 +237,7 @@ import ModerationActionsBtn from '@/components/moderation/ModerationActionsBtn.v
 export default {
   name: 'OrganizationsList',
   components: {
+    PageHeader,
     ModerationActionsBtn,
     ModerationCheckbox,
     ModerationRowCard

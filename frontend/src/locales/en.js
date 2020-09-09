@@ -29,6 +29,14 @@ const translations = {
       discussions: 'discussions{list}',
       resources: 'ressources{list}',
       resources_community: 'community ressources{list}',
+      datasetsCap: 'Datasets',
+      reusesCap: 'Reuses',
+      usersCap: 'Users',
+      organizationsCap: 'Organizations',
+      issuesCap: 'Issues',
+      discussionsCap: 'Discussions',
+      resourcesCap: 'Ressources',
+      resources_communityCap: 'Community ressources',
       settings: 'settings',
       activity: 'activity',
       infos: 'infos',
@@ -80,6 +88,8 @@ const translations = {
       sureDeleteItem: 'are you sure you want to delete this element ?'
     },
     moderation: {
+      date: 'date',
+      author: 'author',
       selection: 'selection',
       read: 'read',
       suspicious: 'suspicious',

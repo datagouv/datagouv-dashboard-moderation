@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mt-1 mb-4"
+    class=""
     >
     <b-button
       @click="goBack"

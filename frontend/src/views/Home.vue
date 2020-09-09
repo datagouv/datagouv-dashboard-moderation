@@ -34,7 +34,7 @@
           </h3>
         </b-col>
 
-        <b-col cols="8" class="mt-4 mb-5">
+        <!-- <b-col cols="8" class="mt-4 mb-5">
           <DatasetsSuggest
             >
             <template v-slot:blockTitle>
@@ -43,7 +43,7 @@
               </b-button>
             </template>
           </DatasetsSuggest>
-        </b-col>
+        </b-col> -->
 
         <b-col cols="6" class="pr-0">
           <DatasetsList
@@ -59,7 +59,7 @@
           </DatasetsList>
         </b-col>
 
-        <b-col cols="6" class="pl-0">
+        <!-- <b-col cols="6" class="pl-0">
           <ResourcesList
             height="400px"
             :small="true"
@@ -72,9 +72,9 @@
               </b-button>
             </template>
           </ResourcesList>
-        </b-col>
+        </b-col> -->
 
-        <b-col cols="6" class="pr-0">
+        <!-- <b-col cols="6" class="pr-0">
           <ReusesList
             height="400px"
             :small="true"
@@ -86,9 +86,9 @@
               </b-button>
             </template>
           </ReusesList>
-        </b-col>
+        </b-col> -->
 
-        <b-col cols="6" class="pl-0">
+        <!-- <b-col cols="6" class="pl-0">
           <DiscussionsList
             height="400px"
             :small="true"
@@ -100,9 +100,9 @@
               </b-button>
             </template>
           </DiscussionsList>
-        </b-col>
+        </b-col> -->
 
-        <b-col cols="6" class="pr-0">
+        <b-col cols="6" class="pl-0">
           <IssuesList
             height="400px"
             :small="true"
@@ -116,7 +116,7 @@
           </IssuesList>
         </b-col>
 
-        <b-col cols="6" class="pl-0">
+        <b-col cols="6" class="pr-0">
           <UsersList
             height="400px"
             :small="true"
@@ -130,7 +130,7 @@
           </UsersList>
         </b-col>
 
-        <b-col cols="6">
+        <b-col cols="6" class="pl-0">
           <OrganizationsList
             height="400px"
             :small="true"
@@ -143,6 +143,7 @@
             </template>
           </OrganizationsList>
         </b-col>
+
       </b-row>
     </b-container>
 
@@ -156,11 +157,11 @@ import { mapState } from 'vuex'
 // @ is an alias to /src
 import Homepage from '@/components/Homepage.vue'
 
-import DatasetsSuggest from '@/components/datasets/DatasetsSuggest.vue'
+// import DatasetsSuggest from '@/components/datasets/DatasetsSuggest.vue'
 import DatasetsList from '@/components/datasets/DatasetsList.vue'
-import ResourcesList from '@/components/resources/ResourcesList.vue'
-import ReusesList from '@/components/reuses/ReusesList.vue'
-import DiscussionsList from '@/components/discussions/DiscussionsList.vue'
+// import ResourcesList from '@/components/resources/ResourcesList.vue'
+// import ReusesList from '@/components/reuses/ReusesList.vue'
+// import DiscussionsList from '@/components/discussions/DiscussionsList.vue'
 import IssuesList from '@/components/issues/IssuesList.vue'
 import UsersList from '@/components/users/UsersList.vue'
 import OrganizationsList from '@/components/organizations/OrganizationsList.vue'
@@ -169,11 +170,11 @@ export default {
   name: 'Home',
   components: {
     Homepage,
-    DatasetsSuggest,
+    // DatasetsSuggest,
     DatasetsList,
-    ResourcesList,
-    ReusesList,
-    DiscussionsList,
+    // ResourcesList,
+    // ReusesList,
+    // DiscussionsList,
     IssuesList,
     UsersList,
     OrganizationsList

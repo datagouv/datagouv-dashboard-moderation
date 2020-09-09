@@ -88,14 +88,14 @@ class ModerationLib {
       {
         id: '1234',
         author: 'abc',
-        written_on: '',
+        written_at: '09/09/2020',
         content: 'gnagnagna',
         dgf_object_id: ''
       },
       {
         id: '9876',
         author: 'xyz',
-        written_on: '',
+        written_at: '08/09/2020',
         content: 'blablabla',
         dgf_object_id: ''
       }

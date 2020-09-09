@@ -7,14 +7,6 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
-
-    <h2>
-      {{ $t('basics.resources_community', {list: $t('basics.list')}) }}
-    </h2>
-
-    <br>
-
     <!-- DISPLAY RESOURCES IN TABLE -->
     <ResourcesList
       height="800px"
@@ -29,12 +21,10 @@
 import { mapState } from 'vuex'
 
 import ResourcesList from '@/components/resources/ResourcesList.vue'
-import PreviousPage from '@/components/ux/PreviousPage.vue'
 
 export default {
   name: 'Resources',
   components: {
-    PreviousPage,
     ResourcesList
   },
   data () {

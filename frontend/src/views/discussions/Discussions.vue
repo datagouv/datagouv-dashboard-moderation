@@ -7,14 +7,6 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
-
-    <h2>
-      {{ $t('basics.discussions', {list: $t('basics.list')}) }}
-    </h2>
-
-    <br>
-
     <!-- DISPLAY DISCUSSIONS IN TABLE -->
     <DiscussionsList
       height="800px"
@@ -29,12 +21,10 @@
 import { mapState } from 'vuex'
 
 import DiscussionsList from '@/components/discussions/DiscussionsList.vue'
-import PreviousPage from '@/components/ux/PreviousPage.vue'
 
 export default {
   name: 'Discussions',
   components: {
-    PreviousPage,
     DiscussionsList
   },
   data () {

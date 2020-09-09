@@ -3,7 +3,7 @@
     <b-navbar
       fixed="top"
       sticky
-      toggleable="lg"
+      toggleable="md"
       type="primary"
       variant="white"
       class="light-bottom-border"
@@ -36,53 +36,13 @@
         <!-- Center aligned nav items -->
         <b-navbar-nav class="ml-auto" align="center">
           <b-nav-item
+            v-for="btn in navbarBtns"
+            :key="btn.link"
             active-class="active-link"
-            class="text-capitalize"
-            to="/datasets"
+            class=""
+            :to="btn.link"
             >
-            {{ $t('basics.datasets', {list: ''}) }}
-          </b-nav-item>
-          <b-nav-item
-            active-class="active-link"
-            class="text-capitalize"
-            to="/resources-community"
-            >
-            {{ $t('basics.resources_community', {list: ''}) }}
-          </b-nav-item>
-          <b-nav-item
-            active-class="active-link"
-            class="text-capitalize"
-            to="/reuses"
-            >
-            {{ $t('basics.reuses', {list: ''}) }}
-          </b-nav-item>
-          <b-nav-item
-            active-class="active-link"
-            class="text-capitalize"
-            to="/users"
-            >
-            {{ $t('basics.users', {list: ''}) }}
-          </b-nav-item>
-          <b-nav-item
-            active-class="active-link"
-            class="text-capitalize"
-            to="/organizations"
-            >
-            {{ $t('basics.organizations', {list: ''}) }}
-          </b-nav-item>
-          <b-nav-item
-            active-class="active-link"
-            class="text-capitalize"
-            to="/issues"
-            >
-            {{ $t('basics.issues', {list: ''}) }}
-          </b-nav-item>
-          <b-nav-item
-            active-class="active-link"
-            class="text-capitalize"
-            to="/discussions"
-            >
-            {{ $t('basics.discussions', {list: ''}) }}
+            {{ $t(btn.textCode) }}
           </b-nav-item>
         </b-navbar-nav>
 
@@ -203,7 +163,16 @@ export default {
   data () {
     return {
       isLoading: false,
-      searchVisible: false
+      searchVisible: false,
+      navbarBtns: [
+        { link: '/datasets', textCode: 'basics.datasetsCap' },
+        { link: '/resources-community', textCode: 'basics.resources_communityCap' },
+        { link: '/reuses', textCode: 'basics.reusesCap' },
+        { link: '/users', textCode: 'basics.usersCap' },
+        { link: '/organizations', textCode: 'basics.organizationsCap' },
+        { link: '/issues', textCode: 'basics.issuesCap' },
+        { link: '/discussions', textCode: 'basics.discussionsCap' }
+      ]
     }
   },
   created () {
