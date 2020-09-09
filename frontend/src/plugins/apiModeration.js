@@ -90,7 +90,7 @@ class ModerationLib {
         author: 'Julien Paris',
         user_id: '5ecb7bb95b7c0fda6b06d0e3',
         written_at: '09/09/2020',
-        content: 'gnagnagna',
+        content: "I did comment this... I think it's very useful to add my thoughts here...",
         dgf_object_id: ''
       },
       {
@@ -98,7 +98,7 @@ class ModerationLib {
         author: 'Alfred Wayne',
         user_id: '78cb7bb95b7c0fdgtr06d0200',
         written_at: '08/09/2020',
-        content: 'blablabla',
+        content: 'Master Bruce would be against it...',
         dgf_object_id: ''
       }
     ]

@@ -62,10 +62,22 @@
           >
           <b-card-body>
             <b-card-text class="text-left">
-              {{ comment.content }}
+              <b-row>
+                <b-col cols="2">
+                  <b-icon
+                    icon="three-dots"
+                    aria-hidden="true"
+                    :class="`h3 ${comment.user_id === userId ? 'text-white' : ''}`"
+                    >
+                  </b-icon>
+                </b-col>
+                <b-col>
+                  {{ comment.content }}
+                </b-col>
+              </b-row>
             </b-card-text>
           </b-card-body>
-          <hr class="bg-white">
+          <hr :class="`${comment.user_id === userId ? 'bg-white' : ''}`">
           <b-card-text class="text-center">
             <b-row no-gutters>
               <b-col>
