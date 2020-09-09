@@ -9,13 +9,13 @@
 
       <!-- DIALOG -->
       <b-row
-        v-for="(discussionItem, index) in item.discussion"
+        v-for="(dialog, index) in dialogs"
         :key="index"
-        :align-h="discussionItem.posted_by.id === userId ? 'end' : 'start'"
+        :align-h="dialog.posted_by.id === userId ? 'end' : 'start'"
         >
         <b-col cols="10">
           <b-card
-            :class="`mb-3 ${discussionItem.posted_by.id === userId ? 'bg-info text-white' : 'bg-light'}`"
+            :class="`mb-3 ${dialog.posted_by.id === userId ? 'bg-info text-white' : 'bg-light'}`"
             >
             <b-card-body>
               <b-card-text class="text-left">
@@ -24,27 +24,27 @@
                     <b-icon
                       icon="three-dots"
                       aria-hidden="true"
-                      :class="`h3 ${discussionItem.posted_by.id === userId ? 'text-white' : ''}`"
+                      :class="`h3 ${dialog.posted_by.id === userId ? 'text-white' : ''}`"
                       >
                     </b-icon>
                   </b-col>
                   <b-col>
-                    {{ discussionItem.content }}
+                    {{ dialog.content }}
                   </b-col>
                 </b-row>
               </b-card-text>
             </b-card-body>
-            <hr :class="`${discussionItem.posted_by.id === userId ? 'bg-white' : ''}`">
+            <hr :class="`${dialog.posted_by.id === userId ? 'bg-white' : ''}`">
             <b-card-text class="text-center">
               <b-row no-gutters>
                 <b-col>
                   {{$t('moderation.author')}} :<br>
-                  {{ discussionItem.posted_by.first_name }}
-                  {{ discussionItem.posted_by.last_name }}
+                  {{ dialog.posted_by.first_name }}
+                  {{ dialog.posted_by.last_name }}
                 </b-col>
                 <b-col>
                   {{$t('moderation.date')}} :<br>
-                  {{ discussionItem.posted_on }}
+                  {{ dialog.posted_on }}
                 </b-col>
               </b-row>
             </b-card-text>
@@ -66,6 +66,16 @@ export default {
     'item',
     'customClass'
   ],
+  data () {
+    return {
+      dialogs: []
+    }
+  },
+  created () {
+    if (this.item && this.item.discussion) {
+      this.dialogs = this.item.discussion.reverse()
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.global.log,

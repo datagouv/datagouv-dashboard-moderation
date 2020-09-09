@@ -41,8 +41,20 @@
         </b-col>
 
         <b-col
+          :sm="4"
+          class="bg-light p-4 mx-4"
+          >
+          <p class="font-weight-bold">
+            {{ $t('moderation.comments') }}
+          </p>
+          <ModerationComments
+            :comments="item.comments"
+          />
+        </b-col>
+
+        <b-col
           :sm=1
-          class="bg-light mx-4 pt-3"
+          class="bg-light pt-3"
           align-self="middle"
           >
           <div class="mt-3 mb-4">
@@ -72,18 +84,6 @@
               >
             </ModerationCheckbox>
           </div>
-        </b-col>
-
-        <b-col
-          :sm="4"
-          class="bg-light p-4"
-          >
-          <p class="font-weight-bold">
-            {{ $t('moderation.comments') }}
-          </p>
-          <ModerationComments
-            :comments="item.comments"
-          />
         </b-col>
 
       </b-row>

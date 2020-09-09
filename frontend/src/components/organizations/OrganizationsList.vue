@@ -218,6 +218,12 @@
           </b-img>
         </template>
 
+        <template v-slot:cell(description)="data">
+          <p class="text-left">
+            {{ trim(data.value, 240) }}
+          </p>
+        </template>
+
       </b-table>
 
       <p v-if="isLoading">
@@ -231,6 +237,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import { trimText } from '@/utils/textUtils.js'
 
 import PageHeader from '@/components/ux/PageHeader.vue'
 
@@ -298,7 +305,7 @@ export default {
         { key: 'moderation_deleted', label: 'Deleted', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'organizationlogo', label: 'logo' },
         { key: 'name', label: 'name', stickyColumn: true, isRowHeader: true },
-        { key: 'description' },
+        { key: 'description', label: 'description' },
         { key: 'created_at', label: 'created at', sortable: true },
         'id'
       ]
@@ -390,6 +397,9 @@ export default {
     },
     formatDate (dateString, addTime) {
       return this.$formatDate(dateString, addTime)
+    },
+    trim (str, max) {
+      return trimText(str, max)
     }
   }
 }
