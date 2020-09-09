@@ -3,9 +3,9 @@
     class=""
     >
     <b-button
-      @click="goBack"
       pill
       variant="outline-secondary"
+      @click="goBack"
       >
       <b-icon icon="arrow-left" aria-hidden="true"></b-icon>
       {{$t('navigation.back')}}

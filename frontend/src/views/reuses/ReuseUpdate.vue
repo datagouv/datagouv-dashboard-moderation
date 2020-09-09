@@ -6,28 +6,28 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
-
-    <h2>
-      Reuse update
-    </h2>
-    <div>
-      {{ $t('navigation.from') }} :
-      <span v-if="reuseRequest">
-        <a :href="reuseRequest" target="_blank">
-          JSON
-        </a>
-        |
-        <a :href="reuse.url" target="_blank">
-          datagouv reuse page
-        </a>
-      </span>
-      <span v-else>
-        {{ getOperationId }}
-      </span>
-    </div>
-
-    <br>
+    <PageHeader
+      :dgfType="'reuse'"
+      :customClass="'mb-4'"
+      >
+      <template v-slot:badge>
+        <div>
+          {{ $t('navigation.from') }} :
+          <span v-if="reuseRequest">
+            <a :href="reuseRequest" target="_blank">
+              JSON
+            </a>
+            |
+            <a :href="reuse.url" target="_blank">
+              datagouv reuse page
+            </a>
+          </span>
+          <span v-else>
+            {{ getOperationId }}
+          </span>
+        </div>
+      </template>
+    </PageHeader>
 
     <b-row class="mx-2">
 
@@ -60,7 +60,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
+import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import ReuseCard from '@/components/reuses/ReuseCard.vue'
@@ -68,7 +68,7 @@ import ReuseCard from '@/components/reuses/ReuseCard.vue'
 export default {
   name: 'ReuseUpdate',
   components: {
-    PreviousPage,
+    PageHeader,
     ModerationRowCard,
     ReuseCard
   },

@@ -87,14 +87,16 @@ class ModerationLib {
     const commentsDummy = [
       {
         id: '1234',
-        author: 'abc',
+        author: 'Julien Paris',
+        user_id: '5ecb7bb95b7c0fda6b06d0e3',
         written_at: '09/09/2020',
         content: 'gnagnagna',
         dgf_object_id: ''
       },
       {
         id: '9876',
-        author: 'xyz',
+        author: 'Alfred Wayne',
+        user_id: '78cb7bb95b7c0fdgtr06d0200',
         written_at: '08/09/2020',
         content: 'blablabla',
         dgf_object_id: ''

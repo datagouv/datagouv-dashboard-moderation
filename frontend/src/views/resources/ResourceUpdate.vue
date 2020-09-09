@@ -6,28 +6,28 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
-
-    <h2>
-      Resource update
-    </h2>
-    <div>
-      {{ $t('navigation.from') }} :
-      <span v-if="resourceRequest">
-        <a :href="resourceRequest" target="_blank">
-          JSON
-        </a>
-        |
-        <a :href="resource.url" target="_blank">
-          datagouv resource page
-        </a>
-      </span>
-      <span v-else>
-        {{ getOperationId }}
-      </span>
-    </div>
-
-    <br>
+    <PageHeader
+      :dgfType="'resource'"
+      :customClass="'mb-4'"
+      >
+      <template v-slot:badge>
+        <div>
+          {{ $t('navigation.from') }} :
+          <span v-if="resourceRequest">
+            <a :href="resourceRequest" target="_blank">
+              JSON
+            </a>
+            |
+            <a :href="resource.url" target="_blank">
+              datagouv resource page
+            </a>
+          </span>
+          <span v-else>
+            {{ getOperationId }}
+          </span>
+        </div>
+      </template>
+    </PageHeader>
 
     <b-row class="mx-2">
 
@@ -60,7 +60,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
+import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import ResourceCard from '@/components/resources/ResourceCard.vue'
@@ -68,7 +68,7 @@ import ResourceCard from '@/components/resources/ResourceCard.vue'
 export default {
   name: 'ResourceUpdate',
   components: {
-    PreviousPage,
+    PageHeader,
     ModerationRowCard,
     ResourceCard
   },

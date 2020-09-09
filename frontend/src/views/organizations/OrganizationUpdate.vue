@@ -6,28 +6,28 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
-
-    <h2>
-      Organization update
-    </h2>
-    <div>
-      {{ $t('navigation.from') }} :
-      <span v-if="organizationRequest">
-        <a :href="organizationRequest" target="_blank">
-          JSON
-        </a>
-        |
-        <a :href="organization.url" target="_blank">
-          datagouv organization page
-        </a>
-      </span>
-      <span v-else>
-        {{ getOperationId }}
-      </span>
-    </div>
-
-    <br>
+    <PageHeader
+      :dgfType="'organization'"
+      :customClass="'mb-4'"
+      >
+      <template v-slot:badge>
+        <div>
+          {{ $t('navigation.from') }} :
+          <span v-if="organizationRequest">
+            <a :href="organizationRequest" target="_blank">
+              JSON
+            </a>
+            |
+            <a :href="organization.url" target="_blank">
+              datagouv organization page
+            </a>
+          </span>
+          <span v-else>
+            {{ getOperationId }}
+          </span>
+        </div>
+      </template>
+    </PageHeader>
 
     <b-row class="mx-2">
 
@@ -61,7 +61,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
+import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import OrganizationCard from '@/components/organizations/OrganizationCard.vue'
@@ -69,7 +69,7 @@ import OrganizationCard from '@/components/organizations/OrganizationCard.vue'
 export default {
   name: 'OrganizationUpdate',
   components: {
-    PreviousPage,
+    PageHeader,
     ModerationRowCard,
     OrganizationCard
   },

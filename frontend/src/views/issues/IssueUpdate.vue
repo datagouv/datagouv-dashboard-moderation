@@ -6,29 +6,28 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
-
-    <h2>
-      Issue update
-    </h2>
-
-    <div>
-      {{ $t('navigation.from') }} :
-      <span v-if="issueRequest">
-        <a :href="issueRequest" target="_blank">
-          JSON
-        </a>
-        |
-        <a :href="issue.url" target="_blank">
-          datagouv issue page
-        </a>
-      </span>
-      <span v-else>
-        {{ getOperationId }}
-      </span>
-    </div>
-
-    <br>
+    <PageHeader
+      :dgfType="'issue'"
+      :customClass="'mb-4'"
+      >
+      <template v-slot:badge>
+        <div>
+          {{ $t('navigation.from') }} :
+          <span v-if="issueRequest">
+            <a :href="issueRequest" target="_blank">
+              JSON
+            </a>
+            |
+            <a :href="issue.url" target="_blank">
+              datagouv issue page
+            </a>
+          </span>
+          <span v-else>
+            {{ getOperationId }}
+          </span>
+        </div>
+      </template>
+    </PageHeader>
 
     <b-row class="mx-2">
 
@@ -63,7 +62,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
+import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import IssueCard from '@/components/issues/IssueCard.vue'
@@ -71,7 +70,7 @@ import IssueCard from '@/components/issues/IssueCard.vue'
 export default {
   name: 'IssueUpdate',
   components: {
-    PreviousPage,
+    PageHeader,
     ModerationRowCard,
     IssueCard
   },

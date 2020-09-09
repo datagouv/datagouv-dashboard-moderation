@@ -99,6 +99,31 @@ export default {
         resources_community: {
           textCode: 'basics.resources_communityCap',
           to: '/resources-community'
+        },
+
+        dataset: {
+          textCode: 'basics.dataset'
+        },
+        reuse: {
+          textCode: 'basics.reuse'
+        },
+        user: {
+          textCode: 'basics.user'
+        },
+        organization: {
+          textCode: 'basics.organization'
+        },
+        issue: {
+          textCode: 'basics.issue'
+        },
+        discussion: {
+          textCode: 'basics.discussion'
+        },
+        resource: {
+          textCode: 'basics.resource'
+        },
+        resource_community: {
+          textCode: 'basics.resource_community'
         }
       }
     }

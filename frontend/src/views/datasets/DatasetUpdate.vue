@@ -6,29 +6,28 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
-
-    <h2>
-      Dataset update
-    </h2>
-
-    <div>
-      {{ $t('navigation.from') }} :
-      <span v-if="datasetsRequest">
-        <a :href="datasetsRequest" target="_blank">
-          JSON
-        </a>
-        |
-        <a :href="dataset.page" target="_blank">
-          datagouv public page
-        </a>
-      </span>
-      <span v-else>
-        {{ getOperationId }}
-      </span>
-    </div>
-
-    <br>
+    <PageHeader
+      :dgfType="'dataset'"
+      :customClass="'mb-4'"
+      >
+      <template v-slot:badge>
+        <div>
+          {{ $t('navigation.from') }} :
+          <span v-if="datasetsRequest">
+            <a :href="datasetsRequest" target="_blank">
+              JSON
+            </a>
+            |
+            <a :href="dataset.page" target="_blank">
+              datagouv public page
+            </a>
+          </span>
+          <span v-else>
+            {{ getOperationId }}
+          </span>
+        </div>
+      </template>
+    </PageHeader>
 
     <b-row class="mx-2">
 
@@ -61,7 +60,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
+import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import DatasetCard from '@/components/datasets/DatasetCard.vue'
@@ -69,7 +68,7 @@ import DatasetCard from '@/components/datasets/DatasetCard.vue'
 export default {
   name: 'DatasetUpdate',
   components: {
-    PreviousPage,
+    PageHeader,
     ModerationRowCard,
     DatasetCard
   },

@@ -2,14 +2,26 @@
   <div>
 
     <!-- ADD COMMENT FORM -->
-    <b-row align-h="end">
+    <b-row align-h="center">
       <b-col cols="10">
-        <b-button block v-b-toggle="'collapse-add-comment'" class="my-3">
-          <b-icon icon="plus"></b-icon>
+
+        <b-button
+          block
+          :class="`mt-2 mb-3 ${formCommentVisible ? null : 'collapsed'}`"
+           aria-controls="collapse-add-comment"
+          @click="formCommentVisible = !formCommentVisible"
+          >
+          <b-icon
+            :icon="formCommentVisible ? 'dash' : 'plus'"
+            >
+          </b-icon>
           {{$t('moderation.addComment')}}
         </b-button>
 
-        <b-collapse id="collapse-add-comment">
+        <b-collapse
+          id="collapse-add-comment"
+          v-model="formCommentVisible"
+          >
           <b-form
             @submit="onSubmit"
             @reset="onReset"
@@ -42,31 +54,31 @@
     <b-row
       v-for="(comment, index) in comments"
       :key="index"
-      :align-h="comment.author === 'abc' ? 'end' : 'start'"
+      :align-h="comment.user_id === userId ? 'center' : 'start'"
       >
       <b-col cols="10">
         <b-card
-          :class="`mb-3 ${comment.author === 'abc' ? 'bg-info text-white' : 'light'}`"
+          :class="`mb-3 ${comment.user_id === userId ? 'bg-info text-white' : 'light'}`"
           >
-          <b-row no-gutters>
-            <b-col md="3">
-              <b-card-text class="text-left">
-                <p>
-                  {{$t('moderation.author')}} : {{ comment.author }}
-                </p>
-                <p>
-                  {{$t('moderation.date')}} : {{ comment.written_at }}
-                </p>
-              </b-card-text>
-            </b-col>
-            <b-col md="9">
-              <b-card-body>
-                <b-card-text class="text-left">
-                  {{ comment.content }}
-                </b-card-text>
-              </b-card-body>
-            </b-col>
-          </b-row>
+          <b-card-body>
+            <b-card-text class="text-left">
+              {{ comment.content }}
+            </b-card-text>
+          </b-card-body>
+          <hr class="bg-white">
+          <b-card-text class="text-center">
+            <b-row no-gutters>
+              <b-col>
+                {{$t('moderation.author')}} :<br>
+                {{ comment.author }}
+              </b-col>
+              <b-col>
+                {{$t('moderation.date')}} :<br>
+                {{ comment.written_at }}
+              </b-col>
+            </b-row>
+          </b-card-text>
+
         </b-card>
       </b-col>
     </b-row>
@@ -75,6 +87,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'ModerationComments',
   props: [
@@ -83,7 +97,17 @@ export default {
   data () {
     return {
       commentContent: '',
-      show: true
+      show: true,
+      formCommentVisible: false
+    }
+  },
+  computed: {
+    ...mapState({
+      log: (state) => state.global.log,
+      userData: (state) => state.user.user
+    }),
+    userId () {
+      return this.userData && this.userData.id
     }
   },
   methods: {

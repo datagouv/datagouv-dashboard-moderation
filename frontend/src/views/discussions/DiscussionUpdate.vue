@@ -6,28 +6,28 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
-
-    <h2>
-      Discussion update
-    </h2>
-    <div>
-      {{ $t('navigation.from') }} :
-      <span v-if="discussionRequest">
-        <a :href="discussionRequest" target="_blank">
-          JSON
-        </a>
-        |
-        <a :href="discussion.url" target="_blank">
-          datagouv discussion page
-        </a>
-      </span>
-      <span v-else>
-        {{ getOperationId }}
-      </span>
-    </div>
-
-    <br>
+    <PageHeader
+      :dgfType="'discussion'"
+      :customClass="'mb-4'"
+      >
+      <template v-slot:badge>
+        <div>
+          {{ $t('navigation.from') }} :
+          <span v-if="discussionRequest">
+            <a :href="discussionRequest" target="_blank">
+              JSON
+            </a>
+            |
+            <a :href="discussion.url" target="_blank">
+              datagouv discussion page
+            </a>
+          </span>
+          <span v-else>
+            {{ getOperationId }}
+          </span>
+        </div>
+      </template>
+    </PageHeader>
 
     <b-row class="mx-2">
 
@@ -61,7 +61,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
+import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import DiscussionCard from '@/components/discussions/DiscussionCard.vue'
@@ -69,7 +69,7 @@ import DiscussionCard from '@/components/discussions/DiscussionCard.vue'
 export default {
   name: 'DiscussionUpdate',
   components: {
-    PreviousPage,
+    PageHeader,
     ModerationRowCard,
     DiscussionCard
   },

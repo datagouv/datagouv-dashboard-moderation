@@ -6,28 +6,28 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
-
-    <h2>
-      User update
-    </h2>
-    <div>
-      {{ $t('navigation.from') }} :
-      <span v-if="userRequest">
-        <a :href="userRequest" target="_blank">
-          JSON
-        </a>
-        |
-        <a :href="user.page" target="_blank">
-          datagouv user page
-        </a>
-      </span>
-      <span v-else>
-        {{ getOperationId }}
-      </span>
-    </div>
-
-    <br>
+    <PageHeader
+      :dgfType="'user'"
+      :customClass="'mb-4'"
+      >
+      <template v-slot:badge>
+        <div>
+          {{ $t('navigation.from') }} :
+          <span v-if="userRequest">
+            <a :href="userRequest" target="_blank">
+              JSON
+            </a>
+            |
+            <a :href="user.page" target="_blank">
+              datagouv user page
+            </a>
+          </span>
+          <span v-else>
+            {{ getOperationId }}
+          </span>
+        </div>
+      </template>
+    </PageHeader>
 
     <b-row class="mx-2">
 
@@ -61,7 +61,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
+import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import UserCard from '@/components/users/UserCard.vue'
@@ -69,7 +69,7 @@ import UserCard from '@/components/users/UserCard.vue'
 export default {
   name: 'UserUpdate',
   components: {
-    PreviousPage,
+    PageHeader,
     ModerationRowCard,
     UserCard
   },
