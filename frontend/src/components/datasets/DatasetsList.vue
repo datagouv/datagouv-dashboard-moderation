@@ -348,14 +348,12 @@ export default {
     }
   },
   created () {
-    // console.log('-C- DatasetsList > created ... ')
     if (this.customFields) { this.fields = this.customFields }
     this.getDatasets()
   },
   watch: {
     async datasets (next) {
       if (next && this.needsModerationData) {
-        // console.log('-C- DatasetsList > watch > datasets > next :', next)
         this.dataset = await this.appendModerationData(next)
       }
     }
@@ -370,14 +368,12 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      // console.log('-C- DatasetsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))
-        console.log('-C- DatasetsList > appendModerationData > newData :', newData)
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -394,8 +390,6 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          // console.log('-C- DatasetsList > created > results :', results)
-          // console.log('-C- DatasetsList > created > results.body :', results.body)
           this.datasetsRequest = results.url
           this.datasets = results.body
           this.needsModerationData = true
@@ -414,19 +408,16 @@ export default {
       return this.itemsSelection.includes(item.id)
     },
     callbackAction (evt) {
-      // console.log('-C- DatasetsList > callbackAction > evt : ', evt)
     },
     resetQuery () {
       this.query = undefined
       this.getDatasets(true)
     },
     changePagination (pageNumber) {
-      // console.log('-C- DatasetsList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
       this.getDatasets()
     },
     changeSorting (sort) {
-      // console.log('-C- DatasetsList > changeSorting > sort ', sort)
       this.pagination.sortBy = sort.sortBy
       this.pagination.sortDesc = sort.sortDesc
       this.getDatasets()

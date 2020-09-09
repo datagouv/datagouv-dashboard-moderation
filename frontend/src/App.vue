@@ -21,9 +21,6 @@ export default {
   data () {
     return {
     }
-  },
-  created () {
-    // console.log('-C- APP > created ...')
   }
 }
 </script>

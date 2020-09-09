@@ -191,7 +191,7 @@ export default {
     }
   },
   created () {
-    // console.log('-C- ResourceCard > created ... ')
+    
   },
   watch: {
     resourceData (next) {
@@ -210,7 +210,7 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      // console.log('-C- ResourceCard > callbackAction > evt : ', evt)
+      
       switch (evt.category) {
         case 'openEdit':
           this.edit = true
@@ -220,7 +220,7 @@ export default {
     commentResource (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      // console.log('-C- ResourceCard > methods > commentResource > API :', API)
+      
       this.isLoading = true
       const params = {
         id: this.resourceId,
@@ -233,7 +233,7 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          // console.log('-C- ResourceCard > methods > commentResource > results.body :', results.body)
+          
           this.resource = results.body
         },
         reason => {

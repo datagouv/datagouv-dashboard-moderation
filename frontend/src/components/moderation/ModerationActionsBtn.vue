@@ -167,8 +167,8 @@ export default {
     },
     markSelection (category) {
       // TO DO
-      // console.log('-C- ModerationActionsBtn > markSelection > category : ', category)
-      // console.log('-C- ModerationActionsBtn > markSelection > this.itemsSelection : ', this.itemsSelection)
+      
+      
       const respData = { msg: `response action : ${this.endpoint}-${category}` }
       this.emitResponse(respData)
     },
@@ -193,7 +193,7 @@ export default {
       // API._request(this.putOperationId, { params, body, needAuth: true }).then(
       //   results => {
       //     this.isLoading = false
-      //     // console.log('-C- EditItemBtn > methods > updateDataset > results.body :', results.body)
+      //     
       //   },
       //   reason => {
       //     console.error(`-C- EditItemBtn > failed on api call: ${reason}`)

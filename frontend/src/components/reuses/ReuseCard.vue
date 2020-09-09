@@ -156,7 +156,7 @@ export default {
     }
   },
   created () {
-    // console.log('-C- ReuseCard > created ... ')
+    
   },
   watch: {
     reuseData (next) {
@@ -190,7 +190,7 @@ export default {
     updateReuse (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      // console.log('-C- ReuseCard > methods > updateDataset > API :', API)
+      
       this.isLoading = true
       const params = {
         reuse: this.reuseId,
@@ -200,7 +200,7 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          // console.log('-C- ReuseCard > methods > updateDataset > results.body :', results.body)
+          
           this.reuse = results.body
         },
         reason => {

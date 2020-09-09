@@ -182,7 +182,7 @@ export default {
     }
   },
   created () {
-    // console.log('-C- UserCard > created ... ')
+    
     this.getUserActivity()
   },
   watch: {
@@ -205,7 +205,7 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      // console.log('-C- UserCard > callbackAction > evt : ', evt)
+      
       switch (evt.category) {
         case 'openEdit':
           this.edit = true
@@ -214,12 +214,12 @@ export default {
     },
     getUserActivity () {
       const API = this.$APIcli
-      // console.log('-C- UserCard > methods > getUserActivity > API :', API)
+      
       const params = { user: this.userId }
       this.isLoading = true
       API._request(this.activityOperationId, { params }).then(
         results => {
-          // console.log('-C- UserCard > methods > getUserActivity > results.body :', results.body)
+          
           this.userActivity = results.body
           this.isLoading = false
         },
@@ -232,7 +232,7 @@ export default {
     updateUser (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      // console.log('-C- UserCard > methods > updateUser > API :', API)
+      
       this.isLoading = true
       const params = {
         user: this.userId,
@@ -242,7 +242,7 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          // console.log('-C- UserCard > methods > updateUser > results.body :', results.body)
+          
           this.user = results.body
         },
         reason => {

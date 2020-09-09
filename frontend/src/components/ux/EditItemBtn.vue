@@ -171,7 +171,7 @@ export default {
     }
   },
   created () {
-    // console.log('-C- EditItemBtn > created ... ')
+    
     if (Array.isArray(this.hideFields)) { this.hide = this.hideFields }
   },
   computed: {
@@ -209,8 +209,8 @@ export default {
     },
     editItem (category) {
       // TO DO
-      // console.log('-C- EditItemBtn > editItem > category : ', category)
-      // console.log('-C- EditItemBtn > editItem > this.item : ', this.item)
+      
+      
       const respData = {
         category: category,
         msg: `response action : ${this.endpoint}-${category}`
@@ -236,7 +236,7 @@ export default {
       // API._request(this.putOperationId, { params, body, needAuth: true }).then(
       //   results => {
       //     this.isLoading = false
-      //     // console.log('-C- EditItemBtn > methods > updateDataset > results.body :', results.body)
+      //     
       //   },
       //   reason => {
       //     console.error(`-C- EditItemBtn > failed on api call: ${reason}`)

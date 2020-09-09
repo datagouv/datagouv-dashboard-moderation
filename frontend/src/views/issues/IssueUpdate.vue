@@ -125,13 +125,10 @@ export default {
     },
     getIssue () {
       const API = this.$APIcli
-      // console.log('-V- IssueUpdate > methods > getIssue > API :', API)
       const params = { id: this.issueId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          // console.log('-V- IssueUpdate > methods > getIssue > results :', results)
-          // console.log('-V- IssueUpdate > methods > getIssue > results.body :', results.body)
           this.issueRequest = results.url
           this.issue = results.body
           this.needsModerationData = true

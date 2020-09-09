@@ -179,7 +179,7 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      // console.log('-C- OrganizationCard > callbackAction > evt : ', evt)
+      
       switch (evt.category) {
         case 'openEdit':
           this.edit = true
@@ -191,12 +191,12 @@ export default {
     },
     getOrganizationActivity () {
       const API = this.$APIcli
-      // console.log('-C- OrganizationCard > methods > getOrganizationActivity > API :', API)
+      
       const params = { organization: this.organizationId }
       this.isLoading = true
       API._request(this.activityOperationId, { params }).then(
         results => {
-          // console.log('-C- OrganizationCard > methods > getOrganizationActivity > results.body :', results.body)
+          
           this.organizationActivity = results.body
           this.isLoading = false
         },
@@ -209,7 +209,7 @@ export default {
     updateOrganization (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      // console.log('-C- OrganizationCard > methods > updateOrganization > API :', API)
+      
       this.isLoading = true
       const params = {
         org: this.organizationId,
@@ -219,7 +219,7 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          // console.log('-C- OrganizationCard > methods > updateOrganization > results.body :', results.body)
+          
           this.organization = results.body
         },
         reason => {

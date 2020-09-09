@@ -276,14 +276,12 @@ export default {
     }
   },
   created () {
-    // console.log('-C- DiscussionsList > created ... ')
     if (this.customFields) { this.fields = this.customFields }
     this.getDiscussions()
   },
   watch: {
     async discussions (next) {
       if (next && this.needsModerationData) {
-        // console.log('-C- DiscussionsList > watch > discussions > next :', next)
         this.discussions = await this.appendModerationData(next)
       }
     }
@@ -298,14 +296,12 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      // console.log('-C- DiscussionsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))
-        // console.log('-C- DiscussionsList > appendModerationData > newData :', newData)
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -322,7 +318,6 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          // console.log('-C- DiscussionsList > created > results.body :', results.body)
           this.discussionsRequest = results.url
           this.discussions = results.body
           this.needsModerationData = true
@@ -341,19 +336,16 @@ export default {
       return this.itemsSelection.includes(item.id)
     },
     callbackAction (evt) {
-      // console.log('-C- DiscussionsList > callbackAction > evt : ', evt)
     },
     resetQuery () {
       this.query = undefined
       this.getDiscussions(true)
     },
     changePagination (pageNumber) {
-      // console.log('-C- DiscussionsList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
       this.getDiscussions()
     },
     changeSorting (sort) {
-      // console.log('-C- DiscussionsList > changeSorting > sort ', sort)
       this.pagination.sortBy = sort.sortBy
       this.pagination.sortDesc = sort.sortDesc
       this.getDiscussions()

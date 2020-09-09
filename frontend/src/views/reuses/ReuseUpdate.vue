@@ -123,12 +123,10 @@ export default {
     },
     getReuse () {
       const API = this.$APIcli
-      // console.log('-V- ReuseUpdate > methods > getReuse > API :', API)
       const params = { reuse: this.reuseId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          // console.log('-V- ReuseUpdate > methods > getReuse > results.body :', results.body)
           this.reuseRequest = results.url
           this.reuse = results.body
           this.needsModerationData = true

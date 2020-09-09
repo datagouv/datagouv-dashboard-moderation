@@ -29,18 +29,18 @@ export const moduleGlobal = {
 
   mutations: {
     setLocale (state, locCode) {
-      // console.log('-S- global > setLocale > locCode : ', locCode)
+      
       state.locale = locCode
     },
     setLocaleInLocalStorage (state, locCode) {
-      // console.log('-S- global > setLocaleInLocalStorage > locCode : ', locCode)
+      
       const prefixLocalStorage = process.env.VUE_APP_OAUTH_LS_PREFIX
       const prefixLocale = `${prefixLocalStorage}Locale`
       localStorage[prefixLocale] = locCode
     },
     appendPathToHistory (state, path) {
       state.navHistory.push(path)
-      // console.log('-S- global > appendPathToHistory > path : ', path)
+      
       if (state.navHistory.length > state.navMaxLength) {
         state.navHistory.slice(-state.navMaxLength)
       }
@@ -49,7 +49,7 @@ export const moduleGlobal = {
 
   actions: {
     changeLocale ({ commit }, locCode) {
-      // console.log('-S- global > changeLocale > locCode : ', locCode)
+      
       commit('setLocale', locCode)
       commit('setLocaleInLocalStorage', locCode)
     }

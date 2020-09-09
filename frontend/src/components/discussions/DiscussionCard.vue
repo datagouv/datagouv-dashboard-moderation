@@ -144,7 +144,6 @@ export default {
     }
   },
   created () {
-    // console.log('-C- DiscussionCard > created ... ')
   },
   watch: {
     discussionData (next) {
@@ -163,7 +162,6 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      // console.log('-C- DiscussionCard > callbackAction > evt : ', evt)
       switch (evt.category) {
         case 'openEdit':
           this.edit = true
@@ -174,7 +172,6 @@ export default {
     commentDiscussion (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      // console.log('-C- DiscussionCard > methods > commentDiscussion > API :', API)
       this.isLoading = true
       const params = {
         id: this.discussionId,
@@ -187,7 +184,6 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          // console.log('-C- DiscussionCard > methods > commentDiscussion > results.body :', results.body)
           this.discussion = results.body
         },
         reason => {

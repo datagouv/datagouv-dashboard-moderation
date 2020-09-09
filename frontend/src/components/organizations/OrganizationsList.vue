@@ -312,14 +312,14 @@ export default {
     }
   },
   created () {
-    // console.log('-C- OrganizationsList > created ... ')
+    
     if (this.customFields) { this.fields = this.customFields }
     this.getOrganizations()
   },
   watch: {
     async organizations (next) {
       if (next && this.needsModerationData) {
-        // console.log('-C- OrganizationsList > watch > organizations > next :', next)
+        
         this.organizations = await this.appendModerationData(next)
       }
     }
@@ -334,14 +334,14 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      // console.log('-C- OrganizationsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
+      
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))
-        // console.log('-C- OrganizationsList > appendModerationData > newData :', newData)
+        
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -358,7 +358,7 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          // console.log('-C- OrganizationsList > created > results.body :', results.body)
+          
           this.organizationsRequest = results.url
           this.organizations = results.body
           this.needsModerationData = true
@@ -377,22 +377,22 @@ export default {
       return this.itemsSelection.includes(item.id)
     },
     callbackAction (evt) {
-      // console.log('-C- OrganizationsList > callbackAction > evt : ', evt)
+      
     },
     resetQuery () {
       this.query = undefined
       this.getOrganizations(true)
     },
     changePagination (pageNumber) {
-      // console.log('-C- OrganizationsList > changePagination > pageNumber ', pageNumber)
+      
       this.pagination.page = pageNumber
       this.getOrganizations()
     },
     changeSorting (sort) {
-      // console.log('-C- OrganizationsList > changeSorting > sort ', sort)
+      
       this.pagination.sortBy = (sort.sortBy === 'created_at') ? 'created' : sort.sortBy
       this.pagination.sortDesc = sort.sortDesc
-      // console.log('-C- OrganizationsList > changeSorting > this.pagination ', this.pagination)
+      
       this.getOrganizations()
     },
     formatDate (dateString, addTime) {

@@ -125,12 +125,10 @@ export default {
     },
     async getDataset () {
       const API = this.$APIcli
-      // console.log('-V- DatasetUpdate > methods > getDataset > API :', API)
       const params = { dataset: this.datasetId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          // console.log('-V- DatasetUpdate > methods > getDataset > results.body :', results.body)
           this.datasetsRequest = results.url
           this.dataset = results.body
           const title = this.dataset.title.length > 25 ? this.dataset.title.slice(0, 25) + '...' : this.dataset.title

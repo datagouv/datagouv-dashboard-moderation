@@ -144,7 +144,6 @@ export default {
     }
   },
   created () {
-    // console.log('-C- IssueCard > created ... ')
   },
   watch: {
     issueData (next) {
@@ -163,7 +162,6 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      // console.log('-C- DatasetCard > callbackAction > evt : ', evt)
       switch (evt.category) {
         case 'openEdit':
           this.edit = true
@@ -177,7 +175,6 @@ export default {
     commentIssue (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      // console.log('-C- IssueCard > methods > commentIssue > API :', API)
       this.isLoading = true
       const params = {
         id: this.issueId,
@@ -190,7 +187,6 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          // console.log('-C- IssueCard > methods > commentIssue > results.body :', results.body)
           this.issue = results.body
         },
         reason => {

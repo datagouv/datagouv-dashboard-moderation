@@ -52,7 +52,7 @@ export default {
     }
   },
   created () {
-    // console.log('-C- Footer > created ...')
+    
   },
   computed: {
     ...mapState({

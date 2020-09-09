@@ -287,7 +287,7 @@ export default {
     }
   },
   created () {
-    // console.log('-V- HOME > created ...')
+    
     this.getSite()
   },
   computed: {
@@ -311,8 +311,8 @@ export default {
       const params = {}
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          // console.log('-V- HOME > created > results :', results)
-          // console.log('-V- HOME > created > results.body :', results.body)
+          
+          
           this.siteRequest = results.url
           this.site = results.body
           this.isLoading = false

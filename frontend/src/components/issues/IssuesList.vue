@@ -273,14 +273,14 @@ export default {
     }
   },
   created () {
-    // console.log('-C- IssuesList > created ... ')
+    
     if (this.customFields) { this.fields = this.customFields }
     this.getIssues()
   },
   watch: {
     async issues (next) {
       if (next && this.needsModerationData) {
-        // console.log('-C- IssuesList > watch > issues > next :', next)
+        
         this.issues = await this.appendModerationData(next)
       }
     }
@@ -295,14 +295,14 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      // console.log('-C- IssuesList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
+      
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))
-        // console.log('-C- IssuesList > appendModerationData > newData :', newData)
+        
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -320,7 +320,7 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          // console.log('-C- IssuesList > created > results.body :', results.body)
+          
           this.issuesRequest = results.url
           this.issues = results.body
           this.needsModerationData = true
@@ -339,19 +339,19 @@ export default {
       return this.itemsSelection.includes(item.id)
     },
     callbackAction (evt) {
-      // console.log('-C- IssuesList > callbackAction > evt : ', evt)
+      
     },
     resetQuery () {
       this.query = undefined
       this.getIssues(true)
     },
     changePagination (pageNumber) {
-      // console.log('-C- IssuesList > changePagination > pageNumber ', pageNumber)
+      
       this.pagination.page = pageNumber
       this.getIssues()
     },
     changeSorting (sort) {
-      // console.log('-C- IssuesList > changeSorting > sort ', sort)
+      
       this.pagination.sortBy = sort.sortBy
       this.pagination.sortDesc = sort.sortDesc
       this.getIssues()

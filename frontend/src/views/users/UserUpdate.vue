@@ -124,12 +124,11 @@ export default {
     },
     getUser () {
       const API = this.$APIcli
-      // console.log('-V- UserUpdate > methods > getUser > API :', API)
+
       const params = { user: this.userId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          // console.log('-V- UserUpdate > methods > getUser > results.body :', results.body)
           this.userRequest = results.url
           this.user = results.body
           this.needsModerationData = true

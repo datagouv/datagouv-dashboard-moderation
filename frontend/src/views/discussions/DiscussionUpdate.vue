@@ -124,12 +124,10 @@ export default {
     },
     getDiscussion () {
       const API = this.$APIcli
-      // console.log('-V- DiscussionUpdate > methods > getDiscussion > API :', API)
       const params = { id: this.discussionId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          // console.log('-V- DiscussionUpdate > methods > getDiscussion > results.body :', results.body)
           this.discussionRequest = results.url
           this.discussion = results.body
           this.needsModerationData = true

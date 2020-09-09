@@ -323,14 +323,14 @@ export default {
     }
   },
   created () {
-    // console.log('-C- UsersList > created ... ')
+    
     if (this.customFields) { this.fields = this.customFields }
     this.getUsers()
   },
   watch: {
     async users (next) {
       if (next && this.needsModerationData) {
-        // console.log('-C- UsersList > watch > users > next :', next)
+        
         this.users = await this.appendModerationData(next)
       }
     }
@@ -345,14 +345,14 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      // console.log('-C- OrganizationsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
+      
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))
-        // console.log('-C- OrganizationsList > appendModerationData > newData :', newData)
+        
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -369,7 +369,7 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          // console.log('-C- UsersList > created > results.body :', results.body)
+          
           this.usersRequest = results.url
           this.users = results.body
           this.needsModerationData = true
@@ -388,19 +388,19 @@ export default {
       return this.itemsSelection.includes(item.id)
     },
     callbackAction (evt) {
-      // console.log('-C- UsersList > callbackAction > evt : ', evt)
+      
     },
     resetQuery () {
       this.query = undefined
       this.getUsers(true)
     },
     changePagination (pageNumber) {
-      // console.log('-C- UsersList > changePagination > pageNumber ', pageNumber)
+      
       this.pagination.page = pageNumber
       this.getUsers()
     },
     changeSorting (sort) {
-      // console.log('-C- UsersList > changeSorting > sort ', sort)
+      
       switch (sort.sortBy) {
         case 'since':
           this.pagination.sortBy = 'created'

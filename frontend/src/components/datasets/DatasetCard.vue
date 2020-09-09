@@ -210,7 +210,6 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      // console.log('-C- DatasetCard > callbackAction > evt : ', evt)
       switch (evt.category) {
         case 'openEdit':
           this.edit = true
@@ -219,12 +218,10 @@ export default {
     },
     getDatasetActivity () {
       const API = this.$APIcli
-      // console.log('-C- DatasetCard > methods > getDatasetActivity > API :', API)
       const params = { dataset: this.datasetId }
       this.isLoading = true
       API._request(this.activityOperationId, { params }).then(
         results => {
-          // console.log('-C- DatasetCard > methods > getDatasetActivity > results.body :', results.body)
           this.datasetActivity = results.body
           this.isLoading = false
         },
@@ -237,7 +234,6 @@ export default {
     updateDataset (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      // console.log('-C- DatasetCard > methods > updateDataset > API :', API)
       this.isLoading = true
       const params = {
         dataset: this.datasetId,
@@ -247,7 +243,6 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          // console.log('-C- DatasetCard > methods > updateDataset > results.body :', results.body)
           this.dataset = results.body
         },
         reason => {

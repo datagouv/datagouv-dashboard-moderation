@@ -82,12 +82,10 @@ export default {
   methods: {
     getUserActivity () {
       const API = this.$APIcli
-      // console.log('-C- UserCard > methods > getUserActivity > API :', API)
       const params = { user: this.userId }
       this.isLoading = true
       API._request(this.activityOperationId, { params }).then(
         results => {
-          // console.log('-C- UserCard > methods > getUserActivity > results.body :', results.body)
           this.userActivity = results.body
           this.isLoading = false
         },

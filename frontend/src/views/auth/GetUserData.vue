@@ -62,7 +62,7 @@ export default {
     }
   },
   created () {
-    // console.log('-V- GetUserData > created ...')
+    
     this.retrieveUserDataFromCli()
   },
   computed: {
@@ -77,7 +77,7 @@ export default {
       this.isLoading = true
       this.$APIcli._request(this.operationId, { needAuth: true }).then(
         results => {
-          // console.log('-V- GetUserData > created > results.body :', results.body)
+          
           this.isLoading = false
           // this.user = results.body
           this.$store.commit('user/setUser', results.body)

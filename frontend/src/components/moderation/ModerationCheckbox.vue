@@ -80,9 +80,6 @@ export default {
       }
     }
   },
-  created () {
-    // console.log('-C- ModerationCheckbox > created > this.item : ', this.item)
-  },
   computed: {
     ...mapState({
       log: (state) => state.log
@@ -93,9 +90,9 @@ export default {
   },
   methods: {
     async updateModeration (item, field, evt) {
-      // console.log('-C- ModerationCheckbox > updateModeration > field : ', field)
-      // console.log('-C- ModerationCheckbox > updateModeration > evt : ', evt)
-      // console.log('-C- ModerationCheckbox > updateModeration > item : ', item)
+      
+      
+      
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
       console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
     },
@@ -107,11 +104,11 @@ export default {
       return color
     },
     getIcon (field) {
-      // console.log('-C- ModerationCheckbox > getIcon > field : ', field)
+      
       const fieldIcons = this.buttons[field]
       const bool = this.item[field]
       const index = Boolean(bool)
-      // console.log('-C- ModerationCheckbox > getIcon > index : ', index)
+      
       const icon = index ? fieldIcons.icons[1] : fieldIcons.icons[0]
       return icon
     }
