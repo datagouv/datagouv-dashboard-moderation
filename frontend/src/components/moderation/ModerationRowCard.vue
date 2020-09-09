@@ -1,7 +1,6 @@
 <template>
 
-  <b-card
-    >
+  <b-card>
 
     <!-- ACTION BTN -->
     <template v-slot:header v-if="hasHeader">
@@ -20,60 +19,78 @@
     <!-- MODERATION DATA -->
     <div v-if="item">
 
-      <!-- HORRIZONTAL -->
+      <!-- HORIZONTAL / FOR TABLE ROWS -->
       <b-row v-if="!hasHeader" class="mb-2">
-        <b-col :sm="1">
-          {{ $t('moderation.read') }}
-          <ModerationCheckbox
-            :dgfType="dgfType"
-            :item="item"
-            :field="'read'"
-            >
-          </ModerationCheckbox>
-        </b-col>
-
-        <b-col :sm="1">
-          {{ $t('moderation.suspicious') }}
-          <ModerationCheckbox
-            :dgfType="dgfType"
-            :item="item"
-            :field="'suspicious'"
-            >
-          </ModerationCheckbox>
-        </b-col>
-
-        <b-col :sm="1">
-          {{ $t('moderation.deleted') }}
-          <ModerationCheckbox
-            :dgfType="dgfType"
-            :item="item"
-            :field="'deleted'"
-            >
-          </ModerationCheckbox>
-        </b-col>
 
         <b-col
           :sm="2"
-          class="text-sm-center bg-light pt-3"
-          align-self="strech"
+          class="bg-light p-4 ml-4"
+          >
+          <p class="font-weight-bold">
+            {{ $t('moderation.moderation', {prefix: ''}) }}
+            <br>
+            {{ $t(dict[dgfType].textCode)}}
+          </p>
+          <router-link
+            :to="`${dict[dgfType].to}/${item.id}`"
+            >
+            <span class="text-uppercase">
+              {{item[dict[dgfType].titleKey]}}
+            </span>
+          </router-link>
+        </b-col>
+
+        <b-col
+          :sm=1
+          class="bg-light mx-4 pt-3"
+          align-self="middle"
+          >
+          <div class="mt-3 mb-4">
+            {{ $t('moderation.read') }}
+            <ModerationCheckbox
+              :dgfType="dgfType"
+              :item="item"
+              :field="'read'"
+              >
+            </ModerationCheckbox>
+          </div>
+          <div class="mb-4">
+            {{ $t('moderation.suspicious') }}
+            <ModerationCheckbox
+              :dgfType="dgfType"
+              :item="item"
+              :field="'suspicious'"
+              >
+            </ModerationCheckbox>
+          </div>
+          <div class="">
+            {{ $t('moderation.deleted') }}
+            <ModerationCheckbox
+              :dgfType="dgfType"
+              :item="item"
+              :field="'deleted'"
+              >
+            </ModerationCheckbox>
+          </div>
+        </b-col>
+
+        <b-col
+          :sm="4"
+          class="bg-light p-4"
           >
           <p class="font-weight-bold">
             {{ $t('moderation.comments') }}
           </p>
-        </b-col>
-        <b-col
-          :sm="7"
-          class="bg-light"
-          >
           <ModerationComments
             :comments="item.comments"
           />
         </b-col>
+
       </b-row>
 
       <!-- VERTICAL -->
       <b-row v-if="hasHeader" class="mb-2" align-h="center">
-        <b-col :sm="2">
+        <b-col>
           {{ $t('moderation.read') }}
           <ModerationCheckbox
             :dgfType="dgfType"
@@ -83,7 +100,7 @@
           </ModerationCheckbox>
         </b-col>
 
-        <b-col :sm="2">
+        <b-col>
           {{ $t('moderation.suspicious') }}
           <ModerationCheckbox
             :dgfType="dgfType"
@@ -93,7 +110,7 @@
           </ModerationCheckbox>
         </b-col>
 
-        <b-col :sm="2">
+        <b-col>
           {{ $t('moderation.deleted') }}
           <ModerationCheckbox
             :dgfType="dgfType"
@@ -126,6 +143,8 @@
 
 <script>
 
+import { MapDgfTypes } from '@/config/MapDgfTypes.js'
+
 // import ModerationItemBtn from '@/components/moderation/ModerationItemBtn.vue'
 import ModerationCheckbox from '@/components/moderation/ModerationCheckbox.vue'
 import ModerationComments from '@/components/moderation/ModerationComments.vue'
@@ -143,6 +162,11 @@ export default {
     'endpoint',
     'item'
   ],
+  data () {
+    return {
+      dict: MapDgfTypes
+    }
+  },
   methods: {
     async updateModeration (item, field, evt) {
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)

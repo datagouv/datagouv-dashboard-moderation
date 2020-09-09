@@ -62,7 +62,7 @@
             >
             <template v-slot:blockTitle>
               <b-button variant="outline-primary" to="/resources-community">
-                {{ $t('basics.resources_community', {list: $t('basics.list')}) }}
+                {{ $t('basics.community_resource', {list: $t('basics.list')}) }}
               </b-button>
             </template>
           </ResourcesList>

@@ -35,7 +35,7 @@ export default {
           to: '/'
         },
         {
-          text: this.$t('basics.resources_community', { list: '' }),
+          text: this.$t('basics.community_resource', { list: '' }),
           active: true
         }
       ]

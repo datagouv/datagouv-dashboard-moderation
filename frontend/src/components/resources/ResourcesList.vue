@@ -3,7 +3,7 @@
   <div :class="customClass">
 
     <PageHeader
-      :dgfType="'resources'"
+      :dgfType="'community_resources'"
       :noSubtitle="noOperationLink"
       :compact="compact"
       >
@@ -169,7 +169,7 @@
         <template v-slot:cell(id)="data">
           <router-link
             class="text-info"
-            :to="`/resources/${data.value}`"
+            :to="`/resources-community/${data.value}`"
             >
             {{ data.value }}
           </router-link>
@@ -182,7 +182,7 @@
         <template v-slot:cell(title)="data">
           <router-link
             class="text-info"
-            :to="`/resources/${data.item.id}`"
+            :to="`/resources-community/${data.item.id}`"
             >
             <span>
               {{ data.item.title }}
@@ -317,10 +317,6 @@ export default {
         },
         reason => console.error(`-C- ResourcesList > failed on api call: ${reason}`)
       )
-    },
-    async updateModeration (item, field, evt) {
-      const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
-      console.log('-C- DatasetsList > updateModeration > updatedItem : ', updatedItem)
     },
     changeSelection (item) {
       if (this.isAuthenticated) {

@@ -29,6 +29,10 @@
           :title="discussion.title"
         />
 
+        <DialogRow
+          :item="discussion"
+        />
+
       </div>
 
       <!-- COMMENT -->
@@ -102,6 +106,7 @@ import { mapState, mapGetters } from 'vuex'
 import { APIoperations } from '@/config/APIoperations.js'
 
 import CardTitle from '@/components/blocks/CardTitle.vue'
+import DialogRow from '@/components/blocks/DialogRow.vue'
 
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
@@ -110,6 +115,7 @@ export default {
   name: 'DiscussionCard',
   components: {
     CardTitle,
+    DialogRow,
     EditItemBtn,
     RawData
   },

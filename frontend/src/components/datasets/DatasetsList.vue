@@ -355,7 +355,7 @@ export default {
   watch: {
     async datasets (next) {
       if (next && this.needsModerationData) {
-        console.log('-C- DatasetsList > watch > datasets > next :', next)
+        // console.log('-C- DatasetsList > watch > datasets > next :', next)
         this.dataset = await this.appendModerationData(next)
       }
     }
@@ -377,7 +377,7 @@ export default {
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))
-        // console.log('-C- DatasetsList > appendModerationData > newData :', newData)
+        console.log('-C- DatasetsList > appendModerationData > newData :', newData)
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -404,10 +404,6 @@ export default {
         },
         reason => console.error(`-C- DatasetsList > failed on api call: ${reason}`)
       )
-    },
-    async updateModeration (item, field, evt) {
-      const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
-      console.log('-C- DatasetsList > updateModeration > updatedItem : ', updatedItem)
     },
     changeSelection (item) {
       if (this.isAuthenticated) {

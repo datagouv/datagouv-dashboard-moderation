@@ -379,20 +379,6 @@ export default {
         reason => console.error(`-C- UsersList > failed on api call: ${reason}`)
       )
     },
-    updateModeration (item) {
-      // TO DO
-      // console.log('-C- UsersList > updateModeration > item : ', item)
-      const itemModerationData = {
-        dgf_type: this.dgfType,
-        dgf_id: item.id,
-        read: item.read,
-        suspicious: item.suspicious,
-        deleted: item.deleted
-      }
-      console.log('-C- UsersList > updateModeration > itemModerationData : ', itemModerationData)
-      // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'users')
-      // console.log('-C- UsersList > updateModeration > updatedItem : ', updatedItem)
-    },
     changeSelection (item) {
       if (this.isAuthenticated) {
         this.itemsSelection = this.$changeSelection(this.itemsSelection, item.id)

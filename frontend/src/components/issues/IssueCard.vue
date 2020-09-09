@@ -29,6 +29,10 @@
           :title="issue.title"
         />
 
+        <DialogRow
+          :item="issue"
+        />
+
       </div>
 
       <!-- EDIT -->
@@ -102,6 +106,7 @@ import { mapState, mapGetters } from 'vuex'
 import { APIoperations } from '@/config/APIoperations.js'
 
 import CardTitle from '@/components/blocks/CardTitle.vue'
+import DialogRow from '@/components/blocks/DialogRow.vue'
 
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
@@ -110,6 +115,7 @@ export default {
   name: 'IssueCard',
   components: {
     CardTitle,
+    DialogRow,
     EditItemBtn,
     RawData
   },

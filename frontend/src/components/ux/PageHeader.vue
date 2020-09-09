@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import { MapDgfTypes } from '@/config/MapDgfTypes.js'
+
 import PreviousPage from '@/components/ux/PreviousPage.vue'
 
 export default {
@@ -67,65 +69,7 @@ export default {
   ],
   data () {
     return {
-      dict: {
-        datasets: {
-          textCode: 'basics.datasetsCap',
-          to: '/datasets'
-        },
-        reuses: {
-          textCode: 'basics.reusesCap',
-          to: '/reuses'
-        },
-        users: {
-          textCode: 'basics.usersCap',
-          to: '/users'
-        },
-        organizations: {
-          textCode: 'basics.organizationsCap',
-          to: '/organizations'
-        },
-        issues: {
-          textCode: 'basics.issuesCap',
-          to: '/issues'
-        },
-        discussions: {
-          textCode: 'basics.discussionsCap',
-          to: '/discussions'
-        },
-        resources: {
-          textCode: 'basics.resourcesCap',
-          to: '/resources'
-        },
-        resources_community: {
-          textCode: 'basics.resources_communityCap',
-          to: '/resources-community'
-        },
-
-        dataset: {
-          textCode: 'basics.dataset'
-        },
-        reuse: {
-          textCode: 'basics.reuse'
-        },
-        user: {
-          textCode: 'basics.user'
-        },
-        organization: {
-          textCode: 'basics.organization'
-        },
-        issue: {
-          textCode: 'basics.issue'
-        },
-        discussion: {
-          textCode: 'basics.discussion'
-        },
-        resource: {
-          textCode: 'basics.resource'
-        },
-        resource_community: {
-          textCode: 'basics.resource_community'
-        }
-      }
+      dict: MapDgfTypes
     }
   }
 }

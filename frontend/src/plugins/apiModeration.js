@@ -67,9 +67,9 @@ class ModerationLib {
    * moderation formatting
    */
   formatModerationItem (dgfType, item, field, value) {
-    console.log('>>> ModerationLib > formatModerationItem >  dgfType :', dgfType)
-    console.log('>>> ModerationLib > formatModerationItem >  field :', field)
-    console.log('>>> ModerationLib > formatModerationItem >  value :', value)
+    // console.log('>>> ModerationLib > formatModerationItem >  dgfType :', dgfType)
+    // console.log('>>> ModerationLib > formatModerationItem >  field :', field)
+    // console.log('>>> ModerationLib > formatModerationItem >  value :', value)
     const itemModerationData = {
       dgf_type: dgfType,
       dgf_id: item.id,
@@ -79,7 +79,7 @@ class ModerationLib {
       deleted: item.deleted || false
     }
     itemModerationData[field] = value
-    console.log('>>> ModerationLib > formatModerationItem >  itemModerationData :', itemModerationData)
+    // console.log('>>> ModerationLib > formatModerationItem >  itemModerationData :', itemModerationData)
     return itemModerationData
   }
 
@@ -102,7 +102,7 @@ class ModerationLib {
         dgf_object_id: ''
       }
     ]
-    console.log('>>> ModerationLib > addModerationData >  commentsDummy :', commentsDummy)
+    // console.log('>>> ModerationLib > addModerationData >  commentsDummy :', commentsDummy)
     return {
       ...obj,
       read: itemStatus.read || false,

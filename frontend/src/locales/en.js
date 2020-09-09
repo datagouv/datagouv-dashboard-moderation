@@ -28,7 +28,7 @@ const translations = {
       issues: 'issues{list}',
       discussions: 'discussions{list}',
       resources: 'ressources{list}',
-      resources_community: 'community ressources{list}',
+      community_resources: 'community ressources{list}',
       datasetsCap: 'Datasets',
       reusesCap: 'Reuses',
       usersCap: 'Users',
@@ -36,7 +36,7 @@ const translations = {
       issuesCap: 'Issues',
       discussionsCap: 'Discussions',
       resourcesCap: 'Ressources',
-      resources_communityCap: 'Community ressources',
+      community_resourcesCap: 'Community ressources',
       settings: 'settings',
       activity: 'activity',
       infos: 'infos',
@@ -50,7 +50,7 @@ const translations = {
       issue: 'issue',
       discussion: 'discussion',
       resource: 'ressource',
-      resource_community: 'communautary ressource'
+      community_resource: 'communautary ressource'
     },
     settings: {
       getUserData: 'getting your user data ...',
@@ -97,6 +97,7 @@ const translations = {
       comments: 'comments',
       addComment: 'add a comment',
       moderation: '{prefix}moderation',
+      moderationFor: 'moderation for',
       markAsRead: 'mark as read',
       markAsSuspect: 'mark as suspect'
     },
@@ -169,6 +170,10 @@ const translations = {
       seeProfile: 'See profile',
       contactProducer: 'Contact the producer',
       followProducer: 'Follow the producer'
+    },
+    footer: {
+      title: 'datagouv.fr moderation dashboard',
+      subtitle: 'a DINUM / Etalab project'
     }
   }
 }

@@ -28,7 +28,7 @@ const translations = {
       issues: '{list}anomalies',
       discussions: '{list}discussions',
       resources: '{list}ressources',
-      resources_community: '{list}ressources communautaires',
+      community_resources: '{list}ressources communautaires',
       datasetsCap: 'Jeux de données',
       reusesCap: 'Réutilisations',
       usersCap: 'Utilisateurs',
@@ -36,7 +36,7 @@ const translations = {
       issuesCap: 'Anomalies',
       discussionsCap: 'Discussions',
       resourcesCap: 'Ressources',
-      resources_communityCap: 'Ressources communautaires',
+      community_resourcesCap: 'Ressources communautaires',
       settings: 'préférences',
       activity: 'activité',
       infos: 'infos',
@@ -50,7 +50,7 @@ const translations = {
       issue: 'anomalie',
       discussion: 'discussion',
       resource: 'ressource',
-      resource_community: 'ressource communautaire'
+      community_resource: 'ressource communautaire'
     },
     settings: {
       getUserData: 'récupération de vos données utilisateur ...',
@@ -89,7 +89,7 @@ const translations = {
     },
     moderation: {
       date: 'date',
-      author: 'auteur',
+      author: 'auteur.e',
       selection: 'sélection',
       read: 'lu',
       suspicious: 'suspect',
@@ -97,6 +97,7 @@ const translations = {
       addComment: 'ajouter un commentaire',
       deleted: 'supprimé',
       moderation: '{prefix}modération',
+      moderationFor: 'modération pour',
       markAsRead: 'marquer comme lu(s)',
       markAsSuspect: 'marquer comme suspect(s)'
     },
@@ -169,6 +170,10 @@ const translations = {
       seeProfile: 'Voir le profil',
       contactProducer: 'Contacter le producteur',
       followProducer: 'Suivre le producteur'
+    },
+    footer: {
+      title: 'tableau de bord de modération de datagouv.fr',
+      subtitle: 'un projet DINUM / Etalab'
     }
   }
 }

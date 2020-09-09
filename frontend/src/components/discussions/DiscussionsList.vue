@@ -332,10 +332,6 @@ export default {
         reason => console.error(`-C- DiscussionsList > failed on api call: ${reason}`)
       )
     },
-    async updateModeration (item, field, evt) {
-      const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
-      console.log('-C- DatasetsList > updateModeration > updatedItem : ', updatedItem)
-    },
     changeSelection (item) {
       if (this.isAuthenticated) {
         this.itemsSelection = this.$changeSelection(this.itemsSelection, item.id)

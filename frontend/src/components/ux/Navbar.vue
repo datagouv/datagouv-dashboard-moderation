@@ -17,7 +17,7 @@
           class="mr-3"
           src="@/assets/dgf-logo.png"
         />
-        {{ $t('navbar.title') }}
+        <!-- {{ $t('navbar.title') }} -->
       </b-navbar-brand>
 
       <b-navbar-toggle
@@ -166,7 +166,7 @@ export default {
       searchVisible: false,
       navbarBtns: [
         { link: '/datasets', textCode: 'basics.datasetsCap' },
-        { link: '/resources-community', textCode: 'basics.resources_communityCap' },
+        { link: '/resources-community', textCode: 'basics.community_resourcesCap' },
         { link: '/reuses', textCode: 'basics.reusesCap' },
         { link: '/users', textCode: 'basics.usersCap' },
         { link: '/organizations', textCode: 'basics.organizationsCap' },

@@ -7,7 +7,7 @@
     </b-breadcrumb>
 
     <PageHeader
-      :dgfType="'resource'"
+      :dgfType="dgfType"
       :customClass="'mb-4'"
       >
       <template v-slot:badge>
@@ -75,7 +75,7 @@ export default {
   data () {
     return {
       isLoading: false,
-      dgfType: 'resource',
+      dgfType: 'community_resource',
       getOperationId: 'retrieve_community_resource',
       putOperationId: 'update_resource',
       endpointModeration: 'resource',
@@ -89,8 +89,8 @@ export default {
           to: '/'
         },
         {
-          text: this.$t('basics.resources', { list: '' }),
-          to: '/resources'
+          text: this.$t('basics.community_resources', { list: '' }),
+          to: '/resources-community'
         },
         {
           text: '...', // this.$route.params.id,

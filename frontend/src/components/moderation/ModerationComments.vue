@@ -58,7 +58,7 @@
       >
       <b-col cols="10">
         <b-card
-          :class="`mb-3 ${comment.user_id === userId ? 'bg-info text-white' : 'light'}`"
+          :class="`mb-3 ${comment.user_id === userId ? 'bg-info text-white' : 'bg-light'}`"
           >
           <b-card-body>
             <b-card-text class="text-left">
