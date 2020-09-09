@@ -69,7 +69,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- Locales > created > this.locale : ', this.locale)
+    // console.log('-C- Locales > created > this.locale : ', this.locale)
   },
   computed: {
     ...mapState({

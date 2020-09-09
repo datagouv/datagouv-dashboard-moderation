@@ -15,7 +15,7 @@ import './css/custom.scss'
 // import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import Formats from './plugins/formats.js'
+import Utils from './plugins/utils.js'
 
 import MODERATIONcli from './plugins/apiModeration.js'
 
@@ -29,9 +29,9 @@ const isDevMode = Boolean(process.env.VUE_APP_DEV_MODE)
 
 const moderationOptions = {
   storeModuleName: 'moderation',
-  moderationServer: process.env.VUE_APP_MODERATION_API
+  moderationServer: isDevMode ? process.env.VUE_APP_MODERATION_API_DEV : process.env.VUE_APP_MODERATION_API
 }
-console.log('... moderationOptions : ', moderationOptions)
+// console.log('... moderationOptions : ', moderationOptions)
 
 const swagWrapOptions = {
   registerApiStore: true,
@@ -63,7 +63,7 @@ Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
 // use Formats custom plugin
-Vue.use(Formats, {})
+Vue.use(Utils, {})
 
 // use MODERATIONcli plugin
 Vue.use(MODERATIONcli, moderationOptions, store)

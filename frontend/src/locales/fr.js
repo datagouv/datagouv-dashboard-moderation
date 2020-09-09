@@ -21,20 +21,36 @@ const translations = {
       list: 'liste des ',
       redirection: 'redirection',
       suggestions: 'suggestions de ',
-      datasets: '{list}données',
+      datasets: '{list}jeux de données',
       reuses: '{list}réutilisations',
-      user: 'utilisateur',
       users: '{list}utilisateurs',
       organizations: '{list}organisations',
       issues: '{list}anomalies',
       discussions: '{list}discussions',
       resources: '{list}ressources',
-      resources_community: '{list}ressources communautaires',
+      community_resources: '{list}ressources communautaires',
+      datasetsCap: 'Jeux de données',
+      reusesCap: 'Réutilisations',
+      usersCap: 'Utilisateurs',
+      organizationsCap: 'Organisations',
+      issuesCap: 'Anomalies',
+      discussionsCap: 'Discussions',
+      resourcesCap: 'Ressources',
+      community_resourcesCap: 'Ressources communautaires',
       settings: 'préférences',
       activity: 'activité',
+      infos: 'infos',
       profile: 'profil',
       details: 'détails',
-      detailsOf: 'les détails de {suffix}'
+      detailsOf: 'les détails de {suffix}',
+      dataset: 'jeu de données',
+      reuse: 'réutilisation',
+      user: 'utilisateur',
+      organization: 'organisation',
+      issue: 'anomalie',
+      discussion: 'discussion',
+      resource: 'ressource',
+      community_resource: 'ressource communautaire'
     },
     settings: {
       getUserData: 'récupération de vos données utilisateur ...',
@@ -44,20 +60,46 @@ const translations = {
       logOut: 'se déconnecter'
     },
     actions: {
+      actions: 'actions',
+      actionsGroupText: 'actions groupées',
+      select: 'sélectionner',
+      search: 'rechercher',
+      searchFor: 'rechercher un.e {target}',
       edit: 'modifier',
+      spotlight: 'mettre en avant',
+      contactProducer: 'contacter le producteur',
+      follow: 'suivre',
+      share: 'partager',
+      reportIssue: 'signaler une anomalie',
       save: 'sauver',
       comment: 'commenter',
+      confirm: 'confirmer',
       close: 'fermer',
       cancel: 'annuler',
+      reset: 'reset',
       delete: 'supprimer',
       show: 'montrer',
       hide: 'cacher',
       wait: 'merci de patienter'
     },
+    dialogs: {
+      sure: 'êtes-vous certain.e ?',
+      sureDelete: 'êtes-vous certain.e de vouloir supprimer ces éléments ?',
+      sureDeleteItem: 'êtes-vous certain.e de vouloir supprimer cet élément ?'
+    },
     moderation: {
+      date: 'date',
+      author: 'auteur.e',
+      selection: 'sélection',
       read: 'lu',
+      suspicious: 'suspect',
       comments: 'commentaires',
-      moderation: '{prefix}modération'
+      addComment: 'ajouter un commentaire',
+      deleted: 'supprimé',
+      moderation: '{prefix}modération',
+      moderationFor: 'modération pour',
+      markAsRead: 'marquer comme lu(s)',
+      markAsSuspect: 'marquer comme suspect(s)'
     },
     model: {
       created: 'créé',
@@ -123,6 +165,15 @@ const translations = {
       reuses: 'réutilisations',
 
       id: 'id'
+    },
+    blocks: {
+      seeProfile: 'Voir le profil',
+      contactProducer: 'Contacter le producteur',
+      followProducer: 'Suivre le producteur'
+    },
+    footer: {
+      title: 'tableau de bord de modération de datagouv.fr',
+      subtitle: 'un projet DINUM / Etalab'
     }
   }
 }

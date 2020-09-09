@@ -7,18 +7,9 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
-
-    <h2>
-      {{ $t('basics.reuses', {list: $t('basics.list')}) }}
-    </h2>
-
-    <br>
-
-    <!-- DISPLAY DISCUSSIONS IN TABLE -->
+    <!-- DISPLAY REUSES IN TABLE -->
     <ReusesList
       height="800px"
-      width="900px"
       >
     </ReusesList>
 
@@ -28,13 +19,11 @@
 <script>
 import { mapState } from 'vuex'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
 import ReusesList from '@/components/reuses/ReusesList.vue'
 
 export default {
   name: 'Reuses',
   components: {
-    PreviousPage,
     ReusesList
   },
   data () {

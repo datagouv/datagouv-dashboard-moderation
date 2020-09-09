@@ -1,11 +1,11 @@
 <template>
   <div
-    class="mt-1 mb-4"
+    class=""
     >
     <b-button
-      @click="goBack"
       pill
       variant="outline-secondary"
+      @click="goBack"
       >
       <b-icon icon="arrow-left" aria-hidden="true"></b-icon>
       {{$t('navigation.back')}}
@@ -23,7 +23,7 @@ export default {
     return {}
   },
   created () {
-    console.log('-C- PreviousPage > created ...')
+    // console.log('-C- PreviousPage > created ...')
   },
   computed: {
     ...mapState({
@@ -36,9 +36,9 @@ export default {
   },
   methods: {
     goBack (e) {
-      console.log('\n-C- PreviousPage > goBack ...')
+      // console.log('\n-C- PreviousPage > goBack ...')
       e.preventDefault()
-      console.log('-C- PreviousPage > goBack > this.lastPath :', this.lastPath)
+      // console.log('-C- PreviousPage > goBack > this.lastPath :', this.lastPath)
       this.$router.push(this.lastPath)
     }
   }

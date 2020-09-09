@@ -1,228 +1,276 @@
 <template>
 
-  <b-card
-    class="mt-3 mx-auto text-center"
-    :style="`width: ${width};`"
-    >
-    <p><slot name="blockTitle"></slot></p>
-    <p v-if="organizations">
-      <b-badge pill variant="primary">
-        {{ pagination.totalItems }}
-        {{ $t('basics.organizations', {list: ''}) }}
-      </b-badge>
-    </p>
+  <div :class="customClass">
 
-    <p><slot name="link" class="mb-3"></slot></p>
-    <div class="mb-2">
-      {{ $t('navigation.from') }} :
-      <span v-if="organizationsRequest">
-        <a :href="organizationsRequest" target="blank">
-          {{ organizationsRequest }}
-        </a>
-      </span>
-      <span v-else>
-        {{ operationId }}
-      </span>
-    </div>
+    <PageHeader
+      :dgfType="'organizations'"
+      :noSubtitle="noOperationLink"
+      :compact="compact"
+      >
+      <template v-slot:subtitle>
+        <div class="mb-2">
+          {{ $t('navigation.from') }} :
+          <span v-if="organizationsRequest">
+            <a :href="organizationsRequest" target="blank">
+              {{ organizationsRequest }}
+            </a>
+          </span>
+          <span v-else>
+            <code>{{ operationId }}</code>
+          </span>
+        </div>
+      </template>
+      <template v-slot:badge>
+        <h4 v-if="organizations">
+          <b-badge pill variant="primary">
+            {{ pagination.totalItems }}
+            {{ $t('basics.organizations', {list: ''}) }}
+          </b-badge>
+        </h4>
+      </template>
+    </PageHeader>
 
-    <b-row
-      align-v="center"
-      class="my-3"
+    <b-card
+      class="mx-3 text-center border-0"
       >
 
-      <b-col cols="10" md="6">
-        <b-input-group>
-          <b-input-group-prepend is-text>
-            <b-icon icon="search"></b-icon>
-          </b-input-group-prepend>
-          <b-form-input
-            id="inline-form-input-query-organizations"
-            placeholder="search for an organization"
-            v-model="query"
-            @input="getOrganizations(true)"
-            >
-          </b-form-input>
-          <b-input-group-append v-if="query">
-            <b-button variant="outline-secondary" @click="resetQuery">
-              <b-icon icon="x" aria-hidden="true"></b-icon>
-            </b-button>
-          </b-input-group-append>
-        </b-input-group>
-      </b-col>
+      <!-- <p><slot name="blockTitle"></slot></p> -->
 
-      <b-col cols="3" md="5"
-        v-if="organizations && pagination.totalItems > pagination.pageSize"
-        class="my-2"
+      <!-- <code>{{itemsSelection}}</code> -->
+
+      <p><slot name="link" class="mb-3"></slot></p>
+
+      <b-row
+        align-v="center"
+        class="my-3"
         >
-        <b-pagination
-          @input="changePagination"
-          v-model="pagination.page"
-          :total-rows="pagination.totalItems"
-          :per-page="pagination.pageSize"
-          class="my-0"
-          align="center"
-          size="sm"
-        ></b-pagination>
-      </b-col>
 
-      <b-col cols="1">
-        <b-button
-          variant="outline-danger"
+        <b-col cols="6" md="5">
+          <b-input-group>
+            <b-input-group-prepend is-text>
+              <b-icon icon="search"></b-icon>
+            </b-input-group-prepend>
+            <b-form-input
+              id="inline-form-input-query-organizations"
+              :placeholder="$t('actions.searchFor', {target: $t('basics.organization')})"
+              v-model="query"
+              @input="getOrganizations(true)"
+              >
+            </b-form-input>
+            <b-input-group-append v-if="query">
+              <b-button variant="outline-secondary" @click="resetQuery">
+                <b-icon icon="x" aria-hidden="true"></b-icon>
+              </b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-col>
+
+        <b-col cols="4" md="5"
+          v-if="organizations && pagination.totalItems > pagination.pageSize"
+          class="my-2"
           >
-          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-        </b-button>
-      </b-col>
+          <b-pagination
+            @input="changePagination"
+            v-model="pagination.page"
+            :total-rows="pagination.totalItems"
+            :per-page="pagination.pageSize"
+            class="my-0"
+            align="center"
+            size="sm"
+          ></b-pagination>
+        </b-col>
 
-    </b-row>
+        <b-col cols="2" class="text-right">
+          <ModerationActionsBtn
+            :dgfType="dgfType"
+            :endpoint="endpointModeration"
+            :itemsSelection="itemsSelection"
+            :itemsList="organizations && organizations.data"
+            @responseAction="callbackAction"
+            >
+          </ModerationActionsBtn>
+        </b-col>
 
-    <b-table
-      v-if="organizations && !isLoading"
-      striped hover responsive
-      @sort-changed="changeSorting"
-      :small="small"
-      :sticky-header="height"
-      :items="organizations.data"
-      :fields="fields"
-      :sort-by.sync="pagination.sortBy"
-      :sort-desc.sync="pagination.sortDesc"
-      >
+      </b-row>
 
-      <template v-slot:cell(delete_batch)="data">
-        <b-form inline class="justify-content-center">
-          <b-form-checkbox
+      <b-table
+        v-if="organizations && !isLoading"
+        striped hover responsive
+        @sort-changed="changeSorting"
+        :small="small"
+        :sticky-header="height"
+        :items="organizations.data"
+        :fields="fields"
+        :sort-by.sync="pagination.sortBy"
+        :sort-desc.sync="pagination.sortDesc"
+        >
+
+        <template v-slot:cell(selection)="data">
+          <b-form inline class="justify-content-center">
+            <b-form-checkbox
+              v-if="isAuthenticated"
+              @change="addToSelection(data.item)"
+              button button-variant="outline-danger"
+              >
+              <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+            </b-form-checkbox>
+            <b-form-checkbox
+              v-else
+              disabled
+              >
+              <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+            </b-form-checkbox>
+          </b-form>
+        </template>
+
+        <template v-slot:cell(selection)="data">
+          <b-form inline class="justify-content-center">
+            <b-button
+              :disabled="!isAuthenticated"
+              @click="changeSelection(data.item)"
+              button
+              variant="link"
+              >
+              <b-icon
+                :icon="`${isSelected(data.item) ? 'check2-' : ''}square`"
+                :variant="`${isSelected(data.item)? 'primary' : ''}`"
+                aria-hidden="true"
+                >
+              </b-icon>
+            </b-button>
+          </b-form>
+        </template>
+
+        <template v-slot:cell(moderation)="row">
+          <b-button
             v-if="isAuthenticated"
-            @change="addToDeleteSelection(data.item)"
-            button button-variant="outline-danger"
-            >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          </b-form-checkbox>
-          <b-form-checkbox
-            v-else
-            disabled
-            >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          </b-form-checkbox>
-        </b-form>
-      </template>
-
-      <template v-slot:cell(delete_batch)="data">
-        <b-form inline class="justify-content-center">
-          <b-form-checkbox
-            v-if="isAuthenticated"
-            @change="addToDeleteSelection(data.item)"
-            button button-variant="outline-danger"
-            >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          </b-form-checkbox>
-          <b-form-checkbox
-            v-else
-            disabled
-            >
-            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          </b-form-checkbox>
-        </b-form>
-      </template>
-
-      <template v-slot:cell(moderation_read)="row">
-        <b-form inline class="justify-content-center">
-          <b-button v-if="isAuthenticated" size="sm" @click="row.toggleDetails" class="mx-2">
+            size="sm"
+            @click="row.toggleDetails" class="mx-2">
             <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
           </b-button>
-          <b-form-checkbox
-            v-model="row.item.read"
-            v-if="isAuthenticated"
-            @change="updateModeration(row.item)"
+        </template>
+
+        <template v-if="isAuthenticated" v-slot:row-details="row">
+          <ModerationRowCard
+            :dgfType="dgfType"
+            :item="row.item"
+          />
+        </template>
+
+        <template v-slot:cell(moderation_read)="row">
+          <ModerationCheckbox
+            :dgfType="dgfType"
+            :item="row.item"
+            :field="'read'"
             >
-            {{ $t('moderation.read') }}
-          </b-form-checkbox>
-          <b-form-checkbox
-            v-else
-            disabled
-            v-model="row.item.read"
+          </ModerationCheckbox>
+        </template>
+
+        <template v-slot:cell(moderation_suspect)="row">
+          <ModerationCheckbox
+            :dgfType="dgfType"
+            :item="row.item"
+            :field="'suspicious'"
             >
-            {{ $t('moderation.read') }}
-          </b-form-checkbox>
-        </b-form>
-      </template>
+          </ModerationCheckbox>
+        </template>
 
-      <template v-slot:row-details="row">
-        <b-card>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>
-              {{ $t('moderation.read') }}:</b></b-col>
-            <b-col>{{ row.item.read }}</b-col>
-          </b-row>
+        <template v-slot:cell(moderation_deleted)="row">
+          <ModerationCheckbox
+            :dgfType="dgfType"
+            :item="row.item"
+            :field="'deleted'"
+            >
+          </ModerationCheckbox>
+        </template>
 
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>
-              {{ $t('moderation.comments') }}:</b></b-col>
-            <b-col>{{ row.item.comments }}</b-col>
-          </b-row>
-        </b-card>
-      </template>
+        <template v-slot:cell(created_at)="data">
+          <i>{{ formatDate(data.value, addTime = false) }}</i>
+        </template>
 
-      <template v-slot:cell(created_at)="data">
-        <i>{{ formatDate(data.value, addTime = false) }}</i>
-      </template>
-
-      <template v-slot:cell(id)="data">
-        <router-link
-          class="text-info"
-          :to="`/organizations/${data.value}`"
-          >
-          {{ data.value }}
-        </router-link>
-      </template>
-
-      <template v-slot:cell(name)="data">
-        <router-link
-          class="text-info"
-          :to="`/organizations/${data.item.id}`"
-          >
-          <span>
+        <template v-slot:cell(id)="data">
+          <router-link
+            class="text-info"
+            :to="`/organizations/${data.value}`"
+            >
             {{ data.value }}
-          </span>
-        </router-link>
-      </template>
+          </router-link>
+        </template>
 
-      <template v-slot:cell(organizationlogo)="data">
-        <b-img
-          v-if="data.item.logo_thumbnail"
-          thumbnail
-          fluid
-          :src="data.item.logo_thumbnail"
-          :alt="data.item.name">
-        </b-img>
-      </template>
+        <template v-slot:cell(name)="data">
+          <router-link
+            class="text-info"
+            :to="`/organizations/${data.item.id}`"
+            >
+            <span>
+              {{ data.value }}
+            </span>
+          </router-link>
+        </template>
 
-    </b-table>
+        <template v-slot:cell(organizationlogo)="data">
+          <b-img
+            v-if="data.item.logo_thumbnail"
+            thumbnail
+            fluid
+            :src="data.item.logo_thumbnail"
+            :alt="data.item.name">
+          </b-img>
+        </template>
 
-    <p v-if="isLoading">
-      <b-spinner label="loading"></b-spinner>
-    </p>
-  </b-card>
+        <template v-slot:cell(description)="data">
+          <p class="text-left">
+            {{ trim(data.value, 240) }}
+          </p>
+        </template>
+
+      </b-table>
+
+      <p v-if="isLoading">
+        <b-spinner label="loading"></b-spinner>
+      </p>
+    </b-card>
+
+  </div>
 
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import { trimText } from '@/utils/textUtils.js'
+
+import PageHeader from '@/components/ux/PageHeader.vue'
+
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+import ModerationCheckbox from '@/components/moderation/ModerationCheckbox.vue'
+import ModerationActionsBtn from '@/components/moderation/ModerationActionsBtn.vue'
 
 export default {
   name: 'OrganizationsList',
+  components: {
+    PageHeader,
+    ModerationActionsBtn,
+    ModerationCheckbox,
+    ModerationRowCard
+  },
   props: [
     'height',
-    'width',
     'small',
-    'customFields'
+    'customFields',
+    'noOperationLink',
+    'compact',
+    'customClass'
   ],
   data () {
     return {
       isLoading: false,
       seeRaw: false,
+      dgfType: 'organization',
+      endpointModeration: 'organizations',
       operationId: 'list_organizations',
       organizations: undefined,
       organizationsRequest: undefined,
-      selectionToDelete: new Map(),
+      itemsSelection: [],
       needsModerationData: false,
       query: undefined,
       pagination: {
@@ -250,19 +298,31 @@ export default {
       // ],
       fields: [
         // 'index',
+        { key: 'selection', label: 'selection', stickyColumn: true, isRowHeader: true, sortable: false },
+        { key: 'moderation', label: 'Moderation', stickyColumn: true, isRowHeader: true },
         { key: 'moderation_read', label: 'Moderation', stickyColumn: true, isRowHeader: true, sortable: true },
+        { key: 'moderation_suspect', label: 'Suspect', stickyColumn: true, isRowHeader: true, sortable: true },
+        { key: 'moderation_deleted', label: 'Deleted', stickyColumn: true, isRowHeader: true, sortable: true },
         { key: 'organizationlogo', label: 'logo' },
         { key: 'name', label: 'name', stickyColumn: true, isRowHeader: true },
-        { key: 'description' },
+        { key: 'description', label: 'description' },
         { key: 'created_at', label: 'created at', sortable: true },
         'id'
       ]
     }
   },
   created () {
-    console.log('-C- OrganizationsList > created ... ')
+    // console.log('-C- OrganizationsList > created ... ')
     if (this.customFields) { this.fields = this.customFields }
     this.getOrganizations()
+  },
+  watch: {
+    async organizations (next) {
+      if (next && this.needsModerationData) {
+        // console.log('-C- OrganizationsList > watch > organizations > next :', next)
+        this.organizations = await this.appendModerationData(next)
+      }
+    }
   },
   computed: {
     ...mapState({
@@ -273,6 +333,20 @@ export default {
     })
   },
   methods: {
+    async appendModerationData (itemObject) {
+      // console.log('-C- OrganizationsList > appendModerationData > this.isAuthenticated :', this.isAuthenticated)
+      if (this.isAuthenticated) {
+        const newData = await Promise.all(itemObject.data.map(async (obj) => {
+          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
+          const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
+          return consolidated
+        }))
+        // console.log('-C- OrganizationsList > appendModerationData > newData :', newData)
+        itemObject.data = newData
+      }
+      this.needsModerationData = false
+      return itemObject
+    },
     getOrganizations (resetPage) {
       this.isLoading = true
       const params = {
@@ -284,7 +358,7 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          console.log('-C- OrganizationsList > created > results.body :', results.body)
+          // console.log('-C- OrganizationsList > created > results.body :', results.body)
           this.organizationsRequest = results.url
           this.organizations = results.body
           this.needsModerationData = true
@@ -294,48 +368,38 @@ export default {
         reason => console.error(`-C- OrganizationsList > failed on api call: ${reason}`)
       )
     },
-    updateModeration (item) {
-      // TO DO
-      console.log('-C- OrganizationsList > updateModeration > item : ', item)
-      const itemModerationData = {
-        uid: item.id,
-        read: item.read
+    changeSelection (item) {
+      if (this.isAuthenticated) {
+        this.itemsSelection = this.$changeSelection(this.itemsSelection, item.id)
       }
-      console.log('-C- OrganizationsList > updateModeration > itemModerationData : ', itemModerationData)
-      // const updatedItem = await this.$MODERATIONcli.postModeration(itemModerationData, 'organizations')
-      // console.log('-C- OrganizationsList > updateModeration > updatedItem : ', updatedItem)
     },
-    addToDeleteSelection (item) {
-      console.log('-C- OrganizationsList > addToDeleteSelection > item : ', item)
-      if (this.selectionToDelete.has(item.id)) {
-        this.selectionToDelete.delete(item.id, item.title)
-      } else {
-        this.selectionToDelete.set(item.id, item.title)
-      }
-      console.log('-C- OrganizationsList > addToDeleteSelection > this.selectionToDelete : ', this.selectionToDelete)
+    isSelected (item) {
+      return this.itemsSelection.includes(item.id)
     },
-    deleteSelection () {
-      // TO DO
-      console.log('-C- OrganizationsList > deleteSelection > this.selectionToDelete : ', this.selectionToDelete)
+    callbackAction (evt) {
+      // console.log('-C- OrganizationsList > callbackAction > evt : ', evt)
     },
     resetQuery () {
       this.query = undefined
       this.getOrganizations(true)
     },
     changePagination (pageNumber) {
-      console.log('-C- OrganizationsList > changePagination > pageNumber ', pageNumber)
+      // console.log('-C- OrganizationsList > changePagination > pageNumber ', pageNumber)
       this.pagination.page = pageNumber
       this.getOrganizations()
     },
     changeSorting (sort) {
-      console.log('-C- OrganizationsList > changeSorting > sort ', sort)
+      // console.log('-C- OrganizationsList > changeSorting > sort ', sort)
       this.pagination.sortBy = (sort.sortBy === 'created_at') ? 'created' : sort.sortBy
       this.pagination.sortDesc = sort.sortDesc
-      console.log('-C- OrganizationsList > changeSorting > this.pagination ', this.pagination)
+      // console.log('-C- OrganizationsList > changeSorting > this.pagination ', this.pagination)
       this.getOrganizations()
     },
     formatDate (dateString, addTime) {
       return this.$formatDate(dateString, addTime)
+    },
+    trim (str, max) {
+      return trimText(str, max)
     }
   }
 }

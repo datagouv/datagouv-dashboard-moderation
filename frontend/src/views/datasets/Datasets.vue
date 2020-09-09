@@ -7,14 +7,6 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
-
-    <h2>
-      {{ $t('basics.datasets', {list: $t('basics.list')}) }}
-    </h2>
-
-    <br>
-
     <!-- DISPLAY DATASETS IN TABLE -->
     <DatasetsList
       height="800px"
@@ -28,13 +20,11 @@
 <script>
 import { mapState } from 'vuex'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
 import DatasetsList from '@/components/datasets/DatasetsList.vue'
 
 export default {
   name: 'Datasets',
   components: {
-    PreviousPage,
     DatasetsList
   },
   data () {

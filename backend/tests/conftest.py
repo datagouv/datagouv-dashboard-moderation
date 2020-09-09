@@ -1,11 +1,7 @@
-import os
-import tempfile
-
 import pytest
-import dataset
 import requests_mock
 
-from src import create_app
+from src import create_app, db
 
 from config import Testing
 
@@ -31,7 +27,15 @@ RESPONSE_DICT_NON_ADMIN = {
 @pytest.fixture
 def app():
     """Creates a new app instance."""
-    return create_app(config_class=Testing)
+    app = create_app(config_class=Testing)
+    with app.app_context():
+        db.create_all()
+
+    yield app
+
+    with app.app_context():
+        db.session.remove()
+        db.drop_all()
 
 
 @pytest.fixture

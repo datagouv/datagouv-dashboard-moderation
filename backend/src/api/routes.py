@@ -1,8 +1,11 @@
+import datetime
+
 import requests
-from marshmallow import Schema, fields, ValidationError
+from marshmallow import Schema, fields, post_load, ValidationError, validate
 from flask import jsonify, abort, request, session, make_response
 
 from src import db
+from src.models import User, DgfObject, Comment
 from src.api import bp
 from src.api.auth import login_required
 
@@ -14,9 +17,37 @@ class LoginSchema(Schema):
     token = fields.Str(required=True)
 
 
-class DatasetSchema(Schema):
-    uid = fields.Str(required=True)
-    read = fields.Boolean()
+class UserSchema(Schema):
+    id = fields.Int(dump_only=True)
+    first_name = fields.Str(required=True)
+    last_name = fields.Str(required=True)
+    email = fields.Email(required=True)
+    dgf_id = fields.Str(required=True)
+
+    @post_load
+    def make_user(self, data, **kwargs):
+        return User(**data)
+
+
+class CommentSchema(Schema):
+    id = fields.Int(dump_only=True)
+    author = fields.Nested(UserSchema(only=('first_name', 'last_name')))
+    written_at = fields.DateTime(dump_only=True)
+    content = fields.Str(required=True)
+
+
+class ObjectSchema(Schema):
+    id = fields.Int(dump_only=True)
+    suspicious = fields.Boolean(required=True)
+    read = fields.Boolean(required=True)
+    deleted = fields.Boolean(required=True)
+    dgf_type = fields.String(required=True, validate=validate.OneOf(['user', 'community_resource', 'organization', 'dataset', 'reuse']))
+    dgf_id = fields.String(required=True)
+    comments = fields.List(fields.Nested(CommentSchema))
+
+    @post_load
+    def make_object(self, data, **kwargs):
+        return DgfObject(**data)
 
 
 @bp.route('/submit-token', methods=['POST'])
@@ -36,36 +67,117 @@ def submit_token():
     if not 'admin' in user_data['roles']:
         return make_response(('Not enough priviledges', 403))
 
-    user = db["users"].find_one(uid=user_data['id'])
+    user = User.query.filter_by(dgf_id=user_data['id']).first()
     if user is None:
-        db["users"].insert(dict(
+        new_user = User(
             first_name=user_data['first_name'],
             last_name=user_data['last_name'],
             email=user_data['email'],
-            uid=user_data['id']))
+            dgf_id=user_data['id'])
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+        except Exception as err:
+            return make_response((err.message, 500))
 
     session['user_id'] = user_data['id']
-    return {'message': 'success'}
+    return make_response(('success', 200))
 
 
-@bp.route('/datasets', methods=['POST'])
+@bp.route('/logout')
 @login_required
-def mark_as_read(user):
+def logout(user):
+    session.pop(user.id, None)
+    return make_response(('success', 200))
+
+
+@bp.route('/objects', methods=['POST'])
+@login_required
+def create_object(user):
     data = request.get_json(force=True) or {}
     try:
-        dataset = DatasetSchema().load(data)
+        new_object = ObjectSchema().load(data)
     except ValidationError as err:
-        return make_response((err.message, 400))
-    db["datasets"].insert(dataset)
+        return make_response((err.messages, 400))
+    try:
+        db.session.add(new_object)
+        db.session.commit()
+    except Exception as err:
+        return make_response((err.messages, 500))
+    return make_response(({'object_id': new_object.id}, 201))
+
+
+@bp.route('/objects/<dgf_object_id>', methods=['GET'])
+@login_required
+def get_object(user, dgf_object_id):
+    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    if dgf_object is None:
+        return make_response(('Object not found', 404))
+    schema = ObjectSchema()
+    result = schema.dump(dgf_object)
+    return make_response((result, 200))
+
+
+@bp.route('/objects/<dgf_object_id>', methods=['PUT'])
+@login_required
+def update_object(user, dgf_object_id):
+    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    if dgf_object is None:
+        return make_response(('Object not found', 404))
+    data = request.get_json(force=True) or {}
+    if 'suspicious' in data:
+        dgf_object.suspicious = data['suspicious']
+    if 'read' in data:
+        dgf_object.read = data['read']
+    if 'deleted' in data:
+        dgf_object.deleted = data['deleted']
+    db.session.commit()
+    return make_response(('success', 200))
+
+
+@bp.route('/objects/<dgf_object_id>', methods=['DELETE'])
+@login_required
+def delete_object(user, dgf_object_id):
+    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    if dgf_object is None:
+        return make_response(('Object not found', 404))
+    db.session.delete(dgf_object)
+    db.session.commit()
+    return make_response(('success', 200))
+
+
+@bp.route('/objects/<dgf_object_id>/comments', methods=['POST'])
+@login_required
+def comment_object(user, dgf_object_id):
+    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    if dgf_object is None:
+        return make_response(('Object not found', 404))
+
+    data = request.get_json(force=True) or {}
+    try:
+        valid_data = CommentSchema().load(data)
+    except ValidationError as err:
+        return make_response((err.messages, 400))
+    comment = Comment(
+        content=valid_data["content"],
+        author=user,
+        dgf_object=dgf_object,
+        written_at=datetime.datetime.now()
+        )
+    db.session.add(comment)
+    db.session.commit()
     return make_response(('success', 201))
 
 
-@bp.route('/datasets/<dataset_id>', methods=['GET'])
+@bp.route('/objects/<dgf_object_id>/comments/<comment_id>', methods=['DELETE'])
 @login_required
-def get_dataset(user, dataset_id):
-    dataset = db["datasets"].find_one(uid=dataset_id)
-    if dataset is None:
-        return make_response(('Dataset not found', 404))
-    schema = DatasetSchema()
-    result = schema.dump(dataset)
-    return make_response((result, 200))
+def delete_object_comment(user, dgf_object_id, comment_id):
+    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    if dgf_object is None:
+        return make_response(('Object not found', 404))
+    comment = Comment.query.filter_by(id=comment_id).first()
+    if comment is None:
+        return make_response(('Comment not found', 404))
+    db.session.delete(comment)
+    db.session.commit()
+    return make_response(('success', 200))

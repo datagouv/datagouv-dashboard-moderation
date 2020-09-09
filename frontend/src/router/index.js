@@ -131,9 +131,9 @@ const routes = [
     }
   },
   {
-    path: '/resources/:id',
-    name: 'resourceUpdate',
-    component: () => import(/* webpackChunkName: "resource" */ '../views/resources/ResourceUpdate.vue'),
+    path: '/resources-community/:id',
+    name: 'ResourceCommunityUpdate',
+    component: () => import(/* webpackChunkName: "resource" */ '../views/resources/ResourceCommunityUpdate.vue'),
     meta: {
       middleware: [
         checkAuth

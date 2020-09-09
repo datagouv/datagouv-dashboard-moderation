@@ -6,40 +6,55 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <PreviousPage/>
+    <PageHeader
+      :dgfType="'issue'"
+      :customClass="'mb-4'"
+      >
+      <template v-slot:badge>
+        <div>
+          {{ $t('navigation.from') }} :
+          <span v-if="issueRequest">
+            <a :href="issueRequest" target="_blank">
+              JSON
+            </a>
+            |
+            <a :href="issue.url" target="_blank">
+              datagouv issue page
+            </a>
+          </span>
+          <span v-else>
+            {{ getOperationId }}
+          </span>
+        </div>
+      </template>
+    </PageHeader>
 
-    <h2>
-      Issue update
-    </h2>
+    <b-row class="mx-2">
 
-    <div>
-      {{ $t('navigation.from') }} :
-      <span v-if="issueRequest">
-        <a :href="issueRequest" target="_blank">
-          JSON
-        </a>
-        |
-        <a :href="issue.url" target="_blank">
-          datagouv issue page
-        </a>
-      </span>
-      <span v-else>
-        {{ getOperationId }}
-      </span>
-    </div>
+      <!-- DISPLAY ISSUE -->
+      <b-col>
 
-    <br>
+        <IssueCard
+          :cardTitle="`${$t('basics.issue')} n° ${issueId}`"
+          :cardFooter="undefined"
+          :issueData="issue"
+          :issueId="issueId"
+          height="800px"
+        >
+        </IssueCard>
+      </b-col>
 
-    <!-- DISPLAY ISSUE -->
-    <IssueCard
-      :cardTitle="`issue n° ${issueId}`"
-      :cardFooter="undefined"
-      :issueData="issue"
-      :issueId="issueId"
-      height="800px"
-      width="600px"
-    >
-    </IssueCard>
+      <!-- MODERATION BOX -->
+      <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :dgfType="dgfType"
+          :endpoint="endpointModeration"
+          :item="issue"
+        />
+      </b-col>
+
+    </b-row>
 
   </div>
 </template>
@@ -47,23 +62,29 @@
 <script>
 import { mapState } from 'vuex'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
+import PageHeader from '@/components/ux/PageHeader.vue'
+import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
+
 import IssueCard from '@/components/issues/IssueCard.vue'
 
 export default {
   name: 'IssueUpdate',
   components: {
-    PreviousPage,
+    PageHeader,
+    ModerationRowCard,
     IssueCard
   },
   data () {
     return {
       isLoading: false,
+      dgfType: 'dataset',
       getOperationId: 'get_issue',
       putOperationId: 'update_issue',
+      endpointModeration: 'issue',
       issueId: this.$route.params.id,
       issueRequest: undefined,
       issue: undefined,
+      needsModerationData: false,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -83,24 +104,37 @@ export default {
   created () {
     this.getIssue()
   },
-  watch: {},
+  watch: {
+    async issue (next) {
+      if (next && this.needsModerationData) {
+        this.issue = await this.appendModerationData(next)
+      }
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log
     })
   },
   methods: {
+    async appendModerationData (itemObject) {
+      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
+      this.needsModerationData = false
+      return consolidated
+    },
     getIssue () {
       const API = this.$APIcli
-      console.log('-V- IssueUpdate > methods > getIssue > API :', API)
+      // console.log('-V- IssueUpdate > methods > getIssue > API :', API)
       const params = { id: this.issueId }
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          console.log('-V- IssueUpdate > methods > getIssue > results :', results)
-          console.log('-V- IssueUpdate > methods > getIssue > results.body :', results.body)
+          // console.log('-V- IssueUpdate > methods > getIssue > results :', results)
+          // console.log('-V- IssueUpdate > methods > getIssue > results.body :', results.body)
           this.issueRequest = results.url
           this.issue = results.body
+          this.needsModerationData = true
           const title = this.issue.title.length > 25 ? this.issue.title.slice(0, 25) + '...' : this.issue.title
           this.crumbs[2].text = title
           this.isLoading = false

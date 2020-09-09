@@ -13,15 +13,18 @@
         <b-col cols="2">
           <Locales/>
         </b-col>
-        <b-col>
-          <span class="text-white">
-            sticky footer component
-          </span>
+        <b-col class="text-white">
+          <p class="mb-0 font-weight-bold">
+            {{$t('footer.title')}}
+          </p>
+          <p class="font-weight-lighter">
+            {{$t('footer.subtitle')}}
+          </p>
         </b-col>
         <b-col cols="1" class="pill-override white-override">
           <b-button
             pill
-            class="m-2"
+            class="m-2 btn-circle btn-circle-sm"
             href="https://github.com/etalab/datagouv-dashboard-moderation"
             target="_blank"
             >
@@ -49,7 +52,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- Footer > created ...')
+    // console.log('-C- Footer > created ...')
   },
   computed: {
     ...mapState({

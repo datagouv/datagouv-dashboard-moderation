@@ -23,7 +23,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- APP > created ...')
+    // console.log('-C- APP > created ...')
   }
 }
 </script>

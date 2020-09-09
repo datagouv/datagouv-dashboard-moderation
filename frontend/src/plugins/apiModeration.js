@@ -11,26 +11,21 @@ class ModerationLib {
 
     this.moderationServer = options.moderationServer
 
-    this.moderationSubmitTokenUrl = `${this.moderationServer}/submit-token` // POST
-
-    // this.moderationInsertDatasetsUrl = `${this.moderationServer}/datasets` // POST
-    // this.moderationGetDatasetUrl = `${this.moderationServer}/datasets` // GET + dataset_id
-
     // debugging
-    console.log('>>> ModerationLib > init >  this :', this)
+    // console.log('>>> ModerationLib > init >  this :', this)
   }
 
   /**************************************************************
-   * login to moderation server
+   * login/logout to moderation server
    */
   async login (clientToken) {
-    const submitUrl = `${this.moderationSubmitTokenUrl}`
+    const url = `${this.moderationServer}/submit-token`
     const config = {
       method: 'POST',
       body: { token: clientToken }
     }
     try {
-      const response = await fetch(submitUrl, config)
+      const response = await fetch(url, config)
       console.log('>>> ModerationLib > login >  response :', response)
       const auth = response.message === 'success'
       this.store.commit(`${this.storeModuleName}/setLogin`, auth)
@@ -40,48 +35,111 @@ class ModerationLib {
       console.log('>>> ModerationLib > login > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {
-      console.log('>>> ModerationLib > login >  finally ...')
+      // console.log('>>> ModerationLib > login >  finally ...')
     }
   }
 
   async logout () {
-    console.log('>>> ModerationLib > logout ...')
-    this.store.commit(`${this.storeModuleName}/resetLogin`)
-    this.store.commit(`${this.storeModuleName}/setModerationResponse`, 'you are now logged out from moderation ')
-  }
+    // console.log('>>> ModerationLib > logout ...')
 
-  /**************************************************************
-   * dataset related
-   */
-  async getModeration (jsonDataId, endpoint = 'datasets') {
-    const url = `${this.moderationServer}/${endpoint}/${jsonDataId}`
-    console.log('>>> ModerationLib > getModeration >  url :', url)
+    const url = `${this.moderationServer}/logout`
+    // console.log('>>> ModerationLib > logout >  url :', url)
     const config = {
       method: 'GET',
       headers: { 'content-type': 'application/json' }
     }
     try {
       const response = await fetch(url, config)
-      console.log('>>> ModerationLib > getModeration >  response :', response)
-      this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
+      // console.log('>>> ModerationLib > logout >  response :', response)
+      this.store.commit(`${this.storeModuleName}/resetLogin`)
+      this.store.commit(`${this.storeModuleName}/setModerationResponse`, 'you are now logged out from moderation ')
+      // this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       return response
     } catch (error) {
-      console.log('error', error)
+      console.log('>>> ModerationLib > logout > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {
-      console.log('>>> ModerationLib > getModeration > finally ...')
+      // console.log('>>> ModerationLib > logout > finally ...')
     }
   }
 
-  async postModeration (jsonData, endpoint = 'datasets') {
-    const url = `${this.moderationServer}/${endpoint}`
-    console.log('>>> ModerationLib > postModeration >  url :', url)
-    const moderationData = {
-      uid: jsonData.uid,
-      read: jsonData.read,
-      comment: jsonData.comment,
-      by: jsonData.by
+  /**************************************************************
+   * moderation formatting
+   */
+  formatModerationItem (dgfType, item, field, value) {
+    // console.log('>>> ModerationLib > formatModerationItem >  dgfType :', dgfType)
+    // console.log('>>> ModerationLib > formatModerationItem >  field :', field)
+    // console.log('>>> ModerationLib > formatModerationItem >  value :', value)
+    const itemModerationData = {
+      dgf_type: dgfType,
+      dgf_id: item.id,
+      read: item.read || false,
+      suspicious: item.suspicious || false,
+      comments: item.comments || [],
+      deleted: item.deleted || false
     }
+    itemModerationData[field] = value
+    // console.log('>>> ModerationLib > formatModerationItem >  itemModerationData :', itemModerationData)
+    return itemModerationData
+  }
+
+  addModerationData (obj, itemStatus) {
+    const commentsDummy = [
+      {
+        id: '1234',
+        author: 'Julien Paris',
+        user_id: '5ecb7bb95b7c0fda6b06d0e3',
+        written_at: '09/09/2020',
+        content: "I did comment this... I think it's very useful to add my thoughts here...",
+        dgf_object_id: ''
+      },
+      {
+        id: '9876',
+        author: 'Alfred Wayne',
+        user_id: '78cb7bb95b7c0fdgtr06d0200',
+        written_at: '08/09/2020',
+        content: 'Master Bruce would be against it...',
+        dgf_object_id: ''
+      }
+    ]
+    // console.log('>>> ModerationLib > addModerationData >  commentsDummy :', commentsDummy)
+    return {
+      ...obj,
+      read: itemStatus.read || false,
+      suspicious: itemStatus.suspicious || false,
+      deleted: itemStatus.deleted || false,
+      comments: itemStatus.comments || commentsDummy
+    }
+  }
+
+  /**************************************************************
+   * moderation related
+   */
+  async getModeration (jsonDataId) {
+    const url = `${this.moderationServer}/objects/${jsonDataId}`
+    // console.log('>>> ModerationLib > getModeration >  url :', url)
+    const config = {
+      method: 'GET',
+      headers: { 'content-type': 'application/json' }
+    }
+    try {
+      const response = await fetch(url, config)
+      // console.log('>>> ModerationLib > getModeration >  response :', response)
+      this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
+      return response
+    } catch (error) {
+      console.log('>>> ModerationLib > getModeration > error', error)
+      this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+    } finally {
+      // console.log('>>> ModerationLib > getModeration > finally ...')
+    }
+  }
+
+  async postModeration (dgfType, item, field, evt) {
+    const url = `${this.moderationServer}/objects`
+    // console.log('>>> ModerationLib > postModeration >  url :', url)
+    const moderationData = this.formatModerationItem(dgfType, item, field, evt)
+    console.log('>>> ModerationLib > postModeration >  moderationData :', moderationData)
     const config = {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -89,14 +147,37 @@ class ModerationLib {
     }
     try {
       const response = await fetch(url, config)
-      console.log('>>> ModerationLib > postModeration >  response :', response)
+      // console.log('>>> ModerationLib > postModeration >  response :', response)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       return response
     } catch (error) {
-      console.log('error', error)
+      console.log('>>> ModerationLib > postModeration > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {
-      console.log('>>> ModerationLib > postModeration > finally ...')
+      // console.log('>>> ModerationLib > postModeration > finally ...')
+    }
+  }
+
+  async updateModeration (dgfType, item, field, evt) {
+    const url = `${this.moderationServer}/objects`
+    // console.log('>>> ModerationLib > postModeration >  url :', url)
+    const moderationData = this.formatModerationItem(dgfType, item, field, evt)
+    console.log('>>> ModerationLib > updateModeration >  moderationData :', moderationData)
+    const config = {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: moderationData
+    }
+    try {
+      const response = await fetch(url, config)
+      // console.log('>>> ModerationLib > updateModeration >  response :', response)
+      this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
+      return response
+    } catch (error) {
+      console.log('>>> ModerationLib > updateModeration > error', error)
+      this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+    } finally {
+      // console.log('>>> ModerationLib > updateModeration > finally ...')
     }
   }
 }

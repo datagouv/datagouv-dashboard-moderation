@@ -81,18 +81,18 @@ export default {
     }
   },
   created () {
-    console.log('-V- LOGIN > created ...')
+    // console.log('-V- LOGIN > created ...')
     // this.localStorageContainer.state = localStorage.dgfState
     // this.localStorageContainer.codeVerifier = localStorage.dgfCodeVerifier
-    console.log('-V- LOGIN > created > this.tokens :', this.tokens)
+    // console.log('-V- LOGIN > created > this.tokens :', this.tokens)
   },
   async mounted () {
-    console.log('-V- LOGIN > mounted ...')
+    // console.log('-V- LOGIN > mounted ...')
     this.isLoading = true
     try {
       this.loginResponse = 'we are requesting your tokens to the oauth server... please wait'
       const resp = await this.$OAUTHcli.retrieveToken()
-      console.log('-V- LOGIN > created > resp :', resp)
+      // console.log('-V- LOGIN > created > resp :', resp)
       if (resp && resp.error) throw resp.error
 
       // this.localStorageContainer.accessToken = this.tokens.access.value
@@ -106,19 +106,19 @@ export default {
       const authOptions = {
         bearerAuth: this.tokens.access.value
       }
-      console.log('-V- LOGIN > created > authOptions :', authOptions)
+      // console.log('-V- LOGIN > created > authOptions :', authOptions)
       this.$APIcli.resetCli(authOptions)
 
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
 
-      console.log('-V- LOGIN > created > this.$APIcli.specAndAuth.authorizationHeader :', this.$APIcli.specAndAuth.authorizationHeader)
+      // console.log('-V- LOGIN > created > this.$APIcli.specAndAuth.authorizationHeader :', this.$APIcli.specAndAuth.authorizationHeader)
 
       // log into moderation API
       await this.$MODERATIONcli.login(this.tokens.access.value)
 
       this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
-      console.log('error', ex)
+      // console.log('error', ex)
       this.loginResponse = `${ex} ... please try to authenticate again`
     } finally {
       this.isLoading = false
@@ -133,9 +133,9 @@ export default {
   // methods: {
   //   async submitLogout (evt) {
   //     evt.preventDefault()
-  //     console.log('\n-V- AUTHORIZE_CLIENT_ID > submitLogout ...')
+  //     // console.log('\n-V- AUTHORIZE_CLIENT_ID > submitLogout ...')
   //     const response = await this.$OAUTHcli.logout()
-  //     console.log('-V- AUTHORIZE_CLIENT_ID > submitLogout > response :', response)
+  //     // console.log('-V- AUTHORIZE_CLIENT_ID > submitLogout > response :', response)
   //   }
   // }
 }

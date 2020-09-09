@@ -20,16 +20,12 @@
       >
       <hr>
       {{$t('basics.user')}}
-      (store) :
-      <code>
-        {{userData}}
-      </code>
 
       <RawData
         :customClass="`mb-3`"
         :see="true"
         title="user data"
-        :dataRaw="user"
+        :dataRaw="userData"
       ></RawData>
 
       <RawData
@@ -86,12 +82,12 @@ export default {
   methods: {
     getUserActivity () {
       const API = this.$APIcli
-      console.log('-C- UserCard > methods > getUserActivity > API :', API)
+      // console.log('-C- UserCard > methods > getUserActivity > API :', API)
       const params = { user: this.userId }
       this.isLoading = true
       API._request(this.activityOperationId, { params }).then(
         results => {
-          console.log('-C- UserCard > methods > getUserActivity > results.body :', results.body)
+          // console.log('-C- UserCard > methods > getUserActivity > results.body :', results.body)
           this.userActivity = results.body
           this.isLoading = false
         },

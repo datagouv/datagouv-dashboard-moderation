@@ -52,15 +52,15 @@ export default {
     }
   },
   async mounted () {
-    console.log('-V- ResetAuthApiCli > mounted ...')
-    console.log('-V- ResetAuthApiCli > this.$route :', this.$route)
-    console.log('-V- ResetAuthApiCli > this.$route.query.redirect :', this.$route.query.redirect)
+    // console.log('-V- ResetAuthApiCli > mounted ...')
+    // console.log('-V- ResetAuthApiCli > this.$route :', this.$route)
+    // console.log('-V- ResetAuthApiCli > this.$route.query.redirect :', this.$route.query.redirect)
     this.isLoading = true
     try {
       const authOptions = {
         bearerAuth: this.tokens.access.value
       }
-      console.log('-V- ResetAuthApiCli > created > authOptions :', authOptions)
+      // console.log('-V- ResetAuthApiCli > created > authOptions :', authOptions)
       this.$APIcli.resetCli(authOptions)
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
 
@@ -69,7 +69,7 @@ export default {
 
       this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
-      console.log('error', ex)
+      // console.log('error', ex)
       this.loginResponse = `${ex} ... please try to authenticate again`
     } finally {
       this.isLoading = false

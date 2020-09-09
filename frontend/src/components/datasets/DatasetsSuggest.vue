@@ -1,12 +1,21 @@
 <template>
 
   <b-card
-    class="mt-3 mx-auto text-center"
+    :class="`text-center ${customClass ? customClass : 'mt-3 mx-auto' }`"
     >
-    <p><slot name="blockTitle"></slot></p>
 
-    <p><slot name="link" class="mb-3"></slot></p>
-    <div class="mb-2">
+    <p v-if="!hide.includes('title')">
+      <slot name="blockTitle"></slot>
+    </p>
+
+    <p v-if="!hide.includes('link')">
+      <slot name="link" class="mb-3"></slot>
+    </p>
+
+    <div
+      v-if="!hide.includes('from')"
+      class="mb-2"
+      >
       {{ $t('navigation.from') }} :
       <span v-if="datasetsRequest">
         <a :href="datasetsRequest" target="blank">
@@ -25,14 +34,18 @@
       </b-input-group-prepend>
       <b-form-input
         id="inline-form-input-query"
-        placeholder="your query"
+        :placeholder="$t('actions.searchFor', {target: $t('basics.dataset')})"
         v-model="query"
         @input="suggestDatasets"
         list="suggestions-list"
         >
       </b-form-input>
       <b-input-group-append v-if="query">
-        <b-button variant="outline-secondary" @click="resetQuery">
+        <b-button
+          variant="outline-secondary"
+          class="bg-light"
+          @click="resetQuery"
+          >
           <b-icon icon="x" aria-hidden="true"></b-icon>
         </b-button>
       </b-input-group-append>
@@ -44,6 +57,7 @@
 
     <b-table
       v-if="datasets"
+      class="bg-light"
       striped hover responsive scrollable
       small
       :sticky-header="height"
@@ -103,6 +117,8 @@ export default {
     RawData
   },
   props: [
+    'customClass',
+    'hideBlocks',
     'height',
     'width',
     'customFields'
@@ -110,6 +126,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      hide: undefined,
       seeRaw: false,
       operationId: 'suggest_datasets',
       datasets: undefined,
@@ -127,9 +144,8 @@ export default {
     }
   },
   created () {
-    console.log('-C- DatasetsSuggest > created ... ')
+    this.hide = this.hideBlocks ? this.hideBlocks : []
     if (this.customFields) { this.fields = this.customFields }
-    // this.suggestDatasets()
   },
   computed: {
     ...mapState({
@@ -147,8 +163,8 @@ export default {
       const authNeeded = false
       this.$APIcli._request(this.operationId, { params, body, needAuth: authNeeded }).then(
         results => {
-          console.log('-C- DatasetsSuggest > created > results :', results)
-          console.log('-C- DatasetsSuggest > created > results.body :', results.body)
+          // console.log('-C- DatasetsSuggest > created > results :', results)
+          // console.log('-C- DatasetsSuggest > created > results.body :', results.body)
           this.datasetsRequest = results.url
           this.datasets = results.body
           this.isLoading = false

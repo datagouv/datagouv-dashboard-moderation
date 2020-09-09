@@ -102,7 +102,7 @@ export default {
     }
   },
   created () {
-    console.log('-V- AUTHORIZE_CLIENT_ID > created ...')
+    // console.log('-V- AUTHORIZE_CLIENT_ID > created ...')
     this.oauthVars.clientId = this.clientId
     this.oauthVars.clientSecret = this.clientSecret
     this.oauthVars.oauthRedirect = this.oauthRedirect
@@ -131,7 +131,7 @@ export default {
   methods: {
     async submitLogin (evt) {
       evt.preventDefault()
-      console.log('\n-V- AUTHORIZE_CLIENT_ID > submitLogin > this.oauthVars :', this.oauthVars)
+      // console.log('\n-V- AUTHORIZE_CLIENT_ID > submitLogin > this.oauthVars :', this.oauthVars)
 
       // login with OAUTH
       this.isLoading = true
@@ -139,7 +139,7 @@ export default {
     },
     async submitLogout (evt) {
       evt.preventDefault()
-      console.log('\n-V- AUTHORIZE_CLIENT_ID > submitLogout > ...')
+      // console.log('\n-V- AUTHORIZE_CLIENT_ID > submitLogout > ...')
       this.isLoading = true
       await this.$OAUTHcli.logout()
       this.isLoading = false

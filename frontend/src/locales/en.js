@@ -23,18 +23,34 @@ const translations = {
       suggestions: ' suggestions',
       datasets: 'datasets{list}',
       reuses: 'reuses{list}',
-      user: 'user',
       users: 'users{list}',
       organizations: 'organizations{list}',
       issues: 'issues{list}',
       discussions: 'discussions{list}',
       resources: 'ressources{list}',
-      resources_community: 'community ressources{list}',
+      community_resources: 'community ressources{list}',
+      datasetsCap: 'Datasets',
+      reusesCap: 'Reuses',
+      usersCap: 'Users',
+      organizationsCap: 'Organizations',
+      issuesCap: 'Issues',
+      discussionsCap: 'Discussions',
+      resourcesCap: 'Ressources',
+      community_resourcesCap: 'Community ressources',
       settings: 'settings',
       activity: 'activity',
+      infos: 'infos',
       profile: 'profile',
       details: 'détails',
-      detailsOf: 'the details de {suffix}'
+      detailsOf: 'the details de {suffix}',
+      dataset: 'dataset',
+      reuse: 'reuse',
+      user: 'user',
+      organization: 'organisation',
+      issue: 'issue',
+      discussion: 'discussion',
+      resource: 'ressource',
+      community_resource: 'communautary ressource'
     },
     settings: {
       getUserData: 'getting your user data ...',
@@ -44,20 +60,46 @@ const translations = {
       logOut: 'log out'
     },
     actions: {
+      actions: 'actions',
+      actionsGroupText: 'grouped actions',
+      select: 'select',
+      search: 'search',
+      searchFor: 'search for a {target}',
       edit: 'edit',
+      spotlight: 'spotlight',
+      contactProducer: 'contact the producer',
+      follow: 'follow',
+      share: 'share',
+      reportIssue: 'report an issue',
       save: 'save',
       comment: 'comment',
+      confirm: 'confirm',
       close: 'close',
       cancel: 'cancel',
+      reset: 'reset',
       delete: 'delete',
       show: 'show',
       hide: 'hide',
       wait: 'please wait'
     },
+    dialogs: {
+      sure: 'are you sure ?',
+      sureDelete: 'are you sure you want to delete those elements ?',
+      sureDeleteItem: 'are you sure you want to delete this element ?'
+    },
     moderation: {
+      date: 'date',
+      author: 'author',
+      selection: 'selection',
       read: 'read',
+      suspicious: 'suspicious',
+      deleted: 'deleted',
       comments: 'comments',
-      moderation: '{prefix}moderation'
+      addComment: 'add a comment',
+      moderation: '{prefix}moderation',
+      moderationFor: 'moderation for',
+      markAsRead: 'mark as read',
+      markAsSuspect: 'mark as suspect'
     },
     model: {
       created: 'created',
@@ -123,6 +165,15 @@ const translations = {
       reuses: 'reuses',
 
       id: 'id'
+    },
+    blocks: {
+      seeProfile: 'See profile',
+      contactProducer: 'Contact the producer',
+      followProducer: 'Follow the producer'
+    },
+    footer: {
+      title: 'datagouv.fr moderation dashboard',
+      subtitle: 'a DINUM / Etalab project'
     }
   }
 }
