@@ -23,7 +23,7 @@
       <b-row v-if="!hasHeader" class="mb-2">
 
         <b-col
-          :sm="2"
+          :sm="4"
           class="bg-light p-4 ml-4"
           >
           <p class="font-weight-bold">
@@ -34,10 +34,21 @@
           <router-link
             :to="`${dict[dgfType].to}/${item.id}`"
             >
+            <b-icon icon="link45deg" aria-hidden="true"></b-icon>
             <span class="text-uppercase">
               {{item[dict[dgfType].titleKey]}}
             </span>
           </router-link>
+
+          <div>
+            <hr>
+            <p
+              v-if="dict[dgfType].descriptionKey"
+              class="text-left mt-4"
+              >
+              {{ trim(item[dict[dgfType].descriptionKey], 500) }}
+            </p>
+          </div>
         </b-col>
 
         <b-col
@@ -125,7 +136,7 @@
       <b-row v-if="hasHeader" class="mb-2" align-h="center">
         <b-col :sm="10" class="mb-3">
           <hr>
-          <p>
+          <p class="font-weight-bold">
             {{ $t('moderation.comments') }}
           </p>
         </b-col>
@@ -144,6 +155,7 @@
 <script>
 
 import { MapDgfTypes } from '@/config/MapDgfTypes.js'
+import { trimText } from '@/utils/textUtils.js'
 
 // import ModerationItemBtn from '@/components/moderation/ModerationItemBtn.vue'
 import ModerationCheckbox from '@/components/moderation/ModerationCheckbox.vue'
@@ -171,6 +183,9 @@ export default {
     async updateModeration (item, field, evt) {
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
       console.log('-C- ModerationRowCard > updateModeration > updatedItem : ', updatedItem)
+    },
+    trim (str, max) {
+      return trimText(str, max)
     }
   }
 }

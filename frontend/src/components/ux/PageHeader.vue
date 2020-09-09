@@ -23,8 +23,8 @@
         class='h2 text-dark'
         :to="dict[dgfType].to"
         >
-        {{ $t(dict[dgfType].textCode) }}
         <b-icon icon="link45deg" aria-hidden="true"></b-icon>
+        {{ $t(dict[dgfType].textCode) }}
       </router-link>
       <h2 v-else>
         {{ $t(dict[dgfType].textCode) }}

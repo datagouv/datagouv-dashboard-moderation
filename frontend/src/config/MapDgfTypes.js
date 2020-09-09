@@ -43,11 +43,13 @@ export const MapDgfTypes = {
   dataset: {
     textCode: 'basics.dataset',
     titleKey: 'title',
+    descriptionKey: 'description',
     to: '/datasets'
   },
   reuse: {
     textCode: 'basics.reuse',
     titleKey: 'title',
+    descriptionKey: 'description',
     to: '/reuses'
   },
   user: {
@@ -58,6 +60,7 @@ export const MapDgfTypes = {
   organization: {
     textCode: 'basics.organization',
     titleKey: 'name',
+    descriptionKey: 'description',
     to: '/organizations'
   },
   issue: {
@@ -78,6 +81,7 @@ export const MapDgfTypes = {
   community_resource: {
     textCode: 'basics.community_resource',
     titleKey: 'title',
+    descriptionKey: 'description',
     to: '/resources-community'
   }
 
