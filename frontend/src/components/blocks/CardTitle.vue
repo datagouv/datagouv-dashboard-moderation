@@ -8,7 +8,7 @@
         <b-col
           md="10"
           offset-md="2"
-          class="h1 text-left"
+          :class="`h1 text-left ${customClass}`"
           >
           {{title}}
         </b-col>
@@ -21,7 +21,8 @@
 export default {
   name: 'CardTitle',
   props: [
-    'title'
+    'title',
+    'customClass'
   ]
 }
 </script>
