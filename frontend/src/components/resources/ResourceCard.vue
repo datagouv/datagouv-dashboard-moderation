@@ -190,9 +190,6 @@ export default {
       closeResource: false
     }
   },
-  created () {
-    
-  },
   watch: {
     resourceData (next) {
       if (next) {
@@ -210,7 +207,6 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      
       switch (evt.category) {
         case 'openEdit':
           this.edit = true
@@ -220,7 +216,6 @@ export default {
     commentResource (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      
       this.isLoading = true
       const params = {
         id: this.resourceId,
@@ -233,7 +228,6 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          
           this.resource = results.body
         },
         reason => {

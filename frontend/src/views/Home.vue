@@ -287,7 +287,6 @@ export default {
     }
   },
   created () {
-    
     this.getSite()
   },
   computed: {
@@ -311,8 +310,6 @@ export default {
       const params = {}
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          
-          
           this.siteRequest = results.url
           this.site = results.body
           this.isLoading = false

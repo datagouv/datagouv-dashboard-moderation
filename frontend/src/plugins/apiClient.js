@@ -10,7 +10,6 @@ class SwagCli {
 
     // retrieve spec from options
     this.spec = options.swaggerUrl
-    
 
     // instantiate client
     this.resetCli(options)
@@ -48,9 +47,8 @@ class SwagCli {
   }
 
   resetCli (authOptions) {
-    
     this.specAndAuth = this.buildSpecAndAuth(authOptions)
-    
+
     // Activate CORS or not
     // if (authOptions.activateCORS) {
     //   SwaggerClient.http.withCredentials = true
@@ -60,16 +58,15 @@ class SwagCli {
   }
 
   setSpecsInStore () {
-    
     this.store && this.store.commit(`${this.storeModuleName}/setSpecs`, this.specAndAuth)
   }
 
   // _setSecurity () {
   //   // cf : https://github.com/swagger-api/swagger-js/blob/HEAD/docs/usage/http-client.md
-  //   
+  //
   //   return this.cli.then(
   //     client => {
-  //       
+  //
   //       this.security = client.spec.securityDefinitions
   //     }
   //   )
@@ -78,7 +75,6 @@ class SwagCli {
   _requestInterceptor (req, needAuth) {
     // swagger client request interceptor
     const authHeader = this.specAndAuth.authorizationHeader
-    
 
     // update request's headers => append authorization header if needAuth == true
     req.headers = needAuth ? { ...req.headers, ...authHeader } : req.headers
@@ -91,7 +87,6 @@ class SwagCli {
     // req.credentials = needAuth ? 'include' : 'same-origin' // include | same-origin | omit
     // req.credentials = this.specAndAuth.credentials || 'same-origin'
 
-    
     return req
   }
 
@@ -101,10 +96,8 @@ class SwagCli {
     return this.cli.then(
       // once client is ready trigger the api's path
       client => {
-        
         // get endpoint by resolving endpoint's path in client.apis
-        
-        
+
         // params && console.log('>>> SwagCli > _request >> params : ', params)
         // body && console.log('>>> SwagCli > _request >> body : ', body)
 
@@ -115,7 +108,6 @@ class SwagCli {
         }
         request = params ? { ...request, parameters: params } : request
         request = body ? { ...request, body: body } : request
-        
 
         // execute request
         const endpoint = client.execute(request)

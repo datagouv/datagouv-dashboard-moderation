@@ -3,10 +3,8 @@ export default function getLocale ({ next, store, router }) {
   const prefixLocale = `${prefixLocalStorage}Locale`
   const localeFromLocalStorage = localStorage[prefixLocale]
   const localeFromStore = store.state.global.locale
-  
 
   if (localeFromLocalStorage && localeFromStore !== localeFromLocalStorage) {
-    
     store.dispatch('global/changeLocale', localeFromLocalStorage)
   }
   if (!localeFromLocalStorage) {

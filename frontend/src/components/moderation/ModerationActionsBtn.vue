@@ -167,8 +167,7 @@ export default {
     },
     markSelection (category) {
       // TO DO
-      
-      
+
       const respData = { msg: `response action : ${this.endpoint}-${category}` }
       this.emitResponse(respData)
     },
@@ -193,7 +192,7 @@ export default {
       // API._request(this.putOperationId, { params, body, needAuth: true }).then(
       //   results => {
       //     this.isLoading = false
-      //     
+      //
       //   },
       //   reason => {
       //     console.error(`-C- EditItemBtn > failed on api call: ${reason}`)

@@ -22,9 +22,6 @@ export default {
   data () {
     return {}
   },
-  created () {
-    
-  },
   computed: {
     ...mapState({
       log: (state) => state.global.log,
@@ -36,9 +33,7 @@ export default {
   },
   methods: {
     goBack (e) {
-      
       e.preventDefault()
-      
       this.$router.push(this.lastPath)
     }
   }

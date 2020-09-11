@@ -182,7 +182,6 @@ export default {
     }
   },
   created () {
-    
     this.getUserActivity()
   },
   watch: {
@@ -205,7 +204,6 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      
       switch (evt.category) {
         case 'openEdit':
           this.edit = true
@@ -214,12 +212,10 @@ export default {
     },
     getUserActivity () {
       const API = this.$APIcli
-      
       const params = { user: this.userId }
       this.isLoading = true
       API._request(this.activityOperationId, { params }).then(
         results => {
-          
           this.userActivity = results.body
           this.isLoading = false
         },
@@ -232,7 +228,6 @@ export default {
     updateUser (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      
       this.isLoading = true
       const params = {
         user: this.userId,
@@ -242,7 +237,6 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          
           this.user = results.body
         },
         reason => {

@@ -68,9 +68,6 @@ export default {
       show: false
     }
   },
-  created () {
-    
-  },
   computed: {
     ...mapState({
       log: (state) => state.global.log,

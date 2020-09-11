@@ -61,8 +61,6 @@ export default {
     },
     markItem (category) {
       // TO DO
-      
-      
       const respData = { msg: `response action : ${this.endpoint}-${category}` }
       this.emitResponse(respData)
     }

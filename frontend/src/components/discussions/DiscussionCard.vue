@@ -143,8 +143,6 @@ export default {
       closeDiscussion: false
     }
   },
-  created () {
-  },
   watch: {
     discussionData (next) {
       if (next) {

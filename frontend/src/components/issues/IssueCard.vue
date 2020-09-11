@@ -143,8 +143,6 @@ export default {
       closeIssue: false
     }
   },
-  created () {
-  },
   watch: {
     issueData (next) {
       if (next) {

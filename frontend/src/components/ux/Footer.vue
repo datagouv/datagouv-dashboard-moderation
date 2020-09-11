@@ -51,16 +51,10 @@ export default {
       // isFixed: false
     }
   },
-  created () {
-    
-  },
   computed: {
     ...mapState({
       log: (state) => state.global.log
     })
-  },
-  methods: {
-
   }
 }
 </script>

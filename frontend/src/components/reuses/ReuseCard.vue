@@ -155,9 +155,6 @@ export default {
       closeReuse: false
     }
   },
-  created () {
-    
-  },
   watch: {
     reuseData (next) {
       if (next) {
@@ -190,7 +187,6 @@ export default {
     updateReuse (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      
       this.isLoading = true
       const params = {
         reuse: this.reuseId,
@@ -200,7 +196,6 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          
           this.reuse = results.body
         },
         reason => {

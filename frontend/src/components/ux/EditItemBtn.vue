@@ -171,7 +171,6 @@ export default {
     }
   },
   created () {
-    
     if (Array.isArray(this.hideFields)) { this.hide = this.hideFields }
   },
   computed: {
@@ -209,8 +208,6 @@ export default {
     },
     editItem (category) {
       // TO DO
-      
-      
       const respData = {
         category: category,
         msg: `response action : ${this.endpoint}-${category}`
