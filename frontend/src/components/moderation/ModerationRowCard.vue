@@ -59,7 +59,8 @@
             {{ $t('moderation.comments') }}
           </p>
           <ModerationComments
-            :comments="item.comments"
+            :dgfType="dgfType"
+            :item="item"
           />
         </b-col>
 
@@ -134,7 +135,7 @@
 
       <!-- COMMENTS -->
       <b-row v-if="hasHeader" class="mb-2" align-h="center">
-        <b-col :sm="10" class="mb-3">
+        <b-col :sm="10" class="mb-0">
           <hr>
           <p class="font-weight-bold">
             {{ $t('moderation.comments') }}
@@ -142,7 +143,8 @@
         </b-col>
         <b-col :sm="10">
           <ModerationComments
-            :comments="item.comments"
+            :dgfType="dgfType"
+            :item="item"
           />
         </b-col>
       </b-row>

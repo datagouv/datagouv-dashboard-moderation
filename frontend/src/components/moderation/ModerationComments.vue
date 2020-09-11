@@ -23,8 +23,8 @@
           v-model="formCommentVisible"
           >
           <b-form
-            @submit="onSubmit"
-            @reset="onReset"
+            @submit="submitComment"
+            @reset="resetTextArea"
             class="mb-5"
             v-if="show"
             >
@@ -60,15 +60,29 @@
 
     <!-- COMMENTS -->
     <b-row
-      v-for="(comment, index) in comments"
+      v-for="(comment, index) in item.comments"
       :key="index"
       :align-h="comment.user_id === userId ? 'center' : 'start'"
       >
       <b-col cols="10">
         <b-card
-          :class="`mb-3 ${comment.user_id === userId ? 'bg-info text-white' : 'bg-light text-grey'}`"
+          no-body
+          :class="`px-3 pb-4 pt-0 mb-3 mt-0 ${comment.user_id === userId ? 'bg-info text-white' : 'bg-light text-grey'}`"
           >
-          <b-card-body>
+          <b-row class="mt-0 p-1" align-h="end">
+            <b-button
+              size="sm"
+              variant="link"
+              @click="deleteComment(comment.id)"
+              >
+              <b-icon
+                icon="x"
+                :variant="comment.user_id === userId ? 'white' : ''"
+              >
+              </b-icon>
+            </b-button>
+          </b-row>
+          <b-card-body class="py-0">
             <b-card-text class="text-left">
               <b-row>
                 <b-col cols="2">
@@ -80,7 +94,9 @@
                   </b-icon>
                 </b-col>
                 <b-col>
-                  {{ comment.content }}
+                  <p>
+                    {{ comment.content }}
+                  </p>
                 </b-col>
               </b-row>
             </b-card-text>
@@ -112,7 +128,8 @@ import { mapState } from 'vuex'
 export default {
   name: 'ModerationComments',
   props: [
-    'comments'
+    'dgfType',
+    'item'
   ],
   data () {
     return {
@@ -131,14 +148,31 @@ export default {
     }
   },
   methods: {
-    async addModerationComment (comment) {
-      console.log('-C- ModerationComments > addModerationComment > comment : ', comment)
-    },
-    onSubmit (evt) {
+    // async addModerationComment (comment) {
+    //   console.log('-C- ModerationComments > addModerationComment > comment : ', comment)
+    // },
+    async submitComment (evt) {
       evt.preventDefault()
-      alert(JSON.stringify(this.commentContent))
+      console.log('-C- ModerationComments > submitComment > this.item : ', this.item)
+      if (this.commentContent.length > 0) {
+        const comment = {
+          author: `${this.userData.first_name} ${this.userData.last_name}`,
+          user_id: this.userId,
+          written_at: Date.now(),
+          content: this.commentContent
+        }
+        console.log('-C- ModerationComments > submitComment > comment : ', comment)
+        const moderationCommentsUpdated = [
+          comment,
+          ...this.item.comments
+        ]
+        console.log('-C- ModerationComments > submitComment > moderationCommentsUpdated : ', moderationCommentsUpdated)
+        const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, this.item, 'comments', moderationCommentsUpdated)
+        console.log('-C- ModerationComments > submitComment > updatedItem : ', updatedItem)
+      }
+      this.commentContent = ''
     },
-    onReset (evt) {
+    resetTextArea (evt) {
       evt.preventDefault()
       // Reset our form values
       this.commentContent = ''
@@ -147,6 +181,10 @@ export default {
       this.$nextTick(() => {
         this.show = true
       })
+    },
+    async deleteComment (commentId) {
+      const deletedItem = await this.$MODERATIONcli.deleteComment(this.item.id, commentId)
+      console.log('-C- ModerationCheckbox > deleteComment > deletedItem : ', deletedItem)
     }
   }
 }

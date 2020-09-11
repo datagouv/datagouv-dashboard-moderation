@@ -152,6 +152,44 @@ class ModerationLib {
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {}
   }
+
+  async addComment (dgfObjectId, comment) {
+    console.log('>>> ModerationLib > addComment >  dgfObjectId :', dgfObjectId)
+    console.log('>>> ModerationLib > addComment >  comment :', comment)
+    const url = `${this.moderationServer}/objects/${dgfObjectId}/comments/>`
+    const config = {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: comment
+    }
+    try {
+      const response = await fetch(url, config)
+      this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
+      return response
+    } catch (error) {
+      console.log('>>> ModerationLib > addComment > error', error)
+      this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+    } finally {}
+  }
+
+  async deleteComment (dgfObjectId, commentId) {
+    console.log('>>> ModerationLib > deleteComment >  dgfObjectId :', dgfObjectId)
+    console.log('>>> ModerationLib > deleteComment >  commentId :', commentId)
+    const url = `${this.moderationServer}/objects/${dgfObjectId}/comments/${commentId}`
+    const config = {
+      method: 'DELETE',
+      headers: { 'content-type': 'application/json' },
+      body: {}
+    }
+    try {
+      const response = await fetch(url, config)
+      this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
+      return response
+    } catch (error) {
+      console.log('>>> ModerationLib > deleteComment > error', error)
+      this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+    } finally {}
+  }
 }
 
 /**************************************************************

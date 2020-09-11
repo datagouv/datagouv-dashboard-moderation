@@ -90,9 +90,6 @@ export default {
   },
   methods: {
     async updateModeration (item, field, evt) {
-      
-      
-      
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
       console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
     },
@@ -104,11 +101,9 @@ export default {
       return color
     },
     getIcon (field) {
-      
       const fieldIcons = this.buttons[field]
       const bool = this.item[field]
       const index = Boolean(bool)
-      
       const icon = index ? fieldIcons.icons[1] : fieldIcons.icons[0]
       return icon
     }
