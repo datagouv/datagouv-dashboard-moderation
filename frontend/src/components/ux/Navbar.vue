@@ -58,7 +58,7 @@
           </b-nav-form> -->
 
           <!-- USER -->
-          <b-nav-item-dropdown right>
+          <b-nav-item-dropdown right no-caret>
             <template v-slot:button-content>
               <em>
                 <span v-if="!isLoading">
