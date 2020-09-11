@@ -8,7 +8,7 @@
     </b-breadcrumb>
 
     <h2>
-      Me
+      {{$t('settings.myProfile')}}
     </h2>
 
     <br>
@@ -19,50 +19,82 @@
       style="width: 600px;"
       >
       <hr>
-      user (store) :
-      <code>
-        {{userData}}
-      </code>
-    </b-card>
+      {{$t('basics.user')}}
 
+      <RawData
+        :customClass="`mb-3`"
+        :see="true"
+        title="user data"
+        :dataRaw="userData"
+      ></RawData>
+
+      <RawData
+        :customClass="`my-3`"
+        :see="false"
+        title="user activity"
+        :dataRaw="userActivity"
+      ></RawData>
+
+    </b-card>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 
+import RawData from '@/components/ux/RawData.vue'
+
 export default {
   name: 'Profile',
+  components: {
+    RawData
+  },
   data () {
     return {
+      isLoading: false,
+      activityOperationId: 'activity',
+      userActivity: undefined,
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Settings',
+          text: this.$t('basics.settings'),
           to: '/settings'
         },
         {
-          text: 'Profile',
-          // to: '/settings/profile'
+          text: this.$t('basics.profile'),
           active: true
         }
-        // {
-        //   text: 'Me',
-        //   active: true
-        // }
       ]
     }
   },
   created () {
+    this.getUserActivity()
   },
   computed: {
     ...mapState({
       log: (state) => state.global.log,
       userData: (state) => state.user.user
     })
+  },
+  methods: {
+    getUserActivity () {
+      const API = this.$APIcli
+      const params = { user: this.userId }
+      this.isLoading = true
+      API._request(this.activityOperationId, { params }).then(
+        results => {
+          this.userActivity = results.body
+          this.isLoading = false
+        },
+        reason => {
+          console.error(`failed on api call: ${reason}`)
+          this.isLoading = false
+        }
+      )
+    }
   }
 }
 

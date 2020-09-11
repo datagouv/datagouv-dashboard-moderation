@@ -1,0 +1,66 @@
+// cf : https://bootstrap-vue.org/docs/reference/theming
+
+$dgf-grey: #232323;
+$dgf-light-grey: #d7d7d7;
+$dgf-medium-grey: #2d2d2d;
+$dgf-dark-grey: #232323;
+$dgf-text-grey: #9b9b9b;
+
+$dgf-blue: #0883f2;
+$dgf-light-blue: #eef9ff;
+$dgf-medium-blue: #b8e2ff;
+$dgf-medium-alt-blue: #7db0ef;
+$dgf-deep-blue: #1f70ff;
+$dgf-dark-blue: #070d54;
+
+$dgf-red: #ff5900;
+
+$dgf-green: #00be7b;
+$dgf-green-deep: #008452;
+
+$primary: $dgf-blue;
+// $secondary: $dgf-blue;
+$success: $dgf-green;
+$danger: $dgf-red;
+// $warning: $dgf-blue;
+// $info: $dgf-deep-blue;
+$info: $dgf-medium-alt-blue;
+// $dark: $dgf-blue;
+
+// Include Bootstrap and BootstrapVue SCSS files
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
+
+.pill-override > .btn {
+  border-radius: 50rem !important;
+}
+.white-override .btn {
+  color: white !important;
+  border-color: white !important;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}

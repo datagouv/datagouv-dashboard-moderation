@@ -7,11 +7,8 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <h1>Naked vue data.gouv.fr</h1>
-    <p>... so sexy ...</p>
-
     <h2>
-      Login
+      {{ $t('settings.logIn') }}
     </h2>
 
     <h3 v-if="isLoading">
@@ -73,29 +70,25 @@ export default {
       loginResponse: '(tokens are being requested right now to server)',
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Login',
+          text: this.$t('settings.logIn'),
           active: true
         }
       ]
     }
   },
   created () {
-    console.log('-V- LOGIN > created ...')
     // this.localStorageContainer.state = localStorage.dgfState
     // this.localStorageContainer.codeVerifier = localStorage.dgfCodeVerifier
-    console.log('-V- LOGIN > created > this.tokens :', this.tokens)
   },
   async mounted () {
-    console.log('-V- LOGIN > mounted ...')
     this.isLoading = true
     try {
       this.loginResponse = 'we are requesting your tokens to the oauth server... please wait'
       const resp = await this.$OAUTHcli.retrieveToken()
-      console.log('-V- LOGIN > created > resp :', resp)
       if (resp && resp.error) throw resp.error
 
       // this.localStorageContainer.accessToken = this.tokens.access.value
@@ -109,16 +102,12 @@ export default {
       const authOptions = {
         bearerAuth: this.tokens.access.value
       }
-      console.log('-V- LOGIN > created > authOptions :', authOptions)
       this.$APIcli.resetCli(authOptions)
-
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
-
-      console.log('-V- LOGIN > created > this.$APIcli.specAndAuth.authorizationHeader :', this.$APIcli.specAndAuth.authorizationHeader)
-      // this.$router.push(this.redirection)
+      // log into moderation API
+      await this.$MODERATIONcli.login(this.tokens.access.value)
       this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
-      console.log('error', ex)
       this.loginResponse = `${ex} ... please try to authenticate again`
     } finally {
       this.isLoading = false
@@ -133,9 +122,7 @@ export default {
   // methods: {
   //   async submitLogout (evt) {
   //     evt.preventDefault()
-  //     console.log('\n-V- AUTHORIZE_CLIENT_ID > submitLogout ...')
   //     const response = await this.$OAUTHcli.logout()
-  //     console.log('-V- AUTHORIZE_CLIENT_ID > submitLogout > response :', response)
   //   }
   // }
 }

@@ -7,16 +7,10 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <h2>
-      Organizations list
-    </h2>
-
-    <br>
-
-    <!-- DISPLAY DISCUSSIONS IN TABLE -->
+    <!-- DISPLAY ORGANIZATIONS IN TABLE -->
     <OrganizationsList
       height="800px"
-      width="900px"
+      width="1200px"
       >
     </OrganizationsList>
 
@@ -37,11 +31,11 @@ export default {
     return {
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Organizations',
+          text: this.$t('basics.organizations', { list: '' }),
           active: true
         }
       ]

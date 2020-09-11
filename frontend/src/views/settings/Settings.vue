@@ -8,7 +8,7 @@
     </b-breadcrumb>
 
     <h2>
-      Settings
+      {{ $t('basics.settings') }}
     </h2>
 
     <br>
@@ -16,7 +16,7 @@
     <div>
       <b-button
         to="/settings/profile">
-        My profile
+        {{ $t('settings.myProfile') }}
       </b-button>
     </div>
 
@@ -32,11 +32,11 @@ export default {
     return {
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Settings',
+          text: this.$t('basics.settings'),
           active: true
         }
       ]

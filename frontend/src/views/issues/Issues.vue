@@ -7,12 +7,6 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <h2>
-      Issues list
-    </h2>
-
-    <br>
-
     <!-- DISPLAY ISSUES IN TABLE -->
     <IssuesList
       height="800px"
@@ -37,11 +31,11 @@ export default {
     return {
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Issues',
+          text: this.$t('basics.issues', { list: '' }),
           active: true
         }
       ]

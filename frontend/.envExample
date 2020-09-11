@@ -3,6 +3,10 @@ NODE_ENV=dev_no_linting
 VUE_APP_LOG_MODE=True
 VUE_APP_DEV_MODE=True
 
+### MODERATION API
+VUE_APP_MODERATION_API=https://moderation.app.etalab.studio/api
+VUE_APP_MODERATION_API_DEV=https://moderation.app.etalab.studio/api
+
 ### API MAPPING
 VUE_APP_SWAGGER_URL=https://demo.data.gouv.fr/api/1/swagger.json
 # VUE_APP_API_KEY=my.api.key-here-there # optional
@@ -16,7 +20,4 @@ VUE_APP_OAUTH_REDIRECT=/login
 VUE_APP_OAUTH_FLOW=pkce
 
 ### settings for localStorage
-VUE_APP_OAUTH_STATE_NAME=dgfState
-VUE_APP_OAUTH_CODE_VERIFIER_NAME=dgfCodeVerif
-VUE_APP_OAUTH_ACCESS_TOKEN_NAME=dgfAccessToken
-VUE_APP_OAUTH_REFRESH_TOKEN_NAME=dgfRefreshToken
+VUE_APP_OAUTH_LS_PREFIX=dgfState

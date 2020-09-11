@@ -7,16 +7,9 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <h2>
-      Users list
-    </h2>
-
-    <br>
-
-    <!-- DISPLAY DATASETS IN TABLE -->
+    <!-- DISPLAY USERS IN TABLE -->
     <UsersList
       height="800px"
-      width="900px"
       >
     </UsersList>
 
@@ -37,11 +30,11 @@ export default {
     return {
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Users',
+          text: this.$t('basics.users', { list: '' }),
           active: true
         }
       ]

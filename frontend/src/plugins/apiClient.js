@@ -10,7 +10,7 @@ class SwagCli {
 
     // retrieve spec from options
     this.spec = options.swaggerUrl
-    console.log('>>> SwagCli > init > this.spec : ', this.spec)
+    
 
     // instantiate client
     this.resetCli(options)
@@ -48,9 +48,9 @@ class SwagCli {
   }
 
   resetCli (authOptions) {
-    console.log('>>> SwagCli > resetCli > authOptions : ', authOptions)
+    
     this.specAndAuth = this.buildSpecAndAuth(authOptions)
-    console.log('>>> SwagCli > resetCli > this.specAndAuth : ', this.specAndAuth)
+    
     // Activate CORS or not
     // if (authOptions.activateCORS) {
     //   SwaggerClient.http.withCredentials = true
@@ -60,16 +60,16 @@ class SwagCli {
   }
 
   setSpecsInStore () {
-    console.log('>>> SwagCli > setSpecsInStore > this.specAndAuth : ', this.specAndAuth)
+    
     this.store && this.store.commit(`${this.storeModuleName}/setSpecs`, this.specAndAuth)
   }
 
   // _setSecurity () {
   //   // cf : https://github.com/swagger-api/swagger-js/blob/HEAD/docs/usage/http-client.md
-  //   // console.log('>>> SwagCli > _setSecurity ...')
+  //   
   //   return this.cli.then(
   //     client => {
-  //       // console.log('>>> SwagCli > _setSecurity >> client.spec.securityDefinitions : ', client.spec.securityDefinitions)
+  //       
   //       this.security = client.spec.securityDefinitions
   //     }
   //   )
@@ -78,7 +78,7 @@ class SwagCli {
   _requestInterceptor (req, needAuth) {
     // swagger client request interceptor
     const authHeader = this.specAndAuth.authorizationHeader
-    console.log('>>> SwagCli > requestInterceptor >> authHeader : ', authHeader)
+    
 
     // update request's headers => append authorization header if needAuth == true
     req.headers = needAuth ? { ...req.headers, ...authHeader } : req.headers
@@ -91,7 +91,7 @@ class SwagCli {
     // req.credentials = needAuth ? 'include' : 'same-origin' // include | same-origin | omit
     // req.credentials = this.specAndAuth.credentials || 'same-origin'
 
-    console.log('>>> SwagCli > requestInterceptor >> req : ', req)
+    
     return req
   }
 
@@ -101,12 +101,12 @@ class SwagCli {
     return this.cli.then(
       // once client is ready trigger the api's path
       client => {
-        console.log('- - - NEW REQUEST vvv', '- '.repeat(20))
+        
         // get endpoint by resolving endpoint's path in client.apis
-        console.log('>>> SwagCli > _request >> client : ', client)
-        console.log('>>> SwagCli > _request >> operationId : ', operationId)
-        params && console.log('>>> SwagCli > _request >> params : ', params)
-        body && console.log('>>> SwagCli > _request >> body : ', body)
+        
+        
+        // params && console.log('>>> SwagCli > _request >> params : ', params)
+        // body && console.log('>>> SwagCli > _request >> body : ', body)
 
         // build request
         let request = {
@@ -115,7 +115,7 @@ class SwagCli {
         }
         request = params ? { ...request, parameters: params } : request
         request = body ? { ...request, body: body } : request
-        console.log('>>> SwagCli > _request >> request : ', request)
+        
 
         // execute request
         const endpoint = client.execute(request)
