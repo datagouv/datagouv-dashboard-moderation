@@ -17,6 +17,13 @@ const translations = {
       connect: 'connectez-vous',
       hello: 'bonjour {name}'
     },
+    auth: {
+      authorizeClientId: "Autoriser l'ID client",
+      loginClientId: "Connexion avec l'ID client",
+      logOut: 'déconnexion',
+      resetApiClient: "réinitialisation de l'API client",
+      setToken: 'Setting token'
+    },
     basics: {
       list: 'liste des ',
       redirection: 'redirection',

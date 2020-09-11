@@ -8,7 +8,7 @@
     </b-breadcrumb>
 
     <h2>
-      Reset API client
+    {{ $t('auth.resetApiClient') }}
     </h2>
 
     <h3 v-if="isLoading">
@@ -41,11 +41,11 @@ export default {
       loginResponse: '(tokens are being requested from oauth store)',
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Reset API client',
+          text: this.$t('auth.resetApiClient'),
           active: true
         }
       ]

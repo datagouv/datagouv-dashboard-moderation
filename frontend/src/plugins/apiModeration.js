@@ -8,11 +8,7 @@ class ModerationLib {
   constructor (options, store) {
     this.store = store
     this.storeModuleName = options.storeModuleName
-
     this.moderationServer = options.moderationServer
-
-    // debugging
-    
   }
 
   /**************************************************************
@@ -34,23 +30,17 @@ class ModerationLib {
     } catch (error) {
       console.log('>>> ModerationLib > login > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
-    } finally {
-      
-    }
+    } finally {}
   }
 
   async logout () {
-    
-
     const url = `${this.moderationServer}/logout`
-    
     const config = {
       method: 'GET',
       headers: { 'content-type': 'application/json' }
     }
     try {
       const response = await fetch(url, config)
-      
       this.store.commit(`${this.storeModuleName}/resetLogin`)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, 'you are now logged out from moderation ')
       // this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
@@ -58,18 +48,13 @@ class ModerationLib {
     } catch (error) {
       console.log('>>> ModerationLib > logout > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
-    } finally {
-      
-    }
+    } finally {}
   }
 
   /**************************************************************
    * moderation formatting
    */
   formatModerationItem (dgfType, item, field, value) {
-    
-    
-    
     const itemModerationData = {
       dgf_type: dgfType,
       dgf_id: item.id,
@@ -79,7 +64,6 @@ class ModerationLib {
       deleted: item.deleted || false
     }
     itemModerationData[field] = value
-    
     return itemModerationData
   }
 
@@ -102,13 +86,12 @@ class ModerationLib {
         dgf_object_id: ''
       }
     ]
-    
     return {
       ...obj,
       read: itemStatus.read || false,
       suspicious: itemStatus.suspicious || false,
       deleted: itemStatus.deleted || false,
-      comments: itemStatus.comments || commentsDummy
+      comments: itemStatus.comments || commentsDummy // []
     }
   }
 
@@ -117,27 +100,22 @@ class ModerationLib {
    */
   async getModeration (jsonDataId) {
     const url = `${this.moderationServer}/objects/${jsonDataId}`
-    
     const config = {
       method: 'GET',
       headers: { 'content-type': 'application/json' }
     }
     try {
       const response = await fetch(url, config)
-      
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       return response
     } catch (error) {
       console.log('>>> ModerationLib > getModeration > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
-    } finally {
-      
-    }
+    } finally {}
   }
 
   async postModeration (dgfType, item, field, evt) {
     const url = `${this.moderationServer}/objects`
-    
     const moderationData = this.formatModerationItem(dgfType, item, field, evt)
     console.log('>>> ModerationLib > postModeration >  moderationData :', moderationData)
     const config = {
@@ -147,20 +125,16 @@ class ModerationLib {
     }
     try {
       const response = await fetch(url, config)
-      
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       return response
     } catch (error) {
       console.log('>>> ModerationLib > postModeration > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
-    } finally {
-      
-    }
+    } finally {}
   }
 
   async updateModeration (dgfType, item, field, evt) {
     const url = `${this.moderationServer}/objects`
-    
     const moderationData = this.formatModerationItem(dgfType, item, field, evt)
     console.log('>>> ModerationLib > updateModeration >  moderationData :', moderationData)
     const config = {
@@ -170,15 +144,12 @@ class ModerationLib {
     }
     try {
       const response = await fetch(url, config)
-      
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       return response
     } catch (error) {
       console.log('>>> ModerationLib > updateModeration > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
-    } finally {
-      
-    }
+    } finally {}
   }
 }
 
@@ -190,6 +161,7 @@ export const moduleAuth = {
   namespaced: true,
   state: () => ({
     moderationServer: process.env.VUE_MODERATION_API,
+    // moderationAuth: {},
     moderationLogin: undefined,
     moderationResponse: undefined
   }),
@@ -223,7 +195,6 @@ const MODERATIONcli = {
     const moduleName = options.storeModuleName ? options.storeModuleName : 'moderation'
     options.storeModuleName = moduleName
     store.registerModule(moduleName, moduleAuth)
-
     // declare client as a global prototype in Vue
     Vue.prototype.$MODERATIONcli = new ModerationLib(options, store)
   }
