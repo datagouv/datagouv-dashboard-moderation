@@ -32,19 +32,27 @@
               id="textarea"
               v-model="commentContent"
               :placeholder="$t('moderation.addComment')"
-              rows="3"
-              max-rows="6"
+              rows="5"
+              max-rows="10"
               class="mb-2"
               >
             </b-form-textarea>
-            <b-button block type="submit" variant="success">
-              <b-icon icon="check2" aria-hidden="true"></b-icon>
-              {{$t('actions.comment')}}
-            </b-button>
-            <b-button block type="reset" variant="danger">
-              <b-icon icon="x" aria-hidden="true"></b-icon>
-              {{$t('actions.reset')}}
-            </b-button>
+
+            <b-form-row class="mt-3">
+              <b-col cols="6">
+                <b-button block class="" type="reset" variant="danger">
+                  <b-icon icon="x" aria-hidden="true"></b-icon>
+                  {{$t('actions.reset')}}
+                </b-button>
+              </b-col>
+              <b-col>
+                <b-button block class="" type="submit" variant="success">
+                  <b-icon icon="check2" aria-hidden="true"></b-icon>
+                  {{$t('actions.comment')}}
+                </b-button>
+              </b-col>
+            </b-form-row>
+
           </b-form>
         </b-collapse>
       </b-col>
@@ -58,7 +66,7 @@
       >
       <b-col cols="10">
         <b-card
-          :class="`mb-3 ${comment.user_id === userId ? 'bg-info text-white' : 'bg-dark text-white'}`"
+          :class="`mb-3 ${comment.user_id === userId ? 'bg-info text-white' : 'bg-light text-grey'}`"
           >
           <b-card-body>
             <b-card-text class="text-left">
@@ -67,7 +75,7 @@
                   <b-icon
                     icon="three-dots"
                     aria-hidden="true"
-                    :class="`h3 ${comment.user_id === userId ? 'text-white' : 'text-white'}`"
+                    :class="`h3 ${comment.user_id === userId ? 'text-white' : 'text-grey'}`"
                     >
                   </b-icon>
                 </b-col>

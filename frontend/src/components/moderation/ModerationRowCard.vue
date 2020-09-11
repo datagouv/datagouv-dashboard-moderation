@@ -23,7 +23,7 @@
       <b-row v-if="!hasHeader" class="mb-2">
 
         <b-col
-          :sm="4"
+          :sm="3"
           class="bg-light p-4 ml-4"
           >
           <p class="font-weight-bold">

@@ -2,7 +2,7 @@
   <b-card-text>
     <b-container
       fluid
-      class="my-4 py-5 bg-primary"
+      class="my-4 py-5 bg-info"
       >
       <b-row>
         <b-col

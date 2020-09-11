@@ -16,6 +16,7 @@ class ModerationLib {
    */
   async login (clientToken) {
     const url = `${this.moderationServer}/submit-token`
+    console.log('>>> ModerationLib > login >  clientToken :', clientToken)
     const config = {
       method: 'POST',
       body: { token: clientToken }
