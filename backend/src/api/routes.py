@@ -18,7 +18,6 @@ class LoginSchema(Schema):
 
 
 class UserSchema(Schema):
-    id = fields.Int(dump_only=True)
     first_name = fields.Str(required=True)
     last_name = fields.Str(required=True)
     email = fields.Email(required=True)
@@ -37,7 +36,6 @@ class CommentSchema(Schema):
 
 
 class ObjectSchema(Schema):
-    id = fields.Int(dump_only=True)
     suspicious = fields.Boolean(required=True)
     read = fields.Boolean(required=True)
     deleted = fields.Boolean(required=True)
@@ -110,7 +108,7 @@ def create_object(user):
 @bp.route('/objects/<dgf_object_id>', methods=['GET'])
 @login_required
 def get_object(user, dgf_object_id):
-    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    dgf_object = DgfObject.query.filter_by(dgf_id=dgf_object_id).first()
     if dgf_object is None:
         return make_response(('Object not found', 404))
     schema = ObjectSchema()
@@ -121,7 +119,7 @@ def get_object(user, dgf_object_id):
 @bp.route('/objects/<dgf_object_id>', methods=['PUT'])
 @login_required
 def update_object(user, dgf_object_id):
-    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    dgf_object = DgfObject.query.filter_by(dgf_id=dgf_object_id).first()
     if dgf_object is None:
         return make_response(('Object not found', 404))
     data = request.get_json(force=True) or {}
@@ -138,7 +136,7 @@ def update_object(user, dgf_object_id):
 @bp.route('/objects/<dgf_object_id>', methods=['DELETE'])
 @login_required
 def delete_object(user, dgf_object_id):
-    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    dgf_object = DgfObject.query.filter_by(dgf_id=dgf_object_id).first()
     if dgf_object is None:
         return make_response(('Object not found', 404))
     db.session.delete(dgf_object)
@@ -149,7 +147,7 @@ def delete_object(user, dgf_object_id):
 @bp.route('/objects/<dgf_object_id>/comments', methods=['POST'])
 @login_required
 def comment_object(user, dgf_object_id):
-    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    dgf_object = DgfObject.query.filter_by(dgf_id=dgf_object_id).first()
     if dgf_object is None:
         return make_response(('Object not found', 404))
 
@@ -172,7 +170,7 @@ def comment_object(user, dgf_object_id):
 @bp.route('/objects/<dgf_object_id>/comments/<comment_id>', methods=['DELETE'])
 @login_required
 def delete_object_comment(user, dgf_object_id, comment_id):
-    dgf_object = DgfObject.query.filter_by(id=dgf_object_id).first()
+    dgf_object = DgfObject.query.filter_by(dgf_id=dgf_object_id).first()
     if dgf_object is None:
         return make_response(('Object not found', 404))
     comment = Comment.query.filter_by(id=comment_id).first()
