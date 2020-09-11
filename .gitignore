@@ -33,3 +33,4 @@ pnpm-debug.log*
 */venv
 */pyenv
 */py_env
+*/python_env
