@@ -51,18 +51,17 @@ export default {
       // user: undefined,
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Get your user data',
+          text: this.$t('settings.getUserData'),
           active: true
         }
       ]
     }
   },
   created () {
-    
     this.retrieveUserDataFromCli()
   },
   computed: {
@@ -77,7 +76,6 @@ export default {
       this.isLoading = true
       this.$APIcli._request(this.operationId, { needAuth: true }).then(
         results => {
-          
           this.isLoading = false
           // this.user = results.body
           this.$store.commit('user/setUser', results.body)

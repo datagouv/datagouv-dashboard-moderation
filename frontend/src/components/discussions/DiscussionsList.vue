@@ -172,7 +172,7 @@
 
         <template v-slot:cell(id)="data">
           <router-link
-            class="text-info"
+            class="text-primary"
             :to="`/discussions/${data.value}`"
             >
             {{ data.value }}
@@ -185,7 +185,7 @@
 
         <template v-slot:cell(title)="data">
           <router-link
-            class="text-info"
+            class="text-primary"
             :to="`/discussions/${data.item.id}`"
             >
             <span>

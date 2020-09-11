@@ -58,7 +58,7 @@
           </b-nav-form> -->
 
           <!-- USER -->
-          <b-nav-item-dropdown right>
+          <b-nav-item-dropdown right no-caret>
             <template v-slot:button-content>
               <em>
                 <span v-if="!isLoading">
@@ -111,7 +111,9 @@
         </b-navbar-nav>
       </b-collapse>
 
-      <b-navbar-nav class="ml-auto">
+      <b-navbar-nav
+        :class="`ml-auto`"
+        >
         <b-nav-item>
           <b-button
             v-b-toggle:navbar-toggle-search
@@ -175,9 +177,7 @@ export default {
       ]
     }
   },
-  created () {
-    
-  },
+  created () {},
   computed: {
     ...mapState({
       log: (state) => state.global.log,
@@ -191,14 +191,13 @@ export default {
   },
   methods: {
     async submitLogin () {
-      
       // login with OAUTH
       this.isLoading = true
       this.$OAUTHcli.login(this.clientId)
     },
     async submitLogout () {
       // evt.preventDefault()
-      
+
       this.isLoading = true
       await this.$OAUTHcli.logout()
 
@@ -207,9 +206,7 @@ export default {
 
       this.$store.commit('user/resetUser')
       this.isLoading = false
-      
-      
-      
+
       if (this.$router.currentRoute.path !== '/') {
         this.$router.push('/')
       }
@@ -229,6 +226,8 @@ a {
   color: $dgf-grey !important;
   font-weight: bold;
   border-bottom: 4px solid $dgf-blue;
+  margin-bottom: -25px;
+  padding-bottom: 24px;
 }
 
 .light-bottom-border {

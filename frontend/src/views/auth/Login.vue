@@ -8,7 +8,7 @@
     </b-breadcrumb>
 
     <h2>
-      Login
+      {{ $t('settings.logIn') }}
     </h2>
 
     <h3 v-if="isLoading">
@@ -70,11 +70,11 @@ export default {
       loginResponse: '(tokens are being requested right now to server)',
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Login',
+          text: this.$t('settings.logIn'),
           active: true
         }
       ]
@@ -122,9 +122,7 @@ export default {
   // methods: {
   //   async submitLogout (evt) {
   //     evt.preventDefault()
-  //     
   //     const response = await this.$OAUTHcli.logout()
-  //     
   //   }
   // }
 }

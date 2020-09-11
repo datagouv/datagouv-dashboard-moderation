@@ -110,7 +110,7 @@ export default {
       setResponse: '(apiKey not stored yet)',
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         // {
@@ -118,7 +118,7 @@ export default {
         //   to: '/'
         // },
         {
-          text: 'Set API key | token',
+          text: this.$t('auth.setApiToken'),
           active: true
         }
       ]
