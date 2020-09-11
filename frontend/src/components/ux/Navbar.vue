@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sticky-block">
     <b-navbar
       fixed="top"
       sticky
@@ -216,6 +216,12 @@ export default {
 
 <style scoped lang="scss">
 @import '@/css/custom.scss';
+
+.sticky-block {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
 
 a {
   color: $dgf-grey !important;
