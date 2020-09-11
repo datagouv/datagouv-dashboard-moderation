@@ -16,6 +16,17 @@
       </div>
     </template>
 
+    <div
+      v-if="!item"
+      class="py-5 my-5">
+      <b-spinner
+        style="width: 5rem; height: 5rem;"
+        label="loading"
+        variant="primary"
+        >
+      </b-spinner>
+    </div>
+
     <!-- MODERATION DATA -->
     <div v-if="item">
 
@@ -113,6 +124,7 @@
             :item="item"
             :field="'read'"
             @responseAction="callbackAction"
+            spinnerClass="true"
             >
           </ModerationCheckbox>
         </b-col>
@@ -124,6 +136,7 @@
             :item="item"
             :field="'suspicious'"
             @responseAction="callbackAction"
+            spinnerClass="true"
             >
           </ModerationCheckbox>
         </b-col>
@@ -135,6 +148,7 @@
             :item="item"
             :field="'deleted'"
             @responseAction="callbackAction"
+            spinnerClass="true"
             >
           </ModerationCheckbox>
         </b-col>

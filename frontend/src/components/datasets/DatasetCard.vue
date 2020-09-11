@@ -94,6 +94,7 @@
               {{ $t('actions.save') }}
             </b-button>
           </div>
+
           <div v-else>
             <b-spinner label="loading"></b-spinner>
           </div>
@@ -103,9 +104,15 @@
       </b-container>
 
       <!-- EMPTY -->
-      <div v-if="!dataset">
-        <!-- {{ defaultText }} -->
-        <b-spinner label="loading"></b-spinner>
+      <div
+        v-if="!dataset"
+        class="py-5 my-5">
+        <b-spinner
+          style="width: 5rem; height: 5rem;"
+          label="loading"
+          variant="primary"
+          >
+        </b-spinner>
       </div>
 
       <RawData

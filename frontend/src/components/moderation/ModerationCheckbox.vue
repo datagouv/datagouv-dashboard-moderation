@@ -31,8 +31,15 @@
         </b-icon>
       </b-form-checkbox>
     </b-form>
-    <div v-if="isLoading" class="pt-1">
-      <b-spinner small label="loading"></b-spinner>
+    <div v-if="isLoading"
+      :class="spinnerClass ? 'pt-2' : ''"
+      >
+      <b-spinner
+        style="width: 1.5rem; height: 1.5rem;"
+        label="loading"
+        variant="primary"
+        >
+      </b-spinner>
     </div>
   </div>
 </template>
@@ -46,7 +53,8 @@ export default {
   props: [
     'dgfType',
     'item',
-    'field'
+    'field',
+    'spinnerClass'
   ],
   data () {
     return {

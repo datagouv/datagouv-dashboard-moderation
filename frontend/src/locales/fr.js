@@ -102,6 +102,7 @@ const translations = {
       suspicious: 'suspect',
       comments: 'commentaires',
       addComment: 'ajouter un commentaire',
+      enterComment: 'écrivez ici votre commentaire...',
       deleted: 'supprimé',
       moderation: '{prefix}modération',
       moderationFor: 'modération pour',

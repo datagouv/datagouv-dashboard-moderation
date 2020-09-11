@@ -11,9 +11,14 @@
     {{ $t('auth.resetApiClient') }}
     </h2>
 
-    <h3 v-if="isLoading">
-      <b-spinner label="loading"></b-spinner>
-    </h3>
+    <p v-if="isLoading" class="py-5 my-5">
+      <b-spinner
+        style="width: 5rem; height: 5rem;"
+        label="loading"
+        variant="primary"
+        >
+      </b-spinner>
+    </p>
 
     <!-- RESPONSE -->
     <b-card

@@ -13,8 +13,16 @@
 
     <h3 v-if="isLoading" class="mt-3">
       {{$t('actions.wait')}}<br>
-      <b-spinner label="loading"></b-spinner>
     </h3>
+
+    <p v-if="isLoading" class="py-5 my-5">
+      <b-spinner
+        style="width: 5rem; height: 5rem;"
+        label="loading"
+        variant="primary"
+        >
+      </b-spinner>
+    </p>
 
     {{$t('basics.redirection')}}
     <code>

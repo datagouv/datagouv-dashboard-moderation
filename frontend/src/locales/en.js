@@ -103,6 +103,7 @@ const translations = {
       deleted: 'deleted',
       comments: 'comments',
       addComment: 'add a comment',
+      enterComment: 'write your comment here...',
       moderation: '{prefix}moderation',
       moderationFor: 'moderation for',
       markAsRead: 'mark as read',

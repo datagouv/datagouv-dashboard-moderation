@@ -36,7 +36,7 @@
             <b-form-textarea
               id="textarea"
               v-model="commentContent"
-              :placeholder="$t('moderation.addComment')"
+              :placeholder="$t('moderation.enterComment')"
               rows="5"
               max-rows="10"
               class="mb-2"
@@ -89,7 +89,7 @@
             </b-button>
           </b-row>
 
-          <b-card-body class="py-5" v-if="isCommentLoading === comment.id">
+          <b-card-body class="py-2 mb-2" v-if="isCommentLoading === comment.id">
             <b-spinner label="loading"></b-spinner>
           </b-card-body>
 
