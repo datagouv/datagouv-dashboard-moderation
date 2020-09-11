@@ -38,3 +38,6 @@ pnpm-debug.log*
 /pyenv
 /py_env
 /python_env
+
+*/migrations
+/backend/migrations

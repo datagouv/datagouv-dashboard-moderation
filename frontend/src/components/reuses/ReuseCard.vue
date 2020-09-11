@@ -95,9 +95,15 @@
       </b-container>
 
       <!-- EMPTY -->
-      <div v-if="!reuse">
-        <!-- {{ defaultText }} -->
-        <b-spinner label="loading"></b-spinner>
+      <div
+        v-if="!reuse"
+        class="py-5 my-5">
+        <b-spinner
+          style="width: 5rem; height: 5rem;"
+          label="loading"
+          variant="primary"
+          >
+        </b-spinner>
       </div>
 
       <RawData

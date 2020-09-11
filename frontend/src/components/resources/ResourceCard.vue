@@ -4,6 +4,7 @@
     <b-card
       footer-tag="footer"
       :footer="cardFooter"
+      class="bg-dark"
       >
 
       <template v-slot:header>
@@ -27,6 +28,17 @@
 
         <CardTitle
           :title="resource.title"
+          customClass="text-white"
+        />
+
+        <CardProducer
+          :item="resource"
+          customBgClass="bg-success"
+        />
+
+        <CardDescription
+          :text="resource.description"
+          customClass="text-white"
         />
 
       </div>
@@ -135,9 +147,15 @@
       </b-container>
 
       <!-- EMPTY -->
-      <div v-if="!resource">
-        <!-- {{ defaultText }} -->
-        <b-spinner label="loading"></b-spinner>
+      <div
+        v-if="!resource"
+        class="py-5 my-5">
+        <b-spinner
+          style="width: 5rem; height: 5rem;"
+          label="loading"
+          variant="primary"
+          >
+        </b-spinner>
       </div>
 
       <RawData
@@ -157,6 +175,8 @@ import { mapState, mapGetters } from 'vuex'
 import { APIoperations } from '@/config/APIoperations.js'
 
 import CardTitle from '@/components/blocks/CardTitle.vue'
+import CardProducer from '@/components/blocks/CardProducer.vue'
+import CardDescription from '@/components/blocks/CardDescription.vue'
 
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
@@ -165,6 +185,8 @@ export default {
   name: 'ResourceCard',
   components: {
     CardTitle,
+    CardProducer,
+    CardDescription,
     EditItemBtn,
     RawData
   },
