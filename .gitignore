@@ -28,3 +28,8 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# python venvs
+*/venv
+*/pyenv
+*/py_env
