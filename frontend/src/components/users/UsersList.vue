@@ -167,7 +167,7 @@
 
         <template v-slot:cell(id)="data">
           <router-link
-            class="text-info"
+            class="text-primary"
             :to="`/users/${data.value}`"
             >
             {{ data.value }}
@@ -180,7 +180,7 @@
 
         <template v-slot:cell(name)="data">
           <router-link
-            class="text-info"
+            class="text-primary"
             :to="`/users/${data.item.id}`"
             >
             <span>
@@ -323,14 +323,12 @@ export default {
     }
   },
   created () {
-    
     if (this.customFields) { this.fields = this.customFields }
     this.getUsers()
   },
   watch: {
     async users (next) {
       if (next && this.needsModerationData) {
-        
         this.users = await this.appendModerationData(next)
       }
     }
@@ -345,14 +343,12 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))
-        
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -369,7 +365,6 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          
           this.usersRequest = results.url
           this.users = results.body
           this.needsModerationData = true
@@ -388,19 +383,16 @@ export default {
       return this.itemsSelection.includes(item.id)
     },
     callbackAction (evt) {
-      
     },
     resetQuery () {
       this.query = undefined
       this.getUsers(true)
     },
     changePagination (pageNumber) {
-      
       this.pagination.page = pageNumber
       this.getUsers()
     },
     changeSorting (sort) {
-      
       switch (sort.sortBy) {
         case 'since':
           this.pagination.sortBy = 'created'

@@ -190,7 +190,7 @@
 
         <template v-slot:cell(id)="data">
           <router-link
-            class="text-info"
+            class="text-primary"
             :to="`/organizations/${data.value}`"
             >
             {{ data.value }}
@@ -199,7 +199,7 @@
 
         <template v-slot:cell(name)="data">
           <router-link
-            class="text-info"
+            class="text-primary"
             :to="`/organizations/${data.item.id}`"
             >
             <span>
@@ -312,14 +312,12 @@ export default {
     }
   },
   created () {
-    
     if (this.customFields) { this.fields = this.customFields }
     this.getOrganizations()
   },
   watch: {
     async organizations (next) {
       if (next && this.needsModerationData) {
-        
         this.organizations = await this.appendModerationData(next)
       }
     }
@@ -334,14 +332,12 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))
-        
         itemObject.data = newData
       }
       this.needsModerationData = false
@@ -358,7 +354,6 @@ export default {
       if (resetPage) { this.pagination.page = 1 }
       this.$APIcli._request(this.operationId, { params }).then(
         results => {
-          
           this.organizationsRequest = results.url
           this.organizations = results.body
           this.needsModerationData = true
@@ -377,22 +372,18 @@ export default {
       return this.itemsSelection.includes(item.id)
     },
     callbackAction (evt) {
-      
     },
     resetQuery () {
       this.query = undefined
       this.getOrganizations(true)
     },
     changePagination (pageNumber) {
-      
       this.pagination.page = pageNumber
       this.getOrganizations()
     },
     changeSorting (sort) {
-      
       this.pagination.sortBy = (sort.sortBy === 'created_at') ? 'created' : sort.sortBy
       this.pagination.sortDesc = sort.sortDesc
-      
       this.getOrganizations()
     },
     formatDate (dateString, addTime) {

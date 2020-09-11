@@ -111,7 +111,9 @@
         </b-navbar-nav>
       </b-collapse>
 
-      <b-navbar-nav class="ml-auto">
+      <b-navbar-nav
+        :class="`ml-auto`"
+        >
         <b-nav-item>
           <b-button
             v-b-toggle:navbar-toggle-search
