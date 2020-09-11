@@ -61,6 +61,7 @@
           <ModerationComments
             :dgfType="dgfType"
             :item="item"
+            @responseAction="callbackAction"
           />
         </b-col>
 
@@ -75,6 +76,7 @@
               :dgfType="dgfType"
               :item="item"
               :field="'read'"
+              @responseAction="callbackAction"
               >
             </ModerationCheckbox>
           </div>
@@ -84,6 +86,7 @@
               :dgfType="dgfType"
               :item="item"
               :field="'suspicious'"
+              @responseAction="callbackAction"
               >
             </ModerationCheckbox>
           </div>
@@ -93,6 +96,7 @@
               :dgfType="dgfType"
               :item="item"
               :field="'deleted'"
+              @responseAction="callbackAction"
               >
             </ModerationCheckbox>
           </div>
@@ -108,6 +112,7 @@
             :dgfType="dgfType"
             :item="item"
             :field="'read'"
+            @responseAction="callbackAction"
             >
           </ModerationCheckbox>
         </b-col>
@@ -118,6 +123,7 @@
             :dgfType="dgfType"
             :item="item"
             :field="'suspicious'"
+            @responseAction="callbackAction"
             >
           </ModerationCheckbox>
         </b-col>
@@ -128,6 +134,7 @@
             :dgfType="dgfType"
             :item="item"
             :field="'deleted'"
+            @responseAction="callbackAction"
             >
           </ModerationCheckbox>
         </b-col>
@@ -145,6 +152,7 @@
           <ModerationComments
             :dgfType="dgfType"
             :item="item"
+            @responseAction="callbackAction"
           />
         </b-col>
       </b-row>
@@ -159,14 +167,12 @@
 import { MapDgfTypes } from '@/config/MapDgfTypes.js'
 import { trimText } from '@/utils/textUtils.js'
 
-// import ModerationItemBtn from '@/components/moderation/ModerationItemBtn.vue'
 import ModerationCheckbox from '@/components/moderation/ModerationCheckbox.vue'
 import ModerationComments from '@/components/moderation/ModerationComments.vue'
 
 export default {
   name: 'ModerationRowCard',
   components: {
-    // ModerationItemBtn,
     ModerationCheckbox,
     ModerationComments
   },
@@ -178,13 +184,29 @@ export default {
   ],
   data () {
     return {
-      dict: MapDgfTypes
+      dict: MapDgfTypes,
+      isLoading: false
     }
   },
   methods: {
-    async updateModeration (item, field, evt) {
-      const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
-      console.log('-C- ModerationRowCard > updateModeration > updatedItem : ', updatedItem)
+    callbackAction (evt) {
+      // TO DO
+      this.isLoading = true
+      switch (evt.category) {
+        case 'update_read':
+          console.log('-C- ModerationRowCard > callbackAction > update_read ')
+          break
+        case 'update_suspicious':
+          console.log('-C- ModerationRowCard > callbackAction > update_suspicious ')
+          break
+        case 'update_deleted':
+          console.log('-C- ModerationRowCard > callbackAction > update_deleted ')
+          break
+        case 'update_comment':
+          console.log('-C- ModerationRowCard > callbackAction > update_comment ')
+          break
+      }
+      this.isLoading = false
     },
     trim (str, max) {
       return trimText(str, max)

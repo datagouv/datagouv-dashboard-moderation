@@ -1,34 +1,40 @@
 <template>
-  <b-form
-    inline
-    class="justify-content-center">
-    <b-form-checkbox
-      v-model="item[field]"
-      v-if="isAuthenticated"
-      button
-      button-variant="link"
-      @change="updateModeration(item, field, $event)"
-      >
-      <b-icon
-        :icon="getIcon(field)"
-        :variant="getColor(field)"
+  <div>
+    <b-form
+      inline
+      v-if="!isLoading"
+      class="justify-content-center">
+      <b-form-checkbox
+        v-model="item[field]"
+        v-if="isAuthenticated"
+        button
+        button-variant="link"
+        @change="updateModeration(item, field, $event)"
         >
-      </b-icon>
-    </b-form-checkbox>
-    <b-form-checkbox
-      v-else
-      disabled
-      button
-      variant="link"
-      :value="item[field]"
-      >
-      <b-icon
-        :icon="getIcon(field)"
-        :variant="getColor(field)"
+        <b-icon
+          :icon="getIcon(field)"
+          :variant="getColor(field)"
+          >
+        </b-icon>
+      </b-form-checkbox>
+      <b-form-checkbox
+        v-else
+        disabled
+        button
+        variant="link"
+        :value="item[field]"
         >
-      </b-icon>
-    </b-form-checkbox>
-  </b-form>
+        <b-icon
+          :icon="getIcon(field)"
+          :variant="getColor(field)"
+          >
+        </b-icon>
+      </b-form-checkbox>
+    </b-form>
+    <div v-if="isLoading" class="pt-1">
+      <b-spinner small label="loading"></b-spinner>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -44,6 +50,7 @@ export default {
   ],
   data () {
     return {
+      isLoading: false,
       buttons: {
         read: {
           icons: [
@@ -89,9 +96,21 @@ export default {
     })
   },
   methods: {
+    emitResponse (data) {
+      this.$emit('responseAction', data)
+    },
     async updateModeration (item, field, evt) {
+      this.isLoading = true
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
       console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
+      const categ = `update_${field}`
+      const respData = {
+        category: categ,
+        item: updatedItem,
+        msg: `response action : ${this.dgfType}-${categ}`
+      }
+      this.emitResponse(respData)
+      this.isLoading = false
     },
     getColor (field) {
       const fieldIcons = this.buttons[field]
