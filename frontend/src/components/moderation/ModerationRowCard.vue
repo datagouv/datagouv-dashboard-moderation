@@ -199,7 +199,10 @@ export default {
   data () {
     return {
       dict: MapDgfTypes,
+<<<<<<< HEAD
       // itemModeration: undefined,
+=======
+>>>>>>> 5feced125fbeba6220c56c883b1ec60bfb85b6f6
       isLoading: false
     }
   },
