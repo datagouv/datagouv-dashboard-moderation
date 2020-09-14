@@ -229,6 +229,9 @@ export const moduleAuth = {
     getModerationSession: (state) => {
       return this.moderationSession
     }
+    // getCurrentModerationItem: (state) => {
+    //   return this.currentModerationItem
+    // }
   },
   mutations: {
     setLogin (state, moderationLoginResp) {
