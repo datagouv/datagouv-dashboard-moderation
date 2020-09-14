@@ -13,8 +13,8 @@ migrate = Migrate()
 
 cors = CORS(
   supports_credentials=True,
-  headers=['Content-Type'],
-  expose_headers=['Access-Control-Allow-Origin'],
+  # headers=['Content-Type'],
+  # expose_headers=['Access-Control-Allow-Origin'],
   resources={
   r"/api/*": {
     "origins": 

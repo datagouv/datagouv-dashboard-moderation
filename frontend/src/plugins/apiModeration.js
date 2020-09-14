@@ -22,7 +22,8 @@ const commentsDummy = [
 
 const basicHeaders = {
   Accept: 'application/json',
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
+  'Access-Control-Request-Headers': ['Cookie', 'Set-Cookie']
 }
 
 class ModerationLib {
@@ -44,6 +45,7 @@ class ModerationLib {
     const config = {
       method: 'POST',
       headers: basicHeaders,
+      credentials: 'include',
       body: JSON.stringify({ token: clientToken })
     }
     try {
@@ -119,6 +121,7 @@ class ModerationLib {
     const session = this.store.getters.getModerationSession
     const config = {
       method: 'GET',
+      credentials: 'include',
       headers: { ...basicHeaders, ...session }
     }
     try {
