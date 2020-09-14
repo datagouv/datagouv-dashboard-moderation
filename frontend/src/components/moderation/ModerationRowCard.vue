@@ -199,7 +199,6 @@ export default {
   data () {
     return {
       dict: MapDgfTypes,
-      // itemModeration: undefined,
       isLoading: false
     }
   },
