@@ -152,7 +152,6 @@ export default {
       const msg = moderationResponse.status !== 200 ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
 
       const itemId = this.dataset.id
-
       const vNodesTitle = h(
         'div', { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
         [
