@@ -16,7 +16,7 @@ const translations = {
     },
     toastsModeration: {
       error: 'moderation error',
-      errorTxt: 'code erreur : {code}',
+      errorTxt: 'error code : {code}',
       success: 'ok',
       successTxt: 'moderation recorded'
     },

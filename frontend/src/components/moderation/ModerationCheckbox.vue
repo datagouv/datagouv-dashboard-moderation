@@ -148,6 +148,7 @@ export default {
         [
           h('strong', `PUT ${this.dgfType} / ${this.field}`),
           h('br'),
+          h('span', `id : ${this.item.id}`), h('hr'),
           h('strong', msg)
         ]
       )
