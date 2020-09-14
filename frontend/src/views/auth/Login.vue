@@ -131,9 +131,9 @@ export default {
     async makeToast (loginModerationResponse) {
       console.log('-V- Login > makeToast > loginModerationResponse : ', loginModerationResponse)
       const h = this.$createElement
-      const variant = loginModerationResponse.status !== 200 ? 'danger' : 'success'
-      const title = loginModerationResponse.status !== 200 ? 'error' : 'success'
-      const msg = loginModerationResponse.status !== 200 ? this.$t('toastsModeration.errorTxt', { code: loginModerationResponse.status }) : 'ok msg'
+      const variant = loginModerationResponse.status && loginModerationResponse.status === 200 ? 'success' : 'danger'
+      const title = loginModerationResponse.status && loginModerationResponse.status === 200 ? 'success' : 'error'
+      const msg = loginModerationResponse.status && loginModerationResponse.status === 200 ? 'ok msg' : this.$t('toastsModeration.errorTxt', { code: loginModerationResponse.status })
 
       const vNodesTitle = h(
         'div',
