@@ -79,7 +79,9 @@ def submit_token():
             return make_response((err.message, 500))
 
     session['user_id'] = user_data['id']
-    return make_response(('success', 200))
+    resp = make_response(('success', 200))
+    resp.header['session-id'] = session['user_id']
+    return resp
 
 
 @bp.route('/logout')
