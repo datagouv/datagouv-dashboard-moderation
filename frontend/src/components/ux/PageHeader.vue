@@ -1,5 +1,6 @@
 <template>
   <b-row
+    id="page-header"
     align-h="between"
     :class="customClass"
     >

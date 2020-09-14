@@ -7,7 +7,7 @@
 
     <PageHeader
       :dgfType="'organization'"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
       :subtitleLink="organizationRequest"
       >
       <template v-slot:badge>

@@ -1,5 +1,8 @@
 <template>
-  <b-row class="bg-light mb-5">
+  <b-row
+    id="navbar-crumbs"
+    class="bg-light mb-5"
+    >
     <b-col
       cols="1" sm="2"
       align-self="center"

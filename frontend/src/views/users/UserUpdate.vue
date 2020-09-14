@@ -7,7 +7,7 @@
 
     <PageHeader
       :dgfType="'user'"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
       :subtitleLink="userRequest"
       >
       <template v-slot:badge>

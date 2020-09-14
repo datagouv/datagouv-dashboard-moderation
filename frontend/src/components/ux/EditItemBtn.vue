@@ -1,6 +1,6 @@
 <template>
   <b-dropdown
-    dropleft
+    right
     variant="link"
     no-caret
     size="sm"
@@ -18,7 +18,7 @@
       <b-popover
         target="popover-btn-edit"
         variant="dark"
-        placement="left"
+        :placement="`left`"
         triggers="hover">
         {{$t('actions.actionsGroupText')}}
       </b-popover>

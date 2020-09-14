@@ -205,11 +205,15 @@ export const moduleAuth = {
     // moderationAuth: {},
     moderationLogin: undefined,
     moderationResponse: undefined
+    // currentModerationItem: undefined
   }),
   getters: {
     isLogged: (state) => {
       return !!(state.moderationLogin)
     }
+    // getCurrentModerationItem: (state) => {
+    //   return this.currentModerationItem
+    // }
   },
   mutations: {
     setLogin (state, moderationLoginResp) {
@@ -221,6 +225,9 @@ export const moduleAuth = {
     resetLogin (state) {
       state.moderationLogin = undefined
     }
+    // updateCurrentModerationItem (state, { field, value }) {
+    //   state.currentModerationItem[field] = value
+    // }
   },
   actions: {},
   modules: {}

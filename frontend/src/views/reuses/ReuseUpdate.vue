@@ -7,7 +7,7 @@
 
     <PageHeader
       :dgfType="'reuse'"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
       :subtitleLink="reuseRequest"
       >
       <template v-slot:badge>

@@ -185,10 +185,10 @@ export default {
           item: updatedItem,
           msg: `response action : ${this.dgfType}-${categ}`
         }
+        this.makeToast(updatedItem)
         this.emitResponse(respData)
       }
       this.resetTextArea(evt)
-      // this.isLoading = false
     },
     resetTextArea (evt) {
       evt.preventDefault()
@@ -206,6 +206,33 @@ export default {
       const deletedItem = await this.$MODERATIONcli.deleteComment(this.item.id, commentId)
       console.log('-C- ModerationCheckbox > deleteComment > deletedItem : ', deletedItem)
       this.isCommentLoading = ''
+    },
+    makeToast (updatedItem) {
+      const h = this.$createElement
+      const variant = updatedItem.status !== 200 ? 'danger' : 'success'
+      const title = updatedItem.status !== 200 ? 'error' : 'success'
+      const msg = updatedItem.status !== 200 ? this.$t('toastsModeration.errorTxt', { code: updatedItem.status }) : 'ok msg'
+
+      const vNodesTitle = h(
+        'div',
+        { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
+        [
+          h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
+        ]
+      )
+      const vNodesMsg = h(
+        'p',
+        { class: ['text-center', 'my-2'] },
+        [
+          h('strong', msg)
+        ]
+      )
+
+      this.$bvToast.toast([vNodesMsg], {
+        title: [vNodesTitle],
+        variant: variant,
+        solid: true
+      })
     }
   }
 }

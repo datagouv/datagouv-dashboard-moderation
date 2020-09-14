@@ -32,6 +32,7 @@
     <b-dropdown-text class="text-center text-muted">
       {{$t('actions.actionsGroupText')}}
     </b-dropdown-text>
+
     <b-dropdown-divider></b-dropdown-divider>
 
     <!-- MARK READ -->

@@ -7,7 +7,7 @@
 
     <PageHeader
       :dgfType="'dataset'"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
       :subtitleLink="datasetRequest"
       >
       <template v-slot:badge>

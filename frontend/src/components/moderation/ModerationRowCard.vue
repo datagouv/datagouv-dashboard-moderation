@@ -4,7 +4,7 @@
 
     <!-- ACTION BTN -->
     <template v-slot:header v-if="hasHeader">
-      <div class="d-flex flex-row justify-content-between align-items-center">
+      <div class="d-flex flex-row justify-content-between align-items-center py-2">
         <div class="flex-fill">
           {{ $t('moderation.moderation', {prefix: ''}) }}
         </div>
@@ -199,13 +199,13 @@ export default {
   data () {
     return {
       dict: MapDgfTypes,
-      // itemModeration: undefined
+      // itemModeration: undefined,
       isLoading: false
     }
   },
-  created () {
-    console.log('-C- ModerationRowCard > created > this.item : ', this.item)
-  },
+  // created () {
+  //   console.log('-C- ModerationRowCard > created > this.item : ', this.item)
+  // },
   watch: {
     item (next) {
       console.log('-C- ModerationRowCard > watch > item > next : ', next)
@@ -216,6 +216,7 @@ export default {
     callbackAction (evt) {
       // TO DO
       this.isLoading = true
+      console.log('-C- ModerationRowCard > callbackAction > evt.category : ', evt.category)
       switch (evt.category) {
         case 'update_read':
           console.log('-C- ModerationRowCard > callbackAction > update_read ')

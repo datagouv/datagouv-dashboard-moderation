@@ -7,7 +7,7 @@
 
     <PageHeader
       :dgfType="dgfType"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
       :subtitleLink="resourceRequest"
       >
       <template v-slot:badge>

@@ -7,7 +7,7 @@
 
     <PageHeader
       :dgfType="'discussion'"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
       :subtitleLink="discussionRequest"
       >
       <template v-slot:badge>

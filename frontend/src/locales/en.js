@@ -14,6 +14,12 @@ const translations = {
     popovers: {
       dgfEndpoint: 'API endpoint in data.gouv.fr'
     },
+    toastsModeration: {
+      error: 'moderation error',
+      errorTxt: 'code erreur : {code}',
+      success: 'ok',
+      successTxt: 'moderation recorded'
+    },
     home: {
       name: 'Home',
       intro: 'Welcome to the datagouv moderation dashboard',
