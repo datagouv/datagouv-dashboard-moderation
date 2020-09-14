@@ -68,7 +68,7 @@
     <b-row
       v-for="(comment, index) in item.comments"
       :key="index"
-      :align-h="comment.user_id === userId ? 'center' : 'start'"
+      :align-h="comment.user_id === userId ? 'end' : 'center'"
       >
       <b-col cols="10">
         <b-card
@@ -227,7 +227,8 @@ export default {
           h('strong', `PUT ${this.dgfType} / comment`),
           h('br'),
           h('span', `id : ${this.item.id}`), h('hr'),
-          h('strong', msg)
+          h('strong', msg), h('br'),
+          h('p', this.$t(`responseCodes._${moderationResponse.status}`))
         ]
       )
 

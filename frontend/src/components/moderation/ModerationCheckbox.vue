@@ -149,7 +149,8 @@ export default {
           h('strong', `PUT ${this.dgfType} / ${this.field}`),
           h('br'),
           h('span', `id : ${this.item.id}`), h('hr'),
-          h('strong', msg)
+          h('strong', msg), h('br'),
+          h('p', this.$t(`responseCodes._${moderationResponse.status}`))
         ]
       )
 

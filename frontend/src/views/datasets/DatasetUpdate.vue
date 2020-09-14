@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
       console.log('-V- DatasetUpdate > methods > appendModerationData > itemStatus :', itemStatus)
       this.makeToast(itemStatus)
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
@@ -164,7 +164,8 @@ export default {
           h('strong', `GET ${this.dgfType}`),
           h('br'),
           h('span', `id : ${itemId}`), h('hr'),
-          h('strong', msg)
+          h('strong', msg), h('br'),
+          h('p', this.$t(`responseCodes._${moderationResponse.status}`))
         ]
       )
 

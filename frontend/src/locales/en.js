@@ -20,6 +20,14 @@ const translations = {
       success: 'ok',
       successTxt: 'moderation recorded'
     },
+    responseCodes: {
+      _200: 'success',
+      _201: 'update success',
+      _401: 'Unauthorized',
+      _403: 'Not enough priviledges',
+      _404: 'Not found',
+      _500: 'ERROR'
+    },
     home: {
       name: 'Home',
       intro: 'Welcome to the datagouv <br>moderation dashboard',

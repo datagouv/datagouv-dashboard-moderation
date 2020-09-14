@@ -93,7 +93,9 @@ class ModerationLib {
       comments: item.comments || [],
       deleted: item.deleted || false
     }
-    itemModerationData[field] = value
+    if (field) {
+      itemModerationData[field] = value
+    }
     return itemModerationData
   }
 
@@ -110,16 +112,21 @@ class ModerationLib {
   /**************************************************************
    * moderation related
    */
-  async getModeration (jsonDataId) {
-    const url = `${this.moderationServer}/objects/${jsonDataId}`
+  async getModeration (dgfType, item) {
+    const itemId = item.id
+    const url = `${this.moderationServer}/objects/${itemId}`
     const session = this.store.getters.getModerationSession
     const config = {
       method: 'GET',
       headers: { ...basicHeaders, ...session }
     }
     try {
-      const response = await fetch(url, config)
+      let response = await fetch(url, config)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
+      if (response.status === 404) {
+        console.log(">>> ModerationLib > getModeration > item doesn't exist yet in moderation backend ... => POST")
+        response = await this.postModeration(dgfType, item)
+      }
       return response
     } catch (error) {
       console.log('>>> ModerationLib > getModeration > error', error)
@@ -127,7 +134,7 @@ class ModerationLib {
     } finally {}
   }
 
-  async postModeration (dgfType, item, field, evt) {
+  async postModeration (dgfType, item, field = undefined, evt = undefined) {
     const url = `${this.moderationServer}/objects`
     const session = this.store.getters.getModerationSession
     const moderationData = this.formatModerationItem(dgfType, item, field, evt)

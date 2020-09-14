@@ -303,7 +303,7 @@ export default {
     async appendModerationData (itemObject) {
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
-          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
+          const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, obj)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))

@@ -103,7 +103,9 @@ export default {
         'p',
         { class: ['text-center', 'my-2'] },
         [
-          h('strong', msg)
+          h('strong', msg), h('br'),
+          h('p', this.$t(`responseCodes._${loginModerationResponse.status}`)), h('br'),
+          h('p', this.$t(`responseCodes._${loginModerationResponse.status}`))
         ]
       )
 

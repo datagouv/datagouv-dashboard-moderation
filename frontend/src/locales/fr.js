@@ -20,6 +20,14 @@ const translations = {
       success: 'ok',
       successTxt: 'modération enregistrée'
     },
+    responseCodes: {
+      _200: 'success',
+      _201: 'update success',
+      _401: 'Unauthorized',
+      _403: 'Not enough priviledges',
+      _404: 'Not found',
+      _500: 'ERROR'
+    },
     home: {
       name: 'Accueil',
       intro: 'Bienvenue sur le tableau de bord de modération <br>de datagouv',
