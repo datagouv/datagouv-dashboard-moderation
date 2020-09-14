@@ -80,7 +80,7 @@ def submit_token():
 
     session['user_id'] = user_data['id']
     resp = make_response(('success', 200))
-    resp.header['session-id'] = session['user_id']
+    resp.headers['session-id'] = session['user_id']
     return resp
 
 
