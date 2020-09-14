@@ -16,7 +16,7 @@ cors = CORS(resources={
     "origins": 
       [
         "http://localhost:8080",
-        "https://datagouv-tdb-moderation-demo.netlify.app/"
+        "https://datagouv-tdb-moderation-demo.netlify.app"
       ]
     }
   })
