@@ -172,10 +172,11 @@ class ModerationLib {
     const moderationData = this.formatModerationItem(dgfType, item, field, evt)
     console.log('>>> ModerationLib > updateModeration >  moderationData :', moderationData)
     const config = {
-      method: 'POST',
+      method: 'PUT',
       headers: { ...basicHeaders, ...session },
       body: JSON.stringify(moderationData)
     }
+    console.log('>>> ModerationLib > updateModeration >  config :', config)
     try {
       const response = await fetch(url, config)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
