@@ -20,6 +20,11 @@ const commentsDummy = [
   }
 ]
 
+const basicHeaders = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json'
+}
+
 class ModerationLib {
   /**************************************************************
    * Initialization
@@ -38,13 +43,17 @@ class ModerationLib {
     console.log('>>> ModerationLib > login >  clientToken :', clientToken)
     const config = {
       method: 'POST',
-      body: { token: clientToken }
+      headers: basicHeaders,
+      body: JSON.stringify({ token: clientToken })
     }
     try {
       const response = await fetch(url, config)
       console.log('>>> ModerationLib > login >  response :', response)
+      console.log('>>> ModerationLib > login >  response.headers :', response.headers)
+      console.log('>>> ModerationLib > login >  response.headers.get("set-cookie") :', response.headers.get('set-cookie'))
       const auth = response.message === 'success'
       this.store.commit(`${this.storeModuleName}/setLogin`, auth)
+      this.store.commit(`${this.storeModuleName}/setModerationSession`, response.headers)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       return response
     } catch (error) {
@@ -57,7 +66,7 @@ class ModerationLib {
     const url = `${this.moderationServer}/logout`
     const config = {
       method: 'GET',
-      headers: { 'content-type': 'application/json' }
+      headers: { ...basicHeaders }
     }
     try {
       const response = await fetch(url, config)
@@ -105,7 +114,7 @@ class ModerationLib {
     const url = `${this.moderationServer}/objects/${jsonDataId}`
     const config = {
       method: 'GET',
-      headers: { 'content-type': 'application/json' }
+      headers: { ...basicHeaders }
     }
     try {
       const response = await fetch(url, config)
@@ -123,8 +132,8 @@ class ModerationLib {
     console.log('>>> ModerationLib > postModeration >  moderationData :', moderationData)
     const config = {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: moderationData
+      headers: { ...basicHeaders },
+      body: JSON.stringify(moderationData)
     }
     try {
       const response = await fetch(url, config)
@@ -142,8 +151,8 @@ class ModerationLib {
     console.log('>>> ModerationLib > updateModeration >  moderationData :', moderationData)
     const config = {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: moderationData
+      headers: { ...basicHeaders },
+      body: JSON.stringify(moderationData)
     }
     try {
       const response = await fetch(url, config)
@@ -161,8 +170,8 @@ class ModerationLib {
     const url = `${this.moderationServer}/objects/${dgfObjectId}/comments/>`
     const config = {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: comment
+      headers: { ...basicHeaders },
+      body: JSON.stringify(comment)
     }
     try {
       const response = await fetch(url, config)
@@ -180,7 +189,7 @@ class ModerationLib {
     const url = `${this.moderationServer}/objects/${dgfObjectId}/comments/${commentId}`
     const config = {
       method: 'DELETE',
-      headers: { 'content-type': 'application/json' },
+      headers: { ...basicHeaders },
       body: {}
     }
     try {
@@ -204,7 +213,8 @@ export const moduleAuth = {
     moderationServer: process.env.VUE_MODERATION_API,
     // moderationAuth: {},
     moderationLogin: undefined,
-    moderationResponse: undefined
+    moderationResponse: undefined,
+    moderationSession: undefined
     // currentModerationItem: undefined
   }),
   getters: {
@@ -218,6 +228,9 @@ export const moduleAuth = {
   mutations: {
     setLogin (state, moderationLoginResp) {
       state.moderationLogin = moderationLoginResp
+    },
+    setModerationSession (state, headers) {
+      state.moderationSession = headers
     },
     setModerationResponse (state, resp) {
       state.moderationResponse = resp

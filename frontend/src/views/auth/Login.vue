@@ -110,9 +110,12 @@ export default {
       this.$APIcli.resetCli(authOptions)
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
       // log into moderation API
-      await this.$MODERATIONcli.login(this.tokens.access.value)
+      const loginModerationResponse = await this.$MODERATIONcli.login(this.tokens.access.value)
+      console.log('-V- Login > updateModeration > loginModerationResponse : ', loginModerationResponse)
+      await this.makeToast(loginModerationResponse)
       this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
+      await this.makeToast(ex)
       this.loginResponse = `${ex} ... please try to authenticate again`
     } finally {
       this.isLoading = false
@@ -123,13 +126,38 @@ export default {
       log: (state) => state.global.log,
       tokens: (state) => state.oauth.tokens
     })
+  },
+  methods: {
+    async makeToast (loginModerationResponse) {
+      console.log('-V- Login > makeToast > loginModerationResponse : ', loginModerationResponse)
+      const h = this.$createElement
+      const variant = loginModerationResponse.status !== 200 ? 'danger' : 'success'
+      const title = loginModerationResponse.status !== 200 ? 'error' : 'success'
+      const msg = loginModerationResponse.status !== 200 ? this.$t('toastsModeration.errorTxt', { code: loginModerationResponse.status }) : 'ok msg'
+
+      const vNodesTitle = h(
+        'div',
+        { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
+        [
+          h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
+        ]
+      )
+      const vNodesMsg = h(
+        'p',
+        { class: ['text-center', 'my-2'] },
+        [
+          h('strong', msg)
+        ]
+      )
+      console.log('-V- Login > makeToast > vNodesTitle : ', vNodesTitle)
+
+      this.$bvToast.toast([vNodesMsg], {
+        title: [vNodesTitle],
+        variant: variant,
+        solid: true
+      })
+    }
   }
-  // methods: {
-  //   async submitLogout (evt) {
-  //     evt.preventDefault()
-  //     const response = await this.$OAUTHcli.logout()
-  //   }
-  // }
 }
 
 </script>

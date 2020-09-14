@@ -204,7 +204,7 @@ export default {
     async deleteComment (commentId) {
       this.isCommentLoading = commentId
       const deletedItem = await this.$MODERATIONcli.deleteComment(this.item.id, commentId)
-      console.log('-C- ModerationCheckbox > deleteComment > deletedItem : ', deletedItem)
+      console.log('-C- ModerationComments > deleteComment > deletedItem : ', deletedItem)
       this.isCommentLoading = ''
     },
     makeToast (updatedItem) {

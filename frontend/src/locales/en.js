@@ -22,7 +22,7 @@ const translations = {
     },
     home: {
       name: 'Home',
-      intro: 'Welcome to the datagouv moderation dashboard',
+      intro: 'Welcome to the datagouv <br>moderation dashboard',
       connect: 'please connect',
       hello: 'hello {name}'
     },
