@@ -129,11 +129,11 @@ export default {
       this.emitResponse(respData)
       this.isLoading = false
     },
-    makeToast (updatedItem) {
+    makeToast (moderationResponse) {
       const h = this.$createElement
-      const variant = updatedItem.status !== 200 ? 'danger' : 'success'
-      const title = updatedItem.status !== 200 ? 'error' : 'success'
-      const msg = updatedItem.status !== 200 ? this.$t('toastsModeration.errorTxt', { code: updatedItem.status }) : 'ok msg'
+      const variant = moderationResponse.status !== 200 ? 'danger' : 'success'
+      const title = moderationResponse.status !== 200 ? 'error' : 'success'
+      const msg = moderationResponse.status !== 200 ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
 
       const vNodesTitle = h(
         'div',
@@ -148,6 +148,7 @@ export default {
         [
           h('strong', `PUT ${this.dgfType} / ${this.field}`),
           h('br'),
+          h('span', `id : ${this.item.id}`), h('hr'),
           h('strong', msg)
         ]
       )
