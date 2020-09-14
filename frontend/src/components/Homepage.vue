@@ -1,6 +1,7 @@
 <template>
   <div class="my-5 py-3">
-    <h1 class>{{ $t('home.intro') }}</h1>
+  <h1 v-html="$t('home.intro')">
+    </h1>
     <!-- <p v-if="userData">
       {{ $t('home.hello', { name: userData.first_name }) }}
     </p> -->

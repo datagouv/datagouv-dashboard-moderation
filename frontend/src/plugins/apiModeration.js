@@ -20,6 +20,11 @@ const commentsDummy = [
   }
 ]
 
+const basicHeaders = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json'
+}
+
 class ModerationLib {
   /**************************************************************
    * Initialization
@@ -38,13 +43,17 @@ class ModerationLib {
     console.log('>>> ModerationLib > login >  clientToken :', clientToken)
     const config = {
       method: 'POST',
-      body: { token: clientToken }
+      headers: basicHeaders,
+      body: JSON.stringify({ token: clientToken })
     }
     try {
       const response = await fetch(url, config)
       console.log('>>> ModerationLib > login >  response :', response)
+      console.log('>>> ModerationLib > login >  response.headers :', response.headers)
+      console.log('>>> ModerationLib > login >  response.headers.get("set-cookie") :', response.headers.get('set-cookie'))
       const auth = response.message === 'success'
       this.store.commit(`${this.storeModuleName}/setLogin`, auth)
+      this.store.commit(`${this.storeModuleName}/setModerationSession`, response.headers)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       return response
     } catch (error) {
@@ -57,7 +66,7 @@ class ModerationLib {
     const url = `${this.moderationServer}/logout`
     const config = {
       method: 'GET',
-      headers: { 'content-type': 'application/json' }
+      headers: { ...basicHeaders }
     }
     try {
       const response = await fetch(url, config)
@@ -103,9 +112,10 @@ class ModerationLib {
    */
   async getModeration (jsonDataId) {
     const url = `${this.moderationServer}/objects/${jsonDataId}`
+    const session = this.store.getters.getModerationSession
     const config = {
       method: 'GET',
-      headers: { 'content-type': 'application/json' }
+      headers: { ...basicHeaders, ...session }
     }
     try {
       const response = await fetch(url, config)
@@ -119,12 +129,13 @@ class ModerationLib {
 
   async postModeration (dgfType, item, field, evt) {
     const url = `${this.moderationServer}/objects`
+    const session = this.store.getters.getModerationSession
     const moderationData = this.formatModerationItem(dgfType, item, field, evt)
     console.log('>>> ModerationLib > postModeration >  moderationData :', moderationData)
     const config = {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: moderationData
+      headers: { ...basicHeaders, ...session },
+      body: JSON.stringify(moderationData)
     }
     try {
       const response = await fetch(url, config)
@@ -138,12 +149,13 @@ class ModerationLib {
 
   async updateModeration (dgfType, item, field, evt) {
     const url = `${this.moderationServer}/objects`
+    const session = this.store.getters.getModerationSession
     const moderationData = this.formatModerationItem(dgfType, item, field, evt)
     console.log('>>> ModerationLib > updateModeration >  moderationData :', moderationData)
     const config = {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: moderationData
+      headers: { ...basicHeaders, ...session },
+      body: JSON.stringify(moderationData)
     }
     try {
       const response = await fetch(url, config)
@@ -159,10 +171,11 @@ class ModerationLib {
     console.log('>>> ModerationLib > addComment >  dgfObjectId :', dgfObjectId)
     console.log('>>> ModerationLib > addComment >  comment :', comment)
     const url = `${this.moderationServer}/objects/${dgfObjectId}/comments/>`
+    const session = this.store.getters.getModerationSession
     const config = {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: comment
+      headers: { ...basicHeaders, ...session },
+      body: JSON.stringify(comment)
     }
     try {
       const response = await fetch(url, config)
@@ -178,9 +191,10 @@ class ModerationLib {
     console.log('>>> ModerationLib > deleteComment >  dgfObjectId :', dgfObjectId)
     console.log('>>> ModerationLib > deleteComment >  commentId :', commentId)
     const url = `${this.moderationServer}/objects/${dgfObjectId}/comments/${commentId}`
+    const session = this.store.getters.getModerationSession
     const config = {
       method: 'DELETE',
-      headers: { 'content-type': 'application/json' },
+      headers: { ...basicHeaders, ...session },
       body: {}
     }
     try {
@@ -204,12 +218,16 @@ export const moduleAuth = {
     moderationServer: process.env.VUE_MODERATION_API,
     // moderationAuth: {},
     moderationLogin: undefined,
-    moderationResponse: undefined
+    moderationResponse: undefined,
+    moderationSession: { session: 'no session yet' }
     // currentModerationItem: undefined
   }),
   getters: {
     isLogged: (state) => {
       return !!(state.moderationLogin)
+    },
+    getModerationSession: (state) => {
+      return this.moderationSession
     }
     // getCurrentModerationItem: (state) => {
     //   return this.currentModerationItem
@@ -218,6 +236,9 @@ export const moduleAuth = {
   mutations: {
     setLogin (state, moderationLoginResp) {
       state.moderationLogin = moderationLoginResp
+    },
+    setModerationSession (state, headers) {
+      state.moderationSession.session = headers
     },
     setModerationResponse (state, resp) {
       state.moderationResponse = resp

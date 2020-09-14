@@ -204,7 +204,7 @@ export default {
     async deleteComment (commentId) {
       this.isCommentLoading = commentId
       const deletedItem = await this.$MODERATIONcli.deleteComment(this.item.id, commentId)
-      console.log('-C- ModerationCheckbox > deleteComment > deletedItem : ', deletedItem)
+      console.log('-C- ModerationComments > deleteComment > deletedItem : ', deletedItem)
       this.isCommentLoading = ''
     },
     makeToast (updatedItem) {
@@ -224,6 +224,8 @@ export default {
         'p',
         { class: ['text-center', 'my-2'] },
         [
+          h('strong', `PUT ${this.dgfType} / comment`),
+          h('br'),
           h('strong', msg)
         ]
       )

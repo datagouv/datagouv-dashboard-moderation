@@ -100,7 +100,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- ModerationCheckbox > updateModeration > this.item : ', this.item)
+    // console.log('-C- ModerationCheckbox > updateModeration > this.item : ', this.item)
   },
   computed: {
     ...mapState({
@@ -117,7 +117,7 @@ export default {
     async updateModeration (item, field, evt) {
       this.isLoading = true
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
-      console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
+      // console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
       const categ = `update_${field}`
       const respData = {
         category: categ,
@@ -146,6 +146,8 @@ export default {
         'p',
         { class: ['text-center', 'my-2'] },
         [
+          h('strong', `PUT ${this.dgfType} / ${this.field}`),
+          h('br'),
           h('strong', msg)
         ]
       )

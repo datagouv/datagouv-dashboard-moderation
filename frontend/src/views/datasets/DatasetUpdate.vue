@@ -119,9 +119,10 @@ export default {
   methods: {
     async appendModerationData (itemObject) {
       const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
-      console.log('-V- DatasetUpdate > methods > getDataset > itemStatus :', itemStatus)
+      console.log('-V- DatasetUpdate > methods > appendModerationData > itemStatus :', itemStatus)
+      this.makeToast(itemStatus)
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
-      console.log('-V- DatasetUpdate > methods > getDataset > consolidated :', consolidated)
+      console.log('-V- DatasetUpdate > methods > appendModerationData > consolidated :', consolidated)
       this.needsModerationData = false
       return consolidated
     },
@@ -143,6 +144,33 @@ export default {
           this.isLoading = false
         }
       )
+    },
+    makeToast (moderationResponse) {
+      const h = this.$createElement
+      const variant = moderationResponse.status !== 200 ? 'danger' : 'success'
+      const title = moderationResponse.status !== 200 ? 'error' : 'success'
+      const msg = moderationResponse.status !== 200 ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
+
+      const vNodesTitle = h(
+        'div', { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
+        [
+          h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
+        ]
+      )
+      const vNodesMsg = h(
+        'p', { class: ['text-center', 'my-2'] },
+        [
+          h('strong', `GET ${this.dgfType}`),
+          h('br'),
+          h('strong', msg)
+        ]
+      )
+
+      this.$bvToast.toast([vNodesMsg], {
+        title: [vNodesTitle],
+        variant: variant,
+        solid: true
+      })
     }
   }
 }
