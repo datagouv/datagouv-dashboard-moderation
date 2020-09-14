@@ -99,15 +99,15 @@ This project uses two buildpacks, `node` and `python`, to build and install both
 On the dokku server, prepare the postgres database and create the app:
 
 ```
-dokku apps:create simple-spa
-dokku postgres:create simple-spa
-dokku postgres:link simple-spa simple-spa
+dokku apps:create datagouv-dashboard-moderation
+dokku postgres:create datagouv-dashboard-moderation
+dokku postgres:link datagouv-dashboard-moderation datagouv-dashboard-moderation
 ```
 
 On local copy:
 
 ```
-git remote add dokku dokku@{host}:simple-spa
+git remote add dokku dokku@{host}:datagouv-dashboard-moderation
 git push dokku master
 ```
 
@@ -116,10 +116,10 @@ The deployment process will run `init-db` thanks to the Procfile.
 Get a SSL certificate and redirect to https:
 
 ```
-dokku letsencrypt simple-spa
+dokku letsencrypt datagouv-dashboard-moderation
 ```
 
-:rocket: https://simple-spa.{host}/api
+:rocket: https://datagouv-dashboard-moderation.{host}/api
 
 ### Tweaks
 
