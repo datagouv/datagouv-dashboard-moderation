@@ -6,6 +6,7 @@
       :dgfType="'issues'"
       :noSubtitle="noOperationLink"
       :compact="compact"
+      :subtitleLink="issuesRequest"
       >
       <template v-slot:subtitle>
         <div class="mb-2">

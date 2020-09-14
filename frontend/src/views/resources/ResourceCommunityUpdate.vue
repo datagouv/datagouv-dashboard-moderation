@@ -9,6 +9,7 @@
     <PageHeader
       :dgfType="dgfType"
       :customClass="'mb-4'"
+      :subtitleLink="resourceRequest"
       >
       <template v-slot:badge>
         <div>

@@ -6,6 +6,7 @@
       :dgfType="'reuses'"
       :noSubtitle="noOperationLink"
       :compact="compact"
+      :subtitleLink="reusesRequest"
       >
       <template v-slot:subtitle>
         <div class="mb-2">

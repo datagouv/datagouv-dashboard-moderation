@@ -6,6 +6,7 @@
       :dgfType="'users'"
       :noSubtitle="noOperationLink"
       :compact="compact"
+      :subtitleLink="usersRequest"
       >
       <template v-slot:subtitle>
         <div class="mb-2">

@@ -6,6 +6,7 @@
       :dgfType="'organizations'"
       :noSubtitle="noOperationLink"
       :compact="compact"
+      :subtitleLink="organizationsRequest"
       >
       <template v-slot:subtitle>
         <div class="mb-2">

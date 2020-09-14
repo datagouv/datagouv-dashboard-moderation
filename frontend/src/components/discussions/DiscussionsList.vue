@@ -6,6 +6,7 @@
       :dgfType="'discussions'"
       :noSubtitle="noOperationLink"
       :compact="compact"
+      :subtitleLink="discussionsRequest"
       >
       <template v-slot:subtitle>
         <div class="mb-2">

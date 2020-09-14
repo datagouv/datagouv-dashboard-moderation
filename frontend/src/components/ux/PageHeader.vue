@@ -28,8 +28,17 @@
       </router-link>
       <h2 v-else>
         {{ $t(dict[dgfType].textCode) }}
+        <b-button
+          v-if="subtitleLink"
+          variant="link"
+          :href="subtitleLink"
+          target="_blank"
+          >
+          <!-- {{ subtitleLink }} -->
+          <b-icon icon="link45deg"></b-icon>
+        </b-button>
       </h2>
-      <template
+      <!-- <template
         v-show="!noSubtitle"
         >
         <slot
@@ -37,7 +46,7 @@
           name="subtitle"
           >
         </slot>
-      </template>
+      </template> -->
     </b-col>
 
     <b-col
@@ -65,6 +74,7 @@ export default {
     'linkTitle',
     'compact',
     'noSubtitle',
+    'subtitleLink',
     'customClass'
   ],
   data () {

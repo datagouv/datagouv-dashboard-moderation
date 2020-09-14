@@ -199,7 +199,17 @@ export default {
   data () {
     return {
       dict: MapDgfTypes,
+      // itemModeration: undefined,
       isLoading: false
+    }
+  },
+  created () {
+    console.log('-C- ModerationRowCard > created > this.item : ', this.item)
+  },
+  watch: {
+    item (next) {
+      console.log('-C- ModerationRowCard > watch > item > next : ', next)
+      // this.itemModeration = next
     }
   },
   methods: {

@@ -7,6 +7,7 @@
       :noSubtitle="noOperationLink"
       :linkTitle="datasetsRequest"
       :compact="compact"
+      :subtitleLink="datasetsRequest"
       >
       <template v-slot:subtitle>
         <div class="mb-2">

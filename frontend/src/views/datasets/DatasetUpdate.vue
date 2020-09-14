@@ -9,12 +9,13 @@
     <PageHeader
       :dgfType="'dataset'"
       :customClass="'mb-4'"
+      :subtitleLink="datasetRequest"
       >
       <template v-slot:badge>
         <div>
           {{ $t('navigation.from') }} :
-          <span v-if="datasetsRequest">
-            <a :href="datasetsRequest" target="_blank">
+          <span v-if="datasetRequest">
+            <a :href="datasetRequest" target="_blank">
               JSON
             </a>
             |
@@ -80,7 +81,7 @@ export default {
       putOperationId: 'update_dataset',
       endpointModeration: 'dataset',
       datasetId: this.$route.params.id,
-      datasetsRequest: undefined,
+      datasetRequest: undefined,
       dataset: undefined,
       needsModerationData: false,
       crumbs: [
@@ -129,7 +130,7 @@ export default {
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          this.datasetsRequest = results.url
+          this.datasetRequest = results.url
           this.dataset = results.body
           const title = this.dataset.title.length > 25 ? this.dataset.title.slice(0, 25) + '...' : this.dataset.title
           this.crumbs[2].text = title

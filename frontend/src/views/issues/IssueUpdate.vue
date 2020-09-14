@@ -9,6 +9,7 @@
     <PageHeader
       :dgfType="'issue'"
       :customClass="'mb-4'"
+      :subtitleLink="issueRequest"
       >
       <template v-slot:badge>
         <div>

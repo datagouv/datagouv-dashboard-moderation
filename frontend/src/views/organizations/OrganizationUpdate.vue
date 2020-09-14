@@ -9,6 +9,7 @@
     <PageHeader
       :dgfType="'organization'"
       :customClass="'mb-4'"
+      :subtitleLink="organizationRequest"
       >
       <template v-slot:badge>
         <div>

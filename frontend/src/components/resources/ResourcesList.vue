@@ -6,6 +6,7 @@
       :dgfType="'community_resources'"
       :noSubtitle="noOperationLink"
       :compact="compact"
+      :subtitleLink="resourcesRequest"
       >
       <template v-slot:subtitle>
         <div class="mb-2">

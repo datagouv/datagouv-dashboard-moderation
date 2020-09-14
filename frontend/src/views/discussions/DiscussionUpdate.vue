@@ -9,6 +9,7 @@
     <PageHeader
       :dgfType="'discussion'"
       :customClass="'mb-4'"
+      :subtitleLink="discussionRequest"
       >
       <template v-slot:badge>
         <div>
