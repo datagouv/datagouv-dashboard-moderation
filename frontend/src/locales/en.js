@@ -23,6 +23,7 @@ const translations = {
     responseCodes: {
       _200: 'success',
       _201: 'update success',
+      _400: 'Model validation error',
       _401: 'Unauthorized',
       _403: 'Not enough priviledges',
       _404: 'Not found',
