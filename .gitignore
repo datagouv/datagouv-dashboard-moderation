@@ -39,6 +39,4 @@ pnpm-debug.log*
 /py_env
 /python_env
 
-*/migrations
-/backend/migrations
 /backend/app.db
