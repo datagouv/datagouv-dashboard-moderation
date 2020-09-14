@@ -9,7 +9,7 @@
 
       <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
-          <div class="flex-fill align-content-center">
+          <div class="flex-fill align-content-center text-white">
             {{`resource n° ${resourceId}`}}
           </div>
           <EditItemBtn

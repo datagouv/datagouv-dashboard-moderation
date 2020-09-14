@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sticky-block">
     <b-navbar
       fixed="top"
       sticky
@@ -116,11 +116,19 @@
         >
         <b-nav-item>
           <b-button
+            id="popover-btn-search-dataset"
             v-b-toggle:navbar-toggle-search
             :variant="searchVisible ? 'primary' :'link'"
             >
             <b-icon icon="search"></b-icon>
           </b-button>
+          <b-popover
+            target="popover-btn-search-dataset"
+            variant="dark"
+            placement="bottomleft"
+            triggers="hover">
+            {{$t('actions.searchDataset')}}
+          </b-popover>
         </b-nav-item>
       </b-navbar-nav>
 
@@ -216,6 +224,12 @@ export default {
 
 <style scoped lang="scss">
 @import '@/css/custom.scss';
+
+.sticky-block {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
 
 a {
   color: $dgf-grey !important;

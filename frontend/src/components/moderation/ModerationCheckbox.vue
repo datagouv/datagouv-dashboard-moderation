@@ -4,6 +4,9 @@
       inline
       v-if="!isLoading"
       class="justify-content-center">
+
+      <!-- <code>{{itemModerationValue}}</code> -->
+
       <b-form-checkbox
         v-model="item[field]"
         v-if="isAuthenticated"
@@ -59,6 +62,7 @@ export default {
   data () {
     return {
       isLoading: false,
+      itemModerationValue: undefined,
       buttons: {
         read: {
           icons: [
@@ -95,6 +99,9 @@ export default {
       }
     }
   },
+  created () {
+    console.log('-C- ModerationCheckbox > updateModeration > this.item : ', this.item)
+  },
   computed: {
     ...mapState({
       log: (state) => state.log
@@ -117,8 +124,37 @@ export default {
         item: updatedItem,
         msg: `response action : ${this.dgfType}-${categ}`
       }
+      this.makeToast(updatedItem)
+      this.itemModerationValue = evt
       this.emitResponse(respData)
       this.isLoading = false
+    },
+    makeToast (updatedItem) {
+      const h = this.$createElement
+      const variant = updatedItem.status !== 200 ? 'danger' : 'success'
+      const title = updatedItem.status !== 200 ? 'error' : 'success'
+      const msg = updatedItem.status !== 200 ? this.$t('toastsModeration.errorTxt', { code: updatedItem.status }) : 'ok msg'
+
+      const vNodesTitle = h(
+        'div',
+        { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
+        [
+          h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
+        ]
+      )
+      const vNodesMsg = h(
+        'p',
+        { class: ['text-center', 'my-2'] },
+        [
+          h('strong', msg)
+        ]
+      )
+
+      this.$bvToast.toast([vNodesMsg], {
+        title: [vNodesTitle],
+        variant: variant,
+        solid: true
+      })
     },
     getColor (field) {
       const fieldIcons = this.buttons[field]

@@ -1,6 +1,25 @@
 /**************************************************************
  * MAIN MODERATION CLASS
  */
+const commentsDummy = [
+  {
+    id: '1234',
+    author: 'Julien Paris',
+    user_id: '5ecb7bb95b7c0fda6b06d0e3',
+    written_at: '09/09/2020',
+    content: "I did comment this... I think it's very useful to add my thoughts here...",
+    dgf_object_id: ''
+  },
+  {
+    id: '9876',
+    author: 'Alfred Wayne',
+    user_id: '78cb7bb95b7c0fdgtr06d0200',
+    written_at: '08/09/2020',
+    content: 'Master Bruce would be against it...',
+    dgf_object_id: ''
+  }
+]
+
 class ModerationLib {
   /**************************************************************
    * Initialization
@@ -42,6 +61,7 @@ class ModerationLib {
     }
     try {
       const response = await fetch(url, config)
+      console.log('>>> ModerationLib > logout > response', response)
       this.store.commit(`${this.storeModuleName}/resetLogin`)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, 'you are now logged out from moderation ')
       // this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
@@ -69,24 +89,6 @@ class ModerationLib {
   }
 
   addModerationData (obj, itemStatus) {
-    const commentsDummy = [
-      {
-        id: '1234',
-        author: 'Julien Paris',
-        user_id: '5ecb7bb95b7c0fda6b06d0e3',
-        written_at: '09/09/2020',
-        content: "I did comment this... I think it's very useful to add my thoughts here...",
-        dgf_object_id: ''
-      },
-      {
-        id: '9876',
-        author: 'Alfred Wayne',
-        user_id: '78cb7bb95b7c0fdgtr06d0200',
-        written_at: '08/09/2020',
-        content: 'Master Bruce would be against it...',
-        dgf_object_id: ''
-      }
-    ]
     return {
       ...obj,
       read: itemStatus.read || false,
@@ -203,11 +205,15 @@ export const moduleAuth = {
     // moderationAuth: {},
     moderationLogin: undefined,
     moderationResponse: undefined
+    // currentModerationItem: undefined
   }),
   getters: {
     isLogged: (state) => {
       return !!(state.moderationLogin)
     }
+    // getCurrentModerationItem: (state) => {
+    //   return this.currentModerationItem
+    // }
   },
   mutations: {
     setLogin (state, moderationLoginResp) {
@@ -219,6 +225,9 @@ export const moduleAuth = {
     resetLogin (state) {
       state.moderationLogin = undefined
     }
+    // updateCurrentModerationItem (state, { field, value }) {
+    //   state.currentModerationItem[field] = value
+    // }
   },
   actions: {},
   modules: {}

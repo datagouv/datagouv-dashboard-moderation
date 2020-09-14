@@ -1,20 +1,20 @@
 <template>
   <div class="dataset_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <PageHeader
       :dgfType="'dataset'"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
+      :subtitleLink="datasetRequest"
       >
       <template v-slot:badge>
         <div>
           {{ $t('navigation.from') }} :
-          <span v-if="datasetsRequest">
-            <a :href="datasetsRequest" target="_blank">
+          <span v-if="datasetRequest">
+            <a :href="datasetRequest" target="_blank">
               JSON
             </a>
             |
@@ -60,6 +60,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
@@ -68,6 +69,7 @@ import DatasetCard from '@/components/datasets/DatasetCard.vue'
 export default {
   name: 'DatasetUpdate',
   components: {
+    NavCrumbs,
     PageHeader,
     ModerationRowCard,
     DatasetCard
@@ -80,7 +82,7 @@ export default {
       putOperationId: 'update_dataset',
       endpointModeration: 'dataset',
       datasetId: this.$route.params.id,
-      datasetsRequest: undefined,
+      datasetRequest: undefined,
       dataset: undefined,
       needsModerationData: false,
       crumbs: [
@@ -129,7 +131,7 @@ export default {
       this.isLoading = true
       API._request(this.getOperationId, { params }).then(
         results => {
-          this.datasetsRequest = results.url
+          this.datasetRequest = results.url
           this.dataset = results.body
           const title = this.dataset.title.length > 25 ? this.dataset.title.slice(0, 25) + '...' : this.dataset.title
           this.crumbs[2].text = title

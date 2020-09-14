@@ -6,6 +6,8 @@
       :dgfType="'users'"
       :noSubtitle="noOperationLink"
       :compact="compact"
+      :subtitleLink="usersRequest"
+      :badgeNumber="pagination.totalItems"
       >
       <template v-slot:subtitle>
         <div class="mb-2">
@@ -20,14 +22,14 @@
           </span>
         </div>
       </template>
-      <template v-slot:badge>
+      <!-- <template v-slot:badge>
         <h4 v-if="users">
           <b-badge pill variant="primary">
             {{ pagination.totalItems }}
             {{ $t('basics.users', {list: ''}) }}
           </b-badge>
         </h4>
-      </template>
+      </template> -->
     </PageHeader>
 
     <b-card

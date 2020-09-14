@@ -1,10 +1,10 @@
 <template>
-  <div class="hello">
-    <h1>{{ $t('home.intro') }}</h1>
-    <p v-if="userData">
+  <div class="my-5 py-3">
+    <h1 class>{{ $t('home.intro') }}</h1>
+    <!-- <p v-if="userData">
       {{ $t('home.hello', { name: userData.first_name }) }}
-    </p>
-    <p v-else>
+    </p> -->
+    <p v-if="!userData">
       {{ $t('home.connect') }}
     </p>
   </div>
@@ -17,8 +17,8 @@ export default {
   name: 'Homepage',
   computed: {
     ...mapState({
-      log: (state) => state.global.log,
-      userData: (state) => state.user.user
+      userData: (state) => state.user.user,
+      log: (state) => state.global.log
     }),
     ...mapGetters({
       isAuthenticated: 'oauth/isAuthenticated'
@@ -28,19 +28,19 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+// <style scoped lang="less">
+// h3 {
+//   margin: 40px 0 0;
+// }
+// ul {
+//   list-style-type: none;
+//   padding: 0;
+// }
+// li {
+//   display: inline-block;
+//   margin: 0 10px;
+// }
+// a {
+//   color: #42b983;
+// }
+// </style>

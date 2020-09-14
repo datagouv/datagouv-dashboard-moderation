@@ -1,14 +1,14 @@
 <template>
   <div class="resource_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <PageHeader
       :dgfType="dgfType"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
+      :subtitleLink="resourceRequest"
       >
       <template v-slot:badge>
         <div>
@@ -60,6 +60,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
@@ -68,6 +69,7 @@ import ResourceCard from '@/components/resources/ResourceCard.vue'
 export default {
   name: 'ResourceUpdate',
   components: {
+    NavCrumbs,
     PageHeader,
     ModerationRowCard,
     ResourceCard

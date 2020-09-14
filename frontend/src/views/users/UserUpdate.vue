@@ -1,14 +1,14 @@
 <template>
   <div class="user_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <PageHeader
       :dgfType="'user'"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
+      :subtitleLink="userRequest"
       >
       <template v-slot:badge>
         <div>
@@ -61,6 +61,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
@@ -69,6 +70,7 @@ import UserCard from '@/components/users/UserCard.vue'
 export default {
   name: 'UserUpdate',
   components: {
+    NavCrumbs,
     PageHeader,
     ModerationRowCard,
     UserCard

@@ -2,10 +2,9 @@
 
   <div class="users">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <!-- DISPLAY USERS IN TABLE -->
     <UsersList
@@ -19,11 +18,14 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
+
 import UsersList from '@/components/users/UsersList.vue'
 
 export default {
   name: 'Users',
   components: {
+    NavCrumbs,
     UsersList
   },
   data () {

@@ -11,6 +11,15 @@ const translations = {
       back: 'retour',
       from: 'depuis'
     },
+    popovers: {
+      dgfEndpoint: 'API endpoint dans data.gouv.fr'
+    },
+    toastsModeration: {
+      error: 'erreur modération',
+      errorTxt: 'code erreur : {code}',
+      success: 'ok',
+      successTxt: 'modération enregistrée'
+    },
     home: {
       name: 'Accueil',
       intro: 'Bienvenue sur le tableau de bord de modération de datagouv',
@@ -71,6 +80,7 @@ const translations = {
       actionsGroupText: 'actions groupées',
       select: 'sélectionner',
       search: 'rechercher',
+      searchDataset: 'rechercher un jeu de données',
       searchFor: 'rechercher un.e {target}',
       edit: 'modifier',
       spotlight: 'mettre en avant',
