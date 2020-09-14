@@ -100,6 +100,7 @@ class ModerationLib {
   }
 
   addModerationData (obj, itemStatus) {
+    console.log('>>> ModerationLib > addModerationData > itemStatus : ', itemStatus)
     return {
       ...obj,
       read: itemStatus.read || false,

@@ -48,8 +48,9 @@
 </template>
 
 <script>
-
 import { mapState, mapGetters } from 'vuex'
+
+import { APIresponses } from '@/config/APIoperations.js'
 
 export default {
   name: 'ModerationCheckbox',
@@ -131,9 +132,9 @@ export default {
     },
     makeToast (moderationResponse) {
       const h = this.$createElement
-      const variant = moderationResponse.status !== 200 ? 'danger' : 'success'
-      const title = moderationResponse.status !== 200 ? 'error' : 'success'
-      const msg = moderationResponse.status !== 200 ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
+      const variant = !APIresponses.success.includes(moderationResponse.status) ? 'danger' : 'success'
+      const title = !APIresponses.success.includes(moderationResponse.status) ? 'error' : 'success'
+      const msg = !APIresponses.success.includes(moderationResponse.status) ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
 
       const vNodesTitle = h(
         'div',

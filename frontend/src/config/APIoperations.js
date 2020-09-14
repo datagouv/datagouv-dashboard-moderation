@@ -1,3 +1,7 @@
+export const APIresponses = {
+  success: [200, 201]
+}
+
 export const APIoperations = {
   // ACTIVITY
   activityEndpoints: {
