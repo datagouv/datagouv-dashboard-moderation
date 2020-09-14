@@ -11,7 +11,9 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 
-cors = CORS(resources={
+cors = CORS(
+  supports_credentials=True,
+  resources={
   r"/api/*": {
     "origins": 
       [
