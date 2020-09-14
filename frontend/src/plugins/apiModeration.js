@@ -167,7 +167,7 @@ class ModerationLib {
   }
 
   async updateModeration (dgfType, item, field, evt) {
-    const url = `${this.moderationServer}/objects`
+    const url = `${this.moderationServer}/objects/${item.id}`
     const session = this.store.getters.getModerationSession
     const moderationData = this.formatModerationItem(dgfType, item, field, evt)
     console.log('>>> ModerationLib > updateModeration >  moderationData :', moderationData)

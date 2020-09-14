@@ -27,7 +27,8 @@ const translations = {
       _401: 'Unauthorized',
       _403: 'Not enough priviledges',
       _404: 'Not found',
-      _500: 'ERROR'
+      _405: 'Method not allowed',
+      _500: 'Internal server error'
     },
     home: {
       name: 'Home',
