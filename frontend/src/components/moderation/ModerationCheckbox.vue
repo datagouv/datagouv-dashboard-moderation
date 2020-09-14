@@ -146,6 +146,8 @@ export default {
         'p',
         { class: ['text-center', 'my-2'] },
         [
+          h('strong', `PUT ${this.dgfType} / ${this.field}`),
+          h('br'),
           h('strong', msg)
         ]
       )

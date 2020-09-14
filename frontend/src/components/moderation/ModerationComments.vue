@@ -224,6 +224,8 @@ export default {
         'p',
         { class: ['text-center', 'my-2'] },
         [
+          h('strong', `PUT ${this.dgfType} / comment`),
+          h('br'),
           h('strong', msg)
         ]
       )
