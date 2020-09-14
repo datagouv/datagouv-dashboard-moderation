@@ -2,22 +2,39 @@
   <div class="user-card-component">
 
     <b-card
-      header-tag="header"
-      :header="cardTitle"
       footer-tag="footer"
       :footer="cardFooter"
-      :title="userTitle"
-      class="mt-3 mx-auto text-center"
-      :style="`width: ${width};`"
       >
+
+      <template v-slot:header>
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <div class="flex-fill align-content-center">
+            {{ cardTitle }}
+          </div>
+          <EditItemBtn
+            :dgfType="dgfType"
+            :endpoint="putOperationId"
+            :item="user"
+            :hideFields="['chat', 'comment', 'spotlight', 'share']"
+            @responseAction="callbackAction"
+            >
+          </EditItemBtn>
+        </div>
+      </template>
 
       <!-- VIEW -->
       <div v-if="user && !edit">
+
+        <CardProducer
+          :item="{owner: user}"
+          :hide="['seeProfile']"
+        />
+
+        <CardDescription
+          :text="user.about"
+        />
+
         <hr>
-        <b-card-text>
-          About :<br>
-          {{ user.about }}
-        </b-card-text>
         <hr>
         <b-card-text>
           Roles :<br>
@@ -25,22 +42,7 @@
             {{ user.roles.join(" | ") }}
           </code>
         </b-card-text>
-        <!-- <hr>
-        <b-card-text>
-          <code>
-            {{ user }}
-          </code>
-        </b-card-text> -->
 
-        <!-- EDIT -->
-        <b-button
-          v-if="isAuthenticated"
-          @click="edit=true"
-          variant="primary"
-          >
-          <b-icon icon="pencil" aria-hidden="true"></b-icon>
-          edit
-        </b-button>
       </div>
 
       <!-- EDIT -->
@@ -96,14 +98,13 @@
           <hr>
 
           <div v-if="!isLoading">
-            <b-button type="submit" variant="primary">
-              <b-icon icon="check2" aria-hidden="true"></b-icon>
-              save
-            </b-button>
-            &nbsp;
-            <b-button @click="edit=false" variant="light">
+            <b-button @click="edit=false" class="mx-2" variant="danger">
               <b-icon icon="x" aria-hidden="true"></b-icon>
-              cancel
+              {{ $t('actions.cancel') }}
+            </b-button>
+            <b-button type="submit" class="mx-2" variant="success">
+              <b-icon icon="check2" aria-hidden="true"></b-icon>
+              {{ $t('actions.save') }}
             </b-button>
           </div>
           <div v-else>
@@ -120,6 +121,20 @@
         <b-spinner label="loading"></b-spinner>
       </div>
 
+      <RawData
+        :customClass="`mb-3`"
+        :see="seeRaw"
+        title="user data"
+        :dataRaw="user"
+      ></RawData>
+
+      <RawData
+        :customClass="`mb-3`"
+        :see="seeRawActivity"
+        title="user activity"
+        :dataRaw="userActivity"
+      ></RawData>
+
     </b-card>
   </div>
 
@@ -128,27 +143,46 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { APIoperations } from '@/config/APIoperations.js'
+
+import CardProducer from '@/components/blocks/CardProducer.vue'
+import CardDescription from '@/components/blocks/CardDescription.vue'
+
+import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+import RawData from '@/components/ux/RawData.vue'
+
 export default {
   name: 'UserCard',
+  components: {
+    CardProducer,
+    CardDescription,
+    EditItemBtn,
+    RawData
+  },
   props: [
     'cardTitle',
     'cardFooter',
     'userData',
     'userId',
-    'width',
     'height'
   ],
   data () {
     return {
+      activityEndpoints: APIoperations.activityEndpoints,
+      dgfType: 'user',
       edit: false,
+      seeRaw: true,
+      seeRawActivity: false,
       isLoading: false,
       defaultText: 'user is loading',
+      activityOperationId: 'activity',
       putOperationId: 'update_user',
-      user: undefined
+      user: undefined,
+      userActivity: undefined
     }
   },
   created () {
-    console.log('-C- UserCard > created ... ')
+    this.getUserActivity()
   },
   watch: {
     userData (next) {
@@ -169,10 +203,31 @@ export default {
     }
   },
   methods: {
+    callbackAction (evt) {
+      switch (evt.category) {
+        case 'openEdit':
+          this.edit = true
+          break
+      }
+    },
+    getUserActivity () {
+      const API = this.$APIcli
+      const params = { user: this.userId }
+      this.isLoading = true
+      API._request(this.activityOperationId, { params }).then(
+        results => {
+          this.userActivity = results.body
+          this.isLoading = false
+        },
+        reason => {
+          console.error(`failed on api call: ${reason}`)
+          this.isLoading = false
+        }
+      )
+    },
     updateUser (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      console.log('-C- UserCard > methods > updateUser > API :', API)
       this.isLoading = true
       const params = {
         user: this.userId,
@@ -182,7 +237,6 @@ export default {
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          console.log('-C- UserCard > methods > updateUser > results.body :', results.body)
           this.user = results.body
         },
         reason => {

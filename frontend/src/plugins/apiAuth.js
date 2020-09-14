@@ -92,7 +92,6 @@ class OAuthLib {
   constructor (options, store) {
     this.store = store
     this.storeModuleName = options.storeModuleName
-    // console.log('>>> OAuthLib > init >  store :', store)
 
     // set OAUTH clientId - both in class and vuex module
     this.clientId = options.clientId
@@ -138,9 +137,6 @@ class OAuthLib {
 
     // set flowSpecs
     this.flowSpecs = flowsMinMax[this.oauthFlow]
-
-    // debugging
-    console.log('>>> OAuthLib > init >  this :', this)
   }
 
   /**************************************************************
@@ -216,8 +212,6 @@ class OAuthLib {
    * Create a login workflow
    */
   async buildLoginWorkflowObject (clientId, state) {
-    // console.log('>>> OAuthLib > buildLoginWorkflowObject >  clientId :', clientId)
-    // console.log('>>> OAuthLib > buildLoginWorkflowObject >  redirectURI :', redirectURI)
     const encodedState = encodeURIComponent(state)
     const wf = {
       flow: this.oauthFlow,
@@ -262,16 +256,12 @@ class OAuthLib {
    */
   async login (clientId) {
     if (clientId) { this.clientId = clientId }
-    console.log('>>> OAuthLib > login >  this.clientId :', this.clientId)
-
     // create a new state to send in request and store for later checks
     await this.clearLocalStorageFromLoginParams()
     const state = this.createNewState()
 
     // build the workflow data object
     const workflowData = await this.buildLoginWorkflowObject(this.clientId, state)
-    console.log('>>> OAuthLib > login >  workflowData :', workflowData)
-    console.log('>>> OAuthLib > login >  workflowData.loginUrlStrings :', workflowData.loginUrlString)
 
     // open authorization url in browser
     window.location = workflowData.loginUrlString
@@ -282,7 +272,6 @@ class OAuthLib {
    * Handle the response from the login workflow
    */
   async buildAuthWorkflowObject (clientId, state, code) {
-    // console.log('>>> OAuthLib > buildAuthWorkflowObject >  clientId :', clientId)
     const wf = {
       flow: this.oauthFlow,
       oauthExchangeUrl: '',
@@ -312,14 +301,12 @@ class OAuthLib {
 
   async retrieveToken () {
     const state = this.getStateFromLocalStorage()
-    console.log('>>> OAuthLib > retrieveToken >  state :', state)
 
     // build the query dict
     const queryObject = {}
     window.location.search.substr(1).split('&').forEach(item => {
       queryObject[item.split('=')[0]] = item.split('=')[1]
     })
-    console.log('>>> OAuthLib > retrieveToken > queryObject :', queryObject)
 
     if (!queryObject || !queryObject.state || !queryObject.code) return { error: 'we got nothing in queryObject' }
 
@@ -328,16 +315,13 @@ class OAuthLib {
     if (!areStatesSame) {
       // window.alert('>>> OAuthLib > retrieveToken >  states are not the same ')
       return { error: 'states are not the same' }
-    } else {
-      console.log('>>> OAuthLib > retrieveToken >  states are the same ... continue')
-    }
+    } else {}
 
     // declare some empty vars
     const code = queryObject.code
     const workflowData = await this.buildAuthWorkflowObject(this.clientId, state, code)
     const exchangeUrl = workflowData.oauthExchangeUrl
     const exchangeData = workflowData.oauthExchangeData
-    console.log('>>> OAuthLib > retrieveToken > workflowData :', workflowData)
 
     let accessToken, refreshToken, expiresIn, tokenType
 
@@ -345,18 +329,16 @@ class OAuthLib {
     if (this.flowSpecs.needExchange) {
       // for : pkce | authorisation_code
       // need to fetch a new response
-      console.log('>>> OAuthLib > retrieveToken > needExchange == true ...')
+
       const config = {
         method: 'POST',
         // headers: basicHeaders,
         // body: JSON.stringify(exchangeData)
         body: objectToFormData(exchangeData)
       }
-      console.log('>>> OAuthLib > retrieveToken > config :', config)
 
       const response = await fetch(exchangeUrl, config)
       const data = await response.json()
-      console.log('>>> OAuthLib > retrieveToken > data :', data)
 
       accessToken = data.access_token
       refreshToken = data.refresh_token
@@ -391,7 +373,6 @@ class OAuthLib {
    */
   async logout () {
     const revokeUrl = `${this.oauthServer}${this.revokePath}`
-    console.log('>>> OAuthLib > logout >  revokeUrl :', revokeUrl)
     const revokeData = {
       token: localStorage[this.oauthAccessTokenName]
       // token_type_hint: 'access_token',
@@ -405,12 +386,8 @@ class OAuthLib {
     }
     try {
       const response = await fetch(revokeUrl, config)
-      console.log('>>> OAuthLib > logout >  response :', response)
       return response
-    } catch (error) {
-      console.log('error', error)
-    } finally {
-      console.log('>>> OAuthLib > logout >  finally ...')
+    } catch (error) {} finally {
       await this.clearLocalStorageFromLoginParams()
       await this.clearLocalStorageFromTokens()
       this.store.commit(`${this.storeModuleName}/resetTokens`)

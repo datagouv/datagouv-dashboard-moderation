@@ -8,7 +8,7 @@
     </b-breadcrumb>
 
     <h2>
-      Login with Client ID
+      {{ $t('auth.loginClientId') }}
     </h2>
 
     <!-- LOGIN FORM -->
@@ -38,12 +38,12 @@
 
         <b-button type="submit" variant="success">
           <b-icon icon="box-arrow-in-right" aria-hidden="true"></b-icon>
-          Log in with Client ID
+           {{ $t('auth.loginClientId') }}
         </b-button>
         &nbsp;
         <b-button @click="submitLogout" variant="warning">
           <b-icon icon="box-arrow-right" aria-hidden="true"></b-icon>
-          Log out
+            {{ $t('auth.logOut') }}
         </b-button>
 
       </b-form>
@@ -91,18 +91,17 @@ export default {
       },
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'AuthorizeClientId',
+          text: this.$t('auth.authorizeClientId'),
           active: true
         }
       ]
     }
   },
   created () {
-    console.log('-V- AUTHORIZE_CLIENT_ID > created ...')
     this.oauthVars.clientId = this.clientId
     this.oauthVars.clientSecret = this.clientSecret
     this.oauthVars.oauthRedirect = this.oauthRedirect
@@ -131,15 +130,12 @@ export default {
   methods: {
     async submitLogin (evt) {
       evt.preventDefault()
-      console.log('\n-V- AUTHORIZE_CLIENT_ID > submitLogin > this.oauthVars :', this.oauthVars)
-
       // login with OAUTH
       this.isLoading = true
       this.$OAUTHcli.login(this.oauthVars.clientId)
     },
     async submitLogout (evt) {
       evt.preventDefault()
-      console.log('\n-V- AUTHORIZE_CLIENT_ID > submitLogout > ...')
       this.isLoading = true
       await this.$OAUTHcli.logout()
       this.isLoading = false

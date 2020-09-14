@@ -2,78 +2,88 @@
   <div class="reuse-card-component">
 
     <b-card
-      header-tag="header"
-      :header="cardTitle"
       footer-tag="footer"
       :footer="cardFooter"
-      class="mt-3 mx-auto text-center"
-      :style="`width: ${width};`"
       >
+
+      <template v-slot:header>
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <div class="flex-fill align-content-center">
+            {{ cardTitle }}
+          </div>
+          <EditItemBtn
+            :dgfType="dgfType"
+            :endpoint="putOperationId"
+            :item="reuse"
+            :hideFields="['comment', 'spotlight', 'follow', 'share', 'contactProducer']"
+            @responseAction="callbackAction"
+            >
+          </EditItemBtn>
+        </div>
+      </template>
 
       <!-- VIEW -->
       <div v-if="reuse">
-        <hr>
-        <b-card-text>
-          Reuse title :<br>
-          {{ reuse.title }}
-        </b-card-text>
-        <hr>
-        <b-card-text>
-          <code>
-            {{ reuse }}
-          </code>
-        </b-card-text>
 
-        <!-- EDIT -->
-        <b-button
-          v-if="isAuthenticated && !edit"
-          @click="edit=true"
-          variant="primary"
-          >
-          <b-icon icon="pencil" aria-hidden="true"></b-icon>
-          edit
-        </b-button>
+        <CardTitle
+          :title="reuse.title"
+        />
+
+        <CardProducer
+          :item="reuse"
+        />
+
+        <CardDescription
+          :text="reuse.description"
+        />
+
       </div>
 
       <!-- EDIT -->
       <b-container v-if="reuse && isAuthenticated && edit">
-        <hr>
-        <b-form @submit="commentReuse">
 
-          <!-- COMMENT -->
+        <b-form @submit="updateReuse">
+
+          <!-- TITLE -->
           <b-form-group
-            id="input-group-comment"
-            label="Comment"
-            label-for="reuse-comment"
-            description="your comment ..."
-            >
+            id="input-group-title"
+            label="Title"
+            label-for="reuse-title"
+            description="the reuse's title..."
+          >
             <b-form-input
-              id="reuse-comment"
-              v-model="comment"
-              placeholder="comment reuse..."
+              id="reuse-title"
+              v-model="reuse.title"
+              placeholder="Add title something..."
             ></b-form-input>
           </b-form-group>
+          <hr>
 
-          <!-- CLOSE ISSUE -->
-          <b-form-checkbox
-            id="checkbox-close-reuse"
-            v-model="closeReuse"
-            name="checkbox-close-reuse"
-            >
-            Close reuse
-          </b-form-checkbox>
-
+          <!-- DESCRIPTION -->
+          <b-form-group
+            id="input-group-description"
+            label="Description"
+            label-for="textarea"
+            description="the reuse's description..."
+          >
+            <b-form-textarea
+              id="textarea"
+              v-model="reuse.description"
+              placeholder="Add a description ..."
+              rows="3"
+              max-rows="6"
+            ></b-form-textarea>
+          </b-form-group>
           <hr>
 
           <div v-if="!isLoading">
-            <b-button type="submit" variant="primary">
-              <b-icon icon="check2" aria-hidden="true"></b-icon>
-              comment
-            </b-button>
-            &nbsp;
-            <b-button @click="edit=false" variant="light">
+            <b-button @click="edit=false" class="mx-2" variant="danger">
               <b-icon icon="x" aria-hidden="true"></b-icon>
-              cancel
+              {{ $t('actions.cancel') }}
+            </b-button>
+            <b-button type="submit" class="mx-2" variant="success">
+              <b-icon icon="check2" aria-hidden="true"></b-icon>
+              {{ $t('actions.save') }}
             </b-button>
           </div>
           <div v-else>
@@ -90,6 +100,12 @@
         <b-spinner label="loading"></b-spinner>
       </div>
 
+      <RawData
+        :customClass="`mb-3`"
+        :see="seeRaw"
+        :dataRaw="reuse"
+      ></RawData>
+
     </b-card>
   </div>
 
@@ -98,29 +114,46 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { APIoperations } from '@/config/APIoperations.js'
+
+import CardTitle from '@/components/blocks/CardTitle.vue'
+import CardProducer from '@/components/blocks/CardProducer.vue'
+import CardDescription from '@/components/blocks/CardDescription.vue'
+
+import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+import RawData from '@/components/ux/RawData.vue'
+
 export default {
   name: 'ReuseCard',
+  components: {
+    CardTitle,
+    CardProducer,
+    CardDescription,
+    EditItemBtn,
+    RawData
+  },
   props: [
     'cardTitle',
     'cardFooter',
     'reuseData',
     'reuseId',
-    'width',
     'height'
   ],
   data () {
     return {
+      updateEndpoints: APIoperations.updateEndpoints,
+      commentEndpoints: APIoperations.commentEndpoints,
+      dgfType: 'reuse',
       edit: false,
+      comment: false,
+      seeRaw: true,
       isLoading: false,
       defaultText: 'reuse is loading',
       putOperationId: 'comment_reuse',
       reuse: undefined,
-      comment: '',
+      commentContent: '',
       closeReuse: false
     }
-  },
-  created () {
-    console.log('-C- ReuseCard > created ... ')
   },
   watch: {
     reuseData (next) {
@@ -138,23 +171,31 @@ export default {
     })
   },
   methods: {
-    commentReuse (evt) {
+    callbackAction (evt) {
+      console.log('-C- ReuseCard > callbackAction > evt : ', evt)
+      switch (evt.category) {
+        case 'openEdit':
+          this.edit = true
+          this.seeRaw = false
+          break
+        // case 'comment':
+        //   this.comment = true
+        //   this.seeRaw = false
+        //   break
+      }
+    },
+    updateReuse (evt) {
       evt.preventDefault()
       const API = this.$APIcli
-      console.log('-C- ReuseCard > methods > commentReuse > API :', API)
       this.isLoading = true
       const params = {
-        id: this.reuseId,
-        payload: {
-          comment: this.comment,
-          close: this.closeReuse
-        }
+        reuse: this.reuseId,
+        payload: this.reuse
       }
       const body = {}
       API._request(this.putOperationId, { params, body, needAuth: true }).then(
         results => {
           this.isLoading = false
-          console.log('-C- ReuseCard > methods > commentReuse > results.body :', results.body)
           this.reuse = results.body
         },
         reason => {

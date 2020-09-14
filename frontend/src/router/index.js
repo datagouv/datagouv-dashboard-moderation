@@ -5,6 +5,7 @@ import store from '../store'
 // import middlewares
 import middlewarePipeline from './middlewarePipeline'
 import checkAuth from './middleware/checkAuth.js'
+// import setLocale from './middleware/getLocale.js'
 // import getUserData from './middleware/getUserData.js'
 
 // import views components
@@ -33,32 +34,32 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/auth/Login.vue')
+    component: () => import(/* webpackChunkName: "login" */ '../views/auth/Login.vue')
   },
   {
     path: '/reset-auth-api-client',
     name: 'ResetAuthApiCli',
-    component: () => import(/* webpackChunkName: "about" */ '../views/auth/ResetAuthApiCli.vue')
+    component: () => import(/* webpackChunkName: "resetAuth" */ '../views/auth/ResetAuthApiCli.vue')
   },
   {
     path: '/oauth-client-id',
     name: 'AuthorizeClientId',
-    component: () => import(/* webpackChunkName: "about" */ '../views/auth/AuthorizeClientId.vue')
+    component: () => import(/* webpackChunkName: "authorize" */ '../views/auth/AuthorizeClientId.vue')
   },
-  {
-    path: '/set-api-key',
-    name: 'SetApiKey',
-    component: () => import(/* webpackChunkName: "about" */ '../views/auth/SetApiKey.vue'),
-    meta: {
-      middleware: [
-        checkAuth
-      ]
-    }
-  },
+  // {
+  //   path: '/set-api-key',
+  //   name: 'SetApiKey',
+  //   component: () => import(/* webpackChunkName: "setApiKey" */ '../views/auth/SetApiKey.vue'),
+  //   meta: {
+  //     middleware: [
+  //       checkAuth
+  //     ]
+  //   }
+  // },
   {
     path: '/get-user-data',
     name: 'GetUserData',
-    component: () => import(/* webpackChunkName: "about" */ '../views/auth/GetUserData.vue')
+    component: () => import(/* webpackChunkName: "getUserData" */ '../views/auth/GetUserData.vue')
   },
   /***************************
    * SETTINGS
@@ -66,7 +67,7 @@ const routes = [
   {
     path: '/settings',
     name: 'Settings',
-    component: () => import(/* webpackChunkName: "about" */ '../views/settings/Settings.vue'),
+    component: () => import(/* webpackChunkName: "settings" */ '../views/settings/Settings.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -76,7 +77,7 @@ const routes = [
   {
     path: '/settings/profile',
     name: 'Profile',
-    component: () => import(/* webpackChunkName: "about" */ '../views/settings/Profile.vue'),
+    component: () => import(/* webpackChunkName: "profile" */ '../views/settings/Profile.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -89,7 +90,7 @@ const routes = [
   {
     path: '/datasets',
     name: 'Datasets',
-    component: () => import(/* webpackChunkName: "about" */ '../views/datasets/Datasets.vue'),
+    component: () => import(/* webpackChunkName: "datasets" */ '../views/datasets/Datasets.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -97,9 +98,42 @@ const routes = [
     }
   },
   {
-    path: '/dataset/:id',
+    path: '/datasets/:id',
     name: 'DatasetUpdate',
-    component: () => import(/* webpackChunkName: "about" */ '../views/datasets/DatasetUpdate.vue'),
+    component: () => import(/* webpackChunkName: "dataset" */ '../views/datasets/DatasetUpdate.vue'),
+    meta: {
+      middleware: [
+        checkAuth
+      ]
+    }
+  },
+  /***************************
+   * RESOURCES
+   */
+  // {
+  //   path: '/resources',
+  //   name: 'Resources',
+  //   component: () => import(/* webpackChunkName: "resources" */ '../views/resources/Resources.vue'),
+  //   meta: {
+  //     middleware: [
+  //       checkAuth
+  //     ]
+  //   }
+  // },
+  {
+    path: '/resources-community',
+    name: 'ResourcesCommunity',
+    component: () => import(/* webpackChunkName: "resourcesCommunity" */ '../views/resources/ResourcesCommunity.vue'),
+    meta: {
+      middleware: [
+        checkAuth
+      ]
+    }
+  },
+  {
+    path: '/resources-community/:id',
+    name: 'ResourceCommunityUpdate',
+    component: () => import(/* webpackChunkName: "resource" */ '../views/resources/ResourceCommunityUpdate.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -112,7 +146,7 @@ const routes = [
   {
     path: '/reuses',
     name: 'Reuses',
-    component: () => import(/* webpackChunkName: "about" */ '../views/reuses/Reuses.vue'),
+    component: () => import(/* webpackChunkName: "reuses" */ '../views/reuses/Reuses.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -122,7 +156,7 @@ const routes = [
   {
     path: '/reuses/:id',
     name: 'ReuseUpdate',
-    component: () => import(/* webpackChunkName: "about" */ '../views/reuses/ReuseUpdate.vue'),
+    component: () => import(/* webpackChunkName: "reuse" */ '../views/reuses/ReuseUpdate.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -135,7 +169,7 @@ const routes = [
   {
     path: '/users',
     name: 'Users',
-    component: () => import(/* webpackChunkName: "about" */ '../views/users/Users.vue'),
+    component: () => import(/* webpackChunkName: "users" */ '../views/users/Users.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -143,9 +177,9 @@ const routes = [
     }
   },
   {
-    path: '/user/:id',
+    path: '/users/:id',
     name: 'UserUpdate',
-    component: () => import(/* webpackChunkName: "about" */ '../views/users/UserUpdate.vue'),
+    component: () => import(/* webpackChunkName: "user" */ '../views/users/UserUpdate.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -158,7 +192,7 @@ const routes = [
   {
     path: '/organizations',
     name: 'Organizations',
-    component: () => import(/* webpackChunkName: "about" */ '../views/organizations/Organizations.vue'),
+    component: () => import(/* webpackChunkName: "organizations" */ '../views/organizations/Organizations.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -168,7 +202,7 @@ const routes = [
   {
     path: '/organizations/:id',
     name: 'OrganizationUpdate',
-    component: () => import(/* webpackChunkName: "about" */ '../views/organizations/OrganizationUpdate.vue'),
+    component: () => import(/* webpackChunkName: "organization" */ '../views/organizations/OrganizationUpdate.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -181,7 +215,7 @@ const routes = [
   {
     path: '/issues',
     name: 'Issues',
-    component: () => import(/* webpackChunkName: "about" */ '../views/issues/Issues.vue'),
+    component: () => import(/* webpackChunkName: "issues" */ '../views/issues/Issues.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -189,9 +223,9 @@ const routes = [
     }
   },
   {
-    path: '/issue/:id',
+    path: '/issues/:id',
     name: 'IssueUpdate',
-    component: () => import(/* webpackChunkName: "about" */ '../views/issues/IssueUpdate.vue'),
+    component: () => import(/* webpackChunkName: "issue" */ '../views/issues/IssueUpdate.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -204,7 +238,7 @@ const routes = [
   {
     path: '/discussions',
     name: 'Discussions',
-    component: () => import(/* webpackChunkName: "about" */ '../views/discussions/Discussions.vue'),
+    component: () => import(/* webpackChunkName: "discussions" */ '../views/discussions/Discussions.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -214,7 +248,7 @@ const routes = [
   {
     path: '/discussions/:id',
     name: 'DiscussionUpdate',
-    component: () => import(/* webpackChunkName: "about" */ '../views/discussions/DiscussionUpdate.vue'),
+    component: () => import(/* webpackChunkName: "discussion" */ '../views/discussions/DiscussionUpdate.vue'),
     meta: {
       middleware: [
         checkAuth
@@ -228,6 +262,20 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: routes
+})
+
+// custom history
+router.beforeEach((to, from, next) => {
+  const skippableRoutes = [
+    '/login',
+    '/reset-auth-api-client',
+    '/auth-client-id',
+    '/get-user-data'
+  ]
+  if (!skippableRoutes.includes(from.path)) {
+    store.commit('global/appendPathToHistory', from.path)
+  }
+  next()
 })
 
 // adding middleware ability

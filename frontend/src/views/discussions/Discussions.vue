@@ -7,12 +7,6 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <h2>
-      Discussions list
-    </h2>
-
-    <br>
-
     <!-- DISPLAY DISCUSSIONS IN TABLE -->
     <DiscussionsList
       height="800px"
@@ -37,11 +31,11 @@ export default {
     return {
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Discussions',
+          text: this.$t('basics.discussions', { list: '' }),
           active: true
         }
       ]

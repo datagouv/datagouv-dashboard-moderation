@@ -7,12 +7,6 @@
       :items="crumbs">
     </b-breadcrumb>
 
-    <h2>
-      Datasets list
-    </h2>
-
-    <br>
-
     <!-- DISPLAY DATASETS IN TABLE -->
     <DatasetsList
       height="800px"
@@ -40,11 +34,11 @@ export default {
       datasetsRequest: undefined,
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Datasets',
+          text: this.$t('basics.datasets', { list: '' }),
           active: true
         }
       ]

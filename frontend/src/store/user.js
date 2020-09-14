@@ -18,6 +18,9 @@ export const moduleUser = {
   mutations: {
     setUser (state, user) {
       state.user = user
+    },
+    resetUser (state) {
+      state.user = undefined
     }
   },
 

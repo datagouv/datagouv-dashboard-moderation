@@ -8,30 +8,27 @@
     </b-breadcrumb>
 
     <h2>
-      Get your user data
+      {{$t('settings.getUserData')}}
     </h2>
 
-    <h3 v-if="isLoading">
+    <h3 v-if="isLoading" class="mt-3">
+      {{$t('actions.wait')}}<br>
       <b-spinner label="loading"></b-spinner>
     </h3>
 
-    redirection :
+    {{$t('basics.redirection')}}
     <code>
       {{redirection}}
     </code>
 
-    <!-- RESPONSE USER -->
     <b-card
       class="mt-3 mx-auto text-center"
       style="width: 600px;"
       v-if="!isLoading"
       >
-      <!-- user (component) :
-      <code>
-        {{user}}
-      </code> -->
       <hr>
-      user (store) :
+      {{$t('basics.user')}}
+      (store) :
       <code>
         {{userData}}
       </code>
@@ -54,18 +51,17 @@ export default {
       // user: undefined,
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Get your user data',
+          text: this.$t('settings.getUserData'),
           active: true
         }
       ]
     }
   },
   created () {
-    console.log('-V- GetUserData > created ...')
     this.retrieveUserDataFromCli()
   },
   computed: {
@@ -80,7 +76,6 @@ export default {
       this.isLoading = true
       this.$APIcli._request(this.operationId, { needAuth: true }).then(
         results => {
-          console.log('-V- GetUserData > created > results.body :', results.body)
           this.isLoading = false
           // this.user = results.body
           this.$store.commit('user/setUser', results.body)

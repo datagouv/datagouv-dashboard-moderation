@@ -8,7 +8,7 @@
     </b-breadcrumb>
 
     <h2>
-      Reset API client
+    {{ $t('auth.resetApiClient') }}
     </h2>
 
     <h3 v-if="isLoading">
@@ -41,32 +41,28 @@ export default {
       loginResponse: '(tokens are being requested from oauth store)',
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         {
-          text: 'Reset API client',
+          text: this.$t('auth.resetApiClient'),
           active: true
         }
       ]
     }
   },
   async mounted () {
-    console.log('-V- ResetAuthApiCli > mounted ...')
-    console.log('-V- ResetAuthApiCli > this.$route :', this.$route)
-    console.log('-V- ResetAuthApiCli > this.$route.query.redirect :', this.$route.query.redirect)
     this.isLoading = true
     try {
       const authOptions = {
         bearerAuth: this.tokens.access.value
       }
-      console.log('-V- ResetAuthApiCli > created > authOptions :', authOptions)
       this.$APIcli.resetCli(authOptions)
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
-      // this.$router.push(this.redirection)
+      // log into moderation API here
+      await this.$MODERATIONcli.login(this.tokens.access.value)
       this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
-      console.log('error', ex)
       this.loginResponse = `${ex} ... please try to authenticate again`
     } finally {
       this.isLoading = false

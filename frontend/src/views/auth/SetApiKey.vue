@@ -11,12 +11,12 @@
       Set your udata API key
     </h2>
 
-    <!-- LOGIN FORM -->
+    <!-- API KEY FORM -->
     <b-card
       class="mx-auto text-center"
       style="width: 700px;"
       header="Set your API key form"
-    >
+      >
 
       <b-form @submit="setApiKeyHeader" inline class="text-center">
 
@@ -75,7 +75,7 @@
       class="mt-3 mx-auto text-center"
       style="width: 600px;"
       header="Form Data"
-    >
+      >
       <pre class="m-0">{{ form }}</pre>
     </b-card>
 
@@ -110,7 +110,7 @@ export default {
       setResponse: '(apiKey not stored yet)',
       crumbs: [
         {
-          text: 'Home',
+          text: this.$t('home.name'),
           to: '/'
         },
         // {
@@ -118,14 +118,14 @@ export default {
         //   to: '/'
         // },
         {
-          text: 'Set API key | token',
+          text: this.$t('auth.setApiToken'),
           active: true
         }
       ]
     }
   },
   created () {
-    console.log('-V- SET_API_KEY > created ...')
+    
     this.form.apiKey = this.options.apiKey
     this.form.bearerToken = this.tokens.access && this.tokens.access.value
   },
@@ -146,14 +146,14 @@ export default {
   methods: {
     setApiKeyHeader (evt) {
       evt.preventDefault()
-      console.log('\n-V- SET_API_KEY > setApiKeyHeader > this.form :', this.form)
+      
       const cliAuthOptions = { apiKey: this.form.apiKey }
       this.$APIcli.resetCli(cliAuthOptions)
       this.setResponse = 'your API key was updated in $APIcli'
     },
     setBearerHeader (evt) {
       evt.preventDefault()
-      console.log('\n-V- SET_API_KEY > onSubmit > this.form :', this.form)
+      
       const cliAuthOptions = {
         bearerAuth: this.form.bearerToken,
         clientId: process.env.VUE_APP_DEFAULT_CLIENT_ID,
