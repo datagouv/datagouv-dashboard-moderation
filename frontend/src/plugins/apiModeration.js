@@ -23,7 +23,7 @@ const commentsDummy = [
 const basicHeaders = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
-  'Access-Control-Request-Headers': ['Cookie', 'Set-Cookie']
+  'Access-Control-Request-Headers': ['Cookie', 'Set-Cookie', 'Session-Id']
 }
 
 class ModerationLib {
@@ -49,13 +49,21 @@ class ModerationLib {
       body: JSON.stringify({ token: clientToken })
     }
     try {
+      console.log('>>> ModerationLib > login >  config :', config)
       const response = await fetch(url, config)
       console.log('>>> ModerationLib > login >  response :', response)
-      console.log('>>> ModerationLib > login >  response.headers :', response.headers)
-      console.log('>>> ModerationLib > login >  response.headers.get("set-cookie") :', response.headers.get('set-cookie'))
+      const respHeaders = response.headers
+      respHeaders.forEach(function (value, name) {
+        console.log('>>> ModerationLib > login >  respHeaders > ', name + ' : ' + value)
+      })
+      console.log('>>> ModerationLib > login >  respHeaders :', respHeaders)
+      console.log('>>> ModerationLib > login >  respHeaders.get("Content-Type") :', respHeaders.get('Content-Type'))
+      console.log('>>> ModerationLib > login >  respHeaders.get("Status") :', respHeaders.get('Status'))
+      console.log('>>> ModerationLib > login >  respHeaders.get("Set-Cookie") :', respHeaders.get('Set-Cookie'))
+      console.log('>>> ModerationLib > login >  respHeaders.get("session-id") :', respHeaders.get('session-id'))
       const auth = response.message === 'success'
       this.store.commit(`${this.storeModuleName}/setLogin`, auth)
-      this.store.commit(`${this.storeModuleName}/setModerationSession`, response.headers)
+      this.store.commit(`${this.storeModuleName}/setModerationSession`, respHeaders)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       return response
     } catch (error) {
