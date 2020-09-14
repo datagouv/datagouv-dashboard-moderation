@@ -11,7 +11,15 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 
-cors = CORS(resources={r"/api/*": {"origins": "http://localhost:8080"}})
+cors = CORS(resources={
+  r"/api/*": {
+    "origins": 
+      [
+        "http://localhost:8080",
+        "https://datagouv-tdb-moderation-demo.netlify.app/"
+      ]
+    }
+  })
 
 
 def create_app(config_class=Config):
