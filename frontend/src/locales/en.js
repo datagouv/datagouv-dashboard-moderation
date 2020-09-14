@@ -11,6 +11,9 @@ const translations = {
       back: 'back',
       from: 'from'
     },
+    popovers: {
+      dgfEndpoint: 'API endpoint in data.gouv.fr'
+    },
     home: {
       name: 'Home',
       intro: 'Welcome to the datagouv moderation dashboard',
@@ -71,6 +74,7 @@ const translations = {
       actionsGroupText: 'grouped actions',
       select: 'select',
       search: 'search',
+      searchDataset: 'search for a dataset',
       searchFor: 'search for a {target}',
       edit: 'edit',
       spotlight: 'spotlight',

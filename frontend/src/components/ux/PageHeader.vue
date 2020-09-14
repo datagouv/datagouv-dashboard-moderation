@@ -50,7 +50,9 @@
           >
           {{formattedNumber(badgeNumber)}}
         </b-badge>
+
         <b-button
+          id="popover-btn-dgf-api-endpoint"
           v-if="subtitleLink"
           variant="link"
           :href="subtitleLink"
@@ -59,6 +61,15 @@
           <!-- {{ subtitleLink }} -->
           <b-icon icon="link45deg"></b-icon>
         </b-button>
+        <b-popover
+          v-if="subtitleLink"
+          target="popover-btn-dgf-api-endpoint"
+          variant="dark"
+          placement="right"
+          triggers="hover">
+          {{$t('popovers.dgfEndpoint')}}
+        </b-popover>
+
       </h2>
       <!-- <template
         v-show="!noSubtitle"

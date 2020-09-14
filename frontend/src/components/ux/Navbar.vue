@@ -116,11 +116,19 @@
         >
         <b-nav-item>
           <b-button
+            id="popover-btn-search-dataset"
             v-b-toggle:navbar-toggle-search
             :variant="searchVisible ? 'primary' :'link'"
             >
             <b-icon icon="search"></b-icon>
           </b-button>
+          <b-popover
+            target="popover-btn-search-dataset"
+            variant="dark"
+            placement="bottomleft"
+            triggers="hover">
+            {{$t('actions.searchDataset')}}
+          </b-popover>
         </b-nav-item>
       </b-navbar-nav>
 

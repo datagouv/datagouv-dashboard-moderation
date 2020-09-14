@@ -9,11 +9,19 @@
 
     <template v-slot:button-content >
       <b-button
+        id="popover-btn-edit"
         :variant="!isAuthenticated ? 'outline-secondary' : 'primary'"
         class="btn-circle btn-circle-sm"
         >
         <b-icon icon="three-dots-vertical"></b-icon>
       </b-button>
+      <b-popover
+        target="popover-btn-edit"
+        variant="dark"
+        placement="left"
+        triggers="hover">
+        {{$t('actions.actionsGroupText')}}
+      </b-popover>
     </template>
 
     <!-- EDIT -->
