@@ -1,10 +1,11 @@
 <template>
   <div
-    class=""
+    :class="customClass"
     >
     <b-button
       pill
-      variant="outline-secondary"
+      :disabled="inactiveBack"
+      :variant="`${customClassBtn ? customClassBtn + ' text-dark' : 'outline-secondary'}`"
       @click="goBack"
       >
       <b-icon icon="arrow-left" aria-hidden="true"></b-icon>
@@ -17,8 +18,10 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'PreviousPage',
-  components: {
-  },
+  props: [
+    'customClass',
+    'customClassBtn'
+  ],
   data () {
     return {}
   },
@@ -29,7 +32,10 @@ export default {
     }),
     ...mapGetters({
       lastPath: 'global/getLastNavPath'
-    })
+    }),
+    inactiveBack () {
+      return this.$router.currentRoute.path === this.lastPath
+    }
   },
   methods: {
     goBack (e) {

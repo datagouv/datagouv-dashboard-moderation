@@ -1,10 +1,9 @@
 <template>
   <div class="discussion_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <PageHeader
       :dgfType="'discussion'"
@@ -62,6 +61,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
@@ -70,6 +70,7 @@ import DiscussionCard from '@/components/discussions/DiscussionCard.vue'
 export default {
   name: 'DiscussionUpdate',
   components: {
+    NavCrumbs,
     PageHeader,
     ModerationRowCard,
     DiscussionCard

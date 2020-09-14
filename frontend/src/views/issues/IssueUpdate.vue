@@ -1,10 +1,9 @@
 <template>
   <div class="issue_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <PageHeader
       :dgfType="'issue'"
@@ -63,6 +62,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
@@ -71,6 +71,7 @@ import IssueCard from '@/components/issues/IssueCard.vue'
 export default {
   name: 'IssueUpdate',
   components: {
+    NavCrumbs,
     PageHeader,
     ModerationRowCard,
     IssueCard

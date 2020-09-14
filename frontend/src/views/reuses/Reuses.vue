@@ -2,10 +2,9 @@
 
   <div class="reuses">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <!-- DISPLAY REUSES IN TABLE -->
     <ReusesList
@@ -19,11 +18,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import ReusesList from '@/components/reuses/ReusesList.vue'
 
 export default {
   name: 'Reuses',
   components: {
+    NavCrumbs,
     ReusesList
   },
   data () {

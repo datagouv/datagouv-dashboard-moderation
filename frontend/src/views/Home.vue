@@ -2,14 +2,11 @@
 
   <div class="home">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <Homepage/>
-
-    <br>
 
     <b-container fluid >
       <b-row
@@ -164,6 +161,7 @@
 import { mapState } from 'vuex'
 
 // @ is an alias to /src
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import Homepage from '@/components/Homepage.vue'
 
 // import DatasetsSuggest from '@/components/datasets/DatasetsSuggest.vue'
@@ -178,6 +176,7 @@ import OrganizationsList from '@/components/organizations/OrganizationsList.vue'
 export default {
   name: 'Home',
   components: {
+    NavCrumbs,
     Homepage,
     // DatasetsSuggest,
     DatasetsList,

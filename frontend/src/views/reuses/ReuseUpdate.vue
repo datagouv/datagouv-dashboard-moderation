@@ -1,10 +1,9 @@
 <template>
   <div class="reuse_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <PageHeader
       :dgfType="'reuse'"
@@ -61,6 +60,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
@@ -69,6 +69,7 @@ import ReuseCard from '@/components/reuses/ReuseCard.vue'
 export default {
   name: 'ReuseUpdate',
   components: {
+    NavCrumbs,
     PageHeader,
     ModerationRowCard,
     ReuseCard

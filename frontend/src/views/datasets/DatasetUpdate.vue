@@ -1,10 +1,9 @@
 <template>
   <div class="dataset_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <PageHeader
       :dgfType="'dataset'"
@@ -61,6 +60,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
@@ -69,6 +69,7 @@ import DatasetCard from '@/components/datasets/DatasetCard.vue'
 export default {
   name: 'DatasetUpdate',
   components: {
+    NavCrumbs,
     PageHeader,
     ModerationRowCard,
     DatasetCard

@@ -10,7 +10,7 @@
       align-self="start"
       class="text-left pl-5"
       >
-      <PreviousPage/>
+      <!-- <PreviousPage/> -->
     </b-col>
 
     <b-col
@@ -18,16 +18,38 @@
       align-self="center"
       :class="compact ? 'pl-5 text-left' : 'text-center' "
       >
+
       <router-link
         v-if="compact"
         class='h2 text-dark'
         :to="dict[dgfType].to"
         >
         <b-icon icon="link45deg" aria-hidden="true"></b-icon>
-        {{ $t(dict[dgfType].textCode) }}
+        <span>
+          {{ $t(dict[dgfType].textCode) }}
+        </span>
+        <b-badge
+          v-if="badgeNumber"
+          pill
+          variant="light"
+          class="badge-shift"
+          >
+          {{formattedNumber(badgeNumber)}}
+        </b-badge>
       </router-link>
+
       <h2 v-else>
-        {{ $t(dict[dgfType].textCode) }}
+        <span>
+          {{ $t(dict[dgfType].textCode) }}
+        </span>
+        <b-badge
+          v-if="badgeNumber"
+          pill
+          variant="light"
+          class="badge-shift"
+          >
+          {{formattedNumber(badgeNumber)}}
+        </b-badge>
         <b-button
           v-if="subtitleLink"
           variant="link"
@@ -62,12 +84,12 @@
 <script>
 import { MapDgfTypes } from '@/config/MapDgfTypes.js'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
+// import PreviousPage from '@/components/ux/PreviousPage.vue'
 
 export default {
   name: 'PageHeader',
   components: {
-    PreviousPage
+    // PreviousPage
   },
   props: [
     'dgfType',
@@ -75,12 +97,25 @@ export default {
     'compact',
     'noSubtitle',
     'subtitleLink',
-    'customClass'
+    'customClass',
+    'badgeNumber'
   ],
   data () {
     return {
       dict: MapDgfTypes
     }
+  },
+  methods: {
+    formattedNumber (value) {
+      return value.toLocaleString()
+    }
   }
 }
 </script>
+
+<style scoped>
+  .badge-shift {
+    vertical-align:text-top;
+    font-size: 0.5em;
+  }
+</style>

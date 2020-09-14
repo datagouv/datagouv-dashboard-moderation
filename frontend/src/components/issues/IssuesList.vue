@@ -7,6 +7,7 @@
       :noSubtitle="noOperationLink"
       :compact="compact"
       :subtitleLink="issuesRequest"
+      :badgeNumber="pagination.totalItems"
       >
       <template v-slot:subtitle>
         <div class="mb-2">
@@ -21,14 +22,14 @@
           </span>
         </div>
       </template>
-      <template v-slot:badge>
+      <!-- <template v-slot:badge>
         <h4 v-if="issues">
           <b-badge pill variant="primary">
             {{ pagination.totalItems }}
             {{ $t('basics.issues', {list: ''}) }}
           </b-badge>
         </h4>
-      </template>
+      </template> -->
     </PageHeader>
 
     <b-card

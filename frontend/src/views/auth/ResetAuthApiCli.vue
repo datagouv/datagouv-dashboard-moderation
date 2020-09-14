@@ -2,10 +2,10 @@
 
   <div class="">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+      :hideBackBtn="true"
+    />
 
     <h2>
     {{ $t('auth.resetApiClient') }}
@@ -37,8 +37,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
+
 export default {
   name: 'ResetApiCli',
+  components: {
+    NavCrumbs
+  },
   data () {
     return {
       isLoading: false,

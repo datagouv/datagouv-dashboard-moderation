@@ -2,10 +2,9 @@
 
   <div class="settings">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <h2>
       {{ $t('basics.settings') }}
@@ -26,8 +25,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
+
 export default {
   name: 'Settings',
+  components: {
+    NavCrumbs
+  },
   data () {
     return {
       crumbs: [

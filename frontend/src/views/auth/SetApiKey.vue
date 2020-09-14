@@ -2,10 +2,9 @@
 
   <div class="set-api-key">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <h2>
       Set your udata API key
@@ -96,11 +95,15 @@
 </template>
 
 <script>
-
 import { mapState } from 'vuex'
+
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 
 export default {
   name: 'SetApiKey',
+  components: {
+    NavCrumbs
+  },
   data () {
     return {
       form: {

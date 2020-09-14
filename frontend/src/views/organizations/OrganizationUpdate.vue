@@ -1,10 +1,9 @@
 <template>
   <div class="organization_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <PageHeader
       :dgfType="'organization'"
@@ -62,6 +61,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
@@ -70,6 +70,7 @@ import OrganizationCard from '@/components/organizations/OrganizationCard.vue'
 export default {
   name: 'OrganizationUpdate',
   components: {
+    NavCrumbs,
     PageHeader,
     ModerationRowCard,
     OrganizationCard
