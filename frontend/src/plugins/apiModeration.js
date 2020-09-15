@@ -111,14 +111,14 @@ class ModerationLib {
 
   addModerationData (obj, itemStatus) {
     console.log('>>> ModerationLib > addModerationData > itemStatus : ', itemStatus)
-    const moderationData = itemStatus.json()
-    return {
-      ...obj,
-      read: moderationData.read || false,
-      suspicious: moderationData.suspicious || false,
-      deleted: moderationData.deleted || false,
-      comments: moderationData.comments || commentsDummy // []
-    }
+    const moderationData = { ...obj }
+    itemStatus.json().then((data) => {
+      moderationData.read = data.read || false
+      moderationData.suspicious = data.suspicious || false
+      moderationData.deleted = data.deleted || false
+      moderationData.comments = data.comments || commentsDummy // []
+    })
+    return moderationData
   }
 
   /**************************************************************
