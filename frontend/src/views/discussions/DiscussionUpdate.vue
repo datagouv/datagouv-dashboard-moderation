@@ -149,6 +149,7 @@ export default {
   methods: {
     async appendModerationData (itemObject) {
       const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
+      this.$makeToast(itemStatus, this.discussion.id, 'GET', this.dgfType, 'item')
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       this.needsModerationData = false
       return consolidated
