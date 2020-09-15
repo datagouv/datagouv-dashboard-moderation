@@ -99,15 +99,15 @@ This project uses two buildpacks, `node` and `python`, to build and install both
 On the dokku server, prepare the postgres database and create the app:
 
 ```
-dokku apps:create simple-spa
-dokku postgres:create simple-spa
-dokku postgres:link simple-spa simple-spa
+dokku apps:create datagouv-dashboard-moderation
+dokku postgres:create datagouv-dashboard-moderation
+dokku postgres:link datagouv-dashboard-moderation datagouv-dashboard-moderation
 ```
 
 On local copy:
 
 ```
-git remote add dokku dokku@{host}:simple-spa
+git remote add dokku dokku@{host}:datagouv-dashboard-moderation
 git push dokku master
 ```
 
@@ -116,10 +116,10 @@ The deployment process will run `init-db` thanks to the Procfile.
 Get a SSL certificate and redirect to https:
 
 ```
-dokku letsencrypt simple-spa
+dokku letsencrypt datagouv-dashboard-moderation
 ```
 
-:rocket: https://simple-spa.{host}/api
+:rocket: https://datagouv-dashboard-moderation.{host}/api
 
 ### Tweaks
 
@@ -167,6 +167,43 @@ mkdir backend && cd backend
 # write code :-)
 ```
 
+---
+
+### Development
+
+#### setup
+
+```sh
+# install node dependencies
+cd frontend && nvm use && yarn
+
+# return to root
+cd ..
+
+# install backend dependencies
+python3 -m venv python_env
+source python_env/bin/activate
+pip install -r requirements.txt
+cd backend
+flask db init
+flask db migrate
+```
+
+#### run locally
+
+```sh
+# rebuild front
+cd frontend && nvm use && npm run build
+
+# reload backend (backend serves front) with hot reload backend
+flask db upgrade
+export FLASK_APP=app.py
+export FLASK_DEBUG=1
+flask run -h localhost -p 8080
+```
+
+
+---
 ### Credits
 
 Inspiration: https://github.com/oleg-agapov/flask-vue-spa

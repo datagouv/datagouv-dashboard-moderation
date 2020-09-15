@@ -8,7 +8,7 @@
       <!-- <code>{{itemModerationValue}}</code> -->
 
       <b-form-checkbox
-        v-model="item[field]"
+        v-model="itemModerationValue"
         v-if="isAuthenticated"
         button
         button-variant="link"
@@ -20,11 +20,12 @@
           >
         </b-icon>
       </b-form-checkbox>
+
       <b-form-checkbox
         v-else
         disabled
         button
-        variant="link"
+        button-variant="link"
         :value="item[field]"
         >
         <b-icon
@@ -48,8 +49,9 @@
 </template>
 
 <script>
-
 import { mapState, mapGetters } from 'vuex'
+
+// import { APIresponses } from '@/config/APIoperations.js'
 
 export default {
   name: 'ModerationCheckbox',
@@ -100,7 +102,13 @@ export default {
     }
   },
   created () {
-    // console.log('-C- ModerationCheckbox > updateModeration > this.item : ', this.item)
+    console.log('-C- ModerationCheckbox > updateModeration > this.item : ', this.item)
+    this.itemModerationValue = this.item[this.field]
+  },
+  watch: {
+    item (next) {
+      this.itemModerationValue = next[this.field]
+    }
   },
   computed: {
     ...mapState({
@@ -116,59 +124,30 @@ export default {
     },
     async updateModeration (item, field, evt) {
       this.isLoading = true
+      console.log('-C- ModerationCheckbox > updateModeration > evt : ', evt)
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
-      // console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
-      const categ = `update_${field}`
-      const respData = {
-        category: categ,
-        item: updatedItem,
-        msg: `response action : ${this.dgfType}-${categ}`
-      }
-      this.makeToast(updatedItem)
+      console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
+      // const categ = `update_${field}`
+      // const respData = {
+      //   category: categ,
+      //   item: updatedItem,
+      //   msg: `response action : ${this.dgfType}-${categ}`
+      // }
+      // this.emitResponse(respData)
+      this.$makeToast(updatedItem, this.item.id, 'PUT', this.dgfType, this.field)
       this.itemModerationValue = evt
-      this.emitResponse(respData)
       this.isLoading = false
-    },
-    makeToast (moderationResponse) {
-      const h = this.$createElement
-      const variant = moderationResponse.status !== 200 ? 'danger' : 'success'
-      const title = moderationResponse.status !== 200 ? 'error' : 'success'
-      const msg = moderationResponse.status !== 200 ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
-
-      const vNodesTitle = h(
-        'div',
-        { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
-        [
-          h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
-        ]
-      )
-      const vNodesMsg = h(
-        'p',
-        { class: ['text-center', 'my-2'] },
-        [
-          h('strong', `PUT ${this.dgfType} / ${this.field}`),
-          h('br'),
-          h('span', `id : ${this.item.id}`), h('hr'),
-          h('strong', msg)
-        ]
-      )
-
-      this.$bvToast.toast([vNodesMsg], {
-        title: [vNodesTitle],
-        variant: variant,
-        solid: true
-      })
     },
     getColor (field) {
       const fieldIcons = this.buttons[field]
-      const bool = this.item[field]
+      const bool = this.itemModerationValue
       const index = Boolean(bool)
       const color = index ? fieldIcons.colors[1] : fieldIcons.colors[0]
       return color
     },
     getIcon (field) {
       const fieldIcons = this.buttons[field]
-      const bool = this.item[field]
+      const bool = this.itemModerationValue
       const index = Boolean(bool)
       const icon = index ? fieldIcons.icons[1] : fieldIcons.icons[0]
       return icon

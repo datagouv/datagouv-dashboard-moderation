@@ -17,8 +17,22 @@ const translations = {
     toastsModeration: {
       error: 'moderation error',
       errorTxt: 'error code : {code}',
-      success: 'ok',
-      successTxt: 'moderation recorded'
+      success: 'success',
+      successTxt: 'moderation recorded',
+      successTxt_GET: 'moderation data retrieved',
+      successTxt_POST: 'moderation data added',
+      successTxt_PUT: 'moderation data updated',
+      successTxt_DELETE: 'moderation data deleted'
+    },
+    responseCodes: {
+      _200: 'success',
+      _201: 'update success',
+      _400: 'Model validation error',
+      _401: 'Unauthorized',
+      _403: 'Not enough privileges',
+      _404: 'Not found',
+      _405: 'Method not allowed',
+      _500: 'Internal server error'
     },
     home: {
       name: 'Home',
@@ -105,6 +119,7 @@ const translations = {
       sureDeleteItem: 'are you sure you want to delete this element ?'
     },
     moderation: {
+      field: 'champ',
       date: 'date',
       author: 'author',
       selection: 'selection',
@@ -115,6 +130,7 @@ const translations = {
       addComment: 'add a comment',
       enterComment: 'write your comment here...',
       moderation: '{prefix}moderation',
+      moderationInfos: 'moderation infos',
       moderationFor: 'moderation for',
       markAsRead: 'mark as read',
       markAsSuspect: 'mark as suspect'

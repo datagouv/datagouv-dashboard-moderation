@@ -1,7 +1,10 @@
 <template>
-  <div class="dataset-card-component">
+  <div
+    id="dataset-card"
+    class="dataset-card-component">
 
     <b-card
+      class="border-0"
       footer-tag="footer"
       :footer="cardFooter"
       >
@@ -116,7 +119,7 @@
       </div>
 
       <RawData
-        :customClass="`mb-3`"
+        :customClass="`my-3`"
         :dataRaw="dataset"
         :see="seeRaw"
       ></RawData>

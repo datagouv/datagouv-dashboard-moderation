@@ -16,6 +16,7 @@ import './css/custom.scss'
 // import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Utils from './plugins/utils.js'
+import MakeRespToast from './plugins/makeRespToasts.js'
 
 import MODERATIONcli from './plugins/apiModeration.js'
 
@@ -61,8 +62,9 @@ Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
-// use Formats custom plugin
+// use other custom plugin
 Vue.use(Utils, {})
+Vue.use(MakeRespToast, {})
 
 // use MODERATIONcli plugin
 Vue.use(MODERATIONcli, moderationOptions, store)

@@ -2,9 +2,9 @@
   <div class="resource-card-component">
 
     <b-card
+      class="bg-dark border-0"
       footer-tag="footer"
       :footer="cardFooter"
-      class="bg-dark"
       >
 
       <template v-slot:header>
@@ -159,7 +159,7 @@
       </div>
 
       <RawData
-        :customClass="`mb-3`"
+        :customClass="`my-3`"
         :see="seeRaw"
         :dataRaw="resource"
       ></RawData>

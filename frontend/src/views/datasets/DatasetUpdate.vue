@@ -5,11 +5,41 @@
       :crumbs="crumbs"
     />
 
+    <div>
+      <b-sidebar
+        id="sidebar-moderation"
+        title="Moderation"
+        width="600px"
+        bg-variant="light"
+        text-variant="dark"
+        shadow
+        backdrop
+        >
+        <div class="px-3 py-2">
+          <ModerationRowCard
+            :hasHeader="true"
+            :dgfType="dgfType"
+            :endpoint="endpointModeration"
+            :item="dataset"
+          />
+        </div>
+      </b-sidebar>
+    </div>
+
     <PageHeader
       :dgfType="'dataset'"
       :customClass="'mb-5'"
       :subtitleLink="datasetRequest"
       >
+      <template v-slot:dialogLeft>
+        <b-button v-b-toggle.sidebar-moderation pill>
+          <b-icon icon="eye-fill" aria-hidden=""></b-icon>
+          <span class="ml-2">
+            {{$t('moderation.moderation', { prefix: '' })}}
+          </span>
+        </b-button>
+      </template>
+
       <template v-slot:badge>
         <div>
           {{ $t('navigation.from') }} :
@@ -29,10 +59,20 @@
       </template>
     </PageHeader>
 
-    <b-row class="mx-2">
+    <b-row class="mx-0">
+
+      <!-- MODERATION BOX -->
+      <!-- <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :dgfType="dgfType"
+          :endpoint="endpointModeration"
+          :item="dataset"
+        />
+      </b-col> -->
 
       <!-- DISPLAY DATASET -->
-      <b-col>
+      <b-col class="px-0">
         <DatasetCard
           :cardFooter="undefined"
           :datasetData="dataset"
@@ -42,16 +82,6 @@
         </DatasetCard>
       </b-col>
 
-      <!-- MODERATION BOX -->
-      <b-col sm="6" md="4">
-        <ModerationRowCard
-          :hasHeader="true"
-          :dgfType="dgfType"
-          :endpoint="endpointModeration"
-          :item="dataset"
-        />
-      </b-col>
-
     </b-row>
 
   </div>
@@ -59,6 +89,8 @@
 
 <script>
 import { mapState } from 'vuex'
+
+// import { APIresponses } from '@/config/APIoperations.js'
 
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import PageHeader from '@/components/ux/PageHeader.vue'
@@ -118,10 +150,10 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
       console.log('-V- DatasetUpdate > methods > appendModerationData > itemStatus :', itemStatus)
-      this.makeToast(itemStatus)
-      const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
+      this.$makeToast(itemStatus, this.dataset.id, 'GET', this.dgfType, 'item')
+      const consolidated = await this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       console.log('-V- DatasetUpdate > methods > appendModerationData > consolidated :', consolidated)
       this.needsModerationData = false
       return consolidated
@@ -144,35 +176,6 @@ export default {
           this.isLoading = false
         }
       )
-    },
-    makeToast (moderationResponse) {
-      const h = this.$createElement
-      const variant = moderationResponse.status !== 200 ? 'danger' : 'success'
-      const title = moderationResponse.status !== 200 ? 'error' : 'success'
-      const msg = moderationResponse.status !== 200 ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
-
-      const itemId = this.dataset.id
-      const vNodesTitle = h(
-        'div', { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
-        [
-          h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
-        ]
-      )
-      const vNodesMsg = h(
-        'p', { class: ['text-center', 'my-2'] },
-        [
-          h('strong', `GET ${this.dgfType}`),
-          h('br'),
-          h('span', `id : ${itemId}`), h('hr'),
-          h('strong', msg)
-        ]
-      )
-
-      this.$bvToast.toast([vNodesMsg], {
-        title: [vNodesTitle],
-        variant: variant,
-        solid: true
-      })
     }
   }
 }

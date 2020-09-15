@@ -53,6 +53,8 @@
 <script>
 import { mapState } from 'vuex'
 
+// import { APIresponses } from '@/config/APIoperations.js'
+
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 
 export default {
@@ -111,11 +113,11 @@ export default {
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
       // log into moderation API
       const loginModerationResponse = await this.$MODERATIONcli.login(this.tokens.access.value)
+      this.$makeToast(loginModerationResponse, 'user login', 'GET', 'user')
       console.log('-V- Login > updateModeration > loginModerationResponse : ', loginModerationResponse)
-      // await this.makeToast(loginModerationResponse)
       this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
-      await this.makeToast(ex)
+      this.$makeToast(ex)
       this.loginResponse = `${ex} ... please try to authenticate again`
     } finally {
       this.isLoading = false
@@ -127,68 +129,7 @@ export default {
       tokens: (state) => state.oauth.tokens
     })
   },
-  methods: {
-    async makeToast (loginModerationResponse) {
-      console.log('-V- Login > makeToast > loginModerationResponse : ', loginModerationResponse)
-      const h = this.$createElement
-      const variant = loginModerationResponse.status && loginModerationResponse.status === 200 ? 'success' : 'danger'
-      const title = loginModerationResponse.status && loginModerationResponse.status === 200 ? 'success' : 'error'
-      const msg = loginModerationResponse.status && loginModerationResponse.status === 200 ? 'ok msg' : this.$t('toastsModeration.errorTxt', { code: loginModerationResponse.status })
-
-      const vNodesTitle = h(
-        'div',
-        { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
-        [
-          h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
-        ]
-      )
-      const vNodesMsg = h(
-        'p',
-        { class: ['text-center', 'my-2'] },
-        [
-          h('strong', msg)
-        ]
-      )
-      console.log('-V- Login > makeToast > vNodesTitle : ', vNodesTitle)
-
-      this.$bvToast.toast([vNodesMsg], {
-        title: [vNodesTitle],
-        variant: variant,
-        solid: true
-      })
-    }
-  }
-  // methods: {
-  //   async makeToast (loginModerationResponse) {
-  //     console.log('-V- Login > makeToast > loginModerationResponse : ', loginModerationResponse)
-  //     const h = this.$createElement
-  //     const variant = loginModerationResponse.status && loginModerationResponse.status === 200 ? 'success' : 'danger'
-  //     const title = loginModerationResponse.status && loginModerationResponse.status === 200 ? 'success' : 'error'
-  //     const msg = loginModerationResponse.status && loginModerationResponse.status === 200 ? 'ok msg' : this.$t('toastsModeration.errorTxt', { code: loginModerationResponse.status })
-
-  //     const vNodesTitle = h(
-  //       'div',
-  //       { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
-  //       [
-  //         h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
-  //       ]
-  //     )
-  //     const vNodesMsg = h(
-  //       'p',
-  //       { class: ['text-center', 'my-2'] },
-  //       [
-  //         h('strong', msg)
-  //       ]
-  //     )
-  //     console.log('-V- Login > makeToast > vNodesTitle : ', vNodesTitle)
-
-  //     this.$bvToast.toast([vNodesMsg], {
-  //       title: [vNodesTitle],
-  //       variant: variant,
-  //       solid: true
-  //     })
-  //   }
-  // }
+  methods: {}
 }
 
 </script>

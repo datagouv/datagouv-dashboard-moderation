@@ -5,11 +5,40 @@
       :crumbs="crumbs"
     />
 
+    <div>
+      <b-sidebar
+        id="sidebar-moderation"
+        title="Moderation"
+        width="600px"
+        bg-variant="light"
+        text-variant="dark"
+        shadow
+        backdrop
+        >
+        <div class="px-3 py-2">
+          <ModerationRowCard
+            :hasHeader="true"
+            :dgfType="dgfType"
+            :endpoint="endpointModeration"
+            :item="user"
+          />
+        </div>
+      </b-sidebar>
+    </div>
+
     <PageHeader
       :dgfType="'user'"
       :customClass="'mb-5'"
       :subtitleLink="userRequest"
       >
+      <template v-slot:dialogLeft>
+        <b-button v-b-toggle.sidebar-moderation pill>
+          <b-icon icon="eye-fill" aria-hidden=""></b-icon>
+          <span class="ml-2">
+            {{$t('moderation.moderation', { prefix: '' })}}
+          </span>
+        </b-button>
+      </template>
       <template v-slot:badge>
         <div>
           {{ $t('navigation.from') }} :
@@ -29,10 +58,20 @@
       </template>
     </PageHeader>
 
-    <b-row class="mx-2">
+    <b-row class="mx-0">
+
+      <!-- MODERATION BOX -->
+      <!-- <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :dgfType="dgfType"
+          :endpoint="endpointModeration"
+          :item="user"
+        />
+      </b-col> -->
 
       <!-- DISPLAY USER -->
-      <b-col>
+      <b-col class="px-0">
         <UserCard
           :cardTitle="`${$t('basics.user')} n° ${userId}`"
           :cardFooter="undefined"
@@ -41,16 +80,6 @@
           height="800px"
         >
         </UserCard>
-      </b-col>
-
-      <!-- MODERATION BOX -->
-      <b-col sm="6" md="4">
-        <ModerationRowCard
-          :hasHeader="true"
-          :dgfType="dgfType"
-          :endpoint="endpointModeration"
-          :item="user"
-        />
       </b-col>
 
     </b-row>
@@ -119,7 +148,7 @@ export default {
   },
   methods: {
     async appendModerationData (itemObject) {
-      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       this.needsModerationData = false
       return consolidated

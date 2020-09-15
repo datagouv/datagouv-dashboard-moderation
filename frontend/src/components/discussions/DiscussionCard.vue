@@ -2,6 +2,7 @@
   <div class="discussion-card-component">
 
     <b-card
+      class="border-0"
       footer-tag="footer"
       :footer="cardFooter"
       >
@@ -97,7 +98,7 @@
       </div>
 
       <RawData
-        :customClass="`mb-3`"
+        :customClass="`my-3`"
         :see="seeRaw"
         :dataRaw="discussion"
       ></RawData>
