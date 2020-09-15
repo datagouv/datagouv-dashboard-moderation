@@ -36,7 +36,7 @@ const translations = {
     },
     home: {
       name: 'Accueil',
-      intro: 'Bienvenue sur le tableau de bord de modération <br>de datagouv',
+      intro: 'Bienvenue sur le tableau de bord de modération <br>de data.gouv.fr',
       connect: 'connectez-vous',
       hello: 'bonjour {name}'
     },

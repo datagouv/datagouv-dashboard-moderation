@@ -36,7 +36,7 @@ const translations = {
     },
     home: {
       name: 'Home',
-      intro: 'Welcome to the datagouv <br>moderation dashboard',
+      intro: 'Welcome to the data.gouv.fr <br>moderation dashboard',
       connect: 'please connect',
       hello: 'hello {name}'
     },
