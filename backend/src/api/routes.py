@@ -51,7 +51,6 @@ class ObjectSchema(Schema):
 @bp.route('/submit-token', methods=['POST'])
 def submit_token():
     data = request.get_json(force=True) or {}
-
     errors = LoginSchema().validate(data)
     if errors:
         return make_response((errors, 400))
@@ -61,12 +60,14 @@ def submit_token():
     if r.status_code != 200:
         return make_response((r.json(), r.status_code))
     user_data = r.json()
+    print(f'user data : {user_data}')
 
     if not 'admin' in user_data['roles']:
         return make_response(('Not enough priviledges', 403))
 
     user = User.query.filter_by(dgf_id=user_data['id']).first()
     if user is None:
+        print('submit_token > user is none')
         new_user = User(
             first_name=user_data['first_name'],
             last_name=user_data['last_name'],
@@ -75,10 +76,12 @@ def submit_token():
         try:
             db.session.add(new_user)
             db.session.commit()
+            print('submit_token > add new user')
         except Exception as err:
             return make_response((err.message, 500))
 
     session['user_id'] = user_data['id']
+    print(f'submit_token > user data id : {user_data["id"]} \n')
     resp = make_response(('success', 200))
     # resp.headers['session-id'] = session['user_id']
     return resp

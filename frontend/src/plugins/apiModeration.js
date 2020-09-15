@@ -34,6 +34,7 @@ class ModerationLib {
     this.store = store
     this.storeModuleName = options.storeModuleName
     this.moderationServer = options.moderationServer
+    console.log('>>> ModerationLib > constructor >  this.moderationServer :', this.moderationServer)
   }
 
   /**************************************************************
@@ -52,6 +53,8 @@ class ModerationLib {
       console.log('>>> ModerationLib > login >  config :', config)
       const response = await fetch(url, config)
       console.log('>>> ModerationLib > login >  response :', response)
+      // const data = await response.json()
+      // console.log('>>> ModerationLib > login >  data :', data)
       const respHeaders = response.headers
       respHeaders.forEach(function (value, name) {
         console.log('>>> ModerationLib > login >  respHeaders > ', name + ' : ' + value)
@@ -111,15 +114,16 @@ class ModerationLib {
 
   async addModerationData (obj, itemStatus) {
     console.log('>>> ModerationLib > addModerationData > itemStatus : ', itemStatus)
-    const moderationData = { ...obj }
-    itemStatus.json().then((data) => {
-      console.log('>>> ModerationLib > addModerationData > data : ', data)
-      moderationData.read = data.read || false
-      moderationData.suspicious = data.suspicious || false
-      moderationData.deleted = data.deleted || false
-      moderationData.comments = data.comments || commentsDummy // []
-    })
-    return moderationData
+    const moderationData = await itemStatus.json()
+    const consolidatedItem = { ...obj }
+    // const data = itemStatus
+    // console.log('>>> ModerationLib > addModerationData > data : ', data)
+    consolidatedItem.read = moderationData.read || false
+    consolidatedItem.suspicious = moderationData.suspicious || false
+    consolidatedItem.deleted = moderationData.deleted || false
+    consolidatedItem.comments = moderationData.comments || commentsDummy // []
+    // })
+    return consolidatedItem
   }
 
   /**************************************************************
@@ -136,17 +140,35 @@ class ModerationLib {
     }
     try {
       let response = await fetch(url, config)
-      this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
       if (response.status === 404) {
         console.log(">>> ModerationLib > getModeration > item doesn't exist yet in moderation backend ... => POST")
         response = await this.postModeration(dgfType, item)
+        return response
+      } else if (response.status === 200) {
+        console.log('>>> ModerationLib > getModeration >  response :', response)
+        // const data = await response.json()
+        return response
       } else {
-        response.json().then((data) => {
-          console.log('>>> ModerationLib > getModeration >  data :', data)
-          response = data
-        })
+        return response
       }
-      return response
+      // const response = await fetch(url, config)
+      // .then(resp => resp.json())
+      // .then(myJson => {
+      //   console.log('>>> ModerationLib > getModeration > myJson : ', myJson)
+      // })
+      // console.log('>>> ModerationLib > getModeration > response.body : ', response.body)
+      // // this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
+      // if (response.status === 404) {
+      //   console.log(">>> ModerationLib > getModeration > item doesn't exist yet in moderation backend ... => POST")
+      //   response = await this.postModeration(dgfType, item)
+      // } else {
+      //   response.body.json().then(data => {
+      //     console.log('>>> ModerationLib > getModeration > data : ', data)
+      //     return data
+      //   })
+      // }
+      // console.log('>>> ModerationLib > getModeration > response : ', response)
+      // return response
     } catch (error) {
       console.log('>>> ModerationLib > getModeration > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
@@ -165,11 +187,12 @@ class ModerationLib {
     }
     try {
       const response = await fetch(url, config)
-      this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
+      // const data = await response.json()
+      // this.store.commit(`${this.storeModuleName}/setModerationResponse`, data)
       return response
     } catch (error) {
       console.log('>>> ModerationLib > postModeration > error', error)
-      this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+      // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {}
   }
 
@@ -186,18 +209,19 @@ class ModerationLib {
     console.log('>>> ModerationLib > updateModeration >  config :', config)
     try {
       const response = await fetch(url, config)
-      this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
+      // const data = await response.json()
+      // this.store.commit(`${this.storeModuleName}/setModerationResponse`, data)
       return response
     } catch (error) {
       console.log('>>> ModerationLib > updateModeration > error', error)
-      this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+      // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {}
   }
 
   async addComment (dgfObjectId, comment) {
     console.log('>>> ModerationLib > addComment >  dgfObjectId :', dgfObjectId)
     console.log('>>> ModerationLib > addComment >  comment :', comment)
-    const url = `${this.moderationServer}/objects/${dgfObjectId}/comments/>`
+    const url = `${this.moderationServer}/objects/${dgfObjectId}/comments`
     const session = this.store.getters.getModerationSession
     const config = {
       method: 'POST',
@@ -206,11 +230,12 @@ class ModerationLib {
     }
     try {
       const response = await fetch(url, config)
-      this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
+      // const data = await response.json()
+      // this.store.commit(`${this.storeModuleName}/setModerationResponse`, data)
       return response
     } catch (error) {
       console.log('>>> ModerationLib > addComment > error', error)
-      this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+      // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {}
   }
 
@@ -226,11 +251,12 @@ class ModerationLib {
     }
     try {
       const response = await fetch(url, config)
-      this.store.commit(`${this.storeModuleName}/setModerationResponse`, response)
+      // const data = await response.json()
+      // this.store.commit(`${this.storeModuleName}/setModerationResponse`, data)
       return response
     } catch (error) {
       console.log('>>> ModerationLib > deleteComment > error', error)
-      this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+      // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
     } finally {}
   }
 }

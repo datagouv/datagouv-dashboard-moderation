@@ -66,7 +66,7 @@
 
     <!-- COMMENTS -->
     <b-row
-      v-for="(comment, index) in item.comments"
+      v-for="(comment, index) in itemComments"
       :key="index"
       :align-h="comment.user_id === userId ? 'end' : 'center'"
       >
@@ -138,7 +138,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import { APIresponses } from '@/config/APIoperations.js'
+// import { APIresponses } from '@/config/APIoperations.js'
 
 export default {
   name: 'ModerationComments',
@@ -151,9 +151,13 @@ export default {
       isLoading: false,
       isCommentLoading: '',
       commentContent: '',
+      itemComments: [],
       show: true,
       formCommentVisible: false
     }
+  },
+  created () {
+    this.itemComments = this.item.comments ? this.item.comments : []
   },
   computed: {
     ...mapState({
@@ -187,7 +191,8 @@ export default {
           item: updatedItem,
           msg: `response action : ${this.dgfType}-${categ}`
         }
-        this.makeToast(updatedItem)
+        this.$makeToast(updatedItem, this.dgfType, 'POST', this.dgfType)
+        // this.itemComments =
         this.emitResponse(respData)
       }
       this.resetTextArea(evt)
@@ -207,39 +212,41 @@ export default {
       this.isCommentLoading = commentId
       const deletedItem = await this.$MODERATIONcli.deleteComment(this.item.id, commentId)
       console.log('-C- ModerationComments > deleteComment > deletedItem : ', deletedItem)
+      this.$makeToast(deletedItem, this.dgfType, 'DELETE', this.dgfType)
+      // this.itemComments =
       this.isCommentLoading = ''
-    },
-    makeToast (moderationResponse) {
-      const h = this.$createElement
-      const variant = !APIresponses.success.includes(moderationResponse.status) ? 'danger' : 'success'
-      const title = !APIresponses.success.includes(moderationResponse.status) ? 'error' : 'success'
-      const msg = !APIresponses.success.includes(moderationResponse.status) ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
-
-      const vNodesTitle = h(
-        'div',
-        { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
-        [
-          h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
-        ]
-      )
-      const vNodesMsg = h(
-        'p',
-        { class: ['text-center', 'my-2'] },
-        [
-          h('strong', `PUT ${this.dgfType} / comment`),
-          h('br'),
-          h('span', `id : ${this.item.id}`), h('hr'),
-          h('strong', msg), h('br'),
-          h('p', this.$t(`responseCodes._${moderationResponse.status}`))
-        ]
-      )
-
-      this.$bvToast.toast([vNodesMsg], {
-        title: [vNodesTitle],
-        variant: variant,
-        solid: true
-      })
     }
+    // makeToast (moderationResponse) {
+    //   const h = this.$createElement
+    //   const variant = !APIresponses.success.includes(moderationResponse.status) ? 'danger' : 'success'
+    //   const title = !APIresponses.success.includes(moderationResponse.status) ? 'error' : 'success'
+    //   const msg = !APIresponses.success.includes(moderationResponse.status) ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
+
+    //   const vNodesTitle = h(
+    //     'div',
+    //     { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
+    //     [
+    //       h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
+    //     ]
+    //   )
+    //   const vNodesMsg = h(
+    //     'p',
+    //     { class: ['text-center', 'my-2'] },
+    //     [
+    //       h('strong', `PUT ${this.dgfType} / comment`),
+    //       h('br'),
+    //       h('span', `id : ${this.item.id}`), h('hr'),
+    //       h('strong', msg), h('br'),
+    //       h('p', this.$t(`responseCodes._${moderationResponse.status}`))
+    //     ]
+    //   )
+
+    //   this.$bvToast.toast([vNodesMsg], {
+    //     title: [vNodesTitle],
+    //     variant: variant,
+    //     solid: true
+    //   })
+    // }
   }
 }
 </script>

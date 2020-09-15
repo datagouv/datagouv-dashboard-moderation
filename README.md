@@ -167,6 +167,42 @@ mkdir backend && cd backend
 # write code :-)
 ```
 
+---
+
+### Development
+
+#### setup
+
+```sh
+# install node dependencies
+cd frontend && nvm use && yarn
+
+# return to root
+cd ..
+
+# install backend dependencies
+python3 -m venv python_env
+source python_env/bin/activate
+pip install -r requirements.txt
+cd backend
+flask db init
+flask db migrate
+```
+
+#### run locally
+
+```sh
+# rebuild front
+cd frontend && nvm use && npm run build
+
+# reload backend (backend serves front)
+flask db upgrade
+export FLASK_APP=app.py
+flask run -h localhost -p 8080
+```
+
+
+---
 ### Credits
 
 Inspiration: https://github.com/oleg-agapov/flask-vue-spa

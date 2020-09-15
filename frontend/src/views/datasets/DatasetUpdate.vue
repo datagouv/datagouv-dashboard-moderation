@@ -60,7 +60,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import { APIresponses } from '@/config/APIoperations.js'
+// import { APIresponses } from '@/config/APIoperations.js'
 
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import PageHeader from '@/components/ux/PageHeader.vue'
@@ -122,7 +122,7 @@ export default {
     async appendModerationData (itemObject) {
       const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
       console.log('-V- DatasetUpdate > methods > appendModerationData > itemStatus :', itemStatus)
-      this.makeToast(itemStatus)
+      this.$makeToast(itemStatus, this.dataset.id, 'GET', this.dgfType)
       const consolidated = await this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       console.log('-V- DatasetUpdate > methods > appendModerationData > consolidated :', consolidated)
       this.needsModerationData = false
@@ -146,37 +146,37 @@ export default {
           this.isLoading = false
         }
       )
-    },
-    makeToast (moderationResponse) {
-      const h = this.$createElement
-      const variant = !APIresponses.success.includes(moderationResponse.status) ? 'danger' : 'success'
-      const title = !APIresponses.success.includes(moderationResponse.status) ? 'error' : 'success'
-      const msg = !APIresponses.success.includes(moderationResponse.status) ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
-
-      const itemId = this.dataset.id
-      const vNodesTitle = h(
-        'div', { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
-        [
-          h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
-        ]
-      )
-      const vNodesMsg = h(
-        'p', { class: ['text-center', 'my-2'] },
-        [
-          h('strong', `GET ${this.dgfType}`),
-          h('br'),
-          h('span', `id : ${itemId}`), h('hr'),
-          h('strong', msg), h('br'),
-          h('p', this.$t(`responseCodes._${moderationResponse.status}`))
-        ]
-      )
-
-      this.$bvToast.toast([vNodesMsg], {
-        title: [vNodesTitle],
-        variant: variant,
-        solid: true
-      })
     }
+    // makeToast (moderationResponse) {
+    //   const h = this.$createElement
+    //   const variant = !APIresponses.success.includes(moderationResponse.status) ? 'danger' : 'success'
+    //   const title = !APIresponses.success.includes(moderationResponse.status) ? 'error' : 'success'
+    //   const msg = !APIresponses.success.includes(moderationResponse.status) ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
+
+    //   const itemId = this.dataset.id
+    //   const vNodesTitle = h(
+    //     'div', { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
+    //     [
+    //       h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
+    //     ]
+    //   )
+    //   const vNodesMsg = h(
+    //     'p', { class: ['text-center', 'my-2'] },
+    //     [
+    //       h('strong', `GET ${this.dgfType}`),
+    //       h('br'),
+    //       h('span', `id : ${itemId}`), h('hr'),
+    //       h('strong', msg), h('br'),
+    //       h('p', this.$t(`responseCodes._${moderationResponse.status}`))
+    //     ]
+    //   )
+
+    //   this.$bvToast.toast([vNodesMsg], {
+    //     title: [vNodesTitle],
+    //     variant: variant,
+    //     solid: true
+    //   })
+    // }
   }
 }
 

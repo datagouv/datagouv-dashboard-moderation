@@ -18,14 +18,18 @@ const translations = {
       error: 'moderation error',
       errorTxt: 'error code : {code}',
       success: 'ok',
-      successTxt: 'moderation recorded'
+      successTxt: 'moderation recorded',
+      successTxt_GET: 'moderation data retrieved',
+      successTxt_POST: 'moderation data added',
+      successTxt_PUT: 'moderation data updated',
+      successTxt_DELETE: 'moderation data deleted'
     },
     responseCodes: {
       _200: 'success',
       _201: 'update success',
       _400: 'Model validation error',
       _401: 'Unauthorized',
-      _403: 'Not enough priviledges',
+      _403: 'Not enough privileges',
       _404: 'Not found',
       _405: 'Method not allowed',
       _500: 'Internal server error'
