@@ -105,7 +105,7 @@
         :small="small"
         :sticky-header="height"
         :items="datasets.data"
-        :fields="fields"
+        :fields="fieldsTable"
         :sort-by.sync="pagination.sortBy"
         :sort-desc.sync="pagination.sortDesc"
         >
@@ -278,6 +278,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import { moderationFieldsCodes } from '@/config/APImoderationCodes.js'
 
 import PageHeader from '@/components/ux/PageHeader.vue'
 
@@ -375,7 +376,14 @@ export default {
     }),
     ...mapGetters({
       isAuthenticated: 'oauth/isAuthenticated'
-    })
+    }),
+    fieldsTable () {
+      if (this.isAuthenticated) {
+        return this.fields
+      } else {
+        return this.fields.filter(field => !moderationFieldsCodes.includes(field.key))
+      }
+    }
   },
   methods: {
     async appendModerationData (itemObject) {
