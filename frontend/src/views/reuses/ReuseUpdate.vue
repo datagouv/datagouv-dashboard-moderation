@@ -138,6 +138,10 @@ export default {
       if (next && this.needsModerationData) {
         this.reuse = await this.appendModerationData(next)
       }
+    },
+    '$route.params.id' (next) {
+      this.reuseId = next
+      this.getReuse()
     }
   },
   computed: {

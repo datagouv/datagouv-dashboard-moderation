@@ -141,6 +141,10 @@ export default {
       if (next && this.needsModerationData) {
         this.dataset = await this.appendModerationData(next)
       }
+    },
+    '$route.params.id' (next) {
+      this.datasetId = next
+      this.getDataset()
     }
   },
   computed: {

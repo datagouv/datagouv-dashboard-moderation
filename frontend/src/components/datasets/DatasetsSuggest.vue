@@ -79,11 +79,25 @@
       </template>
 
       <template v-slot:cell(title)="data">
-        <router-link
+
+        <b-button
+          variant="link"
+          @click="emitResponse(data.item.id)"
+          >
+          <!-- @click="emitResponse(`/datasets/${data.item.id}`)" -->
+          <span
+            >
+            <b>{{ data.item.title }}</b>
+          </span>
+        </b-button>
+        <!-- <router-link
           :to="`/datasets/${data.item.id}`"
           >
-          <b>{{ data.item.title }}</b>
-        </router-link>
+          <span>
+            <b>{{ data.item.title }}</b>
+          </span>
+        </router-link> -->
+
       </template>
 
       <template v-slot:cell(page)="data">
@@ -153,6 +167,15 @@ export default {
     })
   },
   methods: {
+    emitResponse (datasetId) {
+      console.log('-C- ModerationActionsBtn > emitResponse ...')
+      console.log('-C- ModerationActionsBtn > emitResponse > datasetId : ', datasetId)
+      this.$emit('closeSearch')
+      const newPath = `/datasets/${datasetId}`
+      this.$router.push(newPath)
+      // this.$router.go({ name: 'DatasetUpdate', params: { id: datasetId } })
+      // history.pushState({}, null, newPath)
+    },
     suggestDatasets () {
       this.isLoading = true
       const params = {

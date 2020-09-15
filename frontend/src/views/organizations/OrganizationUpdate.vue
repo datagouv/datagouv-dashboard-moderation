@@ -139,6 +139,10 @@ export default {
       if (next && this.needsModerationData) {
         this.organization = await this.appendModerationData(next)
       }
+    },
+    '$route.params.id' (next) {
+      this.organizationId = next
+      this.getOrganization()
     }
   },
   computed: {

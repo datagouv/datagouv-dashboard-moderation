@@ -139,6 +139,10 @@ export default {
       if (next && this.needsModerationData) {
         this.issue = await this.appendModerationData(next)
       }
+    },
+    '$route.params.id' (next) {
+      this.issueId = next
+      this.getIssue()
     }
   },
   computed: {

@@ -139,6 +139,10 @@ export default {
       if (next && this.needsModerationData) {
         this.discussion = await this.appendModerationData(next)
       }
+    },
+    '$route.params.id' (next) {
+      this.discussionId = next
+      this.getDiscussion()
     }
   },
   computed: {

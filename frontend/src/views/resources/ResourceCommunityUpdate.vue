@@ -138,6 +138,10 @@ export default {
       if (next && this.needsModerationData) {
         this.resource = await this.appendModerationData(next)
       }
+    },
+    '$route.params.id' (next) {
+      this.resourceId = next
+      this.getResource()
     }
   },
   computed: {

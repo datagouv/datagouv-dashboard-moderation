@@ -152,6 +152,7 @@
             <DatasetsSuggest
               :customClass="'bg-primary border-0 pb-2 my-4'"
               :hideBlocks="['title', 'link', 'from']"
+              @closeSearch="searchVisible = false"
             />
           </b-col>
         </b-row>
