@@ -130,7 +130,7 @@ const translations = {
       enterComment: 'écrivez ici votre commentaire...',
       deleted: 'supprimé',
       moderation: '{prefix}modération',
-      moderationInfos: 'ouvrir les informations de modération',
+      moderationInfos: 'infos de modération',
       moderationFor: 'modération pour',
       markAsRead: 'marquer comme lu(s)',
       markAsSuspect: 'marquer comme suspect(s)'
