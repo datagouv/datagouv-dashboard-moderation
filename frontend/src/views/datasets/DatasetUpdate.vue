@@ -32,7 +32,7 @@
       :subtitleLink="datasetRequest"
       >
       <template v-slot:dialogLeft>
-        <b-button v-b-toggle.sidebar-moderation pill>
+        <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
           <b-icon icon="eye-fill" aria-hidden=""></b-icon>
           <span class="ml-2">
             {{$t('moderation.moderation', { prefix: '' })}}
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 // import { APIresponses } from '@/config/APIoperations.js'
 
@@ -146,6 +146,9 @@ export default {
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {

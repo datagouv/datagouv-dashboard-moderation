@@ -32,7 +32,7 @@
       :subtitleLink="issueRequest"
       >
       <template v-slot:dialogLeft>
-        <b-button v-b-toggle.sidebar-moderation pill>
+        <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
           <b-icon icon="eye-fill" aria-hidden=""></b-icon>
           <span class="ml-2">
             {{$t('moderation.moderation', { prefix: '' })}}
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import PageHeader from '@/components/ux/PageHeader.vue'
@@ -144,6 +144,9 @@ export default {
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {

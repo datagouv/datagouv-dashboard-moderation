@@ -1,6 +1,9 @@
 <template>
 
-  <b-card>
+  <b-card
+    id="moderation-row-card"
+    class="border-0 mx-3"
+    >
 
     <!-- ACTION BTN -->
     <!-- <template v-slot:header v-if="hasHeader">
