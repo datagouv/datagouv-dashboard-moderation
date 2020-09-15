@@ -7,16 +7,16 @@
 
     <b-col
       v-if="!compact"
-      :cols="compact ? 4 : 3"
+      :cols="compact ? 4 : 2"
       align-self="start"
-      class="text-left pl-5"
+      class="text-center pl-5"
       >
-      <!-- <PreviousPage/> -->
       <slot name="dialogLeft"></slot>
     </b-col>
 
     <b-col
       :cols="compact ? 8 : 6"
+      :offset-sm="compact ? 0 : 1"
       align-self="center"
       :class="compact ? 'pl-5 text-left' : 'text-center' "
       >
@@ -97,13 +97,8 @@
 <script>
 import { MapDgfTypes } from '@/config/MapDgfTypes.js'
 
-// import PreviousPage from '@/components/ux/PreviousPage.vue'
-
 export default {
   name: 'PageHeader',
-  components: {
-    // PreviousPage
-  },
   props: [
     'dgfType',
     'linkTitle',
