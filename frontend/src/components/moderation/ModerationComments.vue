@@ -68,12 +68,12 @@
     <b-row
       v-for="(comment, index) in itemComments"
       :key="index"
-      :align-h="comment.user_id === userId ? 'end' : 'center'"
+      :align-h="comment.author.dgf_id === userId ? 'end' : 'center'"
       >
       <b-col cols="10">
         <b-card
           no-body
-          :class="`px-3 pb-4 pt-0 mb-3 mt-0 ${comment.user_id === userId ? 'bg-info text-white' : 'bg-light text-grey'}`"
+          :class="`px-3 pb-4 pt-0 mb-3 mt-0 ${comment.author.dgf_id  === userId ? 'bg-info text-white' : 'bg-light text-grey'}`"
           >
           <b-row class="mt-0 p-1" align-h="end">
             <b-button
@@ -83,7 +83,7 @@
               >
               <b-icon
                 icon="x"
-                :variant="comment.user_id === userId ? 'white' : ''"
+                :variant="comment.author.dgf_id  === userId ? 'white' : ''"
               >
               </b-icon>
             </b-button>
@@ -101,7 +101,7 @@
                     <b-icon
                       icon="three-dots"
                       aria-hidden="true"
-                      :class="`h3 ${comment.user_id === userId ? 'text-white' : 'text-grey'}`"
+                      :class="`h3 ${comment.author.dgf_id  === userId ? 'text-white' : 'text-grey'}`"
                       >
                     </b-icon>
                   </b-col>
@@ -113,7 +113,7 @@
                 </b-row>
               </b-card-text>
             </b-card-body>
-            <hr :class="`${comment.user_id === userId ? 'bg-white' : 'bg-white'}`">
+            <hr :class="`${comment.author.dgf_id  === userId ? 'bg-white' : 'bg-white'}`">
             <b-card-text class="text-center">
               <b-row no-gutters>
                 <b-col>
@@ -159,6 +159,11 @@ export default {
   created () {
     this.itemComments = this.item.comments ? this.item.comments : []
   },
+  watch: {
+    item (next) {
+      this.itemComments = next.comments
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.global.log,
@@ -179,6 +184,7 @@ export default {
       if (this.commentContent.length > 0) {
         const comment = {
           author: {
+            dgf_id: this.userId,
             first_name: this.userData.first_name,
             last_name: this.userData.last_name
           },
@@ -197,7 +203,6 @@ export default {
         // }
         // this.emitResponse(respData)
         this.$makeToast(updatedItem, this.dgfType, 'POST', this.dgfType, 'comments')
-        moderationData.user_id = this.userId
         this.itemComments.unshift(moderationData)
       }
       this.resetTextArea(evt)

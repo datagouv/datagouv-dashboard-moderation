@@ -30,7 +30,7 @@ class UserSchema(Schema):
 
 class CommentSchema(Schema):
     id = fields.Int(dump_only=True)
-    author = fields.Nested(UserSchema(only=('first_name', 'last_name')))
+    author = fields.Nested(UserSchema(only=('first_name', 'last_name', 'dgf_id')))
     written_at = fields.DateTime(dump_only=True)
     content = fields.Str(required=True)
 
