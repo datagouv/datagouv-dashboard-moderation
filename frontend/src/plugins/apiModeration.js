@@ -56,11 +56,11 @@ class ModerationLib {
       respHeaders.forEach(function (value, name) {
         console.log('>>> ModerationLib > login >  respHeaders > ', name + ' : ' + value)
       })
-      console.log('>>> ModerationLib > login >  respHeaders :', respHeaders)
-      console.log('>>> ModerationLib > login >  respHeaders.get("Content-Type") :', respHeaders.get('Content-Type'))
-      console.log('>>> ModerationLib > login >  respHeaders.get("Status") :', respHeaders.get('Status'))
-      console.log('>>> ModerationLib > login >  respHeaders.get("Set-Cookie") :', respHeaders.get('Set-Cookie'))
-      console.log('>>> ModerationLib > login >  respHeaders.get("session-id") :', respHeaders.get('session-id'))
+      // console.log('>>> ModerationLib > login >  respHeaders :', respHeaders)
+      // console.log('>>> ModerationLib > login >  respHeaders.get("Content-Type") :', respHeaders.get('Content-Type'))
+      // console.log('>>> ModerationLib > login >  respHeaders.get("Status") :', respHeaders.get('Status'))
+      // console.log('>>> ModerationLib > login >  respHeaders.get("Set-Cookie") :', respHeaders.get('Set-Cookie'))
+      // console.log('>>> ModerationLib > login >  respHeaders.get("session-id") :', respHeaders.get('session-id'))
       const auth = response.message === 'success'
       this.store.commit(`${this.storeModuleName}/setLogin`, auth)
       this.store.commit(`${this.storeModuleName}/setModerationSession`, respHeaders)
@@ -109,10 +109,11 @@ class ModerationLib {
     return itemModerationData
   }
 
-  addModerationData (obj, itemStatus) {
+  async addModerationData (obj, itemStatus) {
     console.log('>>> ModerationLib > addModerationData > itemStatus : ', itemStatus)
     const moderationData = { ...obj }
     itemStatus.json().then((data) => {
+      console.log('>>> ModerationLib > addModerationData > data : ', data)
       moderationData.read = data.read || false
       moderationData.suspicious = data.suspicious || false
       moderationData.deleted = data.deleted || false
