@@ -127,8 +127,12 @@
 
         <template v-slot:cell(moderation)="row">
           <b-button
+            v-b-popover.hover.top="$t('moderation.moderationInfos')"
+            pill
             size="sm"
-            @click="row.toggleDetails" class="mx-2">
+            class=""
+            @click="row.toggleDetails"
+            >
             <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
           </b-button>
         </template>

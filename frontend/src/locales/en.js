@@ -130,6 +130,7 @@ const translations = {
       addComment: 'add a comment',
       enterComment: 'write your comment here...',
       moderation: '{prefix}moderation',
+      moderationInfos: 'open moderation infos',
       moderationFor: 'moderation for',
       markAsRead: 'mark as read',
       markAsSuspect: 'mark as suspect'
