@@ -25,7 +25,7 @@
         v-else
         disabled
         button
-        variant="link"
+        button-variant="link"
         :value="item[field]"
         >
         <b-icon

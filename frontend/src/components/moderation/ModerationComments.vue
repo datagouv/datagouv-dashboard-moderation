@@ -2,7 +2,10 @@
   <div>
 
     <!-- ADD COMMENT FORM -->
-    <b-row align-h="center">
+    <b-row
+      v-if="isAuthenticated"
+      align-h="center"
+      >
       <b-col cols="10">
 
         <b-button
@@ -65,78 +68,80 @@
     </b-row>
 
     <!-- COMMENTS -->
-    <b-row
-      v-for="(comment, index) in itemComments"
-      :key="index"
-      :align-h="comment.author.dgf_id === userId ? 'end' : 'center'"
-      >
-      <b-col cols="10">
-        <b-card
-          no-body
-          :class="`px-3 pb-4 pt-0 mb-3 mt-0 ${comment.author.dgf_id  === userId ? 'bg-info text-white' : 'bg-light text-grey'}`"
-          >
-          <b-row class="mt-0 p-1" align-h="end">
-            <b-button
-              size="sm"
-              variant="link"
-              @click="deleteComment(comment.id)"
-              >
-              <b-icon
-                icon="x"
-                :variant="comment.author.dgf_id  === userId ? 'white' : ''"
-              >
-              </b-icon>
-            </b-button>
-          </b-row>
+    <div v-if="isAuthenticated">
+      <b-row
+        v-for="(comment, index) in itemComments"
+        :key="index"
+        :align-h="comment.author.dgf_id === userId ? 'end' : 'center'"
+        >
+        <b-col cols="10">
+          <b-card
+            no-body
+            :class="`px-3 pb-4 pt-0 mb-3 mt-0 ${comment.author.dgf_id  === userId ? 'bg-info text-white' : 'bg-light text-grey'}`"
+            >
+            <b-row class="mt-0 p-1" align-h="end">
+              <b-button
+                size="sm"
+                variant="link"
+                @click="deleteComment(comment.id)"
+                >
+                <b-icon
+                  icon="x"
+                  :variant="comment.author.dgf_id  === userId ? 'white' : ''"
+                >
+                </b-icon>
+              </b-button>
+            </b-row>
 
-          <b-card-body class="py-2 mb-2" v-if="isCommentLoading === comment.id">
-            <b-spinner label="loading"></b-spinner>
-          </b-card-body>
+            <b-card-body class="py-2 mb-2" v-if="isCommentLoading === comment.id">
+              <b-spinner label="loading"></b-spinner>
+            </b-card-body>
 
-          <div v-else>
-            <b-card-body class="py-0">
-              <b-card-text class="text-left">
-                <b-row>
-                  <b-col cols="2">
-                    <b-icon
-                      icon="three-dots"
-                      aria-hidden="true"
-                      :class="`h3 ${comment.author.dgf_id  === userId ? 'text-white' : 'text-grey'}`"
-                      >
-                    </b-icon>
+            <div v-else>
+              <b-card-body class="py-0">
+                <b-card-text class="text-left">
+                  <b-row>
+                    <b-col cols="2">
+                      <b-icon
+                        icon="three-dots"
+                        aria-hidden="true"
+                        :class="`h3 ${comment.author.dgf_id  === userId ? 'text-white' : 'text-grey'}`"
+                        >
+                      </b-icon>
+                    </b-col>
+                    <b-col>
+                      <p>
+                        {{ comment.content }}
+                      </p>
+                    </b-col>
+                  </b-row>
+                </b-card-text>
+              </b-card-body>
+              <hr :class="`${comment.author.dgf_id  === userId ? 'bg-white' : 'bg-white'}`">
+              <b-card-text class="text-center">
+                <b-row no-gutters>
+                  <b-col>
+                    {{$t('moderation.author')}} :<br>
+                    {{ comment.author.first_name }} {{ comment.author.last_name }}
                   </b-col>
                   <b-col>
-                    <p>
-                      {{ comment.content }}
-                    </p>
+                    {{$t('moderation.date')}} :<br>
+                    {{ comment.written_at }}
                   </b-col>
                 </b-row>
               </b-card-text>
-            </b-card-body>
-            <hr :class="`${comment.author.dgf_id  === userId ? 'bg-white' : 'bg-white'}`">
-            <b-card-text class="text-center">
-              <b-row no-gutters>
-                <b-col>
-                  {{$t('moderation.author')}} :<br>
-                  {{ comment.author.first_name }} {{ comment.author.last_name }}
-                </b-col>
-                <b-col>
-                  {{$t('moderation.date')}} :<br>
-                  {{ comment.written_at }}
-                </b-col>
-              </b-row>
-            </b-card-text>
-          </div>
+            </div>
 
-        </b-card>
-      </b-col>
-    </b-row>
+          </b-card>
+        </b-col>
+      </b-row>
+    </div>
 
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 // import { APIresponses } from '@/config/APIoperations.js'
 
@@ -168,6 +173,9 @@ export default {
     ...mapState({
       log: (state) => state.global.log,
       userData: (state) => state.user.user
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     }),
     userId () {
       return this.userData && this.userData.id

@@ -3,18 +3,18 @@
   <b-card>
 
     <!-- ACTION BTN -->
-    <template v-slot:header v-if="hasHeader">
+    <!-- <template v-slot:header v-if="hasHeader">
       <div class="d-flex flex-row justify-content-between align-items-center py-2">
         <div class="flex-fill">
           {{ $t('moderation.moderation', {prefix: ''}) }}
-        </div>
+        </div> -->
         <!-- <ModerationItemBtn
           :endpoint="endpoint"
           :item="item"
           >
         </ModerationItemBtn> -->
-      </div>
-    </template>
+      <!-- </div>
+    </template> -->
 
     <div
       v-if="!item"
@@ -63,6 +63,7 @@
         </b-col>
 
         <b-col
+          v-if="isAuthenticated"
           :sm="4"
           class="bg-light p-4 mx-4"
           >
@@ -155,7 +156,7 @@
       </b-row>
 
       <!-- COMMENTS -->
-      <b-row v-if="hasHeader" class="mb-2" align-h="center">
+      <b-row v-if="hasHeader && isAuthenticated" class="mb-2" align-h="center">
         <b-col :sm="10" class="mb-0">
           <hr>
           <p class="font-weight-bold">
@@ -177,6 +178,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 import { MapDgfTypes } from '@/config/MapDgfTypes.js'
 import { trimText } from '@/utils/textUtils.js'
@@ -211,6 +213,11 @@ export default {
       console.log('-C- ModerationRowCard > watch > item > next : ', next)
       // this.itemModeration = next
     }
+  },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
+    })
   },
   methods: {
     callbackAction (evt) {

@@ -12,6 +12,7 @@
       class="text-left pl-5"
       >
       <!-- <PreviousPage/> -->
+      <slot name="dialogLeft"></slot>
     </b-col>
 
     <b-col

@@ -2,6 +2,7 @@
   <div class="organization-card-component">
 
     <b-card
+      class="border-0"
       footer-tag="footer"
       :footer="cardFooter"
       >

@@ -126,14 +126,13 @@
 
         <template v-slot:cell(moderation)="row">
           <b-button
-            v-if="isAuthenticated"
             size="sm"
             @click="row.toggleDetails" class="mx-2">
             <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
           </b-button>
         </template>
 
-        <template v-if="isAuthenticated" v-slot:row-details="row">
+        <template v-slot:row-details="row">
           <ModerationRowCard
             :dgfType="dgfType"
             :item="row.item"
