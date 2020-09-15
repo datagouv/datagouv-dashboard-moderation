@@ -17,7 +17,7 @@ const translations = {
     toastsModeration: {
       error: 'moderation error',
       errorTxt: 'error code : {code}',
-      success: 'ok',
+      success: 'success',
       successTxt: 'moderation recorded',
       successTxt_GET: 'moderation data retrieved',
       successTxt_POST: 'moderation data added',

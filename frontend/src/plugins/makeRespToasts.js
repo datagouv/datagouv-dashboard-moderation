@@ -24,12 +24,12 @@ export async function makeResponseToast (resp, itemId = '', method = 'GET', dgfT
     'p',
     { class: ['text-center', 'my-2'] },
     [
-      // h('strong', msg)
       h('strong', `${method} ${dgfType}`),
-      h('br'),
-      h('span', `id : ${itemId}`), h('hr'),
-      h('strong', msg), h('br'),
       h('span', `${this.$t('moderation.field')} : ${field}`),
+      h('br'),
+      h('span', `id : ${itemId}`),
+      h('hr'),
+      h('strong', msg), h('br'),
       h('p', this.$t(`responseCodes._${resp.status}`))
     ]
   )

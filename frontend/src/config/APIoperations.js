@@ -1,5 +1,11 @@
 export const APIresponses = {
-  success: [200, 201]
+  success: [200, 201],
+  colorCodes: {
+    GET: 'info',
+    POST: 'success',
+    PUT: 'warning',
+    DELETE: 'warning'
+  }
 }
 
 export const APIoperations = {
