@@ -77,7 +77,12 @@
                   </span>
                 </span>
                 <span v-else>
-                  <b-spinner label="loading"></b-spinner>
+                  <b-spinner
+                    style="width:1.5rem; height:1.5rem;"
+                    label="loading"
+                    variant="primary"
+                    >
+                  </b-spinner>
                 </span>
               </em>
             </template>
