@@ -118,7 +118,7 @@
               <b-row no-gutters>
                 <b-col>
                   {{$t('moderation.author')}} :<br>
-                  {{ comment.author }}
+                  {{ comment.author.first_name }} {{ comment.author.last_name }}
                 </b-col>
                 <b-col>
                   {{$t('moderation.date')}} :<br>
@@ -182,7 +182,6 @@ export default {
             first_name: this.userData.first_name,
             last_name: this.userData.last_name
           },
-          written_at: Date.now(),
           content: this.commentContent
         }
         console.log('-C- ModerationComments > submitComment > comment : ', comment)
