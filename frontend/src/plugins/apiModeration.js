@@ -111,12 +111,13 @@ class ModerationLib {
 
   addModerationData (obj, itemStatus) {
     console.log('>>> ModerationLib > addModerationData > itemStatus : ', itemStatus)
+    const moderationData = itemStatus.json()
     return {
       ...obj,
-      read: itemStatus.read || false,
-      suspicious: itemStatus.suspicious || false,
-      deleted: itemStatus.deleted || false,
-      comments: itemStatus.comments || commentsDummy // []
+      read: moderationData.read || false,
+      suspicious: moderationData.suspicious || false,
+      deleted: moderationData.deleted || false,
+      comments: moderationData.comments || commentsDummy // []
     }
   }
 
@@ -138,6 +139,11 @@ class ModerationLib {
       if (response.status === 404) {
         console.log(">>> ModerationLib > getModeration > item doesn't exist yet in moderation backend ... => POST")
         response = await this.postModeration(dgfType, item)
+      } else {
+        response.json().then((data) => {
+          console.log('>>> ModerationLib > getModeration >  data :', data)
+          response = data
+        })
       }
       return response
     } catch (error) {
