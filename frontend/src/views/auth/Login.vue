@@ -7,18 +7,18 @@
       :hideBackBtn="true"
     />
 
-    <h2 class="mb-3">
+    <h2 class="mb-5">
       {{ $t('settings.logIn') }}
     </h2>
 
-    <h3 v-if="isLoading">
+    <p v-if="isLoading">
       <b-spinner
         style="width: 5rem; height: 5rem;"
         label="loading"
         variant="primary"
         >
       </b-spinner>
-    </h3>
+    </p>
 
     <!-- LOGIN FORM -->
     <!-- <b-card
