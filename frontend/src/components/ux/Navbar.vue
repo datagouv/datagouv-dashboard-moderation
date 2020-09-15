@@ -36,7 +36,7 @@
         <!-- Center aligned nav items -->
         <b-navbar-nav class="ml-auto" align="center">
           <b-nav-item
-            v-for="btn in navbarBtns"
+            v-for="btn in navbarBtnsUser"
             :key="btn.link"
             active-class="active-link"
             class=""
@@ -175,13 +175,13 @@ export default {
       isLoading: false,
       searchVisible: false,
       navbarBtns: [
-        { link: '/datasets', textCode: 'basics.datasetsCap' },
-        { link: '/resources-community', textCode: 'basics.community_resourcesCap' },
-        { link: '/reuses', textCode: 'basics.reusesCap' },
-        { link: '/users', textCode: 'basics.usersCap' },
-        { link: '/organizations', textCode: 'basics.organizationsCap' },
-        { link: '/issues', textCode: 'basics.issuesCap' },
-        { link: '/discussions', textCode: 'basics.discussionsCap' }
+        { link: '/datasets', textCode: 'basics.datasetsCap', onlyAuthenticated: false },
+        { link: '/resources-community', textCode: 'basics.community_resourcesCap', onlyAuthenticated: true },
+        { link: '/reuses', textCode: 'basics.reusesCap', onlyAuthenticated: false },
+        { link: '/users', textCode: 'basics.usersCap', onlyAuthenticated: true },
+        { link: '/organizations', textCode: 'basics.organizationsCap', onlyAuthenticated: false },
+        { link: '/issues', textCode: 'basics.issuesCap', onlyAuthenticated: true },
+        { link: '/discussions', textCode: 'basics.discussionsCap', onlyAuthenticated: true }
       ]
     }
   },
@@ -194,7 +194,14 @@ export default {
     }),
     ...mapGetters({
       isAuthenticated: 'oauth/isAuthenticated'
-    })
+    }),
+    navbarBtnsUser () {
+      if (this.isAuthenticated) {
+        return this.navbarBtns
+      } else {
+        return this.navbarBtns.filter(btn => btn.onlyAuthenticated === false)
+      }
+    }
   },
   methods: {
     async submitLogin () {
