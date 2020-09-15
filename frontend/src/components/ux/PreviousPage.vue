@@ -3,6 +3,7 @@
     :class="customClass"
     >
     <b-button
+      v-show="!inactiveBack"
       pill
       :disabled="inactiveBack"
       :variant="`${customClassBtn ? customClassBtn + ' text-dark' : 'outline-secondary'}`"
