@@ -178,7 +178,10 @@ export default {
       this.isLoading = true
       if (this.commentContent.length > 0) {
         const comment = {
-          author: `${this.userData.first_name} ${this.userData.last_name}`,
+          author: {
+            first_name: this.userData.first_name,
+            last_name: this.userData.last_name
+          },
           written_at: Date.now(),
           content: this.commentContent
         }
@@ -192,7 +195,7 @@ export default {
           msg: `response action : ${this.dgfType}-${categ}`
         }
         this.$makeToast(updatedItem, this.dgfType, 'POST', this.dgfType, 'comments')
-        // this.itemComments =
+        this.itemComments.unshift(comment)
         this.emitResponse(respData)
       }
       this.resetTextArea(evt)
@@ -216,37 +219,6 @@ export default {
       // this.itemComments =
       this.isCommentLoading = ''
     }
-    // makeToast (moderationResponse) {
-    //   const h = this.$createElement
-    //   const variant = !APIresponses.success.includes(moderationResponse.status) ? 'danger' : 'success'
-    //   const title = !APIresponses.success.includes(moderationResponse.status) ? 'error' : 'success'
-    //   const msg = !APIresponses.success.includes(moderationResponse.status) ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
-
-    //   const vNodesTitle = h(
-    //     'div',
-    //     { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
-    //     [
-    //       h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
-    //     ]
-    //   )
-    //   const vNodesMsg = h(
-    //     'p',
-    //     { class: ['text-center', 'my-2'] },
-    //     [
-    //       h('strong', `PUT ${this.dgfType} / comment`),
-    //       h('br'),
-    //       h('span', `id : ${this.item.id}`), h('hr'),
-    //       h('strong', msg), h('br'),
-    //       h('p', this.$t(`responseCodes._${moderationResponse.status}`))
-    //     ]
-    //   )
-
-    //   this.$bvToast.toast([vNodesMsg], {
-    //     title: [vNodesTitle],
-    //     variant: variant,
-    //     solid: true
-    //   })
-    // }
   }
 }
 </script>

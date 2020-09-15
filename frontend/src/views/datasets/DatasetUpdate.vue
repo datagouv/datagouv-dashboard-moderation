@@ -147,36 +147,6 @@ export default {
         }
       )
     }
-    // makeToast (moderationResponse) {
-    //   const h = this.$createElement
-    //   const variant = !APIresponses.success.includes(moderationResponse.status) ? 'danger' : 'success'
-    //   const title = !APIresponses.success.includes(moderationResponse.status) ? 'error' : 'success'
-    //   const msg = !APIresponses.success.includes(moderationResponse.status) ? this.$t('toastsModeration.errorTxt', { code: moderationResponse.status }) : 'ok msg'
-
-    //   const itemId = this.dataset.id
-    //   const vNodesTitle = h(
-    //     'div', { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'ml-2'] },
-    //     [
-    //       h('strong', { class: ['mr-2', 'text-center'] }, this.$t(`toastsModeration.${title}`))
-    //     ]
-    //   )
-    //   const vNodesMsg = h(
-    //     'p', { class: ['text-center', 'my-2'] },
-    //     [
-    //       h('strong', `GET ${this.dgfType}`),
-    //       h('br'),
-    //       h('span', `id : ${itemId}`), h('hr'),
-    //       h('strong', msg), h('br'),
-    //       h('p', this.$t(`responseCodes._${moderationResponse.status}`))
-    //     ]
-    //   )
-
-    //   this.$bvToast.toast([vNodesMsg], {
-    //     title: [vNodesTitle],
-    //     variant: variant,
-    //     solid: true
-    //   })
-    // }
   }
 }
 
