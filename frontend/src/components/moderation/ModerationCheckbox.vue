@@ -128,7 +128,7 @@ export default {
         item: updatedItem,
         msg: `response action : ${this.dgfType}-${categ}`
       }
-      this.$makeToast(updatedItem, this.item.id, 'PUT', this.dgfType)
+      this.$makeToast(updatedItem, this.item.id, 'PUT', this.dgfType, this.field)
       this.itemModerationValue = evt
       this.emitResponse(respData)
       this.isLoading = false

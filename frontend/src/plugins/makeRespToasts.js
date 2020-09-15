@@ -1,7 +1,10 @@
 import { APIresponses } from '@/config/APIoperations.js'
 
-export async function makeResponseToast (resp, itemId = '', method = 'GET', dgfType = 'dataset') {
+export async function makeResponseToast (resp, itemId = '', method = 'GET', dgfType = 'dataset', field = '') {
   console.log('-P- makeResponseToast > resp : ', resp)
+  console.log('-P- makeResponseToast > itemId : ', itemId)
+  console.log('-P- makeResponseToast > method : ', method)
+  console.log('-P- makeResponseToast > dgfType : ', dgfType)
   const h = this.$createElement
   // const variant = resp.status && APIresponses.success.includes(resp.status) ? 'success' : 'danger'
   // const title = resp.status && APIresponses.success.includes(resp.status) ? 'success' : 'error'
@@ -22,10 +25,11 @@ export async function makeResponseToast (resp, itemId = '', method = 'GET', dgfT
     { class: ['text-center', 'my-2'] },
     [
       // h('strong', msg)
-      h('strong', `GET ${dgfType}`),
+      h('strong', `${method} ${dgfType}`),
       h('br'),
       h('span', `id : ${itemId}`), h('hr'),
       h('strong', msg), h('br'),
+      h('span', `${this.$t('moderation.field')} : ${field}`),
       h('p', this.$t(`responseCodes._${resp.status}`))
     ]
   )

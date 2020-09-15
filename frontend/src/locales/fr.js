@@ -119,6 +119,7 @@ const translations = {
       sureDeleteItem: 'êtes-vous certain.e de vouloir supprimer cet élément ?'
     },
     moderation: {
+      field: 'champ',
       date: 'date',
       author: 'auteur.e',
       selection: 'sélection',

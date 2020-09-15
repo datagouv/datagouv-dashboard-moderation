@@ -191,7 +191,7 @@ export default {
           item: updatedItem,
           msg: `response action : ${this.dgfType}-${categ}`
         }
-        this.$makeToast(updatedItem, this.dgfType, 'POST', this.dgfType)
+        this.$makeToast(updatedItem, this.dgfType, 'POST', this.dgfType, 'comments')
         // this.itemComments =
         this.emitResponse(respData)
       }
@@ -212,7 +212,7 @@ export default {
       this.isCommentLoading = commentId
       const deletedItem = await this.$MODERATIONcli.deleteComment(this.item.id, commentId)
       console.log('-C- ModerationComments > deleteComment > deletedItem : ', deletedItem)
-      this.$makeToast(deletedItem, this.dgfType, 'DELETE', this.dgfType)
+      this.$makeToast(deletedItem, this.dgfType, 'DELETE', this.dgfType, 'comments')
       // this.itemComments =
       this.isCommentLoading = ''
     }
