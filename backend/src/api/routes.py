@@ -81,9 +81,7 @@ def submit_token():
             return make_response((err.message, 500))
 
     session['user_id'] = user_data['id']
-    print(f'submit_token > user data id : {user_data["id"]} \n')
     resp = make_response(('success', 200))
-    # resp.headers['session-id'] = session['user_id']
     return resp
 
 
@@ -169,10 +167,8 @@ def comment_object(user, dgf_object_id):
         )
     db.session.add(comment)
     db.session.commit()
-    print(f'\ncomment_object >> comment : {comment}')
     schema = CommentSchema()
     data = schema.dump(comment)
-    print(f'comment_object >> data : {data}')
     return make_response((data, 201))
 
 

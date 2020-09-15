@@ -31,6 +31,16 @@
 
     <b-row class="mx-2">
 
+      <!-- MODERATION BOX -->
+      <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :dgfType="dgfType"
+          :endpoint="endpointModeration"
+          :item="dataset"
+        />
+      </b-col>
+
       <!-- DISPLAY DATASET -->
       <b-col>
         <DatasetCard
@@ -40,16 +50,6 @@
           height="800px"
           >
         </DatasetCard>
-      </b-col>
-
-      <!-- MODERATION BOX -->
-      <b-col sm="6" md="4">
-        <ModerationRowCard
-          :hasHeader="true"
-          :dgfType="dgfType"
-          :endpoint="endpointModeration"
-          :item="dataset"
-        />
       </b-col>
 
     </b-row>

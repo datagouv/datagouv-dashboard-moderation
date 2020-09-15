@@ -31,6 +31,16 @@
 
     <b-row class="mx-2">
 
+      <!-- MODERATION BOX -->
+      <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :dgfType="dgfType"
+          :endpoint="endpointModeration"
+          :item="user"
+        />
+      </b-col>
+
       <!-- DISPLAY USER -->
       <b-col>
         <UserCard
@@ -41,16 +51,6 @@
           height="800px"
         >
         </UserCard>
-      </b-col>
-
-      <!-- MODERATION BOX -->
-      <b-col sm="6" md="4">
-        <ModerationRowCard
-          :hasHeader="true"
-          :dgfType="dgfType"
-          :endpoint="endpointModeration"
-          :item="user"
-        />
       </b-col>
 
     </b-row>

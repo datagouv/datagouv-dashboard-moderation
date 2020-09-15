@@ -31,6 +31,16 @@
 
     <b-row class="mx-2">
 
+      <!-- MODERATION BOX -->
+      <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :dgfType="dgfType"
+          :endpoint="endpointModeration"
+          :item="resource"
+        />
+      </b-col>
+
       <!-- DISPLAY RESOURCE -->
       <b-col>
         <ResourceCard
@@ -40,16 +50,6 @@
           height="800px"
         >
         </ResourceCard>
-      </b-col>
-
-      <!-- MODERATION BOX -->
-      <b-col sm="6" md="4">
-        <ModerationRowCard
-          :hasHeader="true"
-          :dgfType="dgfType"
-          :endpoint="endpointModeration"
-          :item="resource"
-        />
       </b-col>
 
     </b-row>
