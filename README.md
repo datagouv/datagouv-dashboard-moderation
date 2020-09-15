@@ -195,9 +195,10 @@ flask db migrate
 # rebuild front
 cd frontend && nvm use && npm run build
 
-# reload backend (backend serves front)
+# reload backend (backend serves front) with hot reload backend
 flask db upgrade
 export FLASK_APP=app.py
+export FLASK_DEBUG=1
 flask run -h localhost -p 8080
 ```
 

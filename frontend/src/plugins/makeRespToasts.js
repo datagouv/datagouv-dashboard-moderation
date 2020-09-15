@@ -25,12 +25,11 @@ export async function makeResponseToast (resp, itemId = '', method = 'GET', dgfT
     { class: ['text-center', 'my-2'] },
     [
       h('strong', `${method} ${dgfType}`),
-      h('span', `${this.$t('moderation.field')} : ${field}`),
-      h('br'),
-      h('span', `id : ${itemId}`),
+      h('br'), h('span', `${this.$t('moderation.field')} : ${field}`),
+      h('br'), h('span', `id : ${itemId}`),
       h('hr'),
-      h('strong', msg), h('br'),
-      h('p', this.$t(`responseCodes._${resp.status}`))
+      h('strong', msg),
+      h('br'), h('p', this.$t(`responseCodes._${resp.status}`))
     ]
   )
   console.log('-P- makeResponseToast > vNodesTitle : ', vNodesTitle)

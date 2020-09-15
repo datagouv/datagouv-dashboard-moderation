@@ -169,7 +169,11 @@ def comment_object(user, dgf_object_id):
         )
     db.session.add(comment)
     db.session.commit()
-    return make_response(('success', 201))
+    print(f'\ncomment_object >> comment : {comment}')
+    schema = CommentSchema()
+    data = schema.dump(comment)
+    print(f'comment_object >> data : {data}')
+    return make_response((data, 201))
 
 
 @bp.route('/objects/<dgf_object_id>/comments/<comment_id>', methods=['DELETE'])

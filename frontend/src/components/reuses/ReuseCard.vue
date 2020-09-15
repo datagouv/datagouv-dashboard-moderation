@@ -107,7 +107,7 @@
       </div>
 
       <RawData
-        :customClass="`mb-3`"
+        :customClass="`my-3`"
         :see="seeRaw"
         :dataRaw="reuse"
       ></RawData>

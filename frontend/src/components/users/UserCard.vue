@@ -128,7 +128,7 @@
       </div>
 
       <RawData
-        :customClass="`mb-3`"
+        :customClass="`my-3`"
         :see="seeRaw"
         title="user data"
         :dataRaw="user"

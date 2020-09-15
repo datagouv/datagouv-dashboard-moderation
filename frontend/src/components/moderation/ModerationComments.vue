@@ -187,15 +187,18 @@ export default {
         console.log('-C- ModerationComments > submitComment > comment : ', comment)
         const updatedItem = await this.$MODERATIONcli.addComment(this.item.id, comment)
         console.log('-C- ModerationComments > submitComment > updatedItem : ', updatedItem)
-        const categ = 'update_comments'
-        const respData = {
-          category: categ,
-          item: updatedItem,
-          msg: `response action : ${this.dgfType}-${categ}`
-        }
+        const moderationData = await updatedItem.json()
+        console.log('-C- ModerationComments > submitComment > moderationData : ', moderationData)
+        // const categ = 'update_comments'
+        // const respData = {
+        //   category: categ,
+        //   item: updatedItem,
+        //   msg: `response action : ${this.dgfType}-${categ}`
+        // }
+        // this.emitResponse(respData)
         this.$makeToast(updatedItem, this.dgfType, 'POST', this.dgfType, 'comments')
-        this.itemComments.unshift(comment)
-        this.emitResponse(respData)
+        moderationData.user_id = this.userId
+        this.itemComments.unshift(moderationData)
       }
       this.resetTextArea(evt)
     },
@@ -215,7 +218,7 @@ export default {
       const deletedItem = await this.$MODERATIONcli.deleteComment(this.item.id, commentId)
       console.log('-C- ModerationComments > deleteComment > deletedItem : ', deletedItem)
       this.$makeToast(deletedItem, this.dgfType, 'DELETE', this.dgfType, 'comments')
-      // this.itemComments =
+      this.itemComments = this.itemComments.filter(comment => comment.id !== commentId)
       this.isCommentLoading = ''
     }
   }

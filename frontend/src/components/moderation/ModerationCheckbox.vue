@@ -105,6 +105,11 @@ export default {
     console.log('-C- ModerationCheckbox > updateModeration > this.item : ', this.item)
     this.itemModerationValue = this.item[this.field]
   },
+  watch: {
+    item (next) {
+      this.itemModerationValue = next[this.field]
+    }
+  },
   computed: {
     ...mapState({
       log: (state) => state.log
@@ -122,15 +127,15 @@ export default {
       console.log('-C- ModerationCheckbox > updateModeration > evt : ', evt)
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
       console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
-      const categ = `update_${field}`
-      const respData = {
-        category: categ,
-        item: updatedItem,
-        msg: `response action : ${this.dgfType}-${categ}`
-      }
+      // const categ = `update_${field}`
+      // const respData = {
+      //   category: categ,
+      //   item: updatedItem,
+      //   msg: `response action : ${this.dgfType}-${categ}`
+      // }
+      // this.emitResponse(respData)
       this.$makeToast(updatedItem, this.item.id, 'PUT', this.dgfType, this.field)
       this.itemModerationValue = evt
-      this.emitResponse(respData)
       this.isLoading = false
     },
     getColor (field) {
