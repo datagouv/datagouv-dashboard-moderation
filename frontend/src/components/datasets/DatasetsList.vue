@@ -386,7 +386,7 @@ export default {
   },
   methods: {
     async reloadItemsModerationSelection (itemsSelection) {
-      console.log('-C- DatasetList > methods > reloadItems > itemsSelection :', itemsSelection)
+      // console.log('-C- DatasetList > methods > reloadItems > itemsSelection :', itemsSelection)
       for (const itemId of itemsSelection) {
         const item = this.datasets.data.find(it => it.id === itemId)
         this.reloadItemModerationData(item)
@@ -394,9 +394,9 @@ export default {
     },
     async reloadItemModerationData (itemObject) {
       const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
-      console.log('-C- DatasetList > methods > reloadItemModerationData > itemStatus :', itemStatus)
+      // console.log('-C- DatasetList > methods > reloadItemModerationData > itemStatus :', itemStatus)
       const consolidated = await this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
-      console.log('-C- DatasetList > methods > reloadItemModerationData > consolidated :', consolidated)
+      // console.log('-C- DatasetList > methods > reloadItemModerationData > consolidated :', consolidated)
       this.datasets.data = this.datasets.data.map(item => (
         item.id === itemObject.id ? consolidated : item
       ))
