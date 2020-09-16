@@ -60,14 +60,12 @@ def submit_token():
     if r.status_code != 200:
         return make_response((r.json(), r.status_code))
     user_data = r.json()
-    print(f'user data : {user_data}')
 
     if not 'admin' in user_data['roles']:
         return make_response(('Not enough priviledges', 403))
 
     user = User.query.filter_by(dgf_id=user_data['id']).first()
     if user is None:
-        print('submit_token > user is none')
         new_user = User(
             first_name=user_data['first_name'],
             last_name=user_data['last_name'],
@@ -76,13 +74,11 @@ def submit_token():
         try:
             db.session.add(new_user)
             db.session.commit()
-            print('submit_token > add new user')
         except Exception as err:
             return make_response((err.message, 500))
 
     session['user_id'] = user_data['id']
-    resp = make_response(('success', 200))
-    return resp
+    return make_response(('success', 200))
 
 
 @bp.route('/logout')
