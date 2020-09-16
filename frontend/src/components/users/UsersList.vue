@@ -87,7 +87,7 @@
             :endpoint="endpointModeration"
             :itemsSelection="itemsSelection"
             :itemsList="users && users.data"
-            @responseAction="callbackAction"
+            @reloadItems="reloadItemsModerationSelection"
             >
           </ModerationActionsBtn>
         </b-col>
@@ -360,6 +360,12 @@ export default {
     }
   },
   methods: {
+    async reloadItemsModerationSelection (itemsSelection) {
+      for (const itemId of itemsSelection) {
+        const item = this.users.data.find(it => it.id === itemId)
+        this.reloadItemModerationData(item)
+      }
+    },
     async reloadItemModerationData (itemObject) {
       const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
       const consolidated = await this.$MODERATIONcli.addModerationData(itemObject, itemStatus)

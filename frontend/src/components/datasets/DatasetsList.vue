@@ -91,7 +91,7 @@
             :endpoint="endpointModeration"
             :itemsSelection="itemsSelection"
             :itemsList="datasets && datasets.data"
-            @responseAction="callbackAction"
+            @reloadItems="reloadItemsModerationSelection"
             >
           </ModerationActionsBtn>
         </b-col>
@@ -385,9 +385,10 @@ export default {
     }
   },
   methods: {
-    async reloadItems (itemsSelection) {
+    async reloadItemsModerationSelection (itemsSelection) {
+      console.log('-C- DatasetList > methods > reloadItems > itemsSelection :', itemsSelection)
       for (const itemId of itemsSelection) {
-        const item = this.datasets.find(it => it.id === itemId)
+        const item = this.datasets.data.find(it => it.id === itemId)
         this.reloadItemModerationData(item)
       }
     },

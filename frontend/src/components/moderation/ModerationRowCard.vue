@@ -222,10 +222,9 @@ export default {
       this.$emit('valueChange', data)
     },
     callbackAction (evt) {
-      // TO DO
       this.isLoading = true
-      console.log('-C- ModerationRowCard > callbackAction > evt.category : ', evt.category)
-      console.log('-C- ModerationRowCard > callbackAction > this.item : ', this.item)
+      // console.log('-C- ModerationRowCard > callbackAction > evt.category : ', evt.category)
+      // console.log('-C- ModerationRowCard > callbackAction > this.item : ', this.item)
       this.$emit('reloadItem', this.item)
       // switch (evt.category) {
       //   case 'update_read':
