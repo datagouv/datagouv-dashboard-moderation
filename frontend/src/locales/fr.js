@@ -92,6 +92,7 @@ const translations = {
     actions: {
       actions: 'actions',
       actionsGroupText: 'actions groupées',
+      actionsItem: 'actions possibles pour cet object',
       select: 'sélectionner',
       search: 'rechercher',
       searchDataset: 'rechercher un jeu de données',
