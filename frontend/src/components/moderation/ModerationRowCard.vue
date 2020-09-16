@@ -71,7 +71,7 @@
           <ModerationComments
             :dgfType="dgfType"
             :item="item"
-            @responseAction="callbackAction"
+            @reloadItem="reloadItem"
           />
         </b-col>
 
@@ -86,7 +86,7 @@
               :dgfType="dgfType"
               :item="item"
               :field="'read'"
-              @responseAction="callbackAction"
+              @reloadItem="reloadItem"
               >
             </ModerationCheckbox>
           </div>
@@ -96,7 +96,7 @@
               :dgfType="dgfType"
               :item="item"
               :field="'suspicious'"
-              @responseAction="callbackAction"
+              @reloadItem="reloadItem"
               >
             </ModerationCheckbox>
           </div>
@@ -106,7 +106,7 @@
               :dgfType="dgfType"
               :item="item"
               :field="'deleted'"
-              @responseAction="callbackAction"
+              @reloadItem="reloadItem"
               >
             </ModerationCheckbox>
           </div>
@@ -122,7 +122,7 @@
             :dgfType="dgfType"
             :item="item"
             :field="'read'"
-            @responseAction="callbackAction"
+            @reloadItem="reloadItem"
             spinnerClass="true"
             >
           </ModerationCheckbox>
@@ -134,7 +134,7 @@
             :dgfType="dgfType"
             :item="item"
             :field="'suspicious'"
-            @responseAction="callbackAction"
+            @reloadItem="reloadItem"
             spinnerClass="true"
             >
           </ModerationCheckbox>
@@ -146,7 +146,7 @@
             :dgfType="dgfType"
             :item="item"
             :field="'deleted'"
-            @responseAction="callbackAction"
+            @reloadItem="reloadItem"
             spinnerClass="true"
             >
           </ModerationCheckbox>
@@ -165,7 +165,7 @@
           <ModerationComments
             :dgfType="dgfType"
             :item="item"
-            @responseAction="callbackAction"
+            @reloadItem="reloadItem"
           />
         </b-col>
       </b-row>
@@ -221,23 +221,23 @@ export default {
     emitChange (data) {
       this.$emit('valueChange', data)
     },
-    callbackAction (evt) {
+    reloadItem (evt) {
       this.isLoading = true
-      // console.log('-C- ModerationRowCard > callbackAction > evt.category : ', evt.category)
-      // console.log('-C- ModerationRowCard > callbackAction > this.item : ', this.item)
+      // console.log('-C- ModerationRowCard > reloadItem > evt.category : ', evt.category)
+      // console.log('-C- ModerationRowCard > reloadItem > this.item : ', this.item)
       this.$emit('reloadItem', this.item)
       // switch (evt.category) {
       //   case 'update_read':
-      //     console.log('-C- ModerationRowCard > callbackAction > update_read ')
+      //     console.log('-C- ModerationRowCard > reloadItem > update_read ')
       //     break
       //   case 'update_suspicious':
-      //     console.log('-C- ModerationRowCard > callbackAction > update_suspicious ')
+      //     console.log('-C- ModerationRowCard > reloadItem > update_suspicious ')
       //     break
       //   case 'update_deleted':
-      //     console.log('-C- ModerationRowCard > callbackAction > update_deleted ')
+      //     console.log('-C- ModerationRowCard > reloadItem > update_deleted ')
       //     break
       //   case 'update_comment':
-      //     console.log('-C- ModerationRowCard > callbackAction > update_comment ')
+      //     console.log('-C- ModerationRowCard > reloadItem > update_comment ')
       //     break
       // }
       this.isLoading = false

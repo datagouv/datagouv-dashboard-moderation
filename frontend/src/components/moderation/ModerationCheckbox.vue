@@ -116,9 +116,9 @@ export default {
     })
   },
   methods: {
-    emitResponse (data) {
-      this.$emit('responseAction', data)
-    },
+    // emitResponse (data) {
+    //   this.$emit('responseAction', data)
+    // },
     async updateModeration (item, field, evt) {
       this.isLoading = true
       // console.log('-C- ModerationCheckbox > updateModeration > evt : ', evt)
@@ -126,15 +126,14 @@ export default {
       // console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
       this.$makeToast(updatedItem, this.item.id, 'PUT', this.dgfType, this.field)
       this.itemModerationValue = evt
-
-      const categ = `update_${field}`
-      const respData = {
-        category: categ,
-        item: updatedItem,
-        msg: `response action : ${this.dgfType}-${categ}`
-      }
-      this.emitResponse(respData)
-
+      // const categ = `update_${field}`
+      // const respData = {
+      //   category: categ,
+      //   item: updatedItem,
+      //   msg: `response action : ${this.dgfType}-${categ}`
+      // }
+      // this.$emit('responseAction', data)
+      this.$emit('reloadItem', item)
       this.isLoading = false
     },
     getColor (field) {
