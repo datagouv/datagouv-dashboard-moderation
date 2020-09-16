@@ -30,7 +30,7 @@ class UserSchema(Schema):
 
 class CommentSchema(Schema):
     id = fields.Int(dump_only=True)
-    author = fields.Nested(UserSchema(only=('first_name', 'last_name')))
+    author = fields.Nested(UserSchema(only=('first_name', 'last_name', 'dgf_id')))
     written_at = fields.DateTime(dump_only=True)
     content = fields.Str(required=True)
 
@@ -51,7 +51,6 @@ class ObjectSchema(Schema):
 @bp.route('/submit-token', methods=['POST'])
 def submit_token():
     data = request.get_json(force=True) or {}
-
     errors = LoginSchema().validate(data)
     if errors:
         return make_response((errors, 400))
@@ -61,12 +60,14 @@ def submit_token():
     if r.status_code != 200:
         return make_response((r.json(), r.status_code))
     user_data = r.json()
+    print(f'user data : {user_data}')
 
     if not 'admin' in user_data['roles']:
         return make_response(('Not enough priviledges', 403))
 
     user = User.query.filter_by(dgf_id=user_data['id']).first()
     if user is None:
+        print('submit_token > user is none')
         new_user = User(
             first_name=user_data['first_name'],
             last_name=user_data['last_name'],
@@ -75,11 +76,13 @@ def submit_token():
         try:
             db.session.add(new_user)
             db.session.commit()
+            print('submit_token > add new user')
         except Exception as err:
             return make_response((err.message, 500))
 
     session['user_id'] = user_data['id']
-    return make_response(('success', 200))
+    resp = make_response(('success', 200))
+    return resp
 
 
 @bp.route('/logout')
@@ -164,7 +167,9 @@ def comment_object(user, dgf_object_id):
         )
     db.session.add(comment)
     db.session.commit()
-    return make_response(('success', 201))
+    schema = CommentSchema()
+    data = schema.dump(comment)
+    return make_response((data, 201))
 
 
 @bp.route('/objects/<dgf_object_id>/comments/<comment_id>', methods=['DELETE'])
