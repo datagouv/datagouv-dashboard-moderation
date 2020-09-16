@@ -1,5 +1,8 @@
 <template>
-  <div class="reuse-card-component">
+  <div
+    id="reuse-card"
+    class="reuse-card-component"
+    >
 
     <b-card
       no-body

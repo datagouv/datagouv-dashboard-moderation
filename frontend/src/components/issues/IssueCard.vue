@@ -1,5 +1,8 @@
 <template>
-  <div class="issue-card-component">
+  <div
+    id="issue-card"
+    class="issue-card-component"
+    >
 
     <b-card
       no-body

@@ -1,5 +1,8 @@
 <template>
-  <div class="organization-card-component">
+  <div
+    id="organization-card"
+    class="organization-card-component"
+    >
 
     <b-card
       no-body

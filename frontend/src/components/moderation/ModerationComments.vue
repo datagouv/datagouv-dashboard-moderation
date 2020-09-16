@@ -166,7 +166,7 @@ export default {
   },
   watch: {
     item (next) {
-      this.itemComments = next.comments
+      this.itemComments = next.comments && next.comments.reverse()
     }
   },
   computed: {

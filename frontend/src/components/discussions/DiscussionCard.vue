@@ -1,5 +1,8 @@
 <template>
-  <div class="discussion-card-component">
+  <div
+    id="discussion-card"
+    class="discussion-card-component"
+    >
 
     <b-card
       no-body

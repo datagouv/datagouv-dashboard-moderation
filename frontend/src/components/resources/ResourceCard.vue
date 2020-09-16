@@ -1,5 +1,8 @@
 <template>
-  <div class="resource-card-component">
+  <div
+    id="resource-card"
+    class="resource-card-component"
+    >
 
     <b-card
       no-body

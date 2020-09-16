@@ -31,6 +31,10 @@ $info: $dgf-medium-alt-blue;
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
 
+.fill-view {
+  min-height: 72vh !important;
+}
+
 .pill-override > .btn {
   border-radius: 50rem !important;
 }

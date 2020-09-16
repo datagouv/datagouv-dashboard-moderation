@@ -1,5 +1,8 @@
 <template>
-  <div class="user-card-component">
+  <div
+    id="user-card"
+    class="user-card-component"
+    >
 
     <b-card
       no-body

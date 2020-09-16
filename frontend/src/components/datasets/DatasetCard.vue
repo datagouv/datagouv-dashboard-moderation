@@ -1,7 +1,8 @@
 <template>
   <div
     id="dataset-card"
-    class="dataset-card-component">
+    class="dataset-card-component"
+    >
 
     <b-card
       no-body
