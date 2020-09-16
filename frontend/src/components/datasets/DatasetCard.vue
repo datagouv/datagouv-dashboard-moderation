@@ -4,7 +4,8 @@
     class="dataset-card-component">
 
     <b-card
-      class="border-0"
+      no-body
+      class="border-0 "
       footer-tag="footer"
       :footer="cardFooter"
       >
@@ -26,7 +27,10 @@
       </template> -->
 
       <!-- VIEW -->
-      <div v-if="dataset && !edit">
+      <b-card-body
+        v-if="dataset && !edit"
+        class="px-0"
+        >
 
         <CardTitle
           :title="dataset.title"
@@ -53,7 +57,7 @@
           :resources="dataset.resources"
         />
 
-      </div>
+      </b-card-body>
 
       <!-- EDIT -->
       <b-container v-if="dataset && isAuthenticated && edit">

@@ -2,6 +2,7 @@
   <div class="user-card-component">
 
     <b-card
+      no-body
       class="border-0"
       footer-tag="footer"
       :footer="cardFooter"
@@ -24,7 +25,10 @@
       </template> -->
 
       <!-- VIEW -->
-      <div v-if="user && !edit">
+      <b-card-body
+        v-if="user && !edit"
+        class="px-0"
+        >
 
         <CardTitle
           :title="user.last_name"
@@ -53,7 +57,7 @@
           </code>
         </b-card-text>
 
-      </div>
+      </b-card-body>
 
       <!-- EDIT -->
       <b-container v-if="user && isAuthenticated && edit">

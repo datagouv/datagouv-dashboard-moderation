@@ -2,6 +2,7 @@
   <div class="discussion-card-component">
 
     <b-card
+      no-body
       class="border-0"
       footer-tag="footer"
       :footer="cardFooter"
@@ -24,7 +25,10 @@
       </template> -->
 
       <!-- VIEW -->
-      <div v-if="discussion">
+      <b-card-body
+        v-if="discussion"
+        class="px-0"
+        >
 
         <CardTitle
           :title="discussion.title"
@@ -40,7 +44,7 @@
           :customClass="'mb-5'"
         />
 
-      </div>
+      </b-card-body>
 
       <!-- COMMENT -->
       <b-container v-if="discussion && isAuthenticated && comment">

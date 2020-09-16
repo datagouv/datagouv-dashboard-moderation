@@ -2,6 +2,7 @@
   <div class="resource-card-component">
 
     <b-card
+      no-body
       class="bg-dark border-0"
       footer-tag="footer"
       :footer="cardFooter"
@@ -24,7 +25,10 @@
       </template> -->
 
       <!-- VIEW -->
-      <div v-if="resource">
+      <b-card-body
+        v-if="resource"
+        class="px-0"
+        >
 
         <CardTitle
           :title="resource.title"
@@ -46,7 +50,7 @@
           customClass="text-white"
         />
 
-      </div>
+      </b-card-body>
 
       <!-- COMMENT -->
       <b-container v-if="resource && isAuthenticated && comment">

@@ -2,6 +2,7 @@
   <div class="issue-card-component">
 
     <b-card
+      no-body
       class="border-0"
       footer-tag="footer"
       :footer="cardFooter"
@@ -24,7 +25,10 @@
       </template> -->
 
       <!-- VIEW -->
-      <div v-if="issue">
+      <b-card-body
+        v-if="issue"
+        class="px-0"
+        >
 
         <CardTitle
           :title="issue.title"
@@ -40,7 +44,7 @@
           :customClass="'mb-5'"
         />
 
-      </div>
+      </b-card-body>
 
       <!-- EDIT -->
       <b-container v-if="issue && isAuthenticated && edit">

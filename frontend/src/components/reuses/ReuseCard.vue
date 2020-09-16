@@ -2,6 +2,7 @@
   <div class="reuse-card-component">
 
     <b-card
+      no-body
       class="border-0"
       footer-tag="footer"
       :footer="cardFooter"
@@ -24,7 +25,10 @@
       </template> -->
 
       <!-- VIEW -->
-      <div v-if="reuse">
+      <b-card-body
+        v-if="reuse"
+        class="px-0"
+        >
 
         <CardTitle
           :title="reuse.title"
@@ -43,7 +47,7 @@
           :text="reuse.description"
         />
 
-      </div>
+      </b-card-body>
 
       <!-- EDIT -->
       <b-container v-if="reuse && isAuthenticated && edit">
