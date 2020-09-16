@@ -7,6 +7,7 @@
       <b-row>
         <b-col
           md="2"
+          align-self="center"
           >
           <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
             <b-icon icon="eye-fill" aria-hidden=""></b-icon>
