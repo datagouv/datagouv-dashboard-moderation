@@ -61,7 +61,10 @@
       </b-card-body>
 
       <!-- EDIT -->
-      <b-container v-if="dataset && isAuthenticated && edit">
+      <b-container
+        class="my-5"
+        v-if="dataset && isAuthenticated && edit"
+        >
 
         <b-form @submit="updateDataset">
 

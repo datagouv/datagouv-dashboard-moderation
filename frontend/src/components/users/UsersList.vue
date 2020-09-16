@@ -342,7 +342,7 @@ export default {
   },
   watch: {
     async users (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.users = await this.appendModerationData(next)
       }
     }

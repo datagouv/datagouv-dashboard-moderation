@@ -367,7 +367,7 @@ export default {
   },
   watch: {
     async datasets (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.dataset = await this.appendModerationData(next)
       }
     }

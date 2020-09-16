@@ -295,7 +295,7 @@ export default {
   },
   watch: {
     async discussions (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.discussions = await this.appendModerationData(next)
       }
     }

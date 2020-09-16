@@ -4,7 +4,9 @@
       fluid
       class="mb-5 mt-4"
       >
-      <b-row>
+      <b-row
+        align-v="center"
+        >
         <b-col
           md="2"
           align-self="center"
@@ -27,8 +29,8 @@
           >
           <EditItemBtn
             :dgfType="dgfType"
-            :endpoint="putOperationId"
-            :item="dataset"
+            :endpoint="endpoint"
+            :item="item"
             :hideFields="['chat']"
             @responseAction="callbackAction"
             >
@@ -72,11 +74,7 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      switch (evt.category) {
-        case 'openEdit':
-          this.edit = true
-          break
-      }
+      this.$emit('responseAction', evt)
     }
   }
 }

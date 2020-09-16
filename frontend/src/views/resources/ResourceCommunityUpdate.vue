@@ -135,7 +135,7 @@ export default {
   },
   watch: {
     async resource (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.resource = await this.appendModerationData(next)
       }
     },

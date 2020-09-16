@@ -49,8 +49,11 @@
 
       </b-card-body>
 
-      <!-- EDIT -->
-      <b-container v-if="issue && isAuthenticated && edit">
+      <!-- COMMENT -->
+      <b-container
+        class="my-5"
+        v-if="issue && isAuthenticated && comment"
+        >
         <hr>
         <b-form @submit="commentIssue">
 
@@ -80,7 +83,7 @@
           <hr>
 
           <div v-if="!isLoading">
-            <b-button @click="edit=false; seeRaw=true" class="mx-2" variant="danger">
+            <b-button @click="comment=false; seeRaw=true" class="mx-2" variant="danger">
               <b-icon icon="x" aria-hidden="true"></b-icon>
               {{ $t('actions.cancel') }}
             </b-button>

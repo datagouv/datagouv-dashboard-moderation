@@ -55,7 +55,10 @@
       </b-card-body>
 
       <!-- EDIT -->
-      <b-container v-if="organization && isAuthenticated && edit">
+      <b-container
+        class="my-5"
+        v-if="organization && isAuthenticated && edit"
+        >
 
         <b-form @submit="updateOrganization">
 

@@ -53,7 +53,10 @@
       </b-card-body>
 
       <!-- EDIT -->
-      <b-container v-if="reuse && isAuthenticated && edit">
+      <b-container
+        class="my-5"
+        v-if="reuse && isAuthenticated && edit"
+        >
 
         <b-form @submit="updateReuse">
 

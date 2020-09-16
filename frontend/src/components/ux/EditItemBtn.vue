@@ -10,9 +10,10 @@
     <template v-slot:button-content >
       <b-button
         id="popover-btn-object-actions"
-        :variant="!isAuthenticated ? 'outline-secondary' : 'primary'"
         class="btn-circle btn-circle-sm"
+        variant="primary"
         >
+        <!-- :variant="!isAuthenticated ? 'outline-secondary' : 'primary'" -->
         <b-icon icon="three-dots-vertical"></b-icon>
       </b-button>
       <b-popover

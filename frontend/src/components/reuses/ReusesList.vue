@@ -297,7 +297,7 @@ export default {
   },
   watch: {
     async reuses (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.reuses = await this.appendModerationData(next)
       }
     }

@@ -50,7 +50,10 @@
       </b-card-body>
 
       <!-- COMMENT -->
-      <b-container v-if="discussion && isAuthenticated && comment">
+      <b-container
+        class="my-5"
+        v-if="discussion && isAuthenticated && comment"
+        >
         <hr>
         <b-form @submit="commentDiscussion">
 

@@ -135,7 +135,7 @@ export default {
   },
   watch: {
     async reuse (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.reuse = await this.appendModerationData(next)
       }
     },

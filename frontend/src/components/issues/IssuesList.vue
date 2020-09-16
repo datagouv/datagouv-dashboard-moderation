@@ -289,7 +289,7 @@ export default {
   },
   watch: {
     async issues (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.issues = await this.appendModerationData(next)
       }
     }

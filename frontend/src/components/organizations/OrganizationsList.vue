@@ -331,7 +331,7 @@ export default {
   },
   watch: {
     async organizations (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.organizations = await this.appendModerationData(next)
       }
     }

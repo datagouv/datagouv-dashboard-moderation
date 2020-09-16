@@ -104,7 +104,10 @@
       </b-container>
 
       <!-- EDIT -->
-      <b-container v-if="resource && isAuthenticated && edit">
+      <b-container
+        class="my-5"
+        v-if="resource && isAuthenticated && edit"
+        >
 
         <b-form @submit="updateDataset">
 
