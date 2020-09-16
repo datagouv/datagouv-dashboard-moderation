@@ -100,7 +100,7 @@
             </b-button>
           </div>
           <div v-else>
-            <b-spinner label="loading"></b-spinner>
+            <custom-spinner :size="1"/>
           </div>
 
         </b-form>
@@ -111,19 +111,22 @@
       <div
         v-if="!reuse"
         class="py-5 my-5">
-        <b-spinner
-          style="width: 5rem; height: 5rem;"
-          label="loading"
-          variant="primary"
-          >
-        </b-spinner>
+        <custom-spinner/>
       </div>
 
-      <RawData
-        :customClass="`my-3`"
-        :see="seeRaw"
-        :dataRaw="reuse"
-      ></RawData>
+      <b-row fluid>
+        <b-col
+          md="8"
+          offset-md="2"
+          >
+          <RawData
+            :customClass="`my-3`"
+            :see="seeRaw"
+            :dataRaw="reuse"
+            >
+          </RawData>
+        </b-col>
+      </b-row>
 
     </b-card>
   </div>

@@ -27,7 +27,7 @@
           >
 
           <div v-if="isLoading" class="pt-4 pb-5">
-            <b-spinner label="loading"></b-spinner>
+            <custom-spinner :size="1"/>
           </div>
 
           <b-form
@@ -94,7 +94,7 @@
             </b-row>
 
             <b-card-body class="py-2 mb-2" v-if="isCommentLoading === comment.id">
-              <b-spinner label="loading"></b-spinner>
+              <custom-spinner :size="1"/>
             </b-card-body>
 
             <div v-else>
@@ -110,9 +110,10 @@
                       </b-icon>
                     </b-col>
                     <b-col>
-                      <p>
-                        {{ comment.content }}
-                      </p>
+                      <vue-simple-markdown
+                        :source="comment.content "
+                        >
+                      </vue-simple-markdown>
                     </b-col>
                   </b-row>
                 </b-card-text>

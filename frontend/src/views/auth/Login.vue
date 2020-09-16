@@ -12,12 +12,7 @@
     </h2>
 
     <p v-if="isLoading">
-      <b-spinner
-        style="width: 5rem; height: 5rem;"
-        label="loading"
-        variant="primary"
-        >
-      </b-spinner>
+      <custom-spinner/>
     </p>
 
     <!-- LOGIN FORM -->

@@ -38,12 +38,7 @@
     <div v-if="isLoading"
       :class="spinnerClass ? 'pt-2' : ''"
       >
-      <b-spinner
-        style="width: 1.5rem; height: 1.5rem;"
-        label="loading"
-        variant="primary"
-        >
-      </b-spinner>
+      <custom-spinner :size="1.5"/>
     </div>
   </div>
 </template>

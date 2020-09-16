@@ -12,12 +12,7 @@
     </h2>
 
     <p v-if="isLoading" class="py-5 my-5">
-      <b-spinner
-        style="width: 5rem; height: 5rem;"
-        label="loading"
-        variant="primary"
-        >
-      </b-spinner>
+      <custom-spinner/>
     </p>
 
     <!-- RESPONSE -->

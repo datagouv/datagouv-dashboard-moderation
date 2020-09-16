@@ -19,6 +19,7 @@ import './css/custom.scss'
 
 import Utils from './plugins/utils.js'
 import MakeRespToast from './plugins/makeRespToasts.js'
+import CustomSpinner from '@/components/ux/CustomSpinner.vue'
 
 import MODERATIONcli from './plugins/apiModeration.js'
 
@@ -68,6 +69,7 @@ Vue.use(VueSimpleMarkdown)
 // use other custom plugin
 Vue.use(Utils, {})
 Vue.use(MakeRespToast, {})
+Vue.component('custom-spinner', CustomSpinner)
 
 // use MODERATIONcli plugin
 Vue.use(MODERATIONcli, moderationOptions, store)

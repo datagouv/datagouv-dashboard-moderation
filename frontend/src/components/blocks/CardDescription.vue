@@ -12,7 +12,8 @@
           >
           <vue-simple-markdown
             :class="`${customClass}`"
-            :source="text">
+            :source="text"
+            >
           </vue-simple-markdown>
         </b-col>
       </b-row>

@@ -22,12 +22,7 @@
     <div
       v-if="!item"
       class="py-5 my-5">
-      <b-spinner
-        style="width: 5rem; height: 5rem;"
-        label="loading"
-        variant="primary"
-        >
-      </b-spinner>
+      <custom-spinner/>
     </div>
 
     <!-- MODERATION DATA -->

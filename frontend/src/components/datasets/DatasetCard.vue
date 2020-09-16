@@ -109,7 +109,7 @@
           </div>
 
           <div v-else>
-            <b-spinner label="loading"></b-spinner>
+            <custom-spinner/>
           </div>
 
         </b-form>
@@ -117,29 +117,34 @@
       </b-container>
 
       <!-- EMPTY -->
-      <div
+      <b-container fluid
         v-if="!dataset"
-        class="py-5 my-5">
-        <b-spinner
-          style="width: 5rem; height: 5rem;"
-          label="loading"
-          variant="primary"
+        class="py-5 my-5"
+        >
+        <custom-spinner/>
+      </b-container>
+
+      <b-row fluid>
+        <b-col
+          md="8"
+          offset-md="2"
           >
-        </b-spinner>
-      </div>
+          <RawData
+            :customClass="`my-3`"
+            :dataRaw="dataset"
+            :see="seeRaw"
+            >
+          </RawData>
 
-      <RawData
-        :customClass="`my-3`"
-        :dataRaw="dataset"
-        :see="seeRaw"
-      ></RawData>
-
-      <RawData
-        :customClass="`my-3`"
-        :see="seeRawActivity"
-        title="dataset activity"
-        :dataRaw="datasetActivity"
-      ></RawData>
+          <RawData
+            :customClass="`my-3`"
+            :see="seeRawActivity"
+            title="dataset activity"
+            :dataRaw="datasetActivity"
+            >
+          </RawData>
+        </b-col>
+      </b-row>
 
     </b-card>
   </div>

@@ -114,7 +114,7 @@
     ></RawData>
 
     <p v-if="isLoading">
-      <b-spinner label="loading"></b-spinner>
+      <custom-spinner/>
     </p>
   </b-card>
 
