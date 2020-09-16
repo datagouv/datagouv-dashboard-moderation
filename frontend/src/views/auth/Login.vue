@@ -7,7 +7,7 @@
       :hideBackBtn="true"
     />
 
-    <h2 class="mb-5">
+    <h2 class="my-5">
       {{ $t('settings.logIn') }}
     </h2>
 

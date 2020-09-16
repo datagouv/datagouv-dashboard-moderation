@@ -1,7 +1,7 @@
 <template>
   <b-row
     id="navbar-crumbs"
-    class="bg-light mb-5"
+    class="bg-light"
     >
     <b-col
       cols="1" sm="2"

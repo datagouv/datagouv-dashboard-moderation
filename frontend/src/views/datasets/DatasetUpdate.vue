@@ -26,7 +26,7 @@
       </b-sidebar>
     </div>
 
-    <PageHeader
+    <!-- <PageHeader
       :dgfType="'dataset'"
       :customClass="'mb-5'"
       :subtitleLink="datasetRequest"
@@ -57,7 +57,7 @@
           </span>
         </div>
       </template>
-    </PageHeader>
+    </PageHeader> -->
 
     <b-row class="mx-0">
 
@@ -93,7 +93,7 @@ import { mapState, mapGetters } from 'vuex'
 // import { APIresponses } from '@/config/APIoperations.js'
 
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
-import PageHeader from '@/components/ux/PageHeader.vue'
+// import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import DatasetCard from '@/components/datasets/DatasetCard.vue'
@@ -102,7 +102,7 @@ export default {
   name: 'DatasetUpdate',
   components: {
     NavCrumbs,
-    PageHeader,
+    // PageHeader,
     ModerationRowCard,
     DatasetCard
   },

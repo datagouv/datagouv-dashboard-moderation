@@ -7,7 +7,7 @@
       :footer="cardFooter"
       >
 
-      <template v-slot:header>
+      <!-- <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="flex-fill align-content-center">
             {{ cardTitle }}
@@ -21,13 +21,18 @@
             >
           </EditItemBtn>
         </div>
-      </template>
+      </template> -->
 
       <!-- VIEW -->
       <div v-if="issue">
 
         <CardTitle
           :title="issue.title"
+          :dgfType="dgfType"
+          :endpoint="putOperationId"
+          :item="issue"
+          :hideFields="['chat']"
+          @responseAction="callbackAction"
         />
 
         <DialogRow
@@ -116,7 +121,7 @@ import { APIoperations } from '@/config/APIoperations.js'
 import CardTitle from '@/components/blocks/CardTitle.vue'
 import DialogRow from '@/components/blocks/DialogRow.vue'
 
-import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+// import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
@@ -124,7 +129,7 @@ export default {
   components: {
     CardTitle,
     DialogRow,
-    EditItemBtn,
+    // EditItemBtn,
     RawData
   },
   props: [

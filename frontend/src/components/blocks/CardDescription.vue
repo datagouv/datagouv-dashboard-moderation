@@ -10,7 +10,9 @@
           offset-md="2"
           :class="`text-left ${customClass}`"
           >
-          <vue-simple-markdown :source="text">
+          <vue-simple-markdown
+            :class="`${customClass}`"
+            :source="text">
           </vue-simple-markdown>
         </b-col>
       </b-row>

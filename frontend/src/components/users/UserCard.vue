@@ -7,7 +7,7 @@
       :footer="cardFooter"
       >
 
-      <template v-slot:header>
+      <!-- <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="flex-fill align-content-center">
             {{ cardTitle }}
@@ -21,10 +21,19 @@
             >
           </EditItemBtn>
         </div>
-      </template>
+      </template> -->
 
       <!-- VIEW -->
       <div v-if="user && !edit">
+
+        <CardTitle
+          :title="user.last_name"
+          :dgfType="dgfType"
+          :endpoint="putOperationId"
+          :item="user"
+          :hideFields="['chat', 'comment', 'spotlight', 'share']"
+          @responseAction="callbackAction"
+        />
 
         <CardProducer
           :item="{owner: user}"
@@ -152,18 +161,20 @@ import { mapState, mapGetters } from 'vuex'
 
 import { APIoperations } from '@/config/APIoperations.js'
 
+import CardTitle from '@/components/blocks/CardTitle.vue'
 import CardProducer from '@/components/blocks/CardProducer.vue'
 import CardDescription from '@/components/blocks/CardDescription.vue'
 
-import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+// import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'UserCard',
   components: {
+    CardTitle,
     CardProducer,
     CardDescription,
-    EditItemBtn,
+    // EditItemBtn,
     RawData
   },
   props: [

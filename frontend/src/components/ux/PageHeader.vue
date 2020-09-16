@@ -2,7 +2,7 @@
   <b-row
     id="page-header"
     align-h="between"
-    :class="customClass"
+    :class="`${customClass} mt-5`"
     >
 
     <b-col

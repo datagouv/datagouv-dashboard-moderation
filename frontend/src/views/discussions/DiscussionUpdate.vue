@@ -26,7 +26,7 @@
       </b-sidebar>
     </div>
 
-    <PageHeader
+    <!-- <PageHeader
       :dgfType="'discussion'"
       :customClass="'mb-5'"
       :subtitleLink="discussionRequest"
@@ -56,7 +56,7 @@
           </span>
         </div>
       </template>
-    </PageHeader>
+    </PageHeader> -->
 
     <b-row class="mx-0">
 
@@ -91,7 +91,7 @@
 import { mapState, mapGetters } from 'vuex'
 
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
-import PageHeader from '@/components/ux/PageHeader.vue'
+// import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import DiscussionCard from '@/components/discussions/DiscussionCard.vue'
@@ -100,7 +100,7 @@ export default {
   name: 'DiscussionUpdate',
   components: {
     NavCrumbs,
-    PageHeader,
+    // PageHeader,
     ModerationRowCard,
     DiscussionCard
   },

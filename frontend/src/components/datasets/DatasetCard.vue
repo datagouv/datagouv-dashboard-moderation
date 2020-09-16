@@ -9,7 +9,7 @@
       :footer="cardFooter"
       >
 
-      <template v-slot:header>
+      <!-- <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="flex-fill align-content-center">
             {{`dataset n° ${datasetId}`}}
@@ -23,13 +23,18 @@
             >
           </EditItemBtn>
         </div>
-      </template>
+      </template> -->
 
       <!-- VIEW -->
       <div v-if="dataset && !edit">
 
         <CardTitle
           :title="dataset.title"
+          :dgfType="dgfType"
+          :endpoint="putOperationId"
+          :item="dataset"
+          :hideFields="['chat']"
+          @responseAction="callbackAction"
         />
 
         <CardProducer
@@ -147,7 +152,7 @@ import CardDescription from '@/components/blocks/CardDescription.vue'
 import CardLicence from '@/components/blocks/CardLicence.vue'
 import CardResources from '@/components/blocks/CardResources.vue'
 
-import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+// import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
@@ -158,7 +163,7 @@ export default {
     CardDescription,
     CardLicence,
     CardResources,
-    EditItemBtn,
+    // EditItemBtn,
     RawData
   },
   props: [

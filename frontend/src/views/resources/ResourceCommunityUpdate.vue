@@ -26,7 +26,7 @@
       </b-sidebar>
     </div>
 
-    <PageHeader
+    <!-- <PageHeader
       :dgfType="dgfType"
       :customClass="'mb-5'"
       :subtitleLink="resourceRequest"
@@ -56,7 +56,7 @@
           </span>
         </div>
       </template>
-    </PageHeader>
+    </PageHeader> -->
 
     <b-row class="mx-0">
 
@@ -90,7 +90,7 @@
 import { mapState, mapGetters } from 'vuex'
 
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
-import PageHeader from '@/components/ux/PageHeader.vue'
+// import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import ResourceCard from '@/components/resources/ResourceCard.vue'
@@ -99,7 +99,7 @@ export default {
   name: 'ResourceUpdate',
   components: {
     NavCrumbs,
-    PageHeader,
+    // PageHeader,
     ModerationRowCard,
     ResourceCard
   },

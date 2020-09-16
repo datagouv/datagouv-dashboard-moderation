@@ -7,7 +7,7 @@
       :footer="cardFooter"
       >
 
-      <template v-slot:header>
+      <!-- <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="flex-fill align-content-center text-white">
             {{`resource n° ${resourceId}`}}
@@ -21,7 +21,7 @@
             >
           </EditItemBtn>
         </div>
-      </template>
+      </template> -->
 
       <!-- VIEW -->
       <div v-if="resource">
@@ -29,6 +29,11 @@
         <CardTitle
           :title="resource.title"
           customClass="text-white"
+          :dgfType="dgfType"
+          :endpoint="putOperationId"
+          :item="resource"
+          :hideFields="['spotlight','follow', 'share']"
+          @responseAction="callbackAction"
         />
 
         <CardProducer
@@ -178,7 +183,7 @@ import CardTitle from '@/components/blocks/CardTitle.vue'
 import CardProducer from '@/components/blocks/CardProducer.vue'
 import CardDescription from '@/components/blocks/CardDescription.vue'
 
-import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+// import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
@@ -187,7 +192,7 @@ export default {
     CardTitle,
     CardProducer,
     CardDescription,
-    EditItemBtn,
+    // EditItemBtn,
     RawData
   },
   props: [

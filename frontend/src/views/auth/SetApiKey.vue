@@ -6,7 +6,7 @@
       :crumbs="crumbs"
     />
 
-    <h2>
+    <h2 class="mt-5">
       Set your udata API key
     </h2>
 

@@ -7,7 +7,7 @@
       :footer="cardFooter"
       >
 
-      <template v-slot:header>
+      <!-- <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="flex-fill align-content-center">
             {{ cardTitle }}
@@ -21,13 +21,18 @@
             >
           </EditItemBtn>
         </div>
-      </template>
+      </template> -->
 
       <!-- VIEW -->
       <div v-if="reuse">
 
         <CardTitle
           :title="reuse.title"
+          :dgfType="dgfType"
+          :endpoint="putOperationId"
+          :item="reuse"
+          :hideFields="['comment', 'spotlight', 'follow', 'share', 'contactProducer']"
+          @responseAction="callbackAction"
         />
 
         <CardProducer
@@ -127,7 +132,7 @@ import CardTitle from '@/components/blocks/CardTitle.vue'
 import CardProducer from '@/components/blocks/CardProducer.vue'
 import CardDescription from '@/components/blocks/CardDescription.vue'
 
-import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+// import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
@@ -136,7 +141,7 @@ export default {
     CardTitle,
     CardProducer,
     CardDescription,
-    EditItemBtn,
+    // EditItemBtn,
     RawData
   },
   props: [

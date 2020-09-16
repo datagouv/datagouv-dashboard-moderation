@@ -7,7 +7,7 @@
       :hideBackBtn="true"
     />
 
-    <h2>
+    <h2 class="mt-5">
       {{$t('settings.getUserData')}}
     </h2>
 
