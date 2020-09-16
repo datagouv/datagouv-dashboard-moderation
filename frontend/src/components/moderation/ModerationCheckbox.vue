@@ -6,10 +6,11 @@
       class="justify-content-center">
 
       <!-- <code>{{itemModerationValue}}</code> -->
+      <!-- {{disabled}} -->
 
       <b-form-checkbox
+        v-if="isAuthenticated && !disabled"
         v-model="itemModerationValue"
-        v-if="isAuthenticated"
         button
         button-variant="link"
         @change="updateModeration(item, field, $event)"
@@ -54,7 +55,8 @@ export default {
     'dgfType',
     'item',
     'field',
-    'spinnerClass'
+    'spinnerClass',
+    'disabled'
   ],
   data () {
     return {
@@ -97,7 +99,7 @@ export default {
     }
   },
   created () {
-    console.log('-C- ModerationCheckbox > updateModeration > this.item : ', this.item)
+    // console.log('-C- ModerationCheckbox > updateModeration > this.item : ', this.item)
     this.itemModerationValue = this.item[this.field]
   },
   watch: {
@@ -122,15 +124,17 @@ export default {
       console.log('-C- ModerationCheckbox > updateModeration > evt : ', evt)
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
       console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
-      // const categ = `update_${field}`
-      // const respData = {
-      //   category: categ,
-      //   item: updatedItem,
-      //   msg: `response action : ${this.dgfType}-${categ}`
-      // }
-      // this.emitResponse(respData)
       this.$makeToast(updatedItem, this.item.id, 'PUT', this.dgfType, this.field)
       this.itemModerationValue = evt
+
+      const categ = `update_${field}`
+      const respData = {
+        category: categ,
+        item: updatedItem,
+        msg: `response action : ${this.dgfType}-${categ}`
+      }
+      this.emitResponse(respData)
+
       this.isLoading = false
     },
     getColor (field) {

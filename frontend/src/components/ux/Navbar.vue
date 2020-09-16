@@ -77,7 +77,7 @@
                   </span>
                 </span>
                 <span v-else>
-                  <custom-spinner :size="1.5"/>
+                  <custom-spinner :size="1"/>
                 </span>
               </em>
             </template>

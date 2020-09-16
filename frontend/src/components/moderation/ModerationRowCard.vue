@@ -218,6 +218,9 @@ export default {
     })
   },
   methods: {
+    emitChange (data) {
+      this.$emit('valueChange', data)
+    },
     callbackAction (evt) {
       // TO DO
       this.isLoading = true

@@ -167,6 +167,7 @@
             :dgfType="dgfType"
             :item="row.item"
             :field="'read'"
+            :disabled="row.detailsShowing"
             >
           </ModerationCheckbox>
         </template>
@@ -176,6 +177,7 @@
             :dgfType="dgfType"
             :item="row.item"
             :field="'suspicious'"
+            :disabled="row.detailsShowing"
             >
           </ModerationCheckbox>
         </template>
@@ -185,6 +187,7 @@
             :dgfType="dgfType"
             :item="row.item"
             :field="'deleted'"
+            :disabled="row.detailsShowing"
             >
           </ModerationCheckbox>
         </template>

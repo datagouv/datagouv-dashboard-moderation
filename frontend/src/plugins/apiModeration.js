@@ -42,7 +42,7 @@ class ModerationLib {
    */
   async login (clientToken) {
     const url = `${this.moderationServer}/submit-token`
-    console.log('>>> ModerationLib > login >  clientToken :', clientToken)
+    // console.log('>>> ModerationLib > login >  clientToken :', clientToken)
     const config = {
       method: 'POST',
       headers: basicHeaders,
@@ -50,14 +50,14 @@ class ModerationLib {
       body: JSON.stringify({ token: clientToken })
     }
     try {
-      console.log('>>> ModerationLib > login >  config :', config)
+      // console.log('>>> ModerationLib > login >  config :', config)
       const response = await fetch(url, config)
-      console.log('>>> ModerationLib > login >  response :', response)
+      // console.log('>>> ModerationLib > login >  response :', response)
       // const data = await response.json()
       // console.log('>>> ModerationLib > login >  data :', data)
       const respHeaders = response.headers
       respHeaders.forEach(function (value, name) {
-        console.log('>>> ModerationLib > login >  respHeaders > ', name + ' : ' + value)
+        // console.log('>>> ModerationLib > login >  respHeaders > ', name + ' : ' + value)
       })
       // console.log('>>> ModerationLib > login >  respHeaders :', respHeaders)
       // console.log('>>> ModerationLib > login >  respHeaders.get("Content-Type") :', respHeaders.get('Content-Type'))
@@ -113,7 +113,7 @@ class ModerationLib {
   }
 
   async addModerationData (obj, itemStatus) {
-    console.log('>>> ModerationLib > addModerationData > itemStatus : ', itemStatus)
+    // console.log('>>> ModerationLib > addModerationData > itemStatus : ', itemStatus)
     const moderationData = await itemStatus.json()
     const consolidatedItem = { ...obj }
     // const data = itemStatus
@@ -145,7 +145,7 @@ class ModerationLib {
         response = await this.postModeration(dgfType, item)
         return response
       } else if (response.status === 200) {
-        console.log('>>> ModerationLib > getModeration >  response :', response)
+        // console.log('>>> ModerationLib > getModeration >  response :', response)
         // const data = await response.json()
         return response
       } else {

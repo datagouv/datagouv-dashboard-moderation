@@ -72,7 +72,7 @@
       <b-row
         v-for="(comment, index) in itemComments"
         :key="index"
-        :align-h="comment.author.dgf_id === userId ? 'end' : 'center'"
+        :align-h="comment.author.dgf_id === userId ? 'end' : 'start'"
         >
         <b-col cols="10">
           <b-card
@@ -204,6 +204,9 @@ export default {
         console.log('-C- ModerationComments > submitComment > updatedItem : ', updatedItem)
         const moderationData = await updatedItem.json()
         console.log('-C- ModerationComments > submitComment > moderationData : ', moderationData)
+        this.$makeToast(updatedItem, this.dgfType, 'POST', this.dgfType, 'comments')
+        this.itemComments.unshift(moderationData)
+
         // const categ = 'update_comments'
         // const respData = {
         //   category: categ,
@@ -211,8 +214,6 @@ export default {
         //   msg: `response action : ${this.dgfType}-${categ}`
         // }
         // this.emitResponse(respData)
-        this.$makeToast(updatedItem, this.dgfType, 'POST', this.dgfType, 'comments')
-        this.itemComments.unshift(moderationData)
       }
       this.resetTextArea(evt)
     },
