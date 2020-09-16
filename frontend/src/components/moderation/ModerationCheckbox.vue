@@ -121,9 +121,9 @@ export default {
     },
     async updateModeration (item, field, evt) {
       this.isLoading = true
-      console.log('-C- ModerationCheckbox > updateModeration > evt : ', evt)
+      // console.log('-C- ModerationCheckbox > updateModeration > evt : ', evt)
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
-      console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
+      // console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
       this.$makeToast(updatedItem, this.item.id, 'PUT', this.dgfType, this.field)
       this.itemModerationValue = evt
 

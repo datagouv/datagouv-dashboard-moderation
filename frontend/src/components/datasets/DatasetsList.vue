@@ -144,6 +144,7 @@
           <ModerationRowCard
             :dgfType="dgfType"
             :item="row.item"
+            @reloadItem="reloadItemModerationData"
           />
         </template>
 
@@ -384,17 +385,32 @@ export default {
     }
   },
   methods: {
-    async appendModerationData (itemObject) {
+    async reloadItems (itemsSelection) {
+      for (const itemId of itemsSelection) {
+        const item = this.datasets.find(it => it.id === itemId)
+        this.reloadItemModerationData(item)
+      }
+    },
+    async reloadItemModerationData (itemObject) {
+      const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
+      console.log('-C- DatasetList > methods > reloadItemModerationData > itemStatus :', itemStatus)
+      const consolidated = await this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
+      console.log('-C- DatasetList > methods > reloadItemModerationData > consolidated :', consolidated)
+      this.datasets.data = this.datasets.data.map(item => (
+        item.id === itemObject.id ? consolidated : item
+      ))
+    },
+    async appendModerationData (itemObjects) {
       if (this.isAuthenticated) {
-        const newData = await Promise.all(itemObject.data.map(async (obj) => {
+        const newData = await Promise.all(itemObjects.data.map(async (obj) => {
           const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, obj)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))
-        itemObject.data = newData
+        itemObjects.data = newData
       }
       this.needsModerationData = false
-      return itemObject
+      return itemObjects
     },
     getDatasets (resetPage) {
       this.isLoading = true

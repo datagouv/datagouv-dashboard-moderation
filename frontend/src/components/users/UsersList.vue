@@ -140,6 +140,7 @@
           <ModerationRowCard
             :dgfType="dgfType"
             :item="row.item"
+            @reloadItem="reloadItemModerationData"
           />
         </template>
 
@@ -359,6 +360,13 @@ export default {
     }
   },
   methods: {
+    async reloadItemModerationData (itemObject) {
+      const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
+      const consolidated = await this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
+      this.users.data = this.users.data.map(item => (
+        item.id === itemObject.id ? consolidated : item
+      ))
+    },
     async appendModerationData (itemObject) {
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
