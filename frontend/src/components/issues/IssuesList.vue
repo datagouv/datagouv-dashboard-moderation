@@ -150,6 +150,7 @@
             :dgfType="dgfType"
             :item="row.item"
             :field="'read'"
+            @reloadItem="reloadItemModerationData"
             >
           </ModerationCheckbox>
         </template>
@@ -159,6 +160,7 @@
             :dgfType="dgfType"
             :item="row.item"
             :field="'suspicious'"
+            @reloadItem="reloadItemModerationData"
             >
           </ModerationCheckbox>
         </template>
@@ -168,6 +170,7 @@
             :dgfType="dgfType"
             :item="row.item"
             :field="'deleted'"
+            @reloadItem="reloadItemModerationData"
             >
           </ModerationCheckbox>
         </template>

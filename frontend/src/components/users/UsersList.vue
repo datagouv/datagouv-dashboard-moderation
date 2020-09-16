@@ -150,6 +150,7 @@
             :item="row.item"
             :field="'read'"
             :disabled="row.detailsShowing"
+            @reloadItem="reloadItemModerationData"
             >
           </ModerationCheckbox>
         </template>
@@ -160,6 +161,7 @@
             :item="row.item"
             :field="'suspicious'"
             :disabled="row.detailsShowing"
+            @reloadItem="reloadItemModerationData"
             >
           </ModerationCheckbox>
         </template>
@@ -170,6 +172,7 @@
             :item="row.item"
             :field="'deleted'"
             :disabled="row.detailsShowing"
+            @reloadItem="reloadItemModerationData"
             >
           </ModerationCheckbox>
         </template>
