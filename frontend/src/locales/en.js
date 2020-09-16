@@ -85,6 +85,7 @@ const translations = {
     settings: {
       getUserData: 'getting your user data ...',
       myProfile: 'my profile',
+      connecting: 'connecting...',
       authenticate: 'authenticate',
       logIn: 'log in',
       logOut: 'log out'

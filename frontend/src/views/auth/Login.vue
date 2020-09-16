@@ -8,7 +8,7 @@
     />
 
     <h2 class="my-5">
-      {{ $t('settings.logIn') }}
+      {{ $t('auth.connecting') }}
     </h2>
 
     <p v-if="isLoading">

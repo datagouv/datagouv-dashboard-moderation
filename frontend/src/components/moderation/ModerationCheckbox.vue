@@ -127,7 +127,7 @@ export default {
     async updateModeration (item, field, evt) {
       this.isLoading = true
 
-      if (field === 'deleted') {
+      if (field === 'deleted' && evt) {
         const API = this.$APIcli
         console.log('-C- ModerationCheckbox > updateModeration > DELETE > API :', API)
         console.log('-C- ModerationCheckbox > updateModeration > DELETE > this.dgfType : ', this.dgfType)

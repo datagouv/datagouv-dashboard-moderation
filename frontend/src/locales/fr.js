@@ -43,6 +43,7 @@ const translations = {
     auth: {
       authorizeClientId: "Autoriser l'ID client",
       loginClientId: "Connexion avec l'ID client",
+      connecting: 'connexion en cours...',
       logOut: 'déconnexion',
       resetApiClient: "réinitialisation de l'API client",
       setToken: 'Setting token'
