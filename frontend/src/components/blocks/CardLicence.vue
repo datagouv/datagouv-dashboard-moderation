@@ -6,7 +6,7 @@
       >
       <b-row>
         <b-col
-          md="10"
+          md="8"
           offset-md="2"
           >
           <b-table

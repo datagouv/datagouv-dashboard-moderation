@@ -6,11 +6,12 @@
       >
       <b-row>
         <b-col
-          md="10"
+          md="8"
           offset-md="2"
           :class="`text-left ${customClass}`"
           >
-          {{text}}
+          <vue-simple-markdown :source="text">
+          </vue-simple-markdown>
         </b-col>
       </b-row>
     </b-container>

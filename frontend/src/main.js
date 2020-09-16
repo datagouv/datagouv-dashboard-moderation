@@ -5,6 +5,8 @@ import store from './store'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueSimpleMarkdown from 'vue-simple-markdown'
+import 'vue-simple-markdown/dist/vue-simple-markdown.css'
 
 import VueI18n from 'vue-i18n'
 import fr from './locales/fr.js'
@@ -61,6 +63,7 @@ Vue.use(VueAxios, axios)
 // use Bootstrap as CSS framework
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
+Vue.use(VueSimpleMarkdown)
 
 // use other custom plugin
 Vue.use(Utils, {})
