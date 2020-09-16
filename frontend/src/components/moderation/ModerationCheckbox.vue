@@ -48,6 +48,7 @@
 import { mapState, mapGetters } from 'vuex'
 
 // import { APIresponses } from '@/config/APIoperations.js'
+import { APIoperations } from '@/config/APIoperations.js'
 
 export default {
   name: 'ModerationCheckbox',
@@ -62,6 +63,7 @@ export default {
     return {
       isLoading: false,
       itemModerationValue: undefined,
+      deleteEndpoints: APIoperations.deleteEndpoints,
       buttons: {
         read: {
           icons: [
@@ -113,7 +115,10 @@ export default {
     }),
     ...mapGetters({
       isAuthenticated: 'oauth/isAuthenticated'
-    })
+    }),
+    isDeleteOperation () {
+      return this.deleteEndpoints[this.dgfType]
+    }
   },
   methods: {
     // emitResponse (data) {
@@ -121,6 +126,23 @@ export default {
     // },
     async updateModeration (item, field, evt) {
       this.isLoading = true
+
+      if (field === 'deleted') {
+        const API = this.$APIcli
+        console.log('-C- ModerationCheckbox > updateModeration > DELETE > API :', API)
+        console.log('-C- ModerationCheckbox > updateModeration > DELETE > this.dgfType : ', this.dgfType)
+        const operation = this.isDeleteOperation
+        console.log('-C- ModerationCheckbox > updateModeration > DELETE > operation : ', operation)
+        // if (!operation) return
+        console.log('-C- ModerationCheckbox > updateModeration > DELETE > this.item : ', this.item)
+        const params = {}
+        operation.params.forEach(opParam => {
+          params[opParam.paramKey] = this.item[opParam.itemKey]
+          return params
+        })
+        console.log('-C- ModerationCheckbox > updateModeration > DELETE > params : ', params)
+      }
+
       // console.log('-C- ModerationCheckbox > updateModeration > evt : ', evt)
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
       // console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
