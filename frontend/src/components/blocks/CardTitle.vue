@@ -6,8 +6,17 @@
       >
       <b-row>
         <b-col
+          md="2"
+          >
+          <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
+            <b-icon icon="eye-fill" aria-hidden=""></b-icon>
+            <span class="ml-2">
+              {{$t('moderation.moderation', { prefix: '' })}}
+            </span>
+          </b-button>
+        </b-col>
+        <b-col
           md="8"
-          offset-md="2"
           :class="`h1 text-left ${customClass}`"
           >
           {{title}}
@@ -30,6 +39,8 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+
 import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 
 export default {
@@ -49,6 +60,14 @@ export default {
     return {
       edit: false
     }
+  },
+  computed: {
+    ...mapState({
+      log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
+    })
   },
   methods: {
     callbackAction (evt) {
