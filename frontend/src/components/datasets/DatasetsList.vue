@@ -71,15 +71,16 @@
         </b-col>
 
         <b-col cols="4" md="6"
-          v-if="datasets && pagination.totalItems > pagination.pageSize"
           class="px-0"
+          align-self="center"
           >
           <b-pagination
+            v-if="datasets && pagination.totalItems > pagination.pageSize"
             @input="changePagination"
             v-model="pagination.page"
             :total-rows="pagination.totalItems"
             :per-page="pagination.pageSize"
-            class="my-0 px-0"
+            class="mb-0"
             align="center"
             size="sm"
           ></b-pagination>
@@ -363,9 +364,17 @@ export default {
   },
   created () {
     if (this.customFields) { this.fields = this.customFields }
+    if (this.$router.currentRoute.query) {
+      this.pagination.page = this.$router.currentRoute.query.page || 1
+      this.query = this.$router.currentRoute.query.q || undefined
+    }
     this.getDatasets()
   },
   watch: {
+    '$route' (next) {
+      if (next.query.page) { this.pagination.page = next.query.page }
+      this.getDatasets()
+    },
     async datasets (next) {
       if (next && this.needsModerationData && this.isAuthenticated) {
         this.dataset = await this.appendModerationData(next)
@@ -452,7 +461,9 @@ export default {
     },
     changePagination (pageNumber) {
       this.pagination.page = pageNumber
-      this.getDatasets()
+      console.log('-C- DatasetsList > changePagination > this.$route.query : ', this.$route.query)
+      this.$router.push({ path: this.$route.path, query: { page: pageNumber } })
+      // this.getDatasets()
     },
     changeSorting (sort) {
       this.pagination.sortBy = sort.sortBy

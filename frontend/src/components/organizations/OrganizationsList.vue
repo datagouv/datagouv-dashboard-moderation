@@ -68,15 +68,16 @@
         </b-col>
 
         <b-col cols="4" md="5"
-          v-if="organizations && pagination.totalItems > pagination.pageSize"
           class="my-2"
+          align-self="center"
           >
           <b-pagination
+            v-if="organizations && pagination.totalItems > pagination.pageSize"
             @input="changePagination"
             v-model="pagination.page"
             :total-rows="pagination.totalItems"
             :per-page="pagination.pageSize"
-            class="my-0"
+            class="mb-0"
             align="center"
             size="sm"
           ></b-pagination>
@@ -327,9 +328,17 @@ export default {
   },
   created () {
     if (this.customFields) { this.fields = this.customFields }
+    if (this.$router.currentRoute.query) {
+      this.pagination.page = this.$router.currentRoute.query.page || 1
+      this.query = this.$router.currentRoute.query.q || undefined
+    }
     this.getOrganizations()
   },
   watch: {
+    '$route' (next) {
+      if (next.query.page) { this.pagination.page = next.query.page }
+      this.getOrganizations()
+    },
     async organizations (next) {
       if (next && this.needsModerationData && this.isAuthenticated) {
         this.organizations = await this.appendModerationData(next)
@@ -413,7 +422,7 @@ export default {
     },
     changePagination (pageNumber) {
       this.pagination.page = pageNumber
-      this.getOrganizations()
+      this.$router.push({ path: this.$route.path, query: { page: pageNumber } })
     },
     changeSorting (sort) {
       this.pagination.sortBy = (sort.sortBy === 'created_at') ? 'created' : sort.sortBy

@@ -67,15 +67,16 @@
         </b-col>
 
         <b-col cols="4" md="5"
-          v-if="users && pagination.totalItems > pagination.pageSize"
           class="my-2"
+          align-self="center"
           >
           <b-pagination
+            v-if="users && pagination.totalItems > pagination.pageSize"
             @input="changePagination"
             v-model="pagination.page"
             :total-rows="pagination.totalItems"
             :per-page="pagination.pageSize"
-            class="my-0"
+            class="b-0"
             align="center"
             size="sm"
           ></b-pagination>
@@ -338,9 +339,17 @@ export default {
   },
   created () {
     if (this.customFields) { this.fields = this.customFields }
+    if (this.$router.currentRoute.query) {
+      this.pagination.page = this.$router.currentRoute.query.page || 1
+      this.query = this.$router.currentRoute.query.q || undefined
+    }
     this.getUsers()
   },
   watch: {
+    '$route' (next) {
+      if (next.query.page) { this.pagination.page = next.query.page }
+      this.getUsers()
+    },
     async users (next) {
       if (next && this.needsModerationData && this.isAuthenticated) {
         this.users = await this.appendModerationData(next)
@@ -424,7 +433,7 @@ export default {
     },
     changePagination (pageNumber) {
       this.pagination.page = pageNumber
-      this.getUsers()
+      this.$router.push({ path: this.$route.path, query: { page: pageNumber } })
     },
     changeSorting (sort) {
       switch (sort.sortBy) {

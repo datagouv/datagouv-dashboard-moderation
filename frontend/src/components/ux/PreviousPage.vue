@@ -3,9 +3,8 @@
     :class="customClass"
     >
     <b-button
-      v-show="!inactiveBack"
+      v-show="isHistory"
       pill
-      :disabled="inactiveBack"
       :variant="`${customClassBtn ? customClassBtn + ' text-dark' : 'outline-secondary'}`"
       @click="goBack"
       >
@@ -32,16 +31,16 @@ export default {
       history: (state) => state.global.navHistory
     }),
     ...mapGetters({
+      isHistory: 'global/isHistory',
+      getNavHistory: 'global/getNavHistory',
       lastPath: 'global/getLastNavPath'
-    }),
-    inactiveBack () {
-      return this.$router.currentRoute.path === this.lastPath
-    }
+    })
   },
   methods: {
-    goBack (e) {
+    async goBack (e) {
       e.preventDefault()
-      this.$router.push(this.lastPath)
+      await this.$router.push(this.lastPath)
+      this.$store.commit('global/deleteLastPathfromHistory')
     }
   }
 }

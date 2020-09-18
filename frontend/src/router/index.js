@@ -273,7 +273,9 @@ router.beforeEach((to, from, next) => {
     '/get-user-data'
   ]
   if (!skippableRoutes.includes(from.path)) {
-    store.commit('global/appendPathToHistory', from.path)
+    const routeFrom = from
+    console.log('-R- beforeEach > routeFrom : ', routeFrom)
+    store.commit('global/appendPathToHistory', from.fullPath)
   }
   next()
 })
