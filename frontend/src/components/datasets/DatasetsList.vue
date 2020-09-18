@@ -300,6 +300,7 @@ export default {
   },
   props: [
     'height',
+    'noQueryAdd',
     'small',
     'customFields',
     'noOperationLink',
@@ -428,7 +429,7 @@ export default {
     },
     addQueryAndGet (evt) {
       evt.preventDefault()
-      if (evt.keyCode === 13) {
+      if (!this.noQueryAdd && evt.keyCode === 13) {
         console.log('-C- DatasetList > getDatasets > ENTER ')
         this.$router.push({ path: this.$route.path, query: { page: this.pagination.page, q: this.query } })
       }
@@ -473,7 +474,7 @@ export default {
       console.log('-C- DatasetsList > changePagination > this.$route.query : ', this.$route.query)
       const newPath = { path: this.$route.path, query: { page: pageNumber } }
       if (this.query) { newPath.query.q = this.query }
-      this.$router.push(newPath)
+      if (!this.noQueryAdd) { this.$router.push(newPath) }
     },
     changeSorting (sort) {
       this.pagination.sortBy = sort.sortBy

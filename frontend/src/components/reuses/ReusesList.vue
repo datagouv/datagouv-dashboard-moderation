@@ -253,6 +253,7 @@ export default {
   },
   props: [
     'height',
+    'noQueryAdd',
     'small',
     'customFields',
     'noOperationLink',
@@ -355,7 +356,7 @@ export default {
     },
     addQueryAndGet (evt) {
       evt.preventDefault()
-      if (evt.keyCode === 13) {
+      if (!this.noQueryAdd && evt.keyCode === 13) {
         this.$router.push({ path: this.$route.path, query: { page: this.pagination.page, q: this.query } })
       }
       this.getReuses(true)
@@ -398,7 +399,7 @@ export default {
       this.pagination.page = pageNumber
       const newPath = { path: this.$route.path, query: { page: pageNumber } }
       if (this.query) { newPath.query.q = this.query }
-      this.$router.push(newPath)
+      if (!this.noQueryAdd) { this.$router.push(newPath) }
     },
     changeSorting (sort) {
       this.pagination.sortBy = (sort.sortBy === 'created_at') ? 'created' : sort.sortBy

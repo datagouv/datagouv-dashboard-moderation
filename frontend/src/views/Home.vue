@@ -35,6 +35,7 @@
           <DatasetsList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.datasets"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -52,6 +53,7 @@
           <ResourcesList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.resourcesCommunity"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -69,6 +71,7 @@
           <ReusesList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.reuses"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -86,6 +89,7 @@
           <DiscussionsList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.discussions"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -103,6 +107,7 @@
           <IssuesList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.issues"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -120,6 +125,7 @@
           <UsersList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.users"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -137,6 +143,7 @@
           <OrganizationsList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.organizations"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
