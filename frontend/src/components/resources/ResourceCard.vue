@@ -6,7 +6,7 @@
 
     <b-card
       no-body
-      class="bg-dark border-0"
+      class="bg-dark border-0 pb-5"
       footer-tag="footer"
       :footer="cardFooter"
       >
@@ -30,7 +30,7 @@
       <!-- VIEW -->
       <b-card-body
         v-if="resource"
-        class="px-0"
+        class="px-0 pb-5"
         >
 
         <CardTitle
