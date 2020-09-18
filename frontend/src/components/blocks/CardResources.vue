@@ -1,8 +1,8 @@
 <template>
   <b-card-text
+    id="item-resources"
     class="mb-5"
-  >
-
+    >
     <b-container
       fluid
       class="my-5 mb-4"

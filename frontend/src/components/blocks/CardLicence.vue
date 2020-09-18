@@ -1,5 +1,7 @@
 <template>
-  <b-card-text>
+  <b-card-text
+    id="item-licence"
+    >
     <b-container
       fluid
       class="my-4"

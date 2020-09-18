@@ -42,6 +42,10 @@
           @responseAction="callbackAction"
         />
 
+        <AnchorsButtons
+          :anchorLinks="anchorLinks"
+        />
+
         <CardProducer
           :item="dataset"
         />
@@ -165,6 +169,7 @@ import CardDescription from '@/components/blocks/CardDescription.vue'
 import CardLicence from '@/components/blocks/CardLicence.vue'
 import CardResources from '@/components/blocks/CardResources.vue'
 
+import AnchorsButtons from '@/components/ux/AnchorsButtons.vue'
 // import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
@@ -176,6 +181,7 @@ export default {
     CardDescription,
     CardLicence,
     CardResources,
+    AnchorsButtons,
     // EditItemBtn,
     RawData
   },
@@ -209,6 +215,11 @@ export default {
         { key: 'mime', stickyColumn: true },
         'filesize',
         'id'
+      ],
+      anchorLinks: [
+        { textCode: 'model.description', link: 'item-description' },
+        { textCode: 'model.license', link: 'item-licence' },
+        { textCode: 'model.resources', link: 'item-resources' }
       ]
     }
   },

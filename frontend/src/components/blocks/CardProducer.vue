@@ -1,5 +1,7 @@
 <template>
-  <b-card-text>
+  <b-card-text
+    id="item-producer"
+    >
     <b-container
       fluid
       :class="`my-4 py-5 ${customBgClass ? customBgClass : 'bg-info'}`"

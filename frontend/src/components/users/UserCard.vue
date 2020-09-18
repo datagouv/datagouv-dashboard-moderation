@@ -42,6 +42,10 @@
           @responseAction="callbackAction"
         />
 
+        <AnchorsButtons
+          :anchorLinks="anchorLinks"
+        />
+
         <CardProducer
           :item="{owner: user}"
           :hide="['seeProfile']"
@@ -179,6 +183,7 @@ import CardTitle from '@/components/blocks/CardTitle.vue'
 import CardProducer from '@/components/blocks/CardProducer.vue'
 import CardDescription from '@/components/blocks/CardDescription.vue'
 
+import AnchorsButtons from '@/components/ux/AnchorsButtons.vue'
 // import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
@@ -188,6 +193,7 @@ export default {
     CardTitle,
     CardProducer,
     CardDescription,
+    AnchorsButtons,
     // EditItemBtn,
     RawData
   },
@@ -210,7 +216,11 @@ export default {
       activityOperationId: 'activity',
       putOperationId: 'update_user',
       user: undefined,
-      userActivity: undefined
+      userActivity: undefined,
+      anchorLinks: [
+        { textCode: 'model.description', link: 'item-description' },
+        { textCode: 'model.resources', link: 'item-resources' }
+      ]
     }
   },
   created () {

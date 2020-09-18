@@ -1,5 +1,7 @@
 <template>
-  <b-card-text>
+  <b-card-text
+    id="item-description"
+    >
     <b-container
       fluid
       class="my-5 pb-5"

@@ -43,6 +43,10 @@
           @responseAction="callbackAction"
         />
 
+        <AnchorsButtons
+          :anchorLinks="anchorLinks"
+        />
+
         <CardProducer
           :item="resource"
           customBgClass="bg-success"
@@ -196,6 +200,7 @@ import CardTitle from '@/components/blocks/CardTitle.vue'
 import CardProducer from '@/components/blocks/CardProducer.vue'
 import CardDescription from '@/components/blocks/CardDescription.vue'
 
+import AnchorsButtons from '@/components/ux/AnchorsButtons.vue'
 // import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
@@ -205,6 +210,7 @@ export default {
     CardTitle,
     CardProducer,
     CardDescription,
+    AnchorsButtons,
     // EditItemBtn,
     RawData
   },
@@ -227,7 +233,11 @@ export default {
       putOperationId: 'comment_resource',
       resource: undefined,
       commentContent: '',
-      closeResource: false
+      closeResource: false,
+      anchorLinks: [
+        { textCode: 'model.description', link: 'item-description' },
+        { textCode: 'model.resources', link: 'item-resources' }
+      ]
     }
   },
   watch: {

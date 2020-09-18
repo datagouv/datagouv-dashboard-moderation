@@ -43,6 +43,10 @@
           >
         </CardTitle>
 
+        <AnchorsButtons
+          :anchorLinks="anchorLinks"
+        />
+
         <CardProducer
           :item="{organization: organization}"
           :hide="['seeProfile']"
@@ -155,6 +159,7 @@ import CardTitle from '@/components/blocks/CardTitle.vue'
 import CardProducer from '@/components/blocks/CardProducer.vue'
 import CardDescription from '@/components/blocks/CardDescription.vue'
 
+import AnchorsButtons from '@/components/ux/AnchorsButtons.vue'
 // import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
@@ -164,6 +169,7 @@ export default {
     CardTitle,
     CardProducer,
     CardDescription,
+    AnchorsButtons,
     // EditItemBtn,
     RawData
   },
@@ -189,7 +195,10 @@ export default {
       activityOperationId: 'activity',
       organization: undefined,
       organizationActivity: undefined,
-      closeOrganization: false
+      closeOrganization: false,
+      anchorLinks: [
+        { textCode: 'model.description', link: 'item-description' }
+      ]
     }
   },
   created () {

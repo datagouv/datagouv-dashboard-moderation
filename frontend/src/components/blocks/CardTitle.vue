@@ -1,8 +1,10 @@
 <template>
-  <b-card-title>
+  <b-card-title
+    id="item-title"
+    >
     <b-container
       fluid
-      class="mb-5 mt-4"
+      class="my-5"
       >
       <b-row
         align-v="center"

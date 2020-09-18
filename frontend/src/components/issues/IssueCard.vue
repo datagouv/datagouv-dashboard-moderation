@@ -42,6 +42,10 @@
           @responseAction="callbackAction"
         />
 
+        <AnchorsButtons
+          :anchorLinks="anchorLinks"
+        />
+
         <DialogRow
           :item="issue"
           :customClass="'mb-5'"
@@ -134,6 +138,7 @@ import { APIoperations } from '@/config/APIoperations.js'
 import CardTitle from '@/components/blocks/CardTitle.vue'
 import DialogRow from '@/components/blocks/DialogRow.vue'
 
+import AnchorsButtons from '@/components/ux/AnchorsButtons.vue'
 // import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
@@ -142,6 +147,7 @@ export default {
   components: {
     CardTitle,
     DialogRow,
+    AnchorsButtons,
     // EditItemBtn,
     RawData
   },
@@ -165,7 +171,11 @@ export default {
       putOperationId: 'comment_issue',
       issue: undefined,
       commentContent: '',
-      closeIssue: false
+      closeIssue: false,
+      anchorLinks: [
+        { textCode: 'model.description', link: 'item-description' },
+        { textCode: 'model.resources', link: 'item-resources' }
+      ]
     }
   },
   watch: {
