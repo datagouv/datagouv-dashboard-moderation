@@ -30,7 +30,7 @@ class UserSchema(Schema):
 
 class CommentSchema(Schema):
     id = fields.Int(dump_only=True)
-    author = fields.Nested(UserSchema(only=('first_name', 'last_name')))
+    author = fields.Nested(UserSchema(only=('first_name', 'last_name', 'dgf_id')))
     written_at = fields.DateTime(dump_only=True)
     content = fields.Str(required=True)
 
@@ -39,7 +39,7 @@ class ObjectSchema(Schema):
     suspicious = fields.Boolean(required=True)
     read = fields.Boolean(required=True)
     deleted = fields.Boolean(required=True)
-    dgf_type = fields.String(required=True, validate=validate.OneOf(['user', 'community_resource', 'organization', 'dataset', 'reuse']))
+    dgf_type = fields.String(required=True, validate=validate.OneOf(['user', 'community_resource', 'organization', 'dataset', 'reuse', 'issue', 'discussion']))
     dgf_id = fields.String(required=True)
     comments = fields.List(fields.Nested(CommentSchema))
 
@@ -51,7 +51,6 @@ class ObjectSchema(Schema):
 @bp.route('/submit-token', methods=['POST'])
 def submit_token():
     data = request.get_json(force=True) or {}
-
     errors = LoginSchema().validate(data)
     if errors:
         return make_response((errors, 400))
@@ -164,7 +163,9 @@ def comment_object(user, dgf_object_id):
         )
     db.session.add(comment)
     db.session.commit()
-    return make_response(('success', 201))
+    schema = CommentSchema()
+    data = schema.dump(comment)
+    return make_response((data, 201))
 
 
 @bp.route('/objects/<dgf_object_id>/comments/<comment_id>', methods=['DELETE'])
