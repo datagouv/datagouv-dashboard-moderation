@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('suspicious', sa.Boolean(), nullable=True),
     sa.Column('read', sa.Boolean(), nullable=True),
     sa.Column('deleted', sa.Boolean(), nullable=True),
-    sa.Column('dgf_type', sa.Enum('user', 'community_resource', 'organization', 'dataset', 'reuse', name='dgf_type'), nullable=True),
+    sa.Column('dgf_type', sa.Enum('user', 'community_resource', 'organization', 'dataset', 'reuse', 'issue', 'discussion', name='dgf_type'), nullable=True),
     sa.Column('dgf_id', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
