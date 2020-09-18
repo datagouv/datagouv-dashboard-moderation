@@ -57,6 +57,7 @@
               :placeholder="$t('actions.searchFor', {target: $t('basics.issue')})"
               v-model="query"
               @input="getIssues(true)"
+              @keyup.enter="addQueryAndGet"
               >
             </b-form-input>
             <b-input-group-append v-if="query">
@@ -344,6 +345,13 @@ export default {
       this.needsModerationData = false
       return itemObject
     },
+    addQueryAndGet (evt) {
+      evt.preventDefault()
+      if (evt.keyCode === 13) {
+        this.$router.push({ path: this.$route.path, query: { page: this.pagination.page, q: this.query } })
+      }
+      this.getIssues(true)
+    },
     getIssues (resetPage) {
       this.isLoading = true
       const params = {
@@ -381,7 +389,9 @@ export default {
     },
     changePagination (pageNumber) {
       this.pagination.page = pageNumber
-      this.$router.push({ path: this.$route.path, query: { page: pageNumber } })
+      const newPath = { path: this.$route.path, query: { page: pageNumber } }
+      if (this.query) { newPath.query.q = this.query }
+      this.$router.push(newPath)
     },
     changeSorting (sort) {
       this.pagination.sortBy = sort.sortBy

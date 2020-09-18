@@ -60,6 +60,7 @@
               :placeholder="$t('actions.searchFor', {target: $t('basics.dataset')})"
               v-model="query"
               @input="getDatasets(true)"
+              @keyup.enter="addQueryAndGet"
               >
             </b-form-input>
             <b-input-group-append v-if="query">
@@ -425,6 +426,14 @@ export default {
       this.needsModerationData = false
       return itemObjects
     },
+    addQueryAndGet (evt) {
+      evt.preventDefault()
+      if (evt.keyCode === 13) {
+        console.log('-C- DatasetList > getDatasets > ENTER ')
+        this.$router.push({ path: this.$route.path, query: { page: this.pagination.page, q: this.query } })
+      }
+      this.getDatasets(true)
+    },
     getDatasets (resetPage) {
       this.isLoading = true
       const params = {
@@ -462,8 +471,9 @@ export default {
     changePagination (pageNumber) {
       this.pagination.page = pageNumber
       console.log('-C- DatasetsList > changePagination > this.$route.query : ', this.$route.query)
-      this.$router.push({ path: this.$route.path, query: { page: pageNumber } })
-      // this.getDatasets()
+      const newPath = { path: this.$route.path, query: { page: pageNumber } }
+      if (this.query) { newPath.query.q = this.query }
+      this.$router.push(newPath)
     },
     changeSorting (sort) {
       this.pagination.sortBy = sort.sortBy
