@@ -143,7 +143,7 @@ class ModerationLib {
       if (response.status === 404) {
         console.log(">>> ModerationLib > getModeration > item doesn't exist yet in moderation backend ... => POST")
         response = await this.postModeration(dgfType, item)
-        return response
+        return { ...response, method: 'POST' }
       } else if (response.status === 200) {
         // console.log('>>> ModerationLib > getModeration >  response :', response)
         // const data = await response.json()
