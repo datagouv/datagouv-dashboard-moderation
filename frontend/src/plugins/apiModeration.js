@@ -173,6 +173,7 @@ class ModerationLib {
       console.log('>>> ModerationLib > getModeration > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
       return {
+        method: 'GET',
         status: 500,
         msg: error
       }
@@ -198,6 +199,7 @@ class ModerationLib {
       console.log('>>> ModerationLib > postModeration > error', error)
       // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
       return {
+        method: 'POST',
         status: 500,
         msg: error
       }
@@ -224,6 +226,7 @@ class ModerationLib {
       console.log('>>> ModerationLib > updateModeration > error', error)
       // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
       return {
+        method: 'PUT',
         status: 500,
         msg: error
       }
@@ -249,6 +252,7 @@ class ModerationLib {
       console.log('>>> ModerationLib > addComment > error', error)
       // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
       return {
+        method: 'POST',
         status: 500,
         msg: error
       }
@@ -274,6 +278,7 @@ class ModerationLib {
       console.log('>>> ModerationLib > deleteComment > error', error)
       // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
       return {
+        method: 'DELETE',
         status: 500,
         msg: error
       }
