@@ -302,7 +302,7 @@ export default {
   },
   watch: {
     '$route' (next) {
-      if (next.query.page) { this.pagination.page = next.query.page }
+      this.pagination.page = next.query.page || 1
       this.getReuses()
     },
     async reuses (next) {
