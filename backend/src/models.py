@@ -20,7 +20,7 @@ class DgfObject(db.Model):
     suspicious = db.Column(db.Boolean())
     read = db.Column(db.Boolean())
     deleted = db.Column(db.Boolean())
-    dgf_type = db.Column(db.Enum('user', 'community_resource', 'organization', 'dataset', 'reuse', name='dgf_type'))
+    dgf_type = db.Column(db.Enum('user', 'community_resource', 'organization', 'dataset', 'reuse', 'issue', 'discussion', name='dgf_type'))
     dgf_id = db.Column(db.String(255), nullable=False)
     comments = db.relationship('Comment', backref='dgf_object', lazy='dynamic')
 

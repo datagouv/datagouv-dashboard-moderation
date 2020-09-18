@@ -39,7 +39,7 @@ class ObjectSchema(Schema):
     suspicious = fields.Boolean(required=True)
     read = fields.Boolean(required=True)
     deleted = fields.Boolean(required=True)
-    dgf_type = fields.String(required=True, validate=validate.OneOf(['user', 'community_resource', 'organization', 'dataset', 'reuse']))
+    dgf_type = fields.String(required=True, validate=validate.OneOf(['user', 'community_resource', 'organization', 'dataset', 'reuse', 'issue', 'discussion']))
     dgf_id = fields.String(required=True)
     comments = fields.List(fields.Nested(CommentSchema))
 
