@@ -1,16 +1,17 @@
 <template>
 
-  <div class="user-me">
+  <div
+    id="profile"
+    class="user-me"
+    >
 
     <NavCrumbs
       :crumbs="crumbs"
     />
 
-    <h2>
+    <h2 class="my-5">
       {{$t('settings.myProfile')}}
     </h2>
-
-    <br>
 
     <!-- RESPONSE USER -->
     <b-card
