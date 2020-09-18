@@ -172,6 +172,10 @@ class ModerationLib {
     } catch (error) {
       console.log('>>> ModerationLib > getModeration > error', error)
       this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+      return {
+        status: 500,
+        msg: error
+      }
     } finally {}
   }
 
@@ -193,6 +197,10 @@ class ModerationLib {
     } catch (error) {
       console.log('>>> ModerationLib > postModeration > error', error)
       // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+      return {
+        status: 500,
+        msg: error
+      }
     } finally {}
   }
 
@@ -215,6 +223,10 @@ class ModerationLib {
     } catch (error) {
       console.log('>>> ModerationLib > updateModeration > error', error)
       // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+      return {
+        status: 500,
+        msg: error
+      }
     } finally {}
   }
 
@@ -236,6 +248,10 @@ class ModerationLib {
     } catch (error) {
       console.log('>>> ModerationLib > addComment > error', error)
       // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+      return {
+        status: 500,
+        msg: error
+      }
     } finally {}
   }
 
@@ -257,6 +273,10 @@ class ModerationLib {
     } catch (error) {
       console.log('>>> ModerationLib > deleteComment > error', error)
       // this.store.commit(`${this.storeModuleName}/setModerationResponse`, error)
+      return {
+        status: 500,
+        msg: error
+      }
     } finally {}
   }
 }
