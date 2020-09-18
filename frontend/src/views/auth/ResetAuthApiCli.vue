@@ -7,24 +7,28 @@
       :hideBackBtn="true"
     />
 
-    <h2 class="mt-5">
-    {{ $t('auth.resetApiClient') }}
-    </h2>
+    <div class="mb-5">
 
-    <p v-if="isLoading" class="py-5 my-5">
-      <custom-spinner/>
-    </p>
+      <h2 class="mt-5">
+      {{ $t('auth.resetApiClient') }}
+      </h2>
 
-    <!-- RESPONSE -->
-    <!-- <b-card
-      class="mt-3 mx-auto text-center"
-      style="width: 600px;"
-      v-if="!isLoading"
-      >
-      <code>
-        {{loginResponse}}
-      </code>
-    </b-card> -->
+      <p v-if="isLoading" class="py-5 my-5">
+        <custom-spinner/>
+      </p>
+
+      <!-- RESPONSE -->
+      <!-- <b-card
+        class="mt-3 mx-auto text-center"
+        style="width: 600px;"
+        v-if="!isLoading"
+        >
+        <code>
+          {{loginResponse}}
+        </code>
+      </b-card> -->
+
+    </div>
 
   </div>
 </template>

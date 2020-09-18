@@ -7,35 +7,39 @@
       :hideBackBtn="true"
     />
 
-    <h2 class="mt-5">
-      {{$t('settings.getUserData')}}
-    </h2>
+    <div class="mb-5">
 
-    <h3 v-if="isLoading" class="mt-3">
-      {{$t('actions.wait')}}<br>
-    </h3>
+      <h2 class="mt-5">
+        {{$t('settings.getUserData')}}
+      </h2>
 
-    <p v-if="isLoading" class="py-5 my-5">
-      <custom-spinner/>
-    </p>
+      <h3 v-if="isLoading" class="mt-3">
+        {{$t('actions.wait')}}<br>
+      </h3>
 
-    {{$t('basics.redirection')}}
-    <code>
-      {{redirection}}
-    </code>
+      <p v-if="isLoading" class="py-5 my-5">
+        <custom-spinner/>
+      </p>
 
-    <!-- <b-card
-      class="mt-3 mx-auto text-center"
-      style="width: 600px;"
-      v-if="!isLoading"
-      >
-      <hr>
-      {{$t('basics.user')}}
-      (store) :
+      {{$t('basics.redirection')}}
       <code>
-        {{userData}}
+        {{redirection}}
       </code>
-    </b-card> -->
+
+      <!-- <b-card
+        class="mt-3 mx-auto text-center"
+        style="width: 600px;"
+        v-if="!isLoading"
+        >
+        <hr>
+        {{$t('basics.user')}}
+        (store) :
+        <code>
+          {{userData}}
+        </code>
+      </b-card> -->
+
+    </div>
 
   </div>
 </template>

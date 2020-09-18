@@ -7,13 +7,15 @@
       :hideBackBtn="true"
     />
 
-    <h2 class="my-5">
-      {{ $t('auth.connecting') }}
-    </h2>
+    <div class="mb-5">
 
-    <p v-if="isLoading">
-      <custom-spinner/>
-    </p>
+      <h2 class="my-5">
+        {{ $t('auth.connecting') }}
+      </h2>
+
+      <p v-if="isLoading">
+        <custom-spinner/>
+      </p>
 
     <!-- LOGIN FORM -->
     <!-- <b-card
@@ -46,6 +48,8 @@
         {{loginResponse}}
       </code>
     </b-card> -->
+
+    </div>
 
   </div>
 </template>
