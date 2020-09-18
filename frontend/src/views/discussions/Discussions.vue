@@ -2,10 +2,9 @@
 
   <div class="discussions">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <!-- DISPLAY DISCUSSIONS IN TABLE -->
     <DiscussionsList
@@ -20,11 +19,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import DiscussionsList from '@/components/discussions/DiscussionsList.vue'
 
 export default {
   name: 'Discussions',
   components: {
+    NavCrumbs,
     DiscussionsList
   },
   data () {

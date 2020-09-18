@@ -13,17 +13,26 @@
 
     <template v-slot:button-content >
       <b-button
+        id="popover-moderation-edit"
         pill
         :variant="!isAuthenticated || itemsSelection.length === 0 ? 'outline-secondary' : 'primary'"
         class="btn-circle btn-circle-sm"
         >
         <b-icon icon="three-dots-vertical"></b-icon>
       </b-button>
+      <b-popover
+        target="popover-moderation-edit"
+        variant="dark"
+        placement="left"
+        triggers="hover">
+        {{$t('actions.actionsGroupText')}}
+      </b-popover>
     </template>
 
     <b-dropdown-text class="text-center text-muted">
       {{$t('actions.actionsGroupText')}}
     </b-dropdown-text>
+
     <b-dropdown-divider></b-dropdown-divider>
 
     <!-- MARK READ -->
@@ -167,7 +176,6 @@ export default {
     },
     markSelection (category) {
       // TO DO
-
       const respData = { msg: `response action : ${this.endpoint}-${category}` }
       this.emitResponse(respData)
     },

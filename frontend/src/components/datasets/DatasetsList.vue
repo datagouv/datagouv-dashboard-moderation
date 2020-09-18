@@ -7,6 +7,8 @@
       :noSubtitle="noOperationLink"
       :linkTitle="datasetsRequest"
       :compact="compact"
+      :subtitleLink="datasetsRequest"
+      :badgeNumber="pagination.totalItems"
       >
       <template v-slot:subtitle>
         <div class="mb-2">
@@ -21,14 +23,14 @@
           </span>
         </div>
       </template>
-      <template v-slot:badge>
+      <!-- <template v-slot:badge>
         <h4 v-if="datasets">
           <b-badge pill variant="primary">
             {{ pagination.totalItems }}
             {{ $t('basics.datasets', {list: ''}) }}
           </b-badge>
         </h4>
-      </template>
+      </template> -->
     </PageHeader>
 
     <b-card
@@ -128,14 +130,17 @@
 
         <template v-slot:cell(moderation)="row">
           <b-button
-            v-if="isAuthenticated"
+            v-b-popover.hover.top="$t('moderation.moderationInfos')"
+            pill
             size="sm"
-            @click="row.toggleDetails" class="mx-2">
+            class=""
+            @click="row.toggleDetails"
+            >
             <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
           </b-button>
         </template>
 
-        <template v-if="isAuthenticated" v-slot:row-details="row">
+        <template v-slot:row-details="row">
           <ModerationRowCard
             :dgfType="dgfType"
             :item="row.item"
@@ -256,9 +261,15 @@
 
       </b-table>
 
-      <p v-if="isLoading">
-        <b-spinner label="loading"></b-spinner>
+      <p v-if="isLoading" class="pt-5 my-5">
+        <b-spinner
+          style="width: 5rem; height: 5rem;"
+          label="loading"
+          variant="primary"
+          >
+        </b-spinner>
       </p>
+
     </b-card>
 
   </div>
@@ -370,7 +381,7 @@ export default {
     async appendModerationData (itemObject) {
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
-          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
+          const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, obj)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))

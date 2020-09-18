@@ -2,10 +2,10 @@
 
   <div class="">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+      :hideBackBtn="true"
+    />
 
     <h2>
       {{ $t('settings.logIn') }}
@@ -53,8 +53,15 @@
 <script>
 import { mapState } from 'vuex'
 
+// import { APIresponses } from '@/config/APIoperations.js'
+
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
+
 export default {
   name: 'Login',
+  components: {
+    NavCrumbs
+  },
   data () {
     return {
       isLoading: false,
@@ -105,9 +112,12 @@ export default {
       this.$APIcli.resetCli(authOptions)
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
       // log into moderation API
-      await this.$MODERATIONcli.login(this.tokens.access.value)
+      const loginModerationResponse = await this.$MODERATIONcli.login(this.tokens.access.value)
+      this.$makeToast(loginModerationResponse, 'user login', 'GET', 'user')
+      console.log('-V- Login > updateModeration > loginModerationResponse : ', loginModerationResponse)
       this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
+      this.$makeToast(ex)
       this.loginResponse = `${ex} ... please try to authenticate again`
     } finally {
       this.isLoading = false
@@ -118,13 +128,8 @@ export default {
       log: (state) => state.global.log,
       tokens: (state) => state.oauth.tokens
     })
-  }
-  // methods: {
-  //   async submitLogout (evt) {
-  //     evt.preventDefault()
-  //     const response = await this.$OAUTHcli.logout()
-  //   }
-  // }
+  },
+  methods: {}
 }
 
 </script>

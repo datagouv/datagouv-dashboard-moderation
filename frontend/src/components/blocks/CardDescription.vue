@@ -8,7 +8,7 @@
         <b-col
           md="10"
           offset-md="2"
-          class="text-left"
+          :class="`text-left ${customClass}`"
           >
           {{text}}
         </b-col>
@@ -21,7 +21,8 @@
 export default {
   name: 'CardDescription',
   props: [
-    'text'
+    'text',
+    'customClass'
   ]
 }
 </script>

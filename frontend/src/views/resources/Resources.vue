@@ -2,10 +2,9 @@
 
   <div class="resources">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <!-- DISPLAY RESOURCES IN TABLE -->
     <ResourcesList
@@ -19,11 +18,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import ResourcesList from '@/components/resources/ResourcesList.vue'
 
 export default {
   name: 'Resources',
   components: {
+    NavCrumbs,
     ResourcesList
   },
   data () {

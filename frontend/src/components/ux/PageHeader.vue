@@ -1,5 +1,6 @@
 <template>
   <b-row
+    id="page-header"
     align-h="between"
     :class="customClass"
     >
@@ -10,7 +11,8 @@
       align-self="start"
       class="text-left pl-5"
       >
-      <PreviousPage/>
+      <!-- <PreviousPage/> -->
+      <slot name="dialogLeft"></slot>
     </b-col>
 
     <b-col
@@ -18,18 +20,60 @@
       align-self="center"
       :class="compact ? 'pl-5 text-left' : 'text-center' "
       >
+
       <router-link
         v-if="compact"
         class='h2 text-dark'
         :to="dict[dgfType].to"
         >
         <b-icon icon="link45deg" aria-hidden="true"></b-icon>
-        {{ $t(dict[dgfType].textCode) }}
+        <span>
+          {{ $t(dict[dgfType].textCode) }}
+        </span>
+        <b-badge
+          v-if="badgeNumber"
+          pill
+          variant="light"
+          class="badge-shift"
+          >
+          {{formattedNumber(badgeNumber)}}
+        </b-badge>
       </router-link>
+
       <h2 v-else>
-        {{ $t(dict[dgfType].textCode) }}
+        <span>
+          {{ $t(dict[dgfType].textCode) }}
+        </span>
+        <b-badge
+          v-if="badgeNumber"
+          pill
+          variant="light"
+          class="badge-shift"
+          >
+          {{formattedNumber(badgeNumber)}}
+        </b-badge>
+
+        <b-button
+          id="popover-btn-dgf-api-endpoint"
+          v-if="subtitleLink"
+          variant="link"
+          :href="subtitleLink"
+          target="_blank"
+          >
+          <!-- {{ subtitleLink }} -->
+          <b-icon icon="link45deg"></b-icon>
+        </b-button>
+        <b-popover
+          v-if="subtitleLink"
+          target="popover-btn-dgf-api-endpoint"
+          variant="dark"
+          placement="right"
+          triggers="hover">
+          {{$t('popovers.dgfEndpoint')}}
+        </b-popover>
+
       </h2>
-      <template
+      <!-- <template
         v-show="!noSubtitle"
         >
         <slot
@@ -37,7 +81,7 @@
           name="subtitle"
           >
         </slot>
-      </template>
+      </template> -->
     </b-col>
 
     <b-col
@@ -53,24 +97,38 @@
 <script>
 import { MapDgfTypes } from '@/config/MapDgfTypes.js'
 
-import PreviousPage from '@/components/ux/PreviousPage.vue'
+// import PreviousPage from '@/components/ux/PreviousPage.vue'
 
 export default {
   name: 'PageHeader',
   components: {
-    PreviousPage
+    // PreviousPage
   },
   props: [
     'dgfType',
     'linkTitle',
     'compact',
     'noSubtitle',
-    'customClass'
+    'subtitleLink',
+    'customClass',
+    'badgeNumber'
   ],
   data () {
     return {
       dict: MapDgfTypes
     }
+  },
+  methods: {
+    formattedNumber (value) {
+      return value.toLocaleString()
+    }
   }
 }
 </script>
+
+<style scoped>
+  .badge-shift {
+    vertical-align:text-top;
+    font-size: 0.5em;
+  }
+</style>

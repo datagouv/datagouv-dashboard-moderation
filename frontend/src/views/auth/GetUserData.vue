@@ -2,10 +2,10 @@
 
   <div class="get-user-data">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+      :hideBackBtn="true"
+    />
 
     <h2>
       {{$t('settings.getUserData')}}
@@ -13,8 +13,16 @@
 
     <h3 v-if="isLoading" class="mt-3">
       {{$t('actions.wait')}}<br>
-      <b-spinner label="loading"></b-spinner>
     </h3>
+
+    <p v-if="isLoading" class="py-5 my-5">
+      <b-spinner
+        style="width: 5rem; height: 5rem;"
+        label="loading"
+        variant="primary"
+        >
+      </b-spinner>
+    </p>
 
     {{$t('basics.redirection')}}
     <code>
@@ -38,11 +46,15 @@
 </template>
 
 <script>
-
 import { mapState } from 'vuex'
+
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 
 export default {
   name: 'GetUserData',
+  components: {
+    NavCrumbs
+  },
   data () {
     return {
       isLoading: false,

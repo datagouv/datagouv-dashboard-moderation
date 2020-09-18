@@ -11,9 +11,32 @@ const translations = {
       back: 'back',
       from: 'from'
     },
+    popovers: {
+      dgfEndpoint: 'API endpoint in data.gouv.fr'
+    },
+    toastsModeration: {
+      error: 'moderation error',
+      errorTxt: 'error code : {code}',
+      success: 'success',
+      successTxt: 'moderation recorded',
+      successTxt_GET: 'moderation data retrieved',
+      successTxt_POST: 'moderation data added',
+      successTxt_PUT: 'moderation data updated',
+      successTxt_DELETE: 'moderation data deleted'
+    },
+    responseCodes: {
+      _200: 'success',
+      _201: 'update success',
+      _400: 'Model validation error',
+      _401: 'Unauthorized',
+      _403: 'Not enough privileges',
+      _404: 'Not found',
+      _405: 'Method not allowed',
+      _500: 'Internal server error'
+    },
     home: {
       name: 'Home',
-      intro: 'Welcome to the datagouv moderation dashboard',
+      intro: 'Welcome to the datagouv <br>moderation dashboard',
       connect: 'please connect',
       hello: 'hello {name}'
     },
@@ -71,6 +94,7 @@ const translations = {
       actionsGroupText: 'grouped actions',
       select: 'select',
       search: 'search',
+      searchDataset: 'search for a dataset',
       searchFor: 'search for a {target}',
       edit: 'edit',
       spotlight: 'spotlight',
@@ -95,6 +119,7 @@ const translations = {
       sureDeleteItem: 'are you sure you want to delete this element ?'
     },
     moderation: {
+      field: 'champ',
       date: 'date',
       author: 'author',
       selection: 'selection',
@@ -103,7 +128,9 @@ const translations = {
       deleted: 'deleted',
       comments: 'comments',
       addComment: 'add a comment',
+      enterComment: 'write your comment here...',
       moderation: '{prefix}moderation',
+      moderationInfos: 'moderation infos',
       moderationFor: 'moderation for',
       markAsRead: 'mark as read',
       markAsSuspect: 'mark as suspect'

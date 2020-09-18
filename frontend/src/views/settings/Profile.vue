@@ -2,10 +2,9 @@
 
   <div class="user-me">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <h2>
       {{$t('settings.myProfile')}}
@@ -42,11 +41,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'Profile',
   components: {
+    NavCrumbs,
     RawData
   },
   data () {
