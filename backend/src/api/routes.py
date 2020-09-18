@@ -95,7 +95,7 @@ def logout(user):
 @login_required
 def create_object(user):
     data = request.get_json(force=True) or {}
-    print(f'create_object > data : {data}')
+    # print(f'create_object > data : {data}')
     try:
         new_object = ObjectSchema().load(data)
     except ValidationError as err:
