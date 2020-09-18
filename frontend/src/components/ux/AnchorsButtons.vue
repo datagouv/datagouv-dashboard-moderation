@@ -13,12 +13,14 @@
         :key="anchor.link"
         pill
         size="sm"
-        :class="`button mr-2 ${ customClass ? customClass : '' }`"
-        variant="outline-dark"
+        :class="`button mr-2 pl-3 ${ customClass ? customClass : '' }`"
+        :variant="`${ customBtnClass ? customBtnClass : 'outline-dark'}`"
         :href="`#${anchor.link}`"
         >
-        {{ $t(anchor.textCode) }}
-        <b-icon icon="chevron-down" aria-hidden="true" class="ml-1 mb-0"></b-icon>
+        <span>
+          {{ $t(anchor.textCode) }}
+        </span>
+        <b-icon icon="chevron-down" aria-hidden="true" class="ml-1 mr-1 mb-0"></b-icon>
       </b-button>
     </b-col>
   </b-row>
@@ -30,6 +32,7 @@ export default {
   name: 'AnchorsButtons',
   props: [
     'anchorLinks',
+    'customBtnClass',
     'customClass'
   ]
 }
