@@ -1,6 +1,7 @@
 <template>
   <b-row
     :class="customClass"
+    id="item-dialog"
     >
     <b-col
       md="10"

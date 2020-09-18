@@ -48,7 +48,7 @@
 
         <DialogRow
           :item="issue"
-          :customClass="'mb-5'"
+          :customClass="'mb-5 mt-5'"
         />
 
       </b-card-body>
@@ -171,11 +171,11 @@ export default {
       putOperationId: 'comment_issue',
       issue: undefined,
       commentContent: '',
-      closeIssue: false,
-      anchorLinks: [
-        { textCode: 'model.description', link: 'item-description' },
-        { textCode: 'model.resources', link: 'item-resources' }
-      ]
+      closeIssue: false
+      // anchorLinks: [
+      //   { textCode: 'model.description', link: 'item-description' },
+      //   { textCode: 'model.resources', link: 'item-resources' }
+      // ]
     }
   },
   watch: {

@@ -7,6 +7,7 @@
     <b-col
       md="8"
       offset-md="2"
+      :class="`${ customBtnClass ? customBtnClass : '' }`"
       >
       <b-button
         v-for="anchor in anchorLinks"
@@ -14,7 +15,7 @@
         pill
         size="sm"
         :class="`button mr-2 pl-3 ${ customClass ? customClass : '' }`"
-        :variant="`${ customBtnClass ? customBtnClass : 'outline-dark'}`"
+        :variant="`${ customBtnVariant ? customBtnVariant : 'outline-dark'}`"
         :href="`#${anchor.link}`"
         >
         <span>
@@ -32,6 +33,7 @@ export default {
   name: 'AnchorsButtons',
   props: [
     'anchorLinks',
+    'customBtnVariant',
     'customBtnClass',
     'customClass'
   ]

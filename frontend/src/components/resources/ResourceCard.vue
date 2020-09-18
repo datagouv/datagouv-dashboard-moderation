@@ -45,7 +45,9 @@
 
         <AnchorsButtons
           :anchorLinks="anchorLinks"
-          :customBtnClass="'outline-white'"
+          :customClass="'text-white'"
+          :customBtnClass="'white-override'"
+          :customBtnVariant="'outline-white'"
         />
 
         <CardProducer
