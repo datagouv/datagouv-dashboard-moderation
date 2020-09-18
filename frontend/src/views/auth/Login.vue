@@ -37,7 +37,7 @@
     <!-- <hr> -->
 
     <!-- RESPONSE -->
-    <b-card
+    <!-- <b-card
       class="mt-3 mx-auto text-center"
       style="width: 600px;"
       v-if="!isLoading"
@@ -45,7 +45,7 @@
       <code>
         {{loginResponse}}
       </code>
-    </b-card>
+    </b-card> -->
 
   </div>
 </template>
