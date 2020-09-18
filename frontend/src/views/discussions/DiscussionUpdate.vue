@@ -156,7 +156,8 @@ export default {
   methods: {
     async appendModerationData (itemObject) {
       const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
-      this.$makeToast(itemStatus, this.discussion.id, 'GET', this.dgfType, 'item')
+      console.log('-C- DiscussionUpdate > appendModerationData > itemStatus', itemStatus)
+      this.$makeToast(itemStatus, this.discussion.id, itemStatus.method ? itemStatus.method : 'GET', this.dgfType, 'item')
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       this.needsModerationData = false
       return consolidated
