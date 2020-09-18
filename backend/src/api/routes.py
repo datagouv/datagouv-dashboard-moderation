@@ -39,7 +39,7 @@ class ObjectSchema(Schema):
     suspicious = fields.Boolean(required=True)
     read = fields.Boolean(required=True)
     deleted = fields.Boolean(required=True)
-    dgf_type = fields.String(required=True, validate=validate.OneOf(['user', 'community_resource', 'organization', 'dataset', 'reuse']))
+    dgf_type = fields.String(required=True, validate=validate.OneOf(['user', 'community_resource', 'organization', 'dataset', 'reuse', 'issue', 'discussion']))
     dgf_id = fields.String(required=True)
     comments = fields.List(fields.Nested(CommentSchema))
 
@@ -60,7 +60,6 @@ def submit_token():
     if r.status_code != 200:
         return make_response((r.json(), r.status_code))
     user_data = r.json()
-    print(f'user data : {user_data}')
 
     if not 'admin' in user_data['roles']:
         return make_response(('Not enough priviledges', 403))
@@ -96,6 +95,7 @@ def logout(user):
 @login_required
 def create_object(user):
     data = request.get_json(force=True) or {}
+    print(f'create_object > data : {data}')
     try:
         new_object = ObjectSchema().load(data)
     except ValidationError as err:

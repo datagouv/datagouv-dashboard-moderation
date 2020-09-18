@@ -107,7 +107,7 @@ export default {
   data () {
     return {
       isLoading: false,
-      dgfType: 'dataset',
+      dgfType: 'issue',
       getOperationId: 'get_issue',
       putOperationId: 'update_issue',
       endpointModeration: 'issue',

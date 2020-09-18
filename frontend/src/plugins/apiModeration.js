@@ -1,24 +1,24 @@
 /**************************************************************
  * MAIN MODERATION CLASS
  */
-const commentsDummy = [
-  {
-    id: '1234',
-    author: 'Julien Paris',
-    user_id: '5ecb7bb95b7c0fda6b06d0e3',
-    written_at: '09/09/2020',
-    content: "I did comment this... I think it's very useful to add my thoughts here...",
-    dgf_object_id: ''
-  },
-  {
-    id: '9876',
-    author: 'Alfred Wayne',
-    user_id: '78cb7bb95b7c0fdgtr06d0200',
-    written_at: '08/09/2020',
-    content: 'Master Bruce would be against it...',
-    dgf_object_id: ''
-  }
-]
+// const commentsDummy = [
+//   {
+//     id: '1234',
+//     author: 'Julien Paris',
+//     user_id: '5ecb7bb95b7c0fda6b06d0e3',
+//     written_at: '09/09/2020',
+//     content: "I did comment this... I think it's very useful to add my thoughts here...",
+//     dgf_object_id: ''
+//   },
+//   {
+//     id: '9876',
+//     author: 'Alfred Wayne',
+//     user_id: '78cb7bb95b7c0fdgtr06d0200',
+//     written_at: '08/09/2020',
+//     content: 'Master Bruce would be against it...',
+//     dgf_object_id: ''
+//   }
+// ]
 
 const basicHeaders = {
   Accept: 'application/json',
@@ -121,7 +121,7 @@ class ModerationLib {
     consolidatedItem.read = moderationData.read || false
     consolidatedItem.suspicious = moderationData.suspicious || false
     consolidatedItem.deleted = moderationData.deleted || false
-    consolidatedItem.comments = moderationData.comments || commentsDummy // []
+    consolidatedItem.comments = moderationData.comments || [] // commentsDummy
     // })
     return consolidatedItem
   }
