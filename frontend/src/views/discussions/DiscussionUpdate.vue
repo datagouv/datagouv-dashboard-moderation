@@ -107,7 +107,7 @@ export default {
   data () {
     return {
       isLoading: false,
-      dgfType: 'dicussion',
+      dgfType: 'discussion',
       getOperationId: 'get_discussion',
       putOperationId: 'update_discussion',
       endpointModeration: 'discussion',

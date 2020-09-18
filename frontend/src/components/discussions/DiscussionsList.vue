@@ -53,7 +53,7 @@
               <b-icon icon="search"></b-icon>
             </b-input-group-prepend>
             <b-form-input
-              id="inline-form-input-query-dicussions"
+              id="inline-form-input-query-discussions"
               :placeholder="$t('actions.searchFor', {target: $t('basics.discussion')})"
               v-model="query"
               @input="getDiscussions(true)"
