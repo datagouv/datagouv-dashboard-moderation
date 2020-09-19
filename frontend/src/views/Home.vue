@@ -15,7 +15,10 @@
         class="bg-light px-4 pb-5"
         >
 
-        <b-col cols="12" class="pt-5">
+        <b-col
+          cols="12"
+          class="pt-5"
+          >
           <h3 v-if="!isLoading && site">
             <b-badge
               class="mr-2 mb-2"
@@ -31,9 +34,12 @@
           </h3>
         </b-col>
 
-        <b-col cols="6" class="px-3">
+        <b-col
+          :cols="`${ isAuthenticated ? 6 : 12 }`"
+          class="px-3"
+          >
           <DatasetsList
-            height="400px"
+            :height="`${ isAuthenticated ? '400' : '600' }px`"
             :small="true"
             :noQueryAdd="true"
             :customFields="customFields.datasets"
@@ -67,7 +73,11 @@
           </ResourcesList>
         </b-col> -->
 
-        <!-- <b-col cols="6" class="px-3">
+        <b-col
+          :cols="`${ isAuthenticated ? 6 : 6 }`"
+          class="px-3"
+          v-if="!isAuthenticated"
+          >
           <ReusesList
             height="400px"
             :small="true"
@@ -83,7 +93,7 @@
               </b-button>
             </template>
           </ReusesList>
-        </b-col> -->
+        </b-col>
 
         <!-- <b-col cols="6" class="px-3">
           <DiscussionsList
@@ -103,7 +113,11 @@
           </DiscussionsList>
         </b-col> -->
 
-        <b-col cols="6" class="px-3">
+        <b-col
+          cols="6"
+          class="px-3"
+          v-if="isAuthenticated"
+          >
           <IssuesList
             height="400px"
             :small="true"
@@ -121,7 +135,11 @@
           </IssuesList>
         </b-col>
 
-        <b-col cols="6" class="px-3">
+        <b-col
+          cols="6"
+          class="px-3"
+          v-if="isAuthenticated"
+          >
           <UsersList
             height="400px"
             :small="true"
@@ -139,7 +157,10 @@
           </UsersList>
         </b-col>
 
-        <b-col cols="6" class="px-3">
+        <b-col
+          :cols="`${ isAuthenticated ? 6 : 6 }`"
+          class="px-3"
+          >
           <OrganizationsList
             height="400px"
             :small="true"
@@ -165,7 +186,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 // @ is an alias to /src
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
@@ -174,7 +195,7 @@ import Homepage from '@/components/Homepage.vue'
 // import DatasetsSuggest from '@/components/datasets/DatasetsSuggest.vue'
 import DatasetsList from '@/components/datasets/DatasetsList.vue'
 // import ResourcesList from '@/components/resources/ResourcesList.vue'
-// import ReusesList from '@/components/reuses/ReusesList.vue'
+import ReusesList from '@/components/reuses/ReusesList.vue'
 // import DiscussionsList from '@/components/discussions/DiscussionsList.vue'
 import IssuesList from '@/components/issues/IssuesList.vue'
 import UsersList from '@/components/users/UsersList.vue'
@@ -188,7 +209,7 @@ export default {
     // DatasetsSuggest,
     DatasetsList,
     // ResourcesList,
-    // ReusesList,
+    ReusesList,
     // DiscussionsList,
     IssuesList,
     UsersList,
@@ -298,6 +319,9 @@ export default {
   computed: {
     ...mapState({
       userData: (state) => state.user.user
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     }),
     localStorageContainer () {
       return {
