@@ -12,7 +12,7 @@
       <b-row
         align-h="center"
         cols="3"
-        class="bg-light px-4"
+        class="bg-light px-4 pb-5"
         >
 
         <b-col cols="12" class="pt-5">

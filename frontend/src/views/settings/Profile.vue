@@ -2,7 +2,7 @@
 
   <div
     id="profile"
-    class="user-me"
+    class="user-me mb-5"
     >
 
     <NavCrumbs

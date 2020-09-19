@@ -102,6 +102,7 @@
 
       <b-table
         v-if="datasets && !isLoading"
+        :class="`${ compact ? '' : 'border border-1' }`"
         striped hover responsive scrollable
         @sort-changed="changeSorting"
         :small="small"

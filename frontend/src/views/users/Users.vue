@@ -9,8 +9,11 @@
     <!-- DISPLAY USERS IN TABLE -->
     <UsersList
       height="800px"
+      :customClass="'pb-5'"
       >
     </UsersList>
+
+    <div class="mb-5"/>
 
   </div>
 </template>

@@ -9,9 +9,11 @@
     <!-- DISPLAY DISCUSSIONS IN TABLE -->
     <DiscussionsList
       height="800px"
-      width="900px"
+      :customClass="'pb-5'"
       >
     </DiscussionsList>
+
+    <div class="mb-5"/>
 
   </div>
 </template>

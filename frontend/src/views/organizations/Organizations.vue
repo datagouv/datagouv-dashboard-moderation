@@ -9,9 +9,11 @@
     <!-- DISPLAY ORGANIZATIONS IN TABLE -->
     <OrganizationsList
       height="800px"
-      width="1200px"
+      :customClass="'pb-5'"
       >
     </OrganizationsList>
+
+    <div class="mb-5"/>
 
   </div>
 </template>

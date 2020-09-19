@@ -9,9 +9,11 @@
     <!-- DISPLAY DATASETS IN TABLE -->
     <DatasetsList
       height="800px"
-      width="100%"
+      :customClass="'pb-5'"
       >
     </DatasetsList>
+
+    <div class="mb-5"/>
 
   </div>
 </template>

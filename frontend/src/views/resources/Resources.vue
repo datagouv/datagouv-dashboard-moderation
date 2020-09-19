@@ -9,8 +9,11 @@
     <!-- DISPLAY RESOURCES IN TABLE -->
     <ResourcesList
       height="800px"
+      :customClass="'pb-5'"
       >
     </ResourcesList>
+
+    <div class="mb-5"/>
 
   </div>
 </template>

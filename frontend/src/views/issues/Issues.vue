@@ -9,9 +9,11 @@
     <!-- DISPLAY ISSUES IN TABLE -->
     <IssuesList
       height="800px"
-      width="900px"
+      :customClass="'pb-5'"
       >
     </IssuesList>
+
+    <div class="mb-5"/>
 
   </div>
 </template>

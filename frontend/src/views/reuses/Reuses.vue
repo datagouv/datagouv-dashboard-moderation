@@ -9,8 +9,11 @@
     <!-- DISPLAY REUSES IN TABLE -->
     <ReusesList
       height="800px"
+      :customClass="'pb-5'"
       >
     </ReusesList>
+
+    <div class="mb-5"/>
 
   </div>
 </template>

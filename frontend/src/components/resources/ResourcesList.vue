@@ -99,6 +99,7 @@
 
       <b-table
         v-if="resources && !isLoading"
+        :class="`${ compact ? '' : 'border border-1' }`"
         striped hover responsive
         @sort-changed="changeSorting"
         :small="small"

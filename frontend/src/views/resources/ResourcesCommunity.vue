@@ -10,6 +10,7 @@
     <ResourcesList
       height="800px"
       resourcesType="community"
+      :customClass="'pb-5'"
       >
     </ResourcesList>
 
