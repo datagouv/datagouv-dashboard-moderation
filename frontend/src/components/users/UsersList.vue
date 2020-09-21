@@ -445,7 +445,11 @@ export default {
       this.pagination.page = pageNumber
       const newPath = { path: this.$route.path, query: { page: pageNumber } }
       if (this.query) { newPath.query.q = this.query }
-      if (!this.noQueryAdd) { this.$router.push(newPath) }
+      if (!this.noQueryAdd) {
+        this.$router.push(newPath)
+      } else {
+        this.getUsers()
+      }
     },
     changeSorting (sort) {
       switch (sort.sortBy) {

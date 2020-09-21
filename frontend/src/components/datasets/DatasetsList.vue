@@ -475,7 +475,9 @@ export default {
       console.log('-C- DatasetsList > changePagination > this.$route.query : ', this.$route.query)
       const newPath = { path: this.$route.path, query: { page: pageNumber } }
       if (this.query) { newPath.query.q = this.query }
-      if (!this.noQueryAdd) { this.$router.push(newPath) }
+      if (!this.noQueryAdd) {
+        this.$router.push(newPath)
+      } else { this.getDatasets() }
     },
     changeSorting (sort) {
       this.pagination.sortBy = sort.sortBy
