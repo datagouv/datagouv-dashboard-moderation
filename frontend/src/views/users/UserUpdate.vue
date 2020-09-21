@@ -115,6 +115,7 @@ export default {
       userRequest: undefined,
       user: undefined,
       needsModerationData: false,
+      // trimLimit: 50,
       crumbs: [
         {
           text: this.$t('home.name'),
