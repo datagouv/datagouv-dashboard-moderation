@@ -2,15 +2,12 @@ import datetime
 
 import requests
 from marshmallow import Schema, fields, post_load, ValidationError, validate
-from flask import jsonify, abort, request, session, make_response
+from flask import jsonify, abort, request, session, make_response, current_app
 
 from src import db
 from src.models import User, DgfObject, Comment
 from src.api import bp
 from src.api.auth import login_required
-
-
-ME_URL = 'https://demo.data.gouv.fr/api/1/me/'
 
 
 class LoginSchema(Schema):
@@ -56,7 +53,7 @@ def submit_token():
         return make_response((errors, 400))
     token = data['token']
 
-    r = requests.get(ME_URL, headers={'Authorization': f'Bearer {token}'})
+    r = requests.get(current_app.config['UDATA_ME_URL'], headers={'Authorization': f'Bearer {token}'})
     if r.status_code != 200:
         return make_response((r.json(), r.status_code))
     user_data = r.json()

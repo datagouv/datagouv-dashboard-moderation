@@ -207,4 +207,3 @@ flask run -h localhost -p 8080
 ### Credits
 
 Inspiration: https://github.com/oleg-agapov/flask-vue-spa
-
