@@ -9,6 +9,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
+    UDATA_ME_URL = os.environ.get('UDATA_ME_URL') or 'https://demo.data.gouv.fr/api/1/me/'
 
 
 class Testing:
