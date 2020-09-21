@@ -26,38 +26,6 @@
       </b-sidebar>
     </div>
 
-    <!-- <PageHeader
-      :dgfType="'issue'"
-      :customClass="'mb-5'"
-      :subtitleLink="issueRequest"
-      >
-      <template v-slot:dialogLeft>
-        <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
-          <b-icon icon="eye-fill" aria-hidden=""></b-icon>
-          <span class="ml-2">
-            {{$t('moderation.moderation', { prefix: '' })}}
-          </span>
-        </b-button>
-      </template>
-      <template v-slot:badge>
-        <div>
-          {{ $t('navigation.from') }} :
-          <span v-if="issueRequest">
-            <a :href="issueRequest" target="_blank">
-              JSON
-            </a>
-            |
-            <a :href="issue.url" target="_blank">
-              datagouv issue page
-            </a>
-          </span>
-          <span v-else>
-            {{ getOperationId }}
-          </span>
-        </div>
-      </template>
-    </PageHeader> -->
-
     <b-row class="mx-0">
 
       <!-- MODERATION BOX -->
@@ -91,7 +59,6 @@
 import { mapState, mapGetters } from 'vuex'
 
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
-// import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import IssueCard from '@/components/issues/IssueCard.vue'
@@ -100,7 +67,6 @@ export default {
   name: 'IssueUpdate',
   components: {
     NavCrumbs,
-    // PageHeader,
     ModerationRowCard,
     IssueCard
   },
@@ -126,7 +92,7 @@ export default {
           to: '/issues'
         },
         {
-          text: '...', // this.$route.params.id,
+          text: '...',
           active: true
         }
       ]

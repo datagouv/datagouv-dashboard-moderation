@@ -26,39 +26,6 @@
       </b-sidebar>
     </div>
 
-    <!-- <PageHeader
-      :dgfType="'dataset'"
-      :customClass="'mb-5'"
-      :subtitleLink="datasetRequest"
-      >
-      <template v-slot:dialogLeft>
-        <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
-          <b-icon icon="eye-fill" aria-hidden=""></b-icon>
-          <span class="ml-2">
-            {{$t('moderation.moderation', { prefix: '' })}}
-          </span>
-        </b-button>
-      </template>
-
-      <template v-slot:badge>
-        <div>
-          {{ $t('navigation.from') }} :
-          <span v-if="datasetRequest">
-            <a :href="datasetRequest" target="_blank">
-              JSON
-            </a>
-            |
-            <a :href="dataset.page" target="_blank">
-              datagouv public page
-            </a>
-          </span>
-          <span v-else>
-            {{ getOperationId }}
-          </span>
-        </div>
-      </template>
-    </PageHeader> -->
-
     <b-row class="mx-0">
 
       <!-- MODERATION BOX -->
@@ -124,7 +91,7 @@ export default {
           to: '/datasets'
         },
         {
-          text: '...', // this.$route.params.id,
+          text: '...',
           active: true
         }
       ]

@@ -26,38 +26,6 @@
       </b-sidebar>
     </div>
 
-    <!-- <PageHeader
-      :dgfType="'organization'"
-      :customClass="'mb-5'"
-      :subtitleLink="organizationRequest"
-      >
-      <template v-slot:dialogLeft>
-        <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
-          <b-icon icon="eye-fill" aria-hidden=""></b-icon>
-          <span class="ml-2">
-            {{$t('moderation.moderation', { prefix: '' })}}
-          </span>
-        </b-button>
-      </template>
-      <template v-slot:badge>
-        <div>
-          {{ $t('navigation.from') }} :
-          <span v-if="organizationRequest">
-            <a :href="organizationRequest" target="_blank">
-              JSON
-            </a>
-            |
-            <a :href="organization.url" target="_blank">
-              datagouv organization page
-            </a>
-          </span>
-          <span v-else>
-            {{ getOperationId }}
-          </span>
-        </div>
-      </template>
-    </PageHeader> -->
-
     <b-row class="mx-0">
 
       <!-- MODERATION BOX -->
@@ -91,7 +59,6 @@
 import { mapState, mapGetters } from 'vuex'
 
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
-// import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import OrganizationCard from '@/components/organizations/OrganizationCard.vue'
@@ -100,7 +67,6 @@ export default {
   name: 'OrganizationUpdate',
   components: {
     NavCrumbs,
-    // PageHeader,
     ModerationRowCard,
     OrganizationCard
   },

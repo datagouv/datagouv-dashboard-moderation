@@ -26,38 +26,6 @@
       </b-sidebar>
     </div>
 
-    <!-- <PageHeader
-      :dgfType="'reuse'"
-      :customClass="'mb-5'"
-      :subtitleLink="reuseRequest"
-      >
-      <template v-slot:dialogLeft>
-        <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
-          <b-icon icon="eye-fill" aria-hidden=""></b-icon>
-          <span class="ml-2">
-            {{$t('moderation.moderation', { prefix: '' })}}
-          </span>
-        </b-button>
-      </template>
-      <template v-slot:badge>
-        <div>
-          {{ $t('navigation.from') }} :
-          <span v-if="reuseRequest">
-            <a :href="reuseRequest" target="_blank">
-              JSON
-            </a>
-            |
-            <a :href="reuse.url" target="_blank">
-              datagouv reuse page
-            </a>
-          </span>
-          <span v-else>
-            {{ getOperationId }}
-          </span>
-        </div>
-      </template>
-    </PageHeader> -->
-
     <b-row class="mx-0">
 
       <!-- MODERATION BOX -->
@@ -90,7 +58,6 @@
 import { mapState, mapGetters } from 'vuex'
 
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
-// import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import ReuseCard from '@/components/reuses/ReuseCard.vue'
@@ -99,7 +66,6 @@ export default {
   name: 'ReuseUpdate',
   components: {
     NavCrumbs,
-    // PageHeader,
     ModerationRowCard,
     ReuseCard
   },
