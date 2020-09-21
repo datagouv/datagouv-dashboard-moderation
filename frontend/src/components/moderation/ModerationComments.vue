@@ -188,7 +188,6 @@ export default {
     },
     async submitComment (evt) {
       evt.preventDefault()
-      console.log('-C- ModerationComments > submitComment > this.item : ', this.item)
       this.isLoading = true
       if (this.commentContent.length > 0) {
         const comment = {
@@ -199,29 +198,16 @@ export default {
           },
           content: this.commentContent
         }
-        console.log('-C- ModerationComments > submitComment > comment : ', comment)
         const updatedItem = await this.$MODERATIONcli.addComment(this.item.id, comment)
-        console.log('-C- ModerationComments > submitComment > updatedItem : ', updatedItem)
         const moderationData = await updatedItem.json()
-        console.log('-C- ModerationComments > submitComment > moderationData : ', moderationData)
         this.$makeToast(updatedItem, this.dgfType, 'POST', this.dgfType, 'comments')
         this.itemComments.unshift(moderationData)
-
-        // const categ = 'update_comments'
-        // const respData = {
-        //   category: categ,
-        //   item: updatedItem,
-        //   msg: `response action : ${this.dgfType}-${categ}`
-        // }
-        // this.emitResponse(respData)
       }
       this.resetTextArea(evt)
     },
     resetTextArea (evt) {
       evt.preventDefault()
-      // Reset our form values
       this.commentContent = ''
-      // Trick to reset/clear native browser form validation state
       this.show = false
       this.$nextTick(() => {
         this.show = true
@@ -231,7 +217,6 @@ export default {
     async deleteComment (commentId) {
       this.isCommentLoading = commentId
       const deletedItem = await this.$MODERATIONcli.deleteComment(this.item.id, commentId)
-      console.log('-C- ModerationComments > deleteComment > deletedItem : ', deletedItem)
       this.$makeToast(deletedItem, this.dgfType, 'DELETE', this.dgfType, 'comments')
       this.itemComments = this.itemComments.filter(comment => comment.id !== commentId)
       this.isCommentLoading = ''

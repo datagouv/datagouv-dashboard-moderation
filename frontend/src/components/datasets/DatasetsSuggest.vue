@@ -168,13 +168,9 @@ export default {
   },
   methods: {
     emitResponse (datasetId) {
-      console.log('-C- ModerationActionsBtn > emitResponse ...')
-      console.log('-C- ModerationActionsBtn > emitResponse > datasetId : ', datasetId)
       this.$emit('closeSearch')
       const newPath = `/datasets/${datasetId}`
       this.$router.push(newPath)
-      // this.$router.go({ name: 'DatasetUpdate', params: { id: datasetId } })
-      // history.pushState({}, null, newPath)
     },
     suggestDatasets () {
       this.isLoading = true

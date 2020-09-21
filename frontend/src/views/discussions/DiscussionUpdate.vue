@@ -26,38 +26,6 @@
       </b-sidebar>
     </div>
 
-    <!-- <PageHeader
-      :dgfType="'discussion'"
-      :customClass="'mb-5'"
-      :subtitleLink="discussionRequest"
-      >
-      <template v-slot:dialogLeft>
-        <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
-          <b-icon icon="eye-fill" aria-hidden=""></b-icon>
-          <span class="ml-2">
-            {{$t('moderation.moderation', { prefix: '' })}}
-          </span>
-        </b-button>
-      </template>
-      <template v-slot:badge>
-        <div>
-          {{ $t('navigation.from') }} :
-          <span v-if="discussionRequest">
-            <a :href="discussionRequest" target="_blank">
-              JSON
-            </a>
-            |
-            <a :href="discussion.url" target="_blank">
-              datagouv discussion page
-            </a>
-          </span>
-          <span v-else>
-            {{ getOperationId }}
-          </span>
-        </div>
-      </template>
-    </PageHeader> -->
-
     <b-row class="mx-0">
 
       <!-- MODERATION BOX -->
@@ -157,7 +125,6 @@ export default {
   methods: {
     async appendModerationData (itemObject) {
       const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
-      console.log('-C- DiscussionUpdate > appendModerationData > itemStatus', itemStatus)
       this.$makeToast(itemStatus, this.discussion.id, itemStatus.method ? itemStatus.method : 'GET', this.dgfType, 'item')
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       this.needsModerationData = false

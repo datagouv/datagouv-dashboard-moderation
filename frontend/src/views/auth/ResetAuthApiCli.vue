@@ -17,17 +17,6 @@
         <custom-spinner/>
       </p>
 
-      <!-- RESPONSE -->
-      <!-- <b-card
-        class="mt-3 mx-auto text-center"
-        style="width: 600px;"
-        v-if="!isLoading"
-        >
-        <code>
-          {{loginResponse}}
-        </code>
-      </b-card> -->
-
     </div>
 
   </div>
@@ -70,7 +59,7 @@ export default {
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
       // log into moderation API here
       const loginModerationResponse = await this.$MODERATIONcli.login(this.tokens.access.value)
-      console.log('-V- Login > updateModeration > loginModerationResponse : ', loginModerationResponse)
+      console.log('-V- ResetApiCli > mounted > loginModerationResponse : ', loginModerationResponse)
       this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
       this.loginResponse = `${ex} ... please try to authenticate again`

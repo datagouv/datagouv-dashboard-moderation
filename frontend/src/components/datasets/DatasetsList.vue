@@ -401,7 +401,6 @@ export default {
   },
   methods: {
     async reloadItemsModerationSelection (itemsSelection) {
-      // console.log('-C- DatasetList > methods > reloadItems > itemsSelection :', itemsSelection)
       for (const itemId of itemsSelection) {
         const item = this.datasets.data.find(it => it.id === itemId)
         this.reloadItemModerationData(item)
@@ -409,9 +408,7 @@ export default {
     },
     async reloadItemModerationData (itemObject) {
       const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
-      // console.log('-C- DatasetList > methods > reloadItemModerationData > itemStatus :', itemStatus)
       const consolidated = await this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
-      // console.log('-C- DatasetList > methods > reloadItemModerationData > consolidated :', consolidated)
       this.datasets.data = this.datasets.data.map(item => (
         item.id === itemObject.id ? consolidated : item
       ))
@@ -431,7 +428,6 @@ export default {
     addQueryAndGet (evt) {
       evt.preventDefault()
       if (!this.noQueryAdd && evt.keyCode === 13) {
-        console.log('-C- DatasetList > getDatasets > ENTER ')
         this.$router.push({ path: this.$route.path, query: { page: this.pagination.page, q: this.query } })
       }
       this.getDatasets(true)
@@ -472,7 +468,6 @@ export default {
     },
     changePagination (pageNumber) {
       this.pagination.page = pageNumber
-      console.log('-C- DatasetsList > changePagination > this.$route.query : ', this.$route.query)
       const newPath = { path: this.$route.path, query: { page: pageNumber } }
       if (this.query) { newPath.query.q = this.query }
       if (!this.noQueryAdd) {

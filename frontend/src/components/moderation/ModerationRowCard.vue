@@ -199,19 +199,9 @@ export default {
   data () {
     return {
       dict: MapDgfTypes,
-      // itemModeration: undefined,
       isLoading: false
     }
   },
-  // created () {
-  //   console.log('-C- ModerationRowCard > created > this.item : ', this.item)
-  // },
-  // watch: {
-  //   item (next) {
-  //     console.log('-C- ModerationRowCard > watch > item > next : ', next)
-  //     // this.itemModeration = next
-  //   }
-  // },
   computed: {
     ...mapGetters({
       isAuthenticated: 'oauth/isAuthenticated'
@@ -223,23 +213,7 @@ export default {
     },
     reloadItem (evt) {
       this.isLoading = true
-      // console.log('-C- ModerationRowCard > reloadItem > evt.category : ', evt.category)
-      // console.log('-C- ModerationRowCard > reloadItem > this.item : ', this.item)
       this.$emit('reloadItem', this.item)
-      // switch (evt.category) {
-      //   case 'update_read':
-      //     console.log('-C- ModerationRowCard > reloadItem > update_read ')
-      //     break
-      //   case 'update_suspicious':
-      //     console.log('-C- ModerationRowCard > reloadItem > update_suspicious ')
-      //     break
-      //   case 'update_deleted':
-      //     console.log('-C- ModerationRowCard > reloadItem > update_deleted ')
-      //     break
-      //   case 'update_comment':
-      //     console.log('-C- ModerationRowCard > reloadItem > update_comment ')
-      //     break
-      // }
       this.isLoading = false
     },
     trim (str, max) {

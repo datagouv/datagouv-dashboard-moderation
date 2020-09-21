@@ -224,20 +224,15 @@ export default {
       this.emitResponse(respData)
     },
     deleteItem () {
-      // TO DO
-      const API = this.$APIcli
-      console.log('-C- EditItemBtn > deleteItem > API :', API)
-      console.log('-C- EditItemBtn > deleteItem > this.dgfType : ', this.dgfType)
+      // TO DO : finish/apply delete action in datagouv
+      // const API = this.$APIcli
       const operation = this.isDeleteOperation
-      console.log('-C- EditItemBtn > deleteItem > operation : ', operation)
       if (!operation) return
-      console.log('-C- EditItemBtn > deleteItem > this.item : ', this.item)
-      const params = {}
-      operation.params.forEach(opParam => {
-        params[opParam.paramKey] = this.item[opParam.itemKey]
-        return params
-      })
-      console.log('-C- EditItemBtn > deleteItem > params : ', params)
+      // const params = {}
+      // operation.params.forEach(opParam => {
+      //   params[opParam.paramKey] = this.item[opParam.itemKey]
+      //   return params
+      // })
       // const body = {}
       // API._request(this.putOperationId, { params, body, needAuth: true }).then(
       //   results => {

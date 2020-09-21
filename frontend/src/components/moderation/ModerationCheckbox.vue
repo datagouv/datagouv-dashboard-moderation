@@ -101,7 +101,6 @@ export default {
     }
   },
   created () {
-    // console.log('-C- ModerationCheckbox > updateModeration > this.item : ', this.item)
     this.itemModerationValue = this.item[this.field]
   },
   watch: {
@@ -121,40 +120,22 @@ export default {
     }
   },
   methods: {
-    // emitResponse (data) {
-    //   this.$emit('responseAction', data)
-    // },
     async updateModeration (item, field, evt) {
       this.isLoading = true
 
       if (field === 'deleted' && evt) {
-        const API = this.$APIcli
-        console.log('-C- ModerationCheckbox > updateModeration > DELETE > API :', API)
-        console.log('-C- ModerationCheckbox > updateModeration > DELETE > this.dgfType : ', this.dgfType)
+        // TO DO : finish/apply delete action in datagouv
+        // const API = this.$APIcli
         const operation = this.isDeleteOperation
-        console.log('-C- ModerationCheckbox > updateModeration > DELETE > operation : ', operation)
-        // if (!operation) return
-        console.log('-C- ModerationCheckbox > updateModeration > DELETE > this.item : ', this.item)
         const params = {}
         operation.params.forEach(opParam => {
           params[opParam.paramKey] = this.item[opParam.itemKey]
           return params
         })
-        console.log('-C- ModerationCheckbox > updateModeration > DELETE > params : ', params)
       }
-
-      // console.log('-C- ModerationCheckbox > updateModeration > evt : ', evt)
       const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
-      // console.log('-C- ModerationCheckbox > updateModeration > updatedItem : ', updatedItem)
       this.$makeToast(updatedItem, this.item.id, 'PUT', this.dgfType, this.field)
       this.itemModerationValue = evt
-      // const categ = `update_${field}`
-      // const respData = {
-      //   category: categ,
-      //   item: updatedItem,
-      //   msg: `response action : ${this.dgfType}-${categ}`
-      // }
-      // this.$emit('responseAction', data)
       this.$emit('reloadItem', item)
       this.isLoading = false
     },

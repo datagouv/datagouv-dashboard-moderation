@@ -206,16 +206,11 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      console.log('-C- ReuseCard > callbackAction > evt : ', evt)
       switch (evt.category) {
         case 'openEdit':
           this.edit = true
           this.seeRaw = false
           break
-        // case 'comment':
-        //   this.comment = true
-        //   this.seeRaw = false
-        //   break
       }
     },
     updateReuse (evt) {

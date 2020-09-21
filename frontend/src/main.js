@@ -14,8 +14,6 @@ import en from './locales/en.js'
 
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import './css/custom.scss'
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Utils from './plugins/utils.js'
 import MakeRespToast from './plugins/makeRespToasts.js'

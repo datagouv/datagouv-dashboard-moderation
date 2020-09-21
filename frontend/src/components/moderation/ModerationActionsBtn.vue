@@ -175,12 +175,9 @@ export default {
       this.$emit('responseAction', data)
     },
     async updateModeration (item, field, evt) {
-      console.log('-C- ModerationActionsBtn > updateModeration > field : ', field)
       await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
     },
     async markSelection (field, val) {
-      console.log('-C- ModerationActionsBtn > markSelection > field : ', field)
-      console.log('-C- ModerationActionsBtn > markSelection > this.itemsSelection : ', this.itemsSelection)
       for (const itemId of this.itemsSelection) {
         const item = this.itemsList.find(it => it.id === itemId)
         await this.updateModeration(item, field, val)
@@ -188,33 +185,17 @@ export default {
       this.$emit('reloadItems', this.itemsSelection)
     },
     async deleteSelection () {
-      // TO DO
-      const API = this.$APIcli
-      console.log('-C- ModerationActionsBtn > deleteSelection > API :', API)
-      console.log('-C- ModerationActionsBtn > deleteItem > this.dgfType : ', this.dgfType)
+      // TO DO : finish/apply delete action in datagouv
+      // const API = this.$APIcli
       const operation = this.deleteEndpoints[this.dgfType]
       if (!operation) return
-      console.log('-C- ModerationActionsBtn > deleteItem > operation : ', operation)
-      console.log('-C- ModerationActionsBtn > deleteSelection > this.itemsSelection : ', this.itemsSelection)
-      const paramsSelection = this.itemsSelection.map(itemId => {
-        const params = {}
-        operation.params.forEach(opParam => {
-          params[opParam.paramKey] = itemId
-        })
-        return params
-      })
-      console.log('-C- ModerationActionsBtn > deleteSelection > paramsSelection : ', paramsSelection)
-      // const body = {}
-      // API._request(this.putOperationId, { params, body, needAuth: true }).then(
-      //   results => {
-      //     this.isLoading = false
-      //
-      //   },
-      //   reason => {
-      //     console.error(`-C- EditItemBtn > failed on api call: ${reason}`)
-      //     this.isLoading = false
-      //   }
-      // )
+      // const paramsSelection = this.itemsSelection.map(itemId => {
+      //   const params = {}
+      //   operation.params.forEach(opParam => {
+      //     params[opParam.paramKey] = itemId
+      //   })
+      //   return params
+      // })
 
       const respData = { msg: `response action : ${this.endpoint}-delete` }
       this.emitResponse(respData)

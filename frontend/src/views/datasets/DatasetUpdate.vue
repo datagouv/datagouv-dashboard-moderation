@@ -90,10 +90,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-// import { APIresponses } from '@/config/APIoperations.js'
-
 import NavCrumbs from '@/components/ux/NavCrumbs.vue'
-// import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import DatasetCard from '@/components/datasets/DatasetCard.vue'
@@ -102,7 +99,6 @@ export default {
   name: 'DatasetUpdate',
   components: {
     NavCrumbs,
-    // PageHeader,
     ModerationRowCard,
     DatasetCard
   },
@@ -159,10 +155,8 @@ export default {
   methods: {
     async appendModerationData (itemObject) {
       const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
-      console.log('-V- DatasetUpdate > methods > appendModerationData > itemStatus :', itemStatus)
       this.$makeToast(itemStatus, this.dataset.id, itemStatus.method ? itemStatus.method : 'GET', this.dgfType, 'item')
       const consolidated = await this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
-      console.log('-V- DatasetUpdate > methods > appendModerationData > consolidated :', consolidated)
       this.needsModerationData = false
       return consolidated
     },

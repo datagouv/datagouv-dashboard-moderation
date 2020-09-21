@@ -26,8 +26,6 @@ export const moduleGlobal = {
       return state.navHistory
     },
     getLastNavPath: (state) => {
-      console.log('-S- global > getLastNavPath > state.navHistory : ', state.navHistory)
-      console.log('-S- global > getLastNavPath > state.navHistory.slice(-1)[0] : ', state.navHistory.slice(-1)[0])
       const lastPath = state.navHistory.slice(-1)[0]
       return lastPath
     },
