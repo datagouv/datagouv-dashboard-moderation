@@ -199,6 +199,7 @@ cd frontend && nvm use && npm run build
 flask db upgrade
 export FLASK_APP=app.py
 export FLASK_DEBUG=1
+export UDATA_ME_URL=https://demo.data.gouv.fr/api/1/me/
 flask run -h localhost -p 8080
 ```
 

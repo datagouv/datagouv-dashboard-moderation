@@ -115,6 +115,7 @@ export default {
       organizationRequest: undefined,
       organization: undefined,
       needsModerationData: false,
+      trimLimit: 50,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -170,7 +171,7 @@ export default {
           this.organizationRequest = results.url
           this.organization = results.body
           this.needsModerationData = true
-          const name = this.organization.name.length > 25 ? this.organization.name.slice(0, 25) + '...' : this.organization.name
+          const name = this.organization.name.length > this.trimLimit ? this.organization.name.slice(0, this.trimLimit) + '...' : this.organization.name
           this.crumbs[2].text = name
           this.isLoading = false
         },

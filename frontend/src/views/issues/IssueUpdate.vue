@@ -115,6 +115,7 @@ export default {
       issueRequest: undefined,
       issue: undefined,
       needsModerationData: false,
+      trimLimit: 50,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -170,7 +171,7 @@ export default {
           this.issueRequest = results.url
           this.issue = results.body
           this.needsModerationData = true
-          const title = this.issue.title.length > 25 ? this.issue.title.slice(0, 25) + '...' : this.issue.title
+          const title = this.issue.title.length > this.trimLimit ? this.issue.title.slice(0, this.trimLimit) + '...' : this.issue.title
           this.crumbs[2].text = title
           this.isLoading = false
         },

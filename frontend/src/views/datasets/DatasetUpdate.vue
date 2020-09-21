@@ -117,6 +117,7 @@ export default {
       datasetRequest: undefined,
       dataset: undefined,
       needsModerationData: false,
+      trimLimit: 50,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -173,7 +174,7 @@ export default {
         results => {
           this.datasetRequest = results.url
           this.dataset = results.body
-          const title = this.dataset.title.length > 25 ? this.dataset.title.slice(0, 25) + '...' : this.dataset.title
+          const title = this.dataset.title.length > this.trimLimit ? this.dataset.title.slice(0, this.trimLimit) + '...' : this.dataset.title
           this.crumbs[2].text = title
           this.isLoading = false
           this.needsModerationData = true

@@ -114,6 +114,7 @@ export default {
       resourceRequest: undefined,
       resource: undefined,
       needsModerationData: false,
+      trimLimit: 50,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -171,7 +172,7 @@ export default {
           this.resourceRequest = results.url
           this.resource = results.body
           this.needsModerationData = true
-          const title = this.resource.title.length > 25 ? this.resource.title.slice(0, 25) + '...' : this.resource.title
+          const title = this.resource.title.length > this.trimLimit ? this.resource.title.slice(0, this.trimLimit) + '...' : this.resource.title
           this.crumbs[2].text = title
           this.isLoading = false
         },

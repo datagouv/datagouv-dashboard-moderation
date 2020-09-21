@@ -115,6 +115,7 @@ export default {
       discussionRequest: undefined,
       discussion: undefined,
       needsModerationData: false,
+      trimLimit: 50,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -171,7 +172,7 @@ export default {
           this.discussionRequest = results.url
           this.discussion = results.body
           this.needsModerationData = true
-          const title = this.discussion.title.length > 25 ? this.discussion.title.slice(0, 25) + '...' : this.discussion.title
+          const title = this.discussion.title.length > this.trimLimit ? this.discussion.title.slice(0, this.trimLimit) + '...' : this.discussion.title
           this.crumbs[2].text = title
           this.isLoading = false
         },

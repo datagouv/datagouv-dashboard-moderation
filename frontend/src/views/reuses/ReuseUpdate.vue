@@ -114,6 +114,7 @@ export default {
       reuseRequest: undefined,
       reuse: undefined,
       needsModerationData: false,
+      trimLimit: 50,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -169,7 +170,7 @@ export default {
           this.reuseRequest = results.url
           this.reuse = results.body
           this.needsModerationData = true
-          const title = this.reuse.title.length > 25 ? this.reuse.title.slice(0, 25) + '...' : this.reuse.title
+          const title = this.reuse.title.length > this.trimLimit ? this.reuse.title.slice(0, this.trimLimit) + '...' : this.reuse.title
           this.crumbs[2].text = title
           this.isLoading = false
         },
