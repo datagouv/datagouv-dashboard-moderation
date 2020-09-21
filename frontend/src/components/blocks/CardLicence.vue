@@ -15,7 +15,11 @@
             striped
             hover
             :items="licenceData"
-          ></b-table>
+            >
+            <template v-slot:cell(last_update)="data">
+              <i>{{ $formatDate(data.item.last_update, false) }}</i>
+            </template>
+          </b-table>
         </b-col>
       </b-row>
     </b-container>
