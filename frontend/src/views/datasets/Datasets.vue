@@ -2,17 +2,18 @@
 
   <div class="datasets">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <!-- DISPLAY DATASETS IN TABLE -->
     <DatasetsList
       height="800px"
-      width="100%"
+      :customClass="'pb-5'"
       >
     </DatasetsList>
+
+    <div class="mb-5"/>
 
   </div>
 </template>
@@ -20,11 +21,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import DatasetsList from '@/components/datasets/DatasetsList.vue'
 
 export default {
   name: 'Datasets',
   components: {
+    NavCrumbs,
     DatasetsList
   },
   data () {

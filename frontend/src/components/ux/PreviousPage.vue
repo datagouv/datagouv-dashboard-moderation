@@ -1,10 +1,11 @@
 <template>
   <div
-    class=""
+    :class="customClass"
     >
     <b-button
+      v-show="isHistory"
       pill
-      variant="outline-secondary"
+      :variant="`${customClassBtn ? customClassBtn + ' text-dark' : 'outline-secondary'}`"
       @click="goBack"
       >
       <b-icon icon="arrow-left" aria-hidden="true"></b-icon>
@@ -17,8 +18,10 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'PreviousPage',
-  components: {
-  },
+  props: [
+    'customClass',
+    'customClassBtn'
+  ],
   data () {
     return {}
   },
@@ -28,13 +31,16 @@ export default {
       history: (state) => state.global.navHistory
     }),
     ...mapGetters({
+      isHistory: 'global/isHistory',
+      getNavHistory: 'global/getNavHistory',
       lastPath: 'global/getLastNavPath'
     })
   },
   methods: {
-    goBack (e) {
+    async goBack (e) {
       e.preventDefault()
-      this.$router.push(this.lastPath)
+      await this.$router.push(this.lastPath)
+      this.$store.commit('global/deleteLastPathfromHistory')
     }
   }
 }

@@ -11,15 +11,39 @@ const translations = {
       back: 'retour',
       from: 'depuis'
     },
+    popovers: {
+      dgfEndpoint: 'API endpoint dans data.gouv.fr'
+    },
+    toastsModeration: {
+      error: 'erreur modération',
+      errorTxt: 'code erreur : {code}',
+      success: 'success',
+      successTxt: 'modération enregistrée',
+      successTxt_GET: 'données modération récupérées',
+      successTxt_POST: 'données modération ajoutées',
+      successTxt_PUT: 'données modération mises à jour',
+      successTxt_DELETE: 'données modération supprimées'
+    },
+    responseCodes: {
+      _200: 'success',
+      _201: 'update success',
+      _400: 'Model validation error',
+      _401: 'Unauthorized',
+      _403: 'Not enough privileges',
+      _404: 'Not found',
+      _405: 'Method not allowed',
+      _500: 'Internal server error'
+    },
     home: {
       name: 'Accueil',
-      intro: 'Bienvenue sur le tableau de bord de modération de datagouv',
+      intro: 'Bienvenue sur le tableau de bord de modération <br>de data.gouv.fr',
       connect: 'connectez-vous',
       hello: 'bonjour {name}'
     },
     auth: {
       authorizeClientId: "Autoriser l'ID client",
       loginClientId: "Connexion avec l'ID client",
+      connecting: 'connexion en cours...',
       logOut: 'déconnexion',
       resetApiClient: "réinitialisation de l'API client",
       setToken: 'Setting token'
@@ -69,8 +93,10 @@ const translations = {
     actions: {
       actions: 'actions',
       actionsGroupText: 'actions groupées',
+      actionsItem: 'actions possibles pour cet object',
       select: 'sélectionner',
       search: 'rechercher',
+      searchDataset: 'rechercher un jeu de données',
       searchFor: 'rechercher un.e {target}',
       edit: 'modifier',
       spotlight: 'mettre en avant',
@@ -95,6 +121,7 @@ const translations = {
       sureDeleteItem: 'êtes-vous certain.e de vouloir supprimer cet élément ?'
     },
     moderation: {
+      field: 'champ',
       date: 'date',
       author: 'auteur.e',
       selection: 'sélection',
@@ -102,8 +129,10 @@ const translations = {
       suspicious: 'suspect',
       comments: 'commentaires',
       addComment: 'ajouter un commentaire',
+      enterComment: 'écrivez ici votre commentaire...',
       deleted: 'supprimé',
       moderation: '{prefix}modération',
+      moderationInfos: 'infos de modération',
       moderationFor: 'modération pour',
       markAsRead: 'marquer comme lu(s)',
       markAsSuspect: 'marquer comme suspect(s)'

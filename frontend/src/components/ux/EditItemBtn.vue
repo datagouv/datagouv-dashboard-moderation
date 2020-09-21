@@ -1,24 +1,33 @@
 <template>
   <b-dropdown
-    dropleft
+    right
     variant="link"
     no-caret
     size="sm"
-    :disabled="!isAuthenticated"
     >
+    <!-- :disabled="!isAuthenticated" -->
 
     <template v-slot:button-content >
       <b-button
-        :variant="!isAuthenticated ? 'outline-secondary' : 'primary'"
+        id="popover-btn-object-actions"
         class="btn-circle btn-circle-sm"
+        variant="primary"
         >
+        <!-- :variant="!isAuthenticated ? 'outline-secondary' : 'primary'" -->
         <b-icon icon="three-dots-vertical"></b-icon>
       </b-button>
+      <b-popover
+        target="popover-btn-object-actions"
+        variant="dark"
+        :placement="`left`"
+        triggers="hover">
+        {{$t('actions.actionsItem')}}
+      </b-popover>
     </template>
 
     <!-- EDIT -->
     <b-dropdown-item-button
-      v-if="!hide.includes('openEdit') && isUpdateOperation"
+      v-if="isAuthenticated && !hide.includes('openEdit') && isUpdateOperation"
       @click="isAuthenticated && editItem('openEdit')"
       >
       <b-icon icon="pencil"></b-icon>
@@ -85,13 +94,13 @@
     </b-dropdown-item-button>
 
     <b-dropdown-divider
-      v-if="isDeleteOperation"
+      v-if="isAuthenticated && isDeleteOperation"
       >
     </b-dropdown-divider>
 
     <!-- DELETE ITEM -->
     <b-dropdown-item-button
-      v-if="!hide.includes('delete') && isDeleteOperation"
+      v-if="isAuthenticated && !hide.includes('delete') && isDeleteOperation"
       @click="$bvModal.show('modal-delete-item')"
       >
       <b-icon icon="trash-fill"></b-icon>

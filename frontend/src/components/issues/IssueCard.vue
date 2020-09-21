@@ -1,12 +1,17 @@
 <template>
-  <div class="issue-card-component">
+  <div
+    id="issue-card"
+    class="issue-card-component"
+    >
 
     <b-card
+      no-body
+      class="border-0"
       footer-tag="footer"
       :footer="cardFooter"
       >
 
-      <template v-slot:header>
+      <!-- <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="flex-fill align-content-center">
             {{ cardTitle }}
@@ -20,24 +25,39 @@
             >
           </EditItemBtn>
         </div>
-      </template>
+      </template> -->
 
       <!-- VIEW -->
-      <div v-if="issue">
+      <b-card-body
+        v-if="issue"
+        class="px-0"
+        >
 
         <CardTitle
           :title="issue.title"
+          :dgfType="dgfType"
+          :endpoint="putOperationId"
+          :item="issue"
+          :hideFields="['chat']"
+          @responseAction="callbackAction"
+        />
+
+        <AnchorsButtons
+          :anchorLinks="anchorLinks"
         />
 
         <DialogRow
           :item="issue"
-          :customClass="'mb-5'"
+          :customClass="'mb-5 mt-5'"
         />
 
-      </div>
+      </b-card-body>
 
-      <!-- EDIT -->
-      <b-container v-if="issue && isAuthenticated && edit">
+      <!-- COMMENT -->
+      <b-container
+        class="my-5"
+        v-if="issue && isAuthenticated && comment"
+        >
         <hr>
         <b-form @submit="commentIssue">
 
@@ -67,7 +87,7 @@
           <hr>
 
           <div v-if="!isLoading">
-            <b-button @click="edit=false; seeRaw=true" class="mx-2" variant="danger">
+            <b-button @click="comment=false; seeRaw=true" class="mx-2" variant="danger">
               <b-icon icon="x" aria-hidden="true"></b-icon>
               {{ $t('actions.cancel') }}
             </b-button>
@@ -77,7 +97,7 @@
             </b-button>
           </div>
           <div v-else>
-            <b-spinner label="loading"></b-spinner>
+            <custom-spinner :size="1"/>
           </div>
 
         </b-form>
@@ -85,16 +105,25 @@
       </b-container>
 
       <!-- EMPTY -->
-      <div v-if="!issue">
-        <!-- {{ defaultText }} -->
-        <b-spinner label="loading"></b-spinner>
+      <div
+        v-if="!issue"
+        class="py-5 my-5">
+        <custom-spinner/>
       </div>
 
-      <RawData
-        :customClass="`mb-3`"
-        :see="seeRaw"
-        :dataRaw="issue"
-      ></RawData>
+      <b-row fluid>
+        <b-col
+          md="8"
+          offset-md="2"
+          >
+          <RawData
+            :customClass="`my-3`"
+            :see="seeRaw"
+            :dataRaw="issue"
+            >
+          </RawData>
+        </b-col>
+      </b-row>
 
     </b-card>
   </div>
@@ -109,7 +138,8 @@ import { APIoperations } from '@/config/APIoperations.js'
 import CardTitle from '@/components/blocks/CardTitle.vue'
 import DialogRow from '@/components/blocks/DialogRow.vue'
 
-import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+import AnchorsButtons from '@/components/ux/AnchorsButtons.vue'
+// import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
@@ -117,7 +147,8 @@ export default {
   components: {
     CardTitle,
     DialogRow,
-    EditItemBtn,
+    AnchorsButtons,
+    // EditItemBtn,
     RawData
   },
   props: [
@@ -141,6 +172,10 @@ export default {
       issue: undefined,
       commentContent: '',
       closeIssue: false
+      // anchorLinks: [
+      //   { textCode: 'model.description', link: 'item-description' },
+      //   { textCode: 'model.resources', link: 'item-resources' }
+      // ]
     }
   },
   watch: {

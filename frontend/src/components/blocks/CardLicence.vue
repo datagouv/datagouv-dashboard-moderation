@@ -1,19 +1,25 @@
 <template>
-  <b-card-text>
+  <b-card-text
+    id="item-licence"
+    >
     <b-container
       fluid
       class="my-4"
       >
       <b-row>
         <b-col
-          md="10"
+          md="8"
           offset-md="2"
           >
           <b-table
             striped
             hover
             :items="licenceData"
-          ></b-table>
+            >
+            <template v-slot:cell(last_update)="data">
+              <i>{{ $formatDate(data.item.last_update, false) }}</i>
+            </template>
+          </b-table>
         </b-col>
       </b-row>
     </b-container>

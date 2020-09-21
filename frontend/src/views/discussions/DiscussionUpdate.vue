@@ -1,15 +1,44 @@
 <template>
   <div class="discussion_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
-    <PageHeader
+    <div>
+      <b-sidebar
+        id="sidebar-moderation"
+        title="Moderation"
+        width="600px"
+        bg-variant="light"
+        text-variant="dark"
+        shadow
+        backdrop
+        >
+        <div class="px-3 py-2">
+          <ModerationRowCard
+            :hasHeader="true"
+            :dgfType="dgfType"
+            :endpoint="endpointModeration"
+            :item="discussion"
+          />
+        </div>
+      </b-sidebar>
+    </div>
+
+    <!-- <PageHeader
       :dgfType="'discussion'"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
+      :subtitleLink="discussionRequest"
       >
+      <template v-slot:dialogLeft>
+        <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
+          <b-icon icon="eye-fill" aria-hidden=""></b-icon>
+          <span class="ml-2">
+            {{$t('moderation.moderation', { prefix: '' })}}
+          </span>
+        </b-button>
+      </template>
       <template v-slot:badge>
         <div>
           {{ $t('navigation.from') }} :
@@ -27,12 +56,22 @@
           </span>
         </div>
       </template>
-    </PageHeader>
+    </PageHeader> -->
 
-    <b-row class="mx-2">
+    <b-row class="mx-0">
+
+      <!-- MODERATION BOX -->
+      <!-- <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :dgfType="dgfType"
+          :endpoint="endpointModeration"
+          :item="discussion"
+        />
+      </b-col> -->
 
       <!-- DISPLAY DISCUSSION -->
-      <b-col>
+      <b-col class="px-0">
         <DiscussionCard
           :cardTitle="`${$t('basics.discussion')} n° ${discussionId}`"
           :cardFooter="undefined"
@@ -43,25 +82,16 @@
         </DiscussionCard>
       </b-col>
 
-      <!-- MODERATION BOX -->
-      <b-col sm="6" md="4">
-        <ModerationRowCard
-          :hasHeader="true"
-          :dgfType="dgfType"
-          :endpoint="endpointModeration"
-          :item="discussion"
-        />
-      </b-col>
-
     </b-row>
 
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
-import PageHeader from '@/components/ux/PageHeader.vue'
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
+// import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import DiscussionCard from '@/components/discussions/DiscussionCard.vue'
@@ -69,14 +99,15 @@ import DiscussionCard from '@/components/discussions/DiscussionCard.vue'
 export default {
   name: 'DiscussionUpdate',
   components: {
-    PageHeader,
+    NavCrumbs,
+    // PageHeader,
     ModerationRowCard,
     DiscussionCard
   },
   data () {
     return {
       isLoading: false,
-      dgfType: 'dicussion',
+      dgfType: 'discussion',
       getOperationId: 'get_discussion',
       putOperationId: 'update_discussion',
       endpointModeration: 'discussion',
@@ -84,6 +115,7 @@ export default {
       discussionRequest: undefined,
       discussion: undefined,
       needsModerationData: false,
+      trimLimit: 50,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -105,19 +137,28 @@ export default {
   },
   watch: {
     async discussion (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.discussion = await this.appendModerationData(next)
       }
+    },
+    '$route.params.id' (next) {
+      this.discussionId = next
+      this.getDiscussion()
     }
   },
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {
     async appendModerationData (itemObject) {
-      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
+      console.log('-C- DiscussionUpdate > appendModerationData > itemStatus', itemStatus)
+      this.$makeToast(itemStatus, this.discussion.id, itemStatus.method ? itemStatus.method : 'GET', this.dgfType, 'item')
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       this.needsModerationData = false
       return consolidated
@@ -131,7 +172,7 @@ export default {
           this.discussionRequest = results.url
           this.discussion = results.body
           this.needsModerationData = true
-          const title = this.discussion.title.length > 25 ? this.discussion.title.slice(0, 25) + '...' : this.discussion.title
+          const title = this.discussion.title.length > this.trimLimit ? this.discussion.title.slice(0, this.trimLimit) + '...' : this.discussion.title
           this.crumbs[2].text = title
           this.isLoading = false
         },

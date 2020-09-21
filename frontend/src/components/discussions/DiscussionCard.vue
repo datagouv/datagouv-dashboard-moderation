@@ -1,12 +1,17 @@
 <template>
-  <div class="discussion-card-component">
+  <div
+    id="discussion-card"
+    class="discussion-card-component"
+    >
 
     <b-card
+      no-body
+      class="border-0"
       footer-tag="footer"
       :footer="cardFooter"
       >
 
-      <template v-slot:header>
+      <!-- <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="flex-fill align-content-center">
             {{ cardTitle }}
@@ -20,13 +25,25 @@
             >
           </EditItemBtn>
         </div>
-      </template>
+      </template> -->
 
       <!-- VIEW -->
-      <div v-if="discussion">
+      <b-card-body
+        v-if="discussion"
+        class="px-0"
+        >
 
         <CardTitle
           :title="discussion.title"
+          :dgfType="dgfType"
+          :endpoint="putOperationId"
+          :item="discussion"
+          :hideFields="['spotlight','follow', 'share', 'contactProducer']"
+          @responseAction="callbackAction"
+        />
+
+        <AnchorsButtons
+          :anchorLinks="anchorLinks"
         />
 
         <DialogRow
@@ -34,10 +51,13 @@
           :customClass="'mb-5'"
         />
 
-      </div>
+      </b-card-body>
 
       <!-- COMMENT -->
-      <b-container v-if="discussion && isAuthenticated && comment">
+      <b-container
+        class="my-5"
+        v-if="discussion && isAuthenticated && comment"
+        >
         <hr>
         <b-form @submit="commentDiscussion">
 
@@ -77,7 +97,7 @@
             </b-button>
           </div>
           <div v-else>
-            <b-spinner label="loading"></b-spinner>
+            <custom-spinner :size="1"/>
           </div>
 
         </b-form>
@@ -85,16 +105,25 @@
       </b-container>
 
       <!-- EMPTY -->
-      <div v-if="!discussion">
-        <!-- {{ defaultText }} -->
-        <b-spinner label="loading"></b-spinner>
+      <div
+        v-if="!discussion"
+        class="py-5 my-5">
+        <custom-spinner/>
       </div>
 
-      <RawData
-        :customClass="`mb-3`"
-        :see="seeRaw"
-        :dataRaw="discussion"
-      ></RawData>
+      <b-row fluid>
+        <b-col
+          md="8"
+          offset-md="2"
+          >
+          <RawData
+            :customClass="`my-3`"
+            :see="seeRaw"
+            :dataRaw="discussion"
+            >
+          </RawData>
+        </b-col>
+      </b-row>
 
     </b-card>
   </div>
@@ -109,7 +138,8 @@ import { APIoperations } from '@/config/APIoperations.js'
 import CardTitle from '@/components/blocks/CardTitle.vue'
 import DialogRow from '@/components/blocks/DialogRow.vue'
 
-import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+import AnchorsButtons from '@/components/ux/AnchorsButtons.vue'
+// import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
@@ -117,7 +147,8 @@ export default {
   components: {
     CardTitle,
     DialogRow,
-    EditItemBtn,
+    AnchorsButtons,
+    // EditItemBtn,
     RawData
   },
   props: [
@@ -141,6 +172,10 @@ export default {
       discussion: undefined,
       commentContent: '',
       closeDiscussion: false
+      // anchorLinks: [
+      //   { textCode: 'model.description', link: 'item-description' },
+      //   { textCode: 'model.resources', link: 'item-resources' }
+      // ]
     }
   },
   watch: {

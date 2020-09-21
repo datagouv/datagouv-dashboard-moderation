@@ -1,20 +1,29 @@
 <template>
 
-  <b-card>
+  <b-card
+    id="moderation-row-card"
+    class="border-0 mx-3"
+    >
 
     <!-- ACTION BTN -->
-    <template v-slot:header v-if="hasHeader">
-      <div class="d-flex flex-row justify-content-between align-items-center">
+    <!-- <template v-slot:header v-if="hasHeader">
+      <div class="d-flex flex-row justify-content-between align-items-center py-2">
         <div class="flex-fill">
           {{ $t('moderation.moderation', {prefix: ''}) }}
-        </div>
+        </div> -->
         <!-- <ModerationItemBtn
           :endpoint="endpoint"
           :item="item"
           >
         </ModerationItemBtn> -->
-      </div>
-    </template>
+      <!-- </div>
+    </template> -->
+
+    <div
+      v-if="!item"
+      class="py-5 my-5">
+      <custom-spinner/>
+    </div>
 
     <!-- MODERATION DATA -->
     <div v-if="item">
@@ -52,6 +61,7 @@
         </b-col>
 
         <b-col
+          v-if="isAuthenticated"
           :sm="4"
           class="bg-light p-4 mx-4"
           >
@@ -61,6 +71,7 @@
           <ModerationComments
             :dgfType="dgfType"
             :item="item"
+            @reloadItem="reloadItem"
           />
         </b-col>
 
@@ -75,6 +86,7 @@
               :dgfType="dgfType"
               :item="item"
               :field="'read'"
+              @reloadItem="reloadItem"
               >
             </ModerationCheckbox>
           </div>
@@ -84,6 +96,7 @@
               :dgfType="dgfType"
               :item="item"
               :field="'suspicious'"
+              @reloadItem="reloadItem"
               >
             </ModerationCheckbox>
           </div>
@@ -93,6 +106,7 @@
               :dgfType="dgfType"
               :item="item"
               :field="'deleted'"
+              @reloadItem="reloadItem"
               >
             </ModerationCheckbox>
           </div>
@@ -108,6 +122,8 @@
             :dgfType="dgfType"
             :item="item"
             :field="'read'"
+            @reloadItem="reloadItem"
+            spinnerClass="true"
             >
           </ModerationCheckbox>
         </b-col>
@@ -118,6 +134,8 @@
             :dgfType="dgfType"
             :item="item"
             :field="'suspicious'"
+            @reloadItem="reloadItem"
+            spinnerClass="true"
             >
           </ModerationCheckbox>
         </b-col>
@@ -128,13 +146,15 @@
             :dgfType="dgfType"
             :item="item"
             :field="'deleted'"
+            @reloadItem="reloadItem"
+            spinnerClass="true"
             >
           </ModerationCheckbox>
         </b-col>
       </b-row>
 
       <!-- COMMENTS -->
-      <b-row v-if="hasHeader" class="mb-2" align-h="center">
+      <b-row v-if="hasHeader && isAuthenticated" class="mb-2" align-h="center">
         <b-col :sm="10" class="mb-0">
           <hr>
           <p class="font-weight-bold">
@@ -145,6 +165,7 @@
           <ModerationComments
             :dgfType="dgfType"
             :item="item"
+            @reloadItem="reloadItem"
           />
         </b-col>
       </b-row>
@@ -155,18 +176,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 import { MapDgfTypes } from '@/config/MapDgfTypes.js'
 import { trimText } from '@/utils/textUtils.js'
 
-// import ModerationItemBtn from '@/components/moderation/ModerationItemBtn.vue'
 import ModerationCheckbox from '@/components/moderation/ModerationCheckbox.vue'
 import ModerationComments from '@/components/moderation/ModerationComments.vue'
 
 export default {
   name: 'ModerationRowCard',
   components: {
-    // ModerationItemBtn,
     ModerationCheckbox,
     ModerationComments
   },
@@ -178,13 +198,49 @@ export default {
   ],
   data () {
     return {
-      dict: MapDgfTypes
+      dict: MapDgfTypes,
+      // itemModeration: undefined,
+      isLoading: false
     }
   },
+  // created () {
+  //   console.log('-C- ModerationRowCard > created > this.item : ', this.item)
+  // },
+  // watch: {
+  //   item (next) {
+  //     console.log('-C- ModerationRowCard > watch > item > next : ', next)
+  //     // this.itemModeration = next
+  //   }
+  // },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
+    })
+  },
   methods: {
-    async updateModeration (item, field, evt) {
-      const updatedItem = await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
-      console.log('-C- ModerationRowCard > updateModeration > updatedItem : ', updatedItem)
+    emitChange (data) {
+      this.$emit('valueChange', data)
+    },
+    reloadItem (evt) {
+      this.isLoading = true
+      // console.log('-C- ModerationRowCard > reloadItem > evt.category : ', evt.category)
+      // console.log('-C- ModerationRowCard > reloadItem > this.item : ', this.item)
+      this.$emit('reloadItem', this.item)
+      // switch (evt.category) {
+      //   case 'update_read':
+      //     console.log('-C- ModerationRowCard > reloadItem > update_read ')
+      //     break
+      //   case 'update_suspicious':
+      //     console.log('-C- ModerationRowCard > reloadItem > update_suspicious ')
+      //     break
+      //   case 'update_deleted':
+      //     console.log('-C- ModerationRowCard > reloadItem > update_deleted ')
+      //     break
+      //   case 'update_comment':
+      //     console.log('-C- ModerationRowCard > reloadItem > update_comment ')
+      //     break
+      // }
+      this.isLoading = false
     },
     trim (str, max) {
       return trimText(str, max)

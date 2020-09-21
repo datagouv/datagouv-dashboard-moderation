@@ -1,8 +1,10 @@
 <template>
-  <b-card-text>
+  <b-card-text
+    id="item-producer"
+    >
     <b-container
       fluid
-      class="my-4 py-5 bg-info"
+      :class="`my-4 py-5 ${customBgClass ? customBgClass : 'bg-info'}`"
       >
       <b-row>
         <b-col
@@ -71,7 +73,9 @@ export default {
   name: 'CardProducer',
   props: [
     'item',
-    'hide'
+    'hide',
+    'customClass',
+    'customBgClass'
   ],
   data () {
     return {

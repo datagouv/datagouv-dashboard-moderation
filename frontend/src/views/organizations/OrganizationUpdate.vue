@@ -1,15 +1,44 @@
 <template>
   <div class="organization_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
-    <PageHeader
+    <div>
+      <b-sidebar
+        id="sidebar-moderation"
+        title="Moderation"
+        width="600px"
+        bg-variant="light"
+        text-variant="dark"
+        shadow
+        backdrop
+        >
+        <div class="px-3 py-2">
+          <ModerationRowCard
+            :hasHeader="true"
+            :dgfType="dgfType"
+            :endpoint="endpointModeration"
+            :item="organization"
+          />
+        </div>
+      </b-sidebar>
+    </div>
+
+    <!-- <PageHeader
       :dgfType="'organization'"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
+      :subtitleLink="organizationRequest"
       >
+      <template v-slot:dialogLeft>
+        <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
+          <b-icon icon="eye-fill" aria-hidden=""></b-icon>
+          <span class="ml-2">
+            {{$t('moderation.moderation', { prefix: '' })}}
+          </span>
+        </b-button>
+      </template>
       <template v-slot:badge>
         <div>
           {{ $t('navigation.from') }} :
@@ -27,12 +56,22 @@
           </span>
         </div>
       </template>
-    </PageHeader>
+    </PageHeader> -->
 
-    <b-row class="mx-2">
+    <b-row class="mx-0">
+
+      <!-- MODERATION BOX -->
+      <!-- <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :dgfType="dgfType"
+          :endpoint="endpointModeration"
+          :item="organization"
+        />
+      </b-col> -->
 
       <!-- DISPLAY ORGANIZATION -->
-      <b-col>
+      <b-col class="px-0">
         <OrganizationCard
           :cardTitle="`${$t('basics.organization')} n° ${organizationId}`"
           :cardFooter="undefined"
@@ -43,25 +82,16 @@
         </OrganizationCard>
       </b-col>
 
-      <!-- MODERATION BOX -->
-      <b-col sm="6" md="4">
-        <ModerationRowCard
-          :hasHeader="true"
-          :dgfType="dgfType"
-          :endpoint="endpointModeration"
-          :item="organization"
-        />
-      </b-col>
-
     </b-row>
 
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
-import PageHeader from '@/components/ux/PageHeader.vue'
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
+// import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import OrganizationCard from '@/components/organizations/OrganizationCard.vue'
@@ -69,7 +99,8 @@ import OrganizationCard from '@/components/organizations/OrganizationCard.vue'
 export default {
   name: 'OrganizationUpdate',
   components: {
-    PageHeader,
+    NavCrumbs,
+    // PageHeader,
     ModerationRowCard,
     OrganizationCard
   },
@@ -84,6 +115,7 @@ export default {
       organizationRequest: undefined,
       organization: undefined,
       needsModerationData: false,
+      trimLimit: 50,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -105,19 +137,27 @@ export default {
   },
   watch: {
     async organization (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.organization = await this.appendModerationData(next)
       }
+    },
+    '$route.params.id' (next) {
+      this.organizationId = next
+      this.getOrganization()
     }
   },
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {
     async appendModerationData (itemObject) {
-      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
+      this.$makeToast(itemStatus, this.organization.id, itemStatus.method ? itemStatus.method : 'GET', this.dgfType, 'item')
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       this.needsModerationData = false
       return consolidated
@@ -131,7 +171,7 @@ export default {
           this.organizationRequest = results.url
           this.organization = results.body
           this.needsModerationData = true
-          const name = this.organization.name.length > 25 ? this.organization.name.slice(0, 25) + '...' : this.organization.name
+          const name = this.organization.name.length > this.trimLimit ? this.organization.name.slice(0, this.trimLimit) + '...' : this.organization.name
           this.crumbs[2].text = name
           this.isLoading = false
         },

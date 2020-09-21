@@ -1,14 +1,19 @@
 <template>
-  <div class="resource-card-component">
+  <div
+    id="resource-card"
+    class="resource-card-component"
+    >
 
     <b-card
+      no-body
+      class="bg-dark border-0 pb-5"
       footer-tag="footer"
       :footer="cardFooter"
       >
 
-      <template v-slot:header>
+      <!-- <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
-          <div class="flex-fill align-content-center">
+          <div class="flex-fill align-content-center text-white">
             {{`resource n° ${resourceId}`}}
           </div>
           <EditItemBtn
@@ -20,16 +25,42 @@
             >
           </EditItemBtn>
         </div>
-      </template>
+      </template> -->
 
       <!-- VIEW -->
-      <div v-if="resource">
+      <b-card-body
+        v-if="resource"
+        class="px-0 pb-5"
+        >
 
         <CardTitle
           :title="resource.title"
+          customClass="text-white"
+          :dgfType="dgfType"
+          :endpoint="putOperationId"
+          :item="resource"
+          :hideFields="['spotlight','follow', 'share']"
+          @responseAction="callbackAction"
         />
 
-      </div>
+        <AnchorsButtons
+          :anchorLinks="anchorLinks"
+          :customClass="'text-white'"
+          :customBtnClass="'white-override'"
+          :customBtnVariant="'outline-white'"
+        />
+
+        <CardProducer
+          :item="resource"
+          customBgClass="bg-success"
+        />
+
+        <CardDescription
+          :text="resource.description"
+          customClass="text-white"
+        />
+
+      </b-card-body>
 
       <!-- COMMENT -->
       <b-container v-if="resource && isAuthenticated && comment">
@@ -72,7 +103,7 @@
             </b-button>
           </div>
           <div v-else>
-            <b-spinner label="loading"></b-spinner>
+            <custom-spinner :size="1"/>
           </div>
 
         </b-form>
@@ -80,7 +111,10 @@
       </b-container>
 
       <!-- EDIT -->
-      <b-container v-if="resource && isAuthenticated && edit">
+      <b-container
+        class="my-5"
+        v-if="resource && isAuthenticated && edit"
+        >
 
         <b-form @submit="updateDataset">
 
@@ -127,7 +161,7 @@
             </b-button>
           </div>
           <div v-else>
-            <b-spinner label="loading"></b-spinner>
+            <custom-spinner :size="1"/>
           </div>
 
         </b-form>
@@ -135,16 +169,25 @@
       </b-container>
 
       <!-- EMPTY -->
-      <div v-if="!resource">
-        <!-- {{ defaultText }} -->
-        <b-spinner label="loading"></b-spinner>
+      <div
+        v-if="!resource"
+        class="py-5 my-5">
+        <custom-spinner/>
       </div>
 
-      <RawData
-        :customClass="`mb-3`"
-        :see="seeRaw"
-        :dataRaw="resource"
-      ></RawData>
+      <b-row fluid>
+        <b-col
+          md="8"
+          offset-md="2"
+          >
+          <RawData
+            :customClass="`my-3`"
+            :see="seeRaw"
+            :dataRaw="resource"
+            >
+          </RawData>
+        </b-col>
+      </b-row>
 
     </b-card>
   </div>
@@ -157,15 +200,21 @@ import { mapState, mapGetters } from 'vuex'
 import { APIoperations } from '@/config/APIoperations.js'
 
 import CardTitle from '@/components/blocks/CardTitle.vue'
+import CardProducer from '@/components/blocks/CardProducer.vue'
+import CardDescription from '@/components/blocks/CardDescription.vue'
 
-import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+import AnchorsButtons from '@/components/ux/AnchorsButtons.vue'
+// import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'ResourceCard',
   components: {
     CardTitle,
-    EditItemBtn,
+    CardProducer,
+    CardDescription,
+    AnchorsButtons,
+    // EditItemBtn,
     RawData
   },
   props: [
@@ -187,7 +236,11 @@ export default {
       putOperationId: 'comment_resource',
       resource: undefined,
       commentContent: '',
-      closeResource: false
+      closeResource: false,
+      anchorLinks: [
+        { textCode: 'model.description', link: 'item-description' },
+        { textCode: 'model.resources', link: 'item-resources' }
+      ]
     }
   },
   watch: {

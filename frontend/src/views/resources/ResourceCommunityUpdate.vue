@@ -1,15 +1,44 @@
 <template>
   <div class="resource_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
-    <PageHeader
+    <div>
+      <b-sidebar
+        id="sidebar-moderation"
+        title="Moderation"
+        width="600px"
+        bg-variant="light"
+        text-variant="dark"
+        shadow
+        backdrop
+        >
+        <div class="px-3 py-2">
+          <ModerationRowCard
+            :hasHeader="true"
+            :dgfType="dgfType"
+            :endpoint="endpointModeration"
+            :item="resource"
+          />
+        </div>
+      </b-sidebar>
+    </div>
+
+    <!-- <PageHeader
       :dgfType="dgfType"
-      :customClass="'mb-4'"
+      :customClass="'mb-5'"
+      :subtitleLink="resourceRequest"
       >
+      <template v-slot:dialogLeft>
+        <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
+          <b-icon icon="eye-fill" aria-hidden=""></b-icon>
+          <span class="ml-2">
+            {{$t('moderation.moderation', { prefix: '' })}}
+          </span>
+        </b-button>
+      </template>
       <template v-slot:badge>
         <div>
           {{ $t('navigation.from') }} :
@@ -27,12 +56,22 @@
           </span>
         </div>
       </template>
-    </PageHeader>
+    </PageHeader> -->
 
-    <b-row class="mx-2">
+    <b-row class="mx-0">
+
+      <!-- MODERATION BOX -->
+      <!-- <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :dgfType="dgfType"
+          :endpoint="endpointModeration"
+          :item="resource"
+        />
+      </b-col> -->
 
       <!-- DISPLAY RESOURCE -->
-      <b-col>
+      <b-col class="px-0">
         <ResourceCard
           :cardFooter="undefined"
           :resourceData="resource"
@@ -42,25 +81,16 @@
         </ResourceCard>
       </b-col>
 
-      <!-- MODERATION BOX -->
-      <b-col sm="6" md="4">
-        <ModerationRowCard
-          :hasHeader="true"
-          :dgfType="dgfType"
-          :endpoint="endpointModeration"
-          :item="resource"
-        />
-      </b-col>
-
     </b-row>
 
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
-import PageHeader from '@/components/ux/PageHeader.vue'
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
+// import PageHeader from '@/components/ux/PageHeader.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import ResourceCard from '@/components/resources/ResourceCard.vue'
@@ -68,7 +98,8 @@ import ResourceCard from '@/components/resources/ResourceCard.vue'
 export default {
   name: 'ResourceUpdate',
   components: {
-    PageHeader,
+    NavCrumbs,
+    // PageHeader,
     ModerationRowCard,
     ResourceCard
   },
@@ -83,6 +114,7 @@ export default {
       resourceRequest: undefined,
       resource: undefined,
       needsModerationData: false,
+      trimLimit: 50,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -104,19 +136,27 @@ export default {
   },
   watch: {
     async resource (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.resource = await this.appendModerationData(next)
       }
+    },
+    '$route.params.id' (next) {
+      this.resourceId = next
+      this.getResource()
     }
   },
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {
     async appendModerationData (itemObject) {
-      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
+      this.$makeToast(itemStatus, this.resource.id, itemStatus.method ? itemStatus.method : 'GET', this.dgfType, 'item')
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       this.needsModerationData = false
       return consolidated
@@ -132,7 +172,7 @@ export default {
           this.resourceRequest = results.url
           this.resource = results.body
           this.needsModerationData = true
-          const title = this.resource.title.length > 25 ? this.resource.title.slice(0, 25) + '...' : this.resource.title
+          const title = this.resource.title.length > this.trimLimit ? this.resource.title.slice(0, this.trimLimit) + '...' : this.resource.title
           this.crumbs[2].text = title
           this.isLoading = false
         },
