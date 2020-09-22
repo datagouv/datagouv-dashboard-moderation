@@ -27,6 +27,7 @@ import APIcli from './plugins/apiClient.js'
 // import OAUTHcli from '@julpy/oauth2-connect'
 import OAUTHcli from './plugins/apiAuth.js'
 
+console.log('.... main.js > process.env : ', process.env)
 const isDevMode = Boolean(process.env.VUE_APP_DEV_MODE)
 
 const moderationOptions = {

@@ -213,6 +213,7 @@
             v-if="data.item.image"
             thumbnail
             fluid
+            class="img-mini-list"
             :src="data.item.image"
             :alt="data.item.title">
           </b-img-lazy>

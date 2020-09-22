@@ -246,6 +246,7 @@
             v-if="data.item.logo_thumbnail"
             thumbnail
             fluid
+            class="img-mini-list"
             :src="data.item.logo_thumbnail"
             :alt="data.item.name">
           </b-img>

@@ -227,6 +227,7 @@
             v-if="data.item.avatar_thumbnail"
             thumbnail
             fluid
+            class="img-mini-list"
             :src="data.item.avatar_thumbnail"
             :alt="data.item.last_name">
           </b-img>

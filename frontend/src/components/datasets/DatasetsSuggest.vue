@@ -1,6 +1,7 @@
 <template>
 
   <b-card
+    id="datasets-suggest-card"
     :class="`text-center ${customClass ? customClass : 'mt-3 mx-auto' }`"
     >
 
@@ -72,6 +73,7 @@
           <b-img
             thumbnail
             fluid
+            class="img-mini-list"
             :src="data.item.image_url"
             :alt="data.item.title">
           </b-img>

@@ -228,6 +228,7 @@
             <b-img
               thumbnail
               fluid
+              class="img-mini-list"
               :src="data.item.organization.logo_thumbnail"
               :alt="data.item.organization.name">
             </b-img>
