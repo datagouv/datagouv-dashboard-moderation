@@ -10,3 +10,15 @@ export function changeSelection (arr, item) {
   }
   return resultArray
 }
+
+export function toggleSelectAll (selection, items) {
+  let selectAllStatus
+  if (selection.length > 0) {
+    selection = []
+    selectAllStatus = false
+  } else {
+    selection = items.map(item => item.id)
+    selectAllStatus = true
+  }
+  return [selection, selectAllStatus]
+}

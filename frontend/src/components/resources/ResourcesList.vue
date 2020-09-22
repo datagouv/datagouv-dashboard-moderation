@@ -110,6 +110,24 @@
         :sort-desc.sync="pagination.sortDesc"
         >
 
+        <template v-slot:head(selection)>
+          <b-form inline class="justify-content-center">
+            <b-button
+              :disabled="!isAuthenticated"
+              button
+              variant="link"
+              @click="toggleSelectAll()"
+              >
+              <b-icon
+                :icon="`${ selectAllBtn ? 'check2-' : ''}square`"
+                :variant="`${ selectAllBtn ? 'green' : 'primary'}`"
+                aria-hidden="true"
+                >
+              </b-icon>
+            </b-button>
+          </b-form>
+        </template>
+
         <template v-slot:cell(selection)="data">
           <b-form inline class="justify-content-center">
             <b-button
@@ -255,6 +273,7 @@ export default {
       resources: undefined,
       resourcesRequest: undefined,
       itemsSelection: [],
+      selectAllBtn: false,
       needsModerationData: false,
       query: undefined,
       pagination: {
@@ -373,6 +392,11 @@ export default {
     },
     isSelected (item) {
       return this.itemsSelection.includes(item.id)
+    },
+    toggleSelectAll () {
+      const selection = this.$toggleSelectAll(this.itemsSelection, this.resources.data)
+      this.itemsSelection = selection[0]
+      this.selectAllBtn = selection[1]
     },
     callbackAction (evt) {
     },
