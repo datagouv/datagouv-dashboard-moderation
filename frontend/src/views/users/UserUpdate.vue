@@ -1,38 +1,45 @@
 <template>
   <div class="user_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
-    <PageHeader
-      :dgfType="'user'"
-      :customClass="'mb-4'"
-      >
-      <template v-slot:badge>
-        <div>
-          {{ $t('navigation.from') }} :
-          <span v-if="userRequest">
-            <a :href="userRequest" target="_blank">
-              JSON
-            </a>
-            |
-            <a :href="user.page" target="_blank">
-              datagouv user page
-            </a>
-          </span>
-          <span v-else>
-            {{ getOperationId }}
-          </span>
+    <div>
+      <b-sidebar
+        id="sidebar-moderation"
+        title="Moderation"
+        width="600px"
+        bg-variant="light"
+        text-variant="dark"
+        shadow
+        backdrop
+        >
+        <div class="px-3 py-2">
+          <ModerationRowCard
+            :hasHeader="true"
+            :dgfType="dgfType"
+            :endpoint="endpointModeration"
+            :item="user"
+          />
         </div>
-      </template>
-    </PageHeader>
+      </b-sidebar>
+    </div>
 
-    <b-row class="mx-2">
+    <b-row class="mx-0">
+
+      <!-- MODERATION BOX -->
+      <!-- <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :dgfType="dgfType"
+          :endpoint="endpointModeration"
+          :item="user"
+        />
+      </b-col> -->
 
       <!-- DISPLAY USER -->
-      <b-col>
+      <b-col class="px-0">
         <UserCard
           :cardTitle="`${$t('basics.user')} n° ${userId}`"
           :cardFooter="undefined"
@@ -43,25 +50,15 @@
         </UserCard>
       </b-col>
 
-      <!-- MODERATION BOX -->
-      <b-col sm="6" md="4">
-        <ModerationRowCard
-          :hasHeader="true"
-          :dgfType="dgfType"
-          :endpoint="endpointModeration"
-          :item="user"
-        />
-      </b-col>
-
     </b-row>
 
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
-import PageHeader from '@/components/ux/PageHeader.vue'
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import UserCard from '@/components/users/UserCard.vue'
@@ -69,7 +66,7 @@ import UserCard from '@/components/users/UserCard.vue'
 export default {
   name: 'UserUpdate',
   components: {
-    PageHeader,
+    NavCrumbs,
     ModerationRowCard,
     UserCard
   },
@@ -94,7 +91,7 @@ export default {
           to: '/users'
         },
         {
-          text: '...', // this.$route.params.id,
+          text: '...',
           active: true
         }
       ]
@@ -105,19 +102,27 @@ export default {
   },
   watch: {
     async user (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.user = await this.appendModerationData(next)
       }
+    },
+    '$route.params.id' (next) {
+      this.userId = next
+      this.getUser()
     }
   },
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {
     async appendModerationData (itemObject) {
-      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
+      this.$makeToast(itemStatus, this.user.id, itemStatus.method ? itemStatus.method : 'GET', this.dgfType, 'item')
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       this.needsModerationData = false
       return consolidated

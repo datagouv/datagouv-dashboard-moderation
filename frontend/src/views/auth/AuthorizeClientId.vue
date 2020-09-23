@@ -2,69 +2,75 @@
 
   <div class="">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+      :hideBackBtn="true"
+    />
 
-    <h2>
-      {{ $t('auth.loginClientId') }}
-    </h2>
+    <b-jumbotron>
 
-    <!-- LOGIN FORM -->
-    <b-card
-      v-if="!isLoading"
-      class="mx-auto text-center"
-      style="width: 700px;"
-      header="Login client ID form"
-      >
+      <h2 class="mt-5">
+        {{ $t('auth.loginClientId') }}
+      </h2>
 
-      <b-form @submit="submitLogin" inline class="text-center">
+      <!-- LOGIN FORM -->
+      <b-card
+        v-if="!isLoading"
+        class="mx-auto text-center"
+        style="width: 700px;"
+        header="Login client ID form"
+        >
 
-        <!-- CLIENT ID -->
-        <label class="sr-only" for="inline-form-input-client-id">
-          Client ID
-        </label>
-        <b-input-group
-          class="mb-2 mr-sm-2 mb-sm-0"
-          >
-          <b-input
-            id="inline-form-input-client-id"
-            v-model="oauthVars.clientId"
-            placeholder="OAuth Client ID"
-          >
-          </b-input>
-        </b-input-group>
+        <b-form @submit="submitLogin" inline class="text-center">
 
-        <b-button type="submit" variant="success">
-          <b-icon icon="box-arrow-in-right" aria-hidden="true"></b-icon>
-           {{ $t('auth.loginClientId') }}
-        </b-button>
-        &nbsp;
-        <b-button @click="submitLogout" variant="warning">
-          <b-icon icon="box-arrow-right" aria-hidden="true"></b-icon>
-            {{ $t('auth.logOut') }}
-        </b-button>
+          <!-- CLIENT ID -->
+          <label class="sr-only" for="inline-form-input-client-id">
+            Client ID
+          </label>
+          <b-input-group
+            class="mb-2 mr-sm-2 mb-sm-0"
+            >
+            <b-input
+              id="inline-form-input-client-id"
+              v-model="oauthVars.clientId"
+              placeholder="OAuth Client ID"
+            >
+            </b-input>
+          </b-input-group>
 
-      </b-form>
-    </b-card>
-    <div v-else>
-      <br>
-      <h3 v-html="isLoadingMessage">
-      </h3>
-      <br>
-    </div>
+          <b-button type="submit" variant="success">
+            <b-icon icon="box-arrow-in-right" aria-hidden="true"></b-icon>
+            {{ $t('auth.loginClientId') }}
+          </b-button>
+          &nbsp;
+          <b-button @click="submitLogout" variant="warning">
+            <b-icon icon="box-arrow-right" aria-hidden="true"></b-icon>
+              {{ $t('auth.logOut') }}
+          </b-button>
 
-    <hr>
-    <b-card
-      class="mt-3 mx-auto text-center"
-      style="width: 600px;"
-      header="oauthVars for OAuth login"
-      >
-      <pre class="m-0">
-        {{ oauthVars }}
-      </pre>
-    </b-card>
+        </b-form>
+      </b-card>
+
+      <div v-else>
+        <br>
+        <h3 v-html="isLoadingMessage">
+        </h3>
+        <br>
+      </div>
+
+      <hr>
+
+      <b-card
+        class="mt-3 mx-auto text-center"
+        style="width: 600px;"
+        header="oauthVars for OAuth login"
+        >
+        <pre class="m-0">
+          {{ oauthVars }}
+        </pre>
+      </b-card>
+
+    </b-jumbotron>
 
   </div>
 </template>
@@ -72,8 +78,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
+
 export default {
   name: 'AuthorizeClientId',
+  components: {
+    NavCrumbs
+  },
   data () {
     return {
       isLoading: false,

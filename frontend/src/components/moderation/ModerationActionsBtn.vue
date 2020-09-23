@@ -13,23 +13,32 @@
 
     <template v-slot:button-content >
       <b-button
+        id="popover-moderation-edit"
         pill
         :variant="!isAuthenticated || itemsSelection.length === 0 ? 'outline-secondary' : 'primary'"
         class="btn-circle btn-circle-sm"
         >
         <b-icon icon="three-dots-vertical"></b-icon>
       </b-button>
+      <b-popover
+        target="popover-moderation-edit"
+        variant="dark"
+        placement="left"
+        triggers="hover">
+        {{$t('actions.actionsGroupText')}}
+      </b-popover>
     </template>
 
     <b-dropdown-text class="text-center text-muted">
       {{$t('actions.actionsGroupText')}}
     </b-dropdown-text>
+
     <b-dropdown-divider></b-dropdown-divider>
 
     <!-- MARK READ -->
     <b-dropdown-item-button
       :disabled="itemsSelection.length === 0"
-      @click="isAuthenticated && markSelection('read')"
+      @click="isAuthenticated && markSelection('read', true)"
       >
       <b-icon icon="check2-square" aria-hidden="true"></b-icon>
       {{$t('moderation.markAsRead')}}
@@ -38,7 +47,7 @@
     <!-- MARK SUSPECT -->
     <b-dropdown-item-button
       :disabled="itemsSelection.length === 0"
-      @click="isAuthenticated && markSelection('suspect')"
+      @click="isAuthenticated && markSelection('suspicious', true)"
       >
       <b-icon icon="exclamation-triangle-fill" aria-hidden="true"></b-icon>
       {{$t('moderation.markAsSuspect')}}
@@ -165,40 +174,28 @@ export default {
     emitResponse (data) {
       this.$emit('responseAction', data)
     },
-    markSelection (category) {
-      // TO DO
-
-      const respData = { msg: `response action : ${this.endpoint}-${category}` }
-      this.emitResponse(respData)
+    async updateModeration (item, field, evt) {
+      await this.$MODERATIONcli.updateModeration(this.dgfType, item, field, evt)
     },
-    deleteSelection () {
-      // TO DO
-      const API = this.$APIcli
-      console.log('-C- ModerationActionsBtn > deleteSelection > API :', API)
-      console.log('-C- EditItemBtn > deleteItem > this.dgfType : ', this.dgfType)
+    async markSelection (field, val) {
+      for (const itemId of this.itemsSelection) {
+        const item = this.itemsList.find(it => it.id === itemId)
+        await this.updateModeration(item, field, val)
+      }
+      this.$emit('reloadItems', this.itemsSelection)
+    },
+    async deleteSelection () {
+      // TO DO : finish/apply delete action in datagouv
+      // const API = this.$APIcli
       const operation = this.deleteEndpoints[this.dgfType]
       if (!operation) return
-      console.log('-C- EditItemBtn > deleteItem > operation : ', operation)
-      console.log('-C- ModerationActionsBtn > deleteSelection > this.itemsSelection : ', this.itemsSelection)
-      const paramsSelection = this.itemsSelection.map(itemId => {
-        const params = {}
-        operation.params.forEach(opParam => {
-          params[opParam.paramKey] = itemId
-        })
-        return params
-      })
-      console.log('-C- ModerationActionsBtn > deleteSelection > paramsSelection : ', paramsSelection)
-      // const body = {}
-      // API._request(this.putOperationId, { params, body, needAuth: true }).then(
-      //   results => {
-      //     this.isLoading = false
-      //
-      //   },
-      //   reason => {
-      //     console.error(`-C- EditItemBtn > failed on api call: ${reason}`)
-      //     this.isLoading = false
-      //   }
-      // )
+      // const paramsSelection = this.itemsSelection.map(itemId => {
+      //   const params = {}
+      //   operation.params.forEach(opParam => {
+      //     params[opParam.paramKey] = itemId
+      //   })
+      //   return params
+      // })
 
       const respData = { msg: `response action : ${this.endpoint}-delete` }
       this.emitResponse(respData)

@@ -1,12 +1,17 @@
 <template>
-  <div class="reuse-card-component">
+  <div
+    id="reuse-card"
+    class="reuse-card-component"
+    >
 
     <b-card
+      no-body
+      class="border-0"
       footer-tag="footer"
       :footer="cardFooter"
       >
 
-      <template v-slot:header>
+      <!-- <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="flex-fill align-content-center">
             {{ cardTitle }}
@@ -20,13 +25,25 @@
             >
           </EditItemBtn>
         </div>
-      </template>
+      </template> -->
 
       <!-- VIEW -->
-      <div v-if="reuse">
+      <b-card-body
+        v-if="reuse"
+        class="px-0"
+        >
 
         <CardTitle
           :title="reuse.title"
+          :dgfType="dgfType"
+          :endpoint="putOperationId"
+          :item="reuse"
+          :hideFields="['comment', 'spotlight', 'follow', 'share', 'contactProducer']"
+          @responseAction="callbackAction"
+        />
+
+        <AnchorsButtons
+          :anchorLinks="anchorLinks"
         />
 
         <CardProducer
@@ -37,10 +54,13 @@
           :text="reuse.description"
         />
 
-      </div>
+      </b-card-body>
 
       <!-- EDIT -->
-      <b-container v-if="reuse && isAuthenticated && edit">
+      <b-container
+        class="my-5"
+        v-if="reuse && isAuthenticated && edit"
+        >
 
         <b-form @submit="updateReuse">
 
@@ -87,7 +107,7 @@
             </b-button>
           </div>
           <div v-else>
-            <b-spinner label="loading"></b-spinner>
+            <custom-spinner :size="1"/>
           </div>
 
         </b-form>
@@ -95,16 +115,25 @@
       </b-container>
 
       <!-- EMPTY -->
-      <div v-if="!reuse">
-        <!-- {{ defaultText }} -->
-        <b-spinner label="loading"></b-spinner>
+      <div
+        v-if="!reuse"
+        class="py-5 my-5">
+        <custom-spinner/>
       </div>
 
-      <RawData
-        :customClass="`mb-3`"
-        :see="seeRaw"
-        :dataRaw="reuse"
-      ></RawData>
+      <b-row fluid>
+        <b-col
+          md="8"
+          offset-md="2"
+          >
+          <RawData
+            :customClass="`my-3`"
+            :see="seeRaw"
+            :dataRaw="reuse"
+            >
+          </RawData>
+        </b-col>
+      </b-row>
 
     </b-card>
   </div>
@@ -120,7 +149,8 @@ import CardTitle from '@/components/blocks/CardTitle.vue'
 import CardProducer from '@/components/blocks/CardProducer.vue'
 import CardDescription from '@/components/blocks/CardDescription.vue'
 
-import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+import AnchorsButtons from '@/components/ux/AnchorsButtons.vue'
+// import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
@@ -129,7 +159,8 @@ export default {
     CardTitle,
     CardProducer,
     CardDescription,
-    EditItemBtn,
+    AnchorsButtons,
+    // EditItemBtn,
     RawData
   },
   props: [
@@ -152,7 +183,10 @@ export default {
       putOperationId: 'comment_reuse',
       reuse: undefined,
       commentContent: '',
-      closeReuse: false
+      closeReuse: false,
+      anchorLinks: [
+        { textCode: 'model.description', link: 'item-description' }
+      ]
     }
   },
   watch: {
@@ -172,16 +206,11 @@ export default {
   },
   methods: {
     callbackAction (evt) {
-      console.log('-C- ReuseCard > callbackAction > evt : ', evt)
       switch (evt.category) {
         case 'openEdit':
           this.edit = true
           this.seeRaw = false
           break
-        // case 'comment':
-        //   this.comment = true
-        //   this.seeRaw = false
-        //   break
       }
     },
     updateReuse (evt) {

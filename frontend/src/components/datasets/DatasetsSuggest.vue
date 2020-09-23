@@ -1,6 +1,7 @@
 <template>
 
   <b-card
+    id="datasets-suggest-card"
     :class="`text-center ${customClass ? customClass : 'mt-3 mx-auto' }`"
     >
 
@@ -57,7 +58,7 @@
 
     <b-table
       v-if="datasets"
-      class="bg-light"
+      class="bg-light mt-5"
       striped hover responsive scrollable
       small
       :sticky-header="height"
@@ -72,6 +73,7 @@
           <b-img
             thumbnail
             fluid
+            class="img-mini-list"
             :src="data.item.image_url"
             :alt="data.item.title">
           </b-img>
@@ -79,11 +81,25 @@
       </template>
 
       <template v-slot:cell(title)="data">
-        <router-link
+
+        <b-button
+          variant="link"
+          @click="emitResponse(data.item.id)"
+          >
+          <!-- @click="emitResponse(`/datasets/${data.item.id}`)" -->
+          <span
+            >
+            <b>{{ data.item.title }}</b>
+          </span>
+        </b-button>
+        <!-- <router-link
           :to="`/datasets/${data.item.id}`"
           >
-          <b>{{ data.item.title }}</b>
-        </router-link>
+          <span>
+            <b>{{ data.item.title }}</b>
+          </span>
+        </router-link> -->
+
       </template>
 
       <template v-slot:cell(page)="data">
@@ -100,7 +116,7 @@
     ></RawData>
 
     <p v-if="isLoading">
-      <b-spinner label="loading"></b-spinner>
+      <custom-spinner/>
     </p>
   </b-card>
 
@@ -153,6 +169,11 @@ export default {
     })
   },
   methods: {
+    emitResponse (datasetId) {
+      this.$emit('closeSearch')
+      const newPath = `/datasets/${datasetId}`
+      this.$router.push(newPath)
+    },
     suggestDatasets () {
       this.isLoading = true
       const params = {

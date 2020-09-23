@@ -1,12 +1,17 @@
 <template>
-  <div class="user-card-component">
+  <div
+    id="user-card"
+    class="user-card-component"
+    >
 
     <b-card
+      no-body
+      class="border-0"
       footer-tag="footer"
       :footer="cardFooter"
       >
 
-      <template v-slot:header>
+      <!-- <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="flex-fill align-content-center">
             {{ cardTitle }}
@@ -20,10 +25,26 @@
             >
           </EditItemBtn>
         </div>
-      </template>
+      </template> -->
 
       <!-- VIEW -->
-      <div v-if="user && !edit">
+      <b-card-body
+        v-if="user && !edit"
+        class="px-0"
+        >
+
+        <CardTitle
+          :title="user.last_name"
+          :dgfType="dgfType"
+          :endpoint="putOperationId"
+          :item="user"
+          :hideFields="['chat', 'comment', 'spotlight', 'share']"
+          @responseAction="callbackAction"
+        />
+
+        <AnchorsButtons
+          :anchorLinks="anchorLinks"
+        />
 
         <CardProducer
           :item="{owner: user}"
@@ -43,10 +64,13 @@
           </code>
         </b-card-text>
 
-      </div>
+      </b-card-body>
 
       <!-- EDIT -->
-      <b-container v-if="user && isAuthenticated && edit">
+      <b-container
+        class="my-5"
+        v-if="user && isAuthenticated && edit"
+        >
 
         <b-form @submit="updateUser">
 
@@ -108,7 +132,7 @@
             </b-button>
           </div>
           <div v-else>
-            <b-spinner label="loading"></b-spinner>
+            <custom-spinner :size="1"/>
           </div>
 
         </b-form>
@@ -116,24 +140,34 @@
       </b-container>
 
       <!-- EMPTY -->
-      <div v-if="!user">
-        <!-- {{ defaultText }} -->
-        <b-spinner label="loading"></b-spinner>
+      <div
+        v-if="!user"
+        class="py-5 my-5">
+        <custom-spinner/>
       </div>
 
-      <RawData
-        :customClass="`mb-3`"
-        :see="seeRaw"
-        title="user data"
-        :dataRaw="user"
-      ></RawData>
+      <b-row fluid>
+        <b-col
+          md="8"
+          offset-md="2"
+          >
+          <RawData
+            :customClass="`my-3`"
+            :see="seeRaw"
+            title="user data"
+            :dataRaw="user"
+            >
+          </RawData>
 
-      <RawData
-        :customClass="`mb-3`"
-        :see="seeRawActivity"
-        title="user activity"
-        :dataRaw="userActivity"
-      ></RawData>
+          <RawData
+            :customClass="`mb-3`"
+            :see="seeRawActivity"
+            title="user activity"
+            :dataRaw="userActivity"
+            >
+          </RawData>
+        </b-col>
+      </b-row>
 
     </b-card>
   </div>
@@ -145,18 +179,22 @@ import { mapState, mapGetters } from 'vuex'
 
 import { APIoperations } from '@/config/APIoperations.js'
 
+import CardTitle from '@/components/blocks/CardTitle.vue'
 import CardProducer from '@/components/blocks/CardProducer.vue'
 import CardDescription from '@/components/blocks/CardDescription.vue'
 
-import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+import AnchorsButtons from '@/components/ux/AnchorsButtons.vue'
+// import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'UserCard',
   components: {
+    CardTitle,
     CardProducer,
     CardDescription,
-    EditItemBtn,
+    AnchorsButtons,
+    // EditItemBtn,
     RawData
   },
   props: [
@@ -178,7 +216,11 @@ export default {
       activityOperationId: 'activity',
       putOperationId: 'update_user',
       user: undefined,
-      userActivity: undefined
+      userActivity: undefined,
+      anchorLinks: [
+        { textCode: 'model.description', link: 'item-description' },
+        { textCode: 'model.resources', link: 'item-resources' }
+      ]
     }
   },
   created () {

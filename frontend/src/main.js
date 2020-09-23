@@ -5,6 +5,8 @@ import store from './store'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueSimpleMarkdown from 'vue-simple-markdown'
+import 'vue-simple-markdown/dist/vue-simple-markdown.css'
 
 import VueI18n from 'vue-i18n'
 import fr from './locales/fr.js'
@@ -12,10 +14,10 @@ import en from './locales/en.js'
 
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import './css/custom.scss'
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Utils from './plugins/utils.js'
+import MakeRespToast from './plugins/makeRespToasts.js'
+import CustomSpinner from '@/components/ux/CustomSpinner.vue'
 
 import MODERATIONcli from './plugins/apiModeration.js'
 
@@ -25,6 +27,7 @@ import APIcli from './plugins/apiClient.js'
 // import OAUTHcli from '@julpy/oauth2-connect'
 import OAUTHcli from './plugins/apiAuth.js'
 
+console.log('.... main.js > process.env : ', process.env)
 const isDevMode = Boolean(process.env.VUE_APP_DEV_MODE)
 
 const moderationOptions = {
@@ -60,9 +63,12 @@ Vue.use(VueAxios, axios)
 // use Bootstrap as CSS framework
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
+Vue.use(VueSimpleMarkdown)
 
-// use Formats custom plugin
+// use other custom plugin
 Vue.use(Utils, {})
+Vue.use(MakeRespToast, {})
+Vue.component('custom-spinner', CustomSpinner)
 
 // use MODERATIONcli plugin
 Vue.use(MODERATIONcli, moderationOptions, store)

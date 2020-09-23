@@ -1,12 +1,17 @@
 <template>
-  <div class="dataset-card-component">
+  <div
+    id="dataset-card"
+    class="dataset-card-component"
+    >
 
     <b-card
+      no-body
+      class="border-0 "
       footer-tag="footer"
       :footer="cardFooter"
       >
 
-      <template v-slot:header>
+      <!-- <template v-slot:header>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="flex-fill align-content-center">
             {{`dataset n° ${datasetId}`}}
@@ -20,13 +25,25 @@
             >
           </EditItemBtn>
         </div>
-      </template>
+      </template> -->
 
       <!-- VIEW -->
-      <div v-if="dataset && !edit">
+      <b-card-body
+        v-if="dataset && !edit"
+        class="px-0"
+        >
 
         <CardTitle
           :title="dataset.title"
+          :dgfType="dgfType"
+          :endpoint="putOperationId"
+          :item="dataset"
+          :hideFields="['chat']"
+          @responseAction="callbackAction"
+        />
+
+        <AnchorsButtons
+          :anchorLinks="anchorLinks"
         />
 
         <CardProducer
@@ -45,10 +62,13 @@
           :resources="dataset.resources"
         />
 
-      </div>
+      </b-card-body>
 
       <!-- EDIT -->
-      <b-container v-if="dataset && isAuthenticated && edit">
+      <b-container
+        class="my-5"
+        v-if="dataset && isAuthenticated && edit"
+        >
 
         <b-form @submit="updateDataset">
 
@@ -94,8 +114,9 @@
               {{ $t('actions.save') }}
             </b-button>
           </div>
+
           <div v-else>
-            <b-spinner label="loading"></b-spinner>
+            <custom-spinner/>
           </div>
 
         </b-form>
@@ -103,23 +124,34 @@
       </b-container>
 
       <!-- EMPTY -->
-      <div v-if="!dataset">
-        <!-- {{ defaultText }} -->
-        <b-spinner label="loading"></b-spinner>
-      </div>
+      <b-container fluid
+        v-if="!dataset"
+        class="py-5 my-5"
+        >
+        <custom-spinner/>
+      </b-container>
 
-      <RawData
-        :customClass="`mb-3`"
-        :dataRaw="dataset"
-        :see="seeRaw"
-      ></RawData>
+      <b-row fluid>
+        <b-col
+          md="8"
+          offset-md="2"
+          >
+          <RawData
+            :customClass="`my-3`"
+            :dataRaw="dataset"
+            :see="seeRaw"
+            >
+          </RawData>
 
-      <RawData
-        :customClass="`my-3`"
-        :see="seeRawActivity"
-        title="dataset activity"
-        :dataRaw="datasetActivity"
-      ></RawData>
+          <RawData
+            :customClass="`my-3`"
+            :see="seeRawActivity"
+            title="dataset activity"
+            :dataRaw="datasetActivity"
+            >
+          </RawData>
+        </b-col>
+      </b-row>
 
     </b-card>
   </div>
@@ -137,7 +169,8 @@ import CardDescription from '@/components/blocks/CardDescription.vue'
 import CardLicence from '@/components/blocks/CardLicence.vue'
 import CardResources from '@/components/blocks/CardResources.vue'
 
-import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+import AnchorsButtons from '@/components/ux/AnchorsButtons.vue'
+// import EditItemBtn from '@/components/ux/EditItemBtn.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
@@ -148,7 +181,8 @@ export default {
     CardDescription,
     CardLicence,
     CardResources,
-    EditItemBtn,
+    AnchorsButtons,
+    // EditItemBtn,
     RawData
   },
   props: [
@@ -181,6 +215,11 @@ export default {
         { key: 'mime', stickyColumn: true },
         'filesize',
         'id'
+      ],
+      anchorLinks: [
+        { textCode: 'model.description', link: 'item-description' },
+        { textCode: 'model.license', link: 'item-licence' },
+        { textCode: 'model.resources', link: 'item-resources' }
       ]
     }
   },

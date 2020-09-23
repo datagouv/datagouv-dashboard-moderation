@@ -1,17 +1,17 @@
 <template>
 
-  <div class="user-me">
+  <div
+    id="profile"
+    class="user-me mb-5"
+    >
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
-    <h2>
+    <h2 class="my-5">
       {{$t('settings.myProfile')}}
     </h2>
-
-    <br>
 
     <!-- RESPONSE USER -->
     <b-card
@@ -42,11 +42,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import RawData from '@/components/ux/RawData.vue'
 
 export default {
   name: 'Profile',
   components: {
+    NavCrumbs,
     RawData
   },
   data () {

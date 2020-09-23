@@ -2,17 +2,18 @@
 
   <div class="organizations">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <!-- DISPLAY ORGANIZATIONS IN TABLE -->
     <OrganizationsList
       height="800px"
-      width="1200px"
+      :customClass="'pb-5'"
       >
     </OrganizationsList>
+
+    <div class="mb-5"/>
 
   </div>
 </template>
@@ -20,11 +21,13 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import OrganizationsList from '@/components/organizations/OrganizationsList.vue'
 
 export default {
   name: 'Organizations',
   components: {
+    NavCrumbs,
     OrganizationsList
   },
   data () {

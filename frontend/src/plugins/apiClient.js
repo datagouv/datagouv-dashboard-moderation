@@ -98,9 +98,6 @@ class SwagCli {
       client => {
         // get endpoint by resolving endpoint's path in client.apis
 
-        // params && console.log('>>> SwagCli > _request >> params : ', params)
-        // body && console.log('>>> SwagCli > _request >> body : ', body)
-
         // build request
         let request = {
           operationId: operationId,

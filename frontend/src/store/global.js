@@ -22,8 +22,15 @@ export const moduleGlobal = {
     getLocale: (state) => {
       return state.locale
     },
+    getNavHistory: (state) => {
+      return state.navHistory
+    },
     getLastNavPath: (state) => {
-      return state.navHistory.slice(-1)[0]
+      const lastPath = state.navHistory.slice(-1)[0]
+      return lastPath
+    },
+    isHistory (state) {
+      return state.navHistory.length > 1
     }
   },
 
@@ -38,10 +45,12 @@ export const moduleGlobal = {
     },
     appendPathToHistory (state, path) {
       state.navHistory.push(path)
-
       if (state.navHistory.length > state.navMaxLength) {
         state.navHistory.slice(-state.navMaxLength)
       }
+    },
+    async deleteLastPathfromHistory (state) {
+      state.navHistory = state.navHistory.slice(0, -2)
     }
   },
 

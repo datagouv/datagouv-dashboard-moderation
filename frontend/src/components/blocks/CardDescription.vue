@@ -1,16 +1,22 @@
 <template>
-  <b-card-text>
+  <b-card-text
+    id="item-description"
+    >
     <b-container
       fluid
       class="my-5 pb-5"
       >
       <b-row>
         <b-col
-          md="10"
+          md="8"
           offset-md="2"
-          class="text-left"
+          :class="`text-left ${customClass}`"
           >
-          {{text}}
+          <vue-simple-markdown
+            :class="`${customClass}`"
+            :source="text"
+            >
+          </vue-simple-markdown>
         </b-col>
       </b-row>
     </b-container>
@@ -21,7 +27,8 @@
 export default {
   name: 'CardDescription',
   props: [
-    'text'
+    'text',
+    'customClass'
   ]
 }
 </script>

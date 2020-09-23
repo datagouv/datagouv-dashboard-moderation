@@ -2,50 +2,22 @@
 
   <div class="">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+      :hideBackBtn="true"
+    />
 
-    <h2>
-      {{ $t('settings.logIn') }}
-    </h2>
+    <div class="mb-5">
 
-    <h3 v-if="isLoading">
-      <b-spinner label="loading"></b-spinner>
-    </h3>
+      <h2 class="my-5">
+        {{ $t('auth.connecting') }}
+      </h2>
 
-    <!-- LOGIN FORM -->
-    <!-- <b-card
-      class="mx-auto text-center"
-      style="width: 700px;"
-      header="Login form"
-      >
-    </b-card> -->
+      <p v-if="isLoading">
+        <custom-spinner/>
+      </p>
 
-    <!-- <hr>
-    <b-card
-      class="mt-3 mx-auto text-center"
-      style="width: 600px;"
-      header="localStorageContainer"
-      >
-      <pre class="m-0">
-        {{ localStorageContainer }}
-      </pre>
-    </b-card> -->
-
-    <!-- <hr> -->
-
-    <!-- RESPONSE -->
-    <b-card
-      class="mt-3 mx-auto text-center"
-      style="width: 600px;"
-      v-if="!isLoading"
-      >
-      <code>
-        {{loginResponse}}
-      </code>
-    </b-card>
+    </div>
 
   </div>
 </template>
@@ -53,20 +25,17 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
+
 export default {
   name: 'Login',
+  components: {
+    NavCrumbs
+  },
   data () {
     return {
       isLoading: false,
       redirection: '/',
-      // localStorageContainer: {
-      //   codeVerifier: '',
-      //   state: '',
-      //   tokenType: '',
-      //   accessToken: '',
-      //   expires: '',
-      //   refreshToken: ''
-      // },
       loginResponse: '(tokens are being requested right now to server)',
       crumbs: [
         {
@@ -80,10 +49,6 @@ export default {
       ]
     }
   },
-  created () {
-    // this.localStorageContainer.state = localStorage.dgfState
-    // this.localStorageContainer.codeVerifier = localStorage.dgfCodeVerifier
-  },
   async mounted () {
     this.isLoading = true
     try {
@@ -91,23 +56,17 @@ export default {
       const resp = await this.$OAUTHcli.retrieveToken()
       if (resp && resp.error) throw resp.error
 
-      // this.localStorageContainer.accessToken = this.tokens.access.value
-      // this.localStorageContainer.refreshToken = this.tokens.refresh.value
-      // this.localStorageContainer.tokenType = this.tokens.type.value
-      // this.localStorageContainer.expires = this.tokens.expires.value
-
-      // this.localStorageContainer.codeVerifier = 'deleted'
-      // this.localStorageContainer.state = 'deleted'
-
       const authOptions = {
         bearerAuth: this.tokens.access.value
       }
       this.$APIcli.resetCli(authOptions)
       this.loginResponse = `your token '${this.tokens.access.value}' is now set...`
       // log into moderation API
-      await this.$MODERATIONcli.login(this.tokens.access.value)
+      const loginModerationResponse = await this.$MODERATIONcli.login(this.tokens.access.value)
+      this.$makeToast(loginModerationResponse, 'user login', 'GET', 'user')
       this.$router.push(`/get-user-data?redirect=${this.redirection}`)
     } catch (ex) {
+      this.$makeToast(ex)
       this.loginResponse = `${ex} ... please try to authenticate again`
     } finally {
       this.isLoading = false
@@ -118,13 +77,8 @@ export default {
       log: (state) => state.global.log,
       tokens: (state) => state.oauth.tokens
     })
-  }
-  // methods: {
-  //   async submitLogout (evt) {
-  //     evt.preventDefault()
-  //     const response = await this.$OAUTHcli.logout()
-  //   }
-  // }
+  },
+  methods: {}
 }
 
 </script>

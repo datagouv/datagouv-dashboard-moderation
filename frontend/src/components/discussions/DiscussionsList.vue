@@ -6,6 +6,8 @@
       :dgfType="'discussions'"
       :noSubtitle="noOperationLink"
       :compact="compact"
+      :subtitleLink="discussionsRequest"
+      :badgeNumber="pagination.totalItems"
       >
       <template v-slot:subtitle>
         <div class="mb-2">
@@ -20,14 +22,14 @@
           </span>
         </div>
       </template>
-      <template v-slot:badge>
+      <!-- <template v-slot:badge>
         <h4 v-if="discussions">
           <b-badge pill variant="primary">
             {{ pagination.totalItems }}
             {{ $t('basics.discussions', {list: ''}) }}
           </b-badge>
         </h4>
-      </template>
+      </template> -->
     </PageHeader>
 
     <b-card
@@ -51,10 +53,11 @@
               <b-icon icon="search"></b-icon>
             </b-input-group-prepend>
             <b-form-input
-              id="inline-form-input-query-dicussions"
+              id="inline-form-input-query-discussions"
               :placeholder="$t('actions.searchFor', {target: $t('basics.discussion')})"
               v-model="query"
               @input="getDiscussions(true)"
+              @keyup.enter="addQueryAndGet"
               >
             </b-form-input>
             <b-input-group-append v-if="query">
@@ -66,15 +69,16 @@
         </b-col>
 
         <b-col cols="4" md="5"
-          v-if="discussions && pagination.totalItems > pagination.pageSize"
           class="my-2"
+          align-self="center"
           >
           <b-pagination
+            v-if="discussions && pagination.totalItems > pagination.pageSize"
             @input="changePagination"
             v-model="pagination.page"
             :total-rows="pagination.totalItems"
             :per-page="pagination.pageSize"
-            class="my-0"
+            class="mb-0"
             align="center"
             size="sm"
           ></b-pagination>
@@ -86,7 +90,7 @@
             :endpoint="endpointModeration"
             :itemsSelection="itemsSelection"
             :itemsList="discussions && discussions.data"
-            @responseAction="callbackAction"
+            @reloadItems="reloadItemsModerationSelection"
             >
           </ModerationActionsBtn>
         </b-col>
@@ -95,15 +99,34 @@
 
       <b-table
         v-if="discussions && !isLoading"
+        :class="`${ compact ? '' : 'border border-1' }`"
         striped hover responsive
         @sort-changed="changeSorting"
         :small="small"
         :sticky-header="height"
         :items="discussions.data"
-        :fields="fields"
+        :fields="fieldsTable"
         :sort-by.sync="pagination.sortBy"
         :sort-desc.sync="pagination.sortDesc"
         >
+
+        <template v-slot:head(selection)>
+          <b-form inline class="justify-content-center">
+            <b-button
+              :disabled="!isAuthenticated"
+              button
+              variant="link"
+              @click="toggleSelectAll()"
+              >
+              <b-icon
+                :icon="`${ selectAllBtn ? 'check2-' : ''}square`"
+                :variant="`${ selectAllBtn ? 'green' : 'primary'}`"
+                aria-hidden="true"
+                >
+              </b-icon>
+            </b-button>
+          </b-form>
+        </template>
 
         <template v-slot:cell(selection)="data">
           <b-form inline class="justify-content-center">
@@ -125,17 +148,21 @@
 
         <template v-slot:cell(moderation)="row">
           <b-button
-            v-if="isAuthenticated"
+            v-b-popover.hover.top="$t('moderation.moderationInfos')"
+            pill
             size="sm"
-            @click="row.toggleDetails" class="mx-2">
+            class=""
+            @click="row.toggleDetails"
+            >
             <b-icon :icon="row.detailsShowing ? 'eye-slash-fill' : 'eye-fill' " aria-hidden="true"></b-icon>
           </b-button>
         </template>
 
-        <template v-if="isAuthenticated" v-slot:row-details="row">
+        <template v-slot:row-details="row">
           <ModerationRowCard
             :dgfType="dgfType"
             :item="row.item"
+            @reloadItem="reloadItemModerationData"
           />
         </template>
 
@@ -144,6 +171,8 @@
             :dgfType="dgfType"
             :item="row.item"
             :field="'read'"
+            :disabled="row.detailsShowing"
+            @reloadItem="reloadItemModerationData"
             >
           </ModerationCheckbox>
         </template>
@@ -153,6 +182,8 @@
             :dgfType="dgfType"
             :item="row.item"
             :field="'suspicious'"
+            :disabled="row.detailsShowing"
+            @reloadItem="reloadItemModerationData"
             >
           </ModerationCheckbox>
         </template>
@@ -162,6 +193,8 @@
             :dgfType="dgfType"
             :item="row.item"
             :field="'deleted'"
+            :disabled="row.detailsShowing"
+            @reloadItem="reloadItemModerationData"
             >
           </ModerationCheckbox>
         </template>
@@ -206,9 +239,10 @@
 
       </b-table>
 
-      <p v-if="isLoading">
-        <b-spinner label="loading"></b-spinner>
+      <p v-if="isLoading" class="pt-5 my-5">
+        <custom-spinner/>
       </p>
+
     </b-card>
 
   </div>
@@ -217,6 +251,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import { moderationFieldsCodes } from '@/config/APImoderationCodes.js'
 
 import PageHeader from '@/components/ux/PageHeader.vue'
 
@@ -234,6 +269,7 @@ export default {
   },
   props: [
     'height',
+    'noQueryAdd',
     'width',
     'small',
     'customFields',
@@ -251,6 +287,7 @@ export default {
       discussions: undefined,
       discussionsRequest: undefined,
       itemsSelection: [],
+      selectAllBtn: false,
       needsModerationData: false,
       query: undefined,
       pagination: {
@@ -277,11 +314,19 @@ export default {
   },
   created () {
     if (this.customFields) { this.fields = this.customFields }
+    if (this.$router.currentRoute.query) {
+      this.pagination.page = this.$router.currentRoute.query.page || 1
+      this.query = this.$router.currentRoute.query.q || undefined
+    }
     this.getDiscussions()
   },
   watch: {
+    '$route' (next) {
+      this.pagination.page = next.query.page || 1
+      this.getDiscussions()
+    },
     async discussions (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.discussions = await this.appendModerationData(next)
       }
     }
@@ -292,13 +337,33 @@ export default {
     }),
     ...mapGetters({
       isAuthenticated: 'oauth/isAuthenticated'
-    })
+    }),
+    fieldsTable () {
+      if (this.isAuthenticated) {
+        return this.fields
+      } else {
+        return this.fields.filter(field => !moderationFieldsCodes.includes(field.key))
+      }
+    }
   },
   methods: {
+    async reloadItemsModerationSelection (itemsSelection) {
+      for (const itemId of itemsSelection) {
+        const item = this.discussions.data.find(it => it.id === itemId)
+        this.reloadItemModerationData(item)
+      }
+    },
+    async reloadItemModerationData (itemObject) {
+      const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
+      const consolidated = await this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
+      this.discussions.data = this.discussions.data.map(item => (
+        item.id === itemObject.id ? consolidated : item
+      ))
+    },
     async appendModerationData (itemObject) {
       if (this.isAuthenticated) {
         const newData = await Promise.all(itemObject.data.map(async (obj) => {
-          const itemStatus = await this.$MODERATIONcli.getModeration(obj.id)
+          const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, obj)
           const consolidated = this.$MODERATIONcli.addModerationData(obj, itemStatus)
           return consolidated
         }))
@@ -306,6 +371,13 @@ export default {
       }
       this.needsModerationData = false
       return itemObject
+    },
+    addQueryAndGet (evt) {
+      evt.preventDefault()
+      if (!this.noQueryAdd && evt.keyCode === 13) {
+        this.$router.push({ path: this.$route.path, query: { page: this.pagination.page, q: this.query } })
+      }
+      this.getDiscussions(true)
     },
     getDiscussions (resetPage) {
       this.isLoading = true
@@ -335,6 +407,11 @@ export default {
     isSelected (item) {
       return this.itemsSelection.includes(item.id)
     },
+    toggleSelectAll () {
+      const selection = this.$toggleSelectAll(this.itemsSelection, this.discussions.data)
+      this.itemsSelection = selection[0]
+      this.selectAllBtn = selection[1]
+    },
     callbackAction (evt) {
     },
     resetQuery () {
@@ -343,7 +420,13 @@ export default {
     },
     changePagination (pageNumber) {
       this.pagination.page = pageNumber
-      this.getDiscussions()
+      const newPath = { path: this.$route.path, query: { page: pageNumber } }
+      if (this.query) { newPath.query.q = this.query }
+      if (!this.noQueryAdd) {
+        this.$router.push(newPath)
+      } else {
+        this.getDiscussions()
+      }
     },
     changeSorting (sort) {
       this.pagination.sortBy = sort.sortBy

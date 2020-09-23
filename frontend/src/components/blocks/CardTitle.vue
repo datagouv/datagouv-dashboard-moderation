@@ -1,16 +1,42 @@
 <template>
-  <b-card-title>
+  <b-card-title
+    id="item-title"
+    >
     <b-container
       fluid
-      class="my-4"
+      class="my-5"
       >
-      <b-row>
+      <b-row
+        align-v="center"
+        >
         <b-col
-          md="10"
-          offset-md="2"
-          class="h1 text-left"
+          md="2"
+          align-self="center"
+          >
+          <b-button v-if="isAuthenticated" v-b-toggle.sidebar-moderation pill>
+            <b-icon icon="eye-fill" aria-hidden=""></b-icon>
+            <span class="ml-2">
+              {{$t('moderation.moderation', { prefix: '' })}}
+            </span>
+          </b-button>
+        </b-col>
+        <b-col
+          md="8"
+          :class="`h1 text-left ${customClass}`"
           >
           {{title}}
+        </b-col>
+        <b-col
+          md="2"
+          >
+          <EditItemBtn
+            :dgfType="dgfType"
+            :endpoint="endpoint"
+            :item="item"
+            :hideFields="['chat']"
+            @responseAction="callbackAction"
+            >
+          </EditItemBtn>
         </b-col>
       </b-row>
     </b-container>
@@ -18,10 +44,40 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+
+import EditItemBtn from '@/components/ux/EditItemBtn.vue'
+
 export default {
   name: 'CardTitle',
+  components: {
+    EditItemBtn
+  },
   props: [
-    'title'
-  ]
+    'title',
+    'customClass',
+    'dgfType',
+    'endpoint',
+    'item',
+    'hideFields'
+  ],
+  data () {
+    return {
+      edit: false
+    }
+  },
+  computed: {
+    ...mapState({
+      log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
+    })
+  },
+  methods: {
+    callbackAction (evt) {
+      this.$emit('responseAction', evt)
+    }
+  }
 }
 </script>

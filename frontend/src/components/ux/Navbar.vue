@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sticky-block">
     <b-navbar
       fixed="top"
       sticky
@@ -36,7 +36,7 @@
         <!-- Center aligned nav items -->
         <b-navbar-nav class="ml-auto" align="center">
           <b-nav-item
-            v-for="btn in navbarBtns"
+            v-for="btn in navbarBtnsUser"
             :key="btn.link"
             active-class="active-link"
             class=""
@@ -77,7 +77,7 @@
                   </span>
                 </span>
                 <span v-else>
-                  <b-spinner label="loading"></b-spinner>
+                  <custom-spinner :size="1.25"/>
                 </span>
               </em>
             </template>
@@ -116,11 +116,19 @@
         >
         <b-nav-item>
           <b-button
+            id="popover-btn-search-dataset"
             v-b-toggle:navbar-toggle-search
             :variant="searchVisible ? 'primary' :'link'"
             >
             <b-icon icon="search"></b-icon>
           </b-button>
+          <b-popover
+            target="popover-btn-search-dataset"
+            variant="dark"
+            placement="bottomleft"
+            triggers="hover">
+            {{$t('actions.searchDataset')}}
+          </b-popover>
         </b-nav-item>
       </b-navbar-nav>
 
@@ -139,6 +147,7 @@
             <DatasetsSuggest
               :customClass="'bg-primary border-0 pb-2 my-4'"
               :hideBlocks="['title', 'link', 'from']"
+              @closeSearch="searchVisible = false"
             />
           </b-col>
         </b-row>
@@ -167,13 +176,13 @@ export default {
       isLoading: false,
       searchVisible: false,
       navbarBtns: [
-        { link: '/datasets', textCode: 'basics.datasetsCap' },
-        { link: '/resources-community', textCode: 'basics.community_resourcesCap' },
-        { link: '/reuses', textCode: 'basics.reusesCap' },
-        { link: '/users', textCode: 'basics.usersCap' },
-        { link: '/organizations', textCode: 'basics.organizationsCap' },
-        { link: '/issues', textCode: 'basics.issuesCap' },
-        { link: '/discussions', textCode: 'basics.discussionsCap' }
+        { link: '/datasets', textCode: 'basics.datasetsCap', onlyAuthenticated: false },
+        { link: '/resources-community', textCode: 'basics.community_resourcesCap', onlyAuthenticated: true },
+        { link: '/reuses', textCode: 'basics.reusesCap', onlyAuthenticated: false },
+        { link: '/users', textCode: 'basics.usersCap', onlyAuthenticated: true },
+        { link: '/organizations', textCode: 'basics.organizationsCap', onlyAuthenticated: false },
+        { link: '/issues', textCode: 'basics.issuesCap', onlyAuthenticated: true },
+        { link: '/discussions', textCode: 'basics.discussionsCap', onlyAuthenticated: true }
       ]
     }
   },
@@ -186,7 +195,14 @@ export default {
     }),
     ...mapGetters({
       isAuthenticated: 'oauth/isAuthenticated'
-    })
+    }),
+    navbarBtnsUser () {
+      if (this.isAuthenticated) {
+        return this.navbarBtns
+      } else {
+        return this.navbarBtns.filter(btn => btn.onlyAuthenticated === false)
+      }
+    }
   },
   methods: {
     async submitLogin () {
@@ -216,6 +232,12 @@ export default {
 
 <style scoped lang="scss">
 @import '@/css/custom.scss';
+
+.sticky-block {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
 
 a {
   color: $dgf-grey !important;

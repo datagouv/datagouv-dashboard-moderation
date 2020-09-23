@@ -2,23 +2,23 @@
 
   <div class="home">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
     <Homepage/>
-
-    <br>
 
     <b-container fluid >
       <b-row
         align-h="center"
         cols="3"
-        class="bg-light px-4"
+        class="bg-light px-4 pb-5"
         >
 
-        <b-col cols="12" class="pt-5">
+        <b-col
+          cols="12"
+          class="pt-5"
+          >
           <h3 v-if="!isLoading && site">
             <b-badge
               class="mr-2 mb-2"
@@ -34,10 +34,14 @@
           </h3>
         </b-col>
 
-        <b-col cols="6" class="px-3">
+        <b-col
+          :cols="`${ isAuthenticated ? 6 : 12 }`"
+          class="px-3"
+          >
           <DatasetsList
-            height="400px"
+            :height="`${ isAuthenticated ? '400' : '600' }px`"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.datasets"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -55,6 +59,7 @@
           <ResourcesList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.resourcesCommunity"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -68,10 +73,15 @@
           </ResourcesList>
         </b-col> -->
 
-        <!-- <b-col cols="6" class="px-3">
+        <b-col
+          :cols="`${ isAuthenticated ? 6 : 6 }`"
+          class="px-3"
+          v-if="!isAuthenticated"
+          >
           <ReusesList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.reuses"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -83,12 +93,13 @@
               </b-button>
             </template>
           </ReusesList>
-        </b-col> -->
+        </b-col>
 
         <!-- <b-col cols="6" class="px-3">
           <DiscussionsList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.discussions"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -102,10 +113,15 @@
           </DiscussionsList>
         </b-col> -->
 
-        <b-col cols="6" class="px-3">
+        <b-col
+          cols="6"
+          class="px-3"
+          v-if="isAuthenticated"
+          >
           <IssuesList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.issues"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -119,10 +135,15 @@
           </IssuesList>
         </b-col>
 
-        <b-col cols="6" class="px-3">
+        <b-col
+          cols="6"
+          class="px-3"
+          v-if="isAuthenticated"
+          >
           <UsersList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.users"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -136,10 +157,14 @@
           </UsersList>
         </b-col>
 
-        <b-col cols="6" class="px-3">
+        <b-col
+          :cols="`${ isAuthenticated ? 6 : 6 }`"
+          class="px-3"
+          >
           <OrganizationsList
             height="400px"
             :small="true"
+            :noQueryAdd="true"
             :customFields="customFields.organizations"
             :customClass="'mt-5 pt-4 bg-white'"
             :noOperationLink="true"
@@ -161,15 +186,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 // @ is an alias to /src
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import Homepage from '@/components/Homepage.vue'
 
 // import DatasetsSuggest from '@/components/datasets/DatasetsSuggest.vue'
 import DatasetsList from '@/components/datasets/DatasetsList.vue'
 // import ResourcesList from '@/components/resources/ResourcesList.vue'
-// import ReusesList from '@/components/reuses/ReusesList.vue'
+import ReusesList from '@/components/reuses/ReusesList.vue'
 // import DiscussionsList from '@/components/discussions/DiscussionsList.vue'
 import IssuesList from '@/components/issues/IssuesList.vue'
 import UsersList from '@/components/users/UsersList.vue'
@@ -178,11 +204,12 @@ import OrganizationsList from '@/components/organizations/OrganizationsList.vue'
 export default {
   name: 'Home',
   components: {
+    NavCrumbs,
     Homepage,
     // DatasetsSuggest,
     DatasetsList,
     // ResourcesList,
-    // ReusesList,
+    ReusesList,
     // DiscussionsList,
     IssuesList,
     UsersList,
@@ -292,6 +319,9 @@ export default {
   computed: {
     ...mapState({
       userData: (state) => state.user.user
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     }),
     localStorageContainer () {
       return {

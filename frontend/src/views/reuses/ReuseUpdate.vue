@@ -1,38 +1,45 @@
 <template>
   <div class="reuse_update">
 
-    <b-breadcrumb
-      class="mb-5"
-      :items="crumbs">
-    </b-breadcrumb>
+    <NavCrumbs
+      :crumbs="crumbs"
+    />
 
-    <PageHeader
-      :dgfType="'reuse'"
-      :customClass="'mb-4'"
-      >
-      <template v-slot:badge>
-        <div>
-          {{ $t('navigation.from') }} :
-          <span v-if="reuseRequest">
-            <a :href="reuseRequest" target="_blank">
-              JSON
-            </a>
-            |
-            <a :href="reuse.url" target="_blank">
-              datagouv reuse page
-            </a>
-          </span>
-          <span v-else>
-            {{ getOperationId }}
-          </span>
+    <div>
+      <b-sidebar
+        id="sidebar-moderation"
+        title="Moderation"
+        width="600px"
+        bg-variant="light"
+        text-variant="dark"
+        shadow
+        backdrop
+        >
+        <div class="px-3 py-2">
+          <ModerationRowCard
+            :hasHeader="true"
+            :dgfType="dgfType"
+            :endpoint="endpointModeration"
+            :item="reuse"
+          />
         </div>
-      </template>
-    </PageHeader>
+      </b-sidebar>
+    </div>
 
-    <b-row class="mx-2">
+    <b-row class="mx-0">
+
+      <!-- MODERATION BOX -->
+      <!-- <b-col sm="6" md="4">
+        <ModerationRowCard
+          :hasHeader="true"
+          :dgfType="dgfType"
+          :endpoint="endpointModeration"
+          :item="reuse"
+        />
+      </b-col> -->
 
       <!-- DISPLAY REUSE -->
-      <b-col>
+      <b-col class="px-0">
         <ReuseCard
           :cardTitle="`${$t('basics.reuse')} n° ${reuseId}`"
           :cardFooter="undefined"
@@ -43,24 +50,14 @@
         </ReuseCard>
       </b-col>
 
-      <!-- MODERATION BOX -->
-      <b-col sm="6" md="4">
-        <ModerationRowCard
-          :hasHeader="true"
-          :dgfType="dgfType"
-          :endpoint="endpointModeration"
-          :item="reuse"
-        />
-      </b-col>
-
     </b-row>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
-import PageHeader from '@/components/ux/PageHeader.vue'
+import NavCrumbs from '@/components/ux/NavCrumbs.vue'
 import ModerationRowCard from '@/components/moderation/ModerationRowCard.vue'
 
 import ReuseCard from '@/components/reuses/ReuseCard.vue'
@@ -68,7 +65,7 @@ import ReuseCard from '@/components/reuses/ReuseCard.vue'
 export default {
   name: 'ReuseUpdate',
   components: {
-    PageHeader,
+    NavCrumbs,
     ModerationRowCard,
     ReuseCard
   },
@@ -83,6 +80,7 @@ export default {
       reuseRequest: undefined,
       reuse: undefined,
       needsModerationData: false,
+      trimLimit: 50,
       crumbs: [
         {
           text: this.$t('home.name'),
@@ -104,19 +102,27 @@ export default {
   },
   watch: {
     async reuse (next) {
-      if (next && this.needsModerationData) {
+      if (next && this.needsModerationData && this.isAuthenticated) {
         this.reuse = await this.appendModerationData(next)
       }
+    },
+    '$route.params.id' (next) {
+      this.reuseId = next
+      this.getReuse()
     }
   },
   computed: {
     ...mapState({
       log: (state) => state.log
+    }),
+    ...mapGetters({
+      isAuthenticated: 'oauth/isAuthenticated'
     })
   },
   methods: {
     async appendModerationData (itemObject) {
-      const itemStatus = await this.$MODERATIONcli.getModeration(itemObject.id)
+      const itemStatus = await this.$MODERATIONcli.getModeration(this.dgfType, itemObject)
+      this.$makeToast(itemStatus, this.reuse.id, itemStatus.method ? itemStatus.method : 'GET', this.dgfType, 'item')
       const consolidated = this.$MODERATIONcli.addModerationData(itemObject, itemStatus)
       this.needsModerationData = false
       return consolidated
@@ -130,7 +136,7 @@ export default {
           this.reuseRequest = results.url
           this.reuse = results.body
           this.needsModerationData = true
-          const title = this.reuse.title.length > 25 ? this.reuse.title.slice(0, 25) + '...' : this.reuse.title
+          const title = this.reuse.title.length > this.trimLimit ? this.reuse.title.slice(0, this.trimLimit) + '...' : this.reuse.title
           this.crumbs[2].text = title
           this.isLoading = false
         },
