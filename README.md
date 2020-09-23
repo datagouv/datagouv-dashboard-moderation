@@ -6,6 +6,12 @@ It should allow a datagouv's admin user to log in and do any of the actions it c
 
 ---
 
+## Acceptance testing
+
+- pad : https://pad.incubateur.net/PofHVEaQQ0imAjzkZn17Qw
+
+---
+
 ## Specs
 
 The specs and other docs we used at pre-project phases are the following :
